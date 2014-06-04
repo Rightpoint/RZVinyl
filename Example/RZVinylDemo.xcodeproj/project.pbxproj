@@ -17,6 +17,7 @@
 		9A53613E193F90E000E87F4F /* RZObjectiveRecord.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9A53613C193F90E000E87F4F /* RZObjectiveRecord.xcdatamodeld */; };
 		9A536140193F90E000E87F4F /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9A53613F193F90E000E87F4F /* Images.xcassets */; };
 		9A536165193F939800E87F4F /* RZDataStack.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A536164193F939800E87F4F /* RZDataStack.m */; };
+		9A536191193FA62700E87F4F /* RZAutoImport.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A53616E193FA62700E87F4F /* RZAutoImport.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,6 +38,9 @@
 		9A536162193F92E400E87F4F /* RZVinyl.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RZVinyl.h; sourceTree = "<group>"; };
 		9A536163193F939800E87F4F /* RZDataStack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RZDataStack.h; sourceTree = "<group>"; };
 		9A536164193F939800E87F4F /* RZDataStack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RZDataStack.m; sourceTree = "<group>"; };
+		9A53616D193FA62700E87F4F /* RZAutoImport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RZAutoImport.h; path = Classes/RZAutoImport.h; sourceTree = "<group>"; };
+		9A53616E193FA62700E87F4F /* RZAutoImport.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RZAutoImport.m; path = Classes/RZAutoImport.m; sourceTree = "<group>"; };
+		9A53616F193FA62700E87F4F /* RZAutoImportable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RZAutoImportable.h; path = Classes/RZAutoImportable.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -154,9 +158,20 @@
 		9A536166193F93D200E87F4F /* External */ = {
 			isa = PBXGroup;
 			children = (
+				9A536169193FA62700E87F4F /* RZAutoImport */,
 			);
 			name = External;
 			path = ../External;
+			sourceTree = "<group>";
+		};
+		9A536169193FA62700E87F4F /* RZAutoImport */ = {
+			isa = PBXGroup;
+			children = (
+				9A53616D193FA62700E87F4F /* RZAutoImport.h */,
+				9A53616E193FA62700E87F4F /* RZAutoImport.m */,
+				9A53616F193FA62700E87F4F /* RZAutoImportable.h */,
+			);
+			path = RZAutoImport;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -225,6 +240,7 @@
 			files = (
 				9A536165193F939800E87F4F /* RZDataStack.m in Sources */,
 				9A53613E193F90E000E87F4F /* RZObjectiveRecord.xcdatamodeld in Sources */,
+				9A536191193FA62700E87F4F /* RZAutoImport.m in Sources */,
 				9A53613B193F90E000E87F4F /* RZAppDelegate.m in Sources */,
 				9A536137193F90E000E87F4F /* main.m in Sources */,
 			);
