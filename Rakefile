@@ -5,7 +5,7 @@ TESTS_PATH="" #TODO
 namespace :example do
   
   task :sync do
-    sync_project(EXAMPLE_PATH, '--exclusion /External')
+    sync_project(EXAMPLE_PATH, '--exclusion /External --exclusion /Classes')
   end
 
 end
