@@ -1,31 +1,16 @@
+PROJ_PATH="Example/RZVinylDemo.xcodeproj"
 
-EXAMPLE_PATH="Example/RZVinylDemo.xcodeproj"
-TESTS_PATH="" #TODO
-
-namespace :example do
-  
-  task :sync do
-    sync_project(EXAMPLE_PATH, '--exclusion /External --exclusion /Classes')
-  end
-
-end
-
-namespace :tests do
-  
-  task :sync do
-    sync_project(TESTS_PATH, '')
-  end
-
-end
+# task :test do
+#   Rake::Task['tests:test'].invoke
+# end
 
 task :sync do
-  Rake::Task['example:sync'].invoke
-  Rake::Task['tests:sync'].invoke
+  sync_project(PROJ_PATH, '--exclusion /External --exclusion /Classes')
 end
 
 task :usage do
   puts "Usage:"
-  puts "  rake (example|tests):sync -- synchronize project/directory hierarchy"
+  puts "  rake sync -- synchronize project/directory hierarchy"
 end
 
 task :default => 'usage'
