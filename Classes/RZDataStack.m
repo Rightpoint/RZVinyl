@@ -42,6 +42,11 @@
 
 @implementation RZDataStack
 
++ (void)load
+{
+    [self buildDefaultStack];
+}
+
 - (id)init
 {
     return [self initWithModelName:nil configuration:nil storeType:nil storeURL:nil options:kNilOptions];
@@ -137,6 +142,11 @@
 
 #pragma mark - Private
 
+- (BOOL)hasOptionsSet:(RZDataStackOptions)options
+{
+    return ( ( self.options | options ) == options );
+}
+
 - (BOOL)buildStack
 {
     RZDSAssertReturnNO(self.modelName != nil, @"Must have a model name");
@@ -205,10 +215,65 @@
     return YES;
 }
 
-- (BOOL)hasOptionsSet:(RZDataStackOptions)options
++ (void)buildDefaultStack
 {
-    return ( ( self.options | options ) == options );
+    NSString *modelName    = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"RZVDataModelName"];
+    if ( modelName == nil ) {
+        return;
+    }
+    
+    NSString *configName   = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"RZVDataModelConfiguration"];
+    NSString *storeTypeRaw = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"RZVPersistentStoreType"];
+    
+    NSString *storeType = nil;
+    if ( storeTypeRaw ) {
+        if ( [storeTypeRaw isEqualToString:@"memory"] ) {
+            storeType = NSInMemoryStoreType;
+        }
+        else if ( [storeTypeRaw isEqualToString:@"sqlite"] ) {
+            storeType = NSSQLiteStoreType;
+        }
+        else {
+            storeType = NSInMemoryStoreType;
+            NSLog(@"[RZDataStackAccess] WARNING: Unknown store type \"%@\" in info.plist. Defaulting to in-memory store.", storeTypeRaw);
+        }
+    }
+    
+    RZDataStack *defaultStack = [[RZDataStack alloc] initWithModelName:modelName
+                                                         configuration:configName
+                                                             storeType:storeType
+                                                              storeURL:nil
+                                                               options:kNilOptions];
+    
+    if ( defaultStack != nil ) {
+        [self setDefaultStack:defaultStack];
+    }
+    else {
+        NSLog(@"[RZDataStackAccess] ERROR: Could not build default CoreData stack from info.plist values. Please check your entries:");
+        NSLog(@"Model Name (RZVDataModelName): %@", modelName);
+        if ( configName ) {
+            NSLog(@"Config Name (RZVDataModelConfiguration): %@", configName);
+        }
+        if ( storeTypeRaw ) {
+            NSLog(@"Persistent Store Type (RZVPersistentStoreType): %@", storeTypeRaw);
+        }
+    }
 }
 
 @end
 
+@implementation RZDataStack (SharedAccess)
+
+static RZDataStack *s_defaultStack = nil;
+
++ (RZDataStack *)defaultStack
+{
+    return s_defaultStack;
+}
+
++ (void)setDefaultStack:(RZDataStack *)defaultStack
+{
+    s_defaultStack = defaultStack;
+}
+
+@end

@@ -18,7 +18,6 @@
 		9A536140193F90E000E87F4F /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9A53613F193F90E000E87F4F /* Images.xcassets */; };
 		9A536165193F939800E87F4F /* RZDataStack.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A536164193F939800E87F4F /* RZDataStack.m */; };
 		9A536191193FA62700E87F4F /* RZAutoImport.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A53616E193FA62700E87F4F /* RZAutoImport.m */; };
-		9AB907E5193FC2060063445A /* RZDataStackAccess.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AB907E4193FC2060063445A /* RZDataStackAccess.m */; };
 		9AB90809193FD7F70063445A /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A536146193F90E000E87F4F /* XCTest.framework */; };
 		9AB9080A193FD7F70063445A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A536128193F90E000E87F4F /* Foundation.framework */; };
 		9AB9080B193FD7F70063445A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A53612C193F90E000E87F4F /* UIKit.framework */; };
@@ -58,8 +57,6 @@
 		9A53616D193FA62700E87F4F /* RZAutoImport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RZAutoImport.h; path = Classes/RZAutoImport.h; sourceTree = "<group>"; };
 		9A53616E193FA62700E87F4F /* RZAutoImport.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RZAutoImport.m; path = Classes/RZAutoImport.m; sourceTree = "<group>"; };
 		9A53616F193FA62700E87F4F /* RZAutoImportable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RZAutoImportable.h; path = Classes/RZAutoImportable.h; sourceTree = "<group>"; };
-		9AB907E3193FC2060063445A /* RZDataStackAccess.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RZDataStackAccess.h; sourceTree = "<group>"; };
-		9AB907E4193FC2060063445A /* RZDataStackAccess.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RZDataStackAccess.m; sourceTree = "<group>"; };
 		9AB90808193FD7F70063445A /* RZVinylTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RZVinylTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AB9080E193FD7F70063445A /* RZVinylTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "RZVinylTests-Info.plist"; sourceTree = "<group>"; };
 		9AB90810193FD7F70063445A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -186,8 +183,6 @@
 			isa = PBXGroup;
 			children = (
 				9A536162193F92E400E87F4F /* RZVinyl.h */,
-				9AB907E3193FC2060063445A /* RZDataStackAccess.h */,
-				9AB907E4193FC2060063445A /* RZDataStackAccess.m */,
 				9A536163193F939800E87F4F /* RZDataStack.h */,
 				9A536164193F939800E87F4F /* RZDataStack.m */,
 				9AB9081C193FD98F0063445A /* NSManagedObject+RZVinyl.h */,
@@ -336,7 +331,6 @@
 				9AB9081E193FD98F0063445A /* NSManagedObject+RZVinyl.m in Sources */,
 				9A536191193FA62700E87F4F /* RZAutoImport.m in Sources */,
 				9A53613B193F90E000E87F4F /* RZAppDelegate.m in Sources */,
-				9AB907E5193FC2060063445A /* RZDataStackAccess.m in Sources */,
 				9A536137193F90E000E87F4F /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
