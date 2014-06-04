@@ -25,7 +25,7 @@
 
 + (id)rzai_existingObjectForDict:(NSDictionary *)dict
 {
-    
+    return nil;
 }
 
 @end

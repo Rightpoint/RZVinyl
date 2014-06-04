@@ -14,6 +14,12 @@
         return; \
     }
 
+#define RZDSAssertReturnNO(cond, msg, ...) \
+    NSAssert(cond, msg, ##__VA_ARGS__); \
+    if ( !(cond) ) { \
+        return NO; \
+    }
+
 #define RZDSLogError(msg, ...) \
     NSLog((@"[RZDataStack]: ERROR -- " msg), ##__VA_ARGS__);
 
@@ -38,22 +44,22 @@
 
 - (id)init
 {
-    return [self initWithModelName:nil configuration:nil storeType:NSInMemoryStoreType storeURL:nil options:kNilOptions];
+    return [self initWithModelName:nil configuration:nil storeType:nil storeURL:nil options:kNilOptions];
 }
 
 - (instancetype)initWithModelName:(NSString *)modelName configuration:(NSString *)modelConfiguration storeType:(NSString *)storeType storeURL:(NSURL *)storeURL options:(RZDataStackOptions)options
 {
-    NSParameterAssert(storeType);
-    
     self = [super init];
     if ( self ) {
         _modelName          = modelName;
         _modelConfiguration = modelConfiguration;
-        _storeType          = storeType;
+        _storeType          = storeType ?: NSInMemoryStoreType;
         _storeURL           = storeURL;
         _options            = options;
         
-        [self buildStack];
+        if ( ![self buildStack] ) {
+            return nil;
+        }
     }
     return self;
 }
@@ -131,15 +137,18 @@
 
 #pragma mark - Private
 
-- (void)buildStack
+- (BOOL)buildStack
 {
-    RZDSAssertReturn(self.modelName != nil, @"Must have a model name");
+    RZDSAssertReturnNO(self.modelName != nil, @"Must have a model name");
     
     //
     // Create model
     //
     self.managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:[[NSBundle bundleForClass:[self class]] URLForResource:self.modelName withExtension:@"momd"]];
-    RZDSAssertReturn(self.managedObjectModel != nil, @"Could not create managed object model for name %@", self.modelName);
+    if ( self.managedObjectModel == nil ) {
+        RZDSLogError(@"Could not create managed object model for name %@", self.modelName);
+        return NO;
+    }
     
     //
     // Create PSC
@@ -147,7 +156,7 @@
     NSMutableDictionary *options = [NSMutableDictionary dictionary];
     
     if ( self.storeType == NSSQLiteStoreType ) {
-        RZDSAssertReturn(self.storeURL != nil, @"Must have a store URL for SQLite stores");
+        RZDSAssertReturnNO(self.storeURL != nil, @"Must have a store URL for SQLite stores");
         NSString *journalMode = [self hasOptionsSet:RZDataStackOptionsNoWriteAheadLog] ? @"DELETE" : @"WAL";
         options[NSSQLitePragmasOption] = @{@"journal_mode" : journalMode};
     }
@@ -161,6 +170,7 @@
     }
     
     if( ![self.persistentStoreCoordinator addPersistentStoreWithType:self.storeType configuration:self.modelConfiguration URL:self.storeURL options:options error:&error] ) {
+        
         RZDSLogError(@"Error creating/reading persistent store: %@", error);
         
         if ( [self hasOptionsSet:RZDataStackOptionDeleteDatabaseIfUnreadable] && self.storeURL ) {
@@ -175,7 +185,7 @@
         
         if ( error != nil ) {
             RZDSLogError(@"Unresolved error creating PSC for data stack: %@", error);
-            abort();
+            return NO;
         }
     }
     
@@ -191,6 +201,8 @@
     if ( [self hasOptionsSet:RZDataStackOptionsCreateUndoManager] ) {
         self.managedObjectContext.undoManager   = [[NSUndoManager alloc] init];
     }
+    
+    return YES;
 }
 
 - (BOOL)hasOptionsSet:(RZDataStackOptions)options
