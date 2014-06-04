@@ -24,6 +24,7 @@
 		9AB9080B193FD7F70063445A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A53612C193F90E000E87F4F /* UIKit.framework */; };
 		9AB90811193FD7F70063445A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9AB9080F193FD7F70063445A /* InfoPlist.strings */; };
 		9AB9081B193FD8330063445A /* RZDataStackConfigTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AB9081A193FD8330063445A /* RZDataStackConfigTests.m */; };
+		9AB9081E193FD98F0063445A /* NSManagedObject+RZVinyl.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AB9081D193FD98F0063445A /* NSManagedObject+RZVinyl.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,6 +65,8 @@
 		9AB90810193FD7F70063445A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		9AB90814193FD7F70063445A /* RZVinylTests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "RZVinylTests-Prefix.pch"; sourceTree = "<group>"; };
 		9AB9081A193FD8330063445A /* RZDataStackConfigTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RZDataStackConfigTests.m; sourceTree = "<group>"; };
+		9AB9081C193FD98F0063445A /* NSManagedObject+RZVinyl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSManagedObject+RZVinyl.h"; sourceTree = "<group>"; };
+		9AB9081D193FD98F0063445A /* NSManagedObject+RZVinyl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSManagedObject+RZVinyl.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -187,6 +190,8 @@
 				9AB907E4193FC2060063445A /* RZDataStackAccess.m */,
 				9A536163193F939800E87F4F /* RZDataStack.h */,
 				9A536164193F939800E87F4F /* RZDataStack.m */,
+				9AB9081C193FD98F0063445A /* NSManagedObject+RZVinyl.h */,
+				9AB9081D193FD98F0063445A /* NSManagedObject+RZVinyl.m */,
 			);
 			name = Classes;
 			path = ../Classes;
@@ -328,6 +333,7 @@
 			files = (
 				9A536165193F939800E87F4F /* RZDataStack.m in Sources */,
 				9A53613E193F90E000E87F4F /* RZVinylDemo.xcdatamodeld in Sources */,
+				9AB9081E193FD98F0063445A /* NSManagedObject+RZVinyl.m in Sources */,
 				9A536191193FA62700E87F4F /* RZAutoImport.m in Sources */,
 				9A53613B193F90E000E87F4F /* RZAppDelegate.m in Sources */,
 				9AB907E5193FC2060063445A /* RZDataStackAccess.m in Sources */,
