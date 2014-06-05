@@ -58,13 +58,29 @@
                          storeURL:(NSURL *)storeURL
                           options:(RZCoreDataStackOptions)options
 {
+    return [self initWithModelName:modelName
+                     configuration:modelConfiguration
+                         storeType:storeType
+                          storeURL:storeURL
+        persistentStoreCoordinator:nil
+                           options:options];
+}
+
+- (instancetype)initWithModelName:(NSString *)modelName
+                    configuration:(NSString *)modelConfiguration
+                        storeType:(NSString *)storeType
+                         storeURL:(NSURL *)storeURL
+       persistentStoreCoordinator:(NSPersistentStoreCoordinator *)persistentStoreCoordinator
+                          options:(RZCoreDataStackOptions)options
+{
     self = [super init];
     if ( self ) {
-        _modelName          = modelName;
-        _modelConfiguration = modelConfiguration;
-        _storeType          = storeType ?: NSInMemoryStoreType;
-        _storeURL           = storeURL;
-        _options            = options;
+        _modelName                  = modelName;
+        _modelConfiguration         = modelConfiguration;
+        _storeType                  = storeType ?: NSInMemoryStoreType;
+        _storeURL                   = storeURL;
+        _persistentStoreCoordinator = persistentStoreCoordinator;
+        _options                    = options;
         
         if ( ![self buildStack] ) {
             return nil;
@@ -124,7 +140,7 @@
 - (NSString *)modelName
 {
     if ( _modelName == nil ) {
-        NSMutableString *productName = [[[NSBundle bundleForClass:[self class]] objectForInfoDictionaryKey:@"CFBundleDisplayName"] mutableCopy];
+        NSMutableString *productName = [[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"] mutableCopy];
         [productName replaceOccurrencesOfString:@" " withString:@"_" options:0 range:NSMakeRange(0, productName.length)];
         [productName replaceOccurrencesOfString:@"-" withString:@"_" options:0 range:NSMakeRange(0, productName.length)];
         _modelName = [NSString stringWithString:productName];
@@ -158,7 +174,7 @@
     //
     // Create model
     //
-    self.managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:[[NSBundle bundleForClass:[self class]] URLForResource:self.modelName withExtension:@"momd"]];
+    self.managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:[[NSBundle mainBundle] URLForResource:self.modelName withExtension:@"momd"]];
     if ( self.managedObjectModel == nil ) {
         RZDSLogError(@"Could not create managed object model for name %@", self.modelName);
         return NO;
@@ -167,6 +183,11 @@
     //
     // Create PSC
     //
+    NSError *error = nil;
+    if ( self.persistentStoreCoordinator == nil ) {
+        self.persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:self.managedObjectModel];
+    }
+    
     NSMutableDictionary *options = [NSMutableDictionary dictionary];
     
     if ( self.storeType == NSSQLiteStoreType ) {
@@ -175,9 +196,6 @@
         options[NSSQLitePragmasOption] = @{@"journal_mode" : journalMode};
     }
 
-    NSError *error = nil;
-    self.persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:self.managedObjectModel];
-    
     if ( ![self hasOptionsSet:RZCoreDataStackOptionDisableAutoLightweightMigration] && self.storeURL ){
         options[NSMigratePersistentStoresAutomaticallyOption] = @(YES);
         options[NSInferMappingModelAutomaticallyOption] = @(YES);
@@ -251,10 +269,10 @@
     }
     
     RZCoreDataStack *defaultStack = [[RZCoreDataStack alloc] initWithModelName:modelName
-                                                         configuration:configName
-                                                             storeType:storeType
-                                                              storeURL:nil
-                                                               options:kNilOptions];
+                                                                 configuration:configName
+                                                                     storeType:storeType
+                                                                      storeURL:nil
+                                                                       options:kNilOptions];
     
     if ( defaultStack != nil ) {
         [self setDefaultStack:defaultStack];

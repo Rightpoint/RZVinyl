@@ -25,6 +25,7 @@ static NSString* const kRZCoreDataStackCustomFilePath = @"test_tmp/RZCoreDataSta
     [super setUp];
     NSURL *libraryURL = [[[NSFileManager defaultManager] URLsForDirectory:NSLibraryDirectory inDomains:NSUserDomainMask] lastObject];
     self.customFileURL = [libraryURL URLByAppendingPathComponent:kRZCoreDataStackCustomFilePath];
+    [[NSFileManager defaultManager] createDirectoryAtURL:[self.customFileURL URLByDeletingLastPathComponent] withIntermediateDirectories:YES attributes:nil error:NULL];
 }
 
 - (void)tearDown
@@ -32,8 +33,9 @@ static NSString* const kRZCoreDataStackCustomFilePath = @"test_tmp/RZCoreDataSta
     [super tearDown];
     
     // Delete test file
-    if ( [[NSFileManager defaultManager] fileExistsAtPath:[self.customFileURL path]] ){
-        [[NSFileManager defaultManager] removeItemAtURL:self.customFileURL error:NULL];
+    NSURL *testTempDirURL = [self.customFileURL URLByDeletingLastPathComponent];
+    if ( [[NSFileManager defaultManager] fileExistsAtPath:[testTempDirURL path]] ){
+        [[NSFileManager defaultManager] removeItemAtURL:testTempDirURL error:NULL];
     }
 }
 
@@ -59,7 +61,7 @@ static NSString* const kRZCoreDataStackCustomFilePath = @"test_tmp/RZCoreDataSta
     RZCoreDataStack *stack = nil;
     XCTAssertNoThrow(stack = [[RZCoreDataStack alloc] initWithModelName:nil
                                                           configuration:nil
-                                                              storeType:NSInMemoryStoreType
+                                                              storeType:NSSQLiteStoreType
                                                                storeURL:self.customFileURL
                                                                 options:kNilOptions], @"Init threw an exception");
     
@@ -73,7 +75,60 @@ static NSString* const kRZCoreDataStackCustomFilePath = @"test_tmp/RZCoreDataSta
 
 - (void)test_CustomModel
 {
+    XCTAssertFalse([[NSFileManager defaultManager] fileExistsAtPath:[self.customFileURL path]], @"sqlite file should not exist yet");
     
+    RZCoreDataStack *stack = nil;
+    XCTAssertNoThrow(stack = [[RZCoreDataStack alloc] initWithModelName:@"RZVinylDemo"
+                                                          configuration:nil
+                                                              storeType:NSSQLiteStoreType
+                                                               storeURL:self.customFileURL
+                                                                options:kNilOptions], @"Init threw an exception");
+    
+    XCTAssertNotNil(stack, @"Stack should not be nil");
+    XCTAssertNotNil(stack.managedObjectModel, @"Model should not be nil");
+    XCTAssertNotNil(stack.managedObjectContext, @"MOC should not be nil");
+    XCTAssertNotNil(stack.persistentStoreCoordinator, @"PSC should not be nil");
+    XCTAssertEqual(stack.managedObjectModel.entities.count, 3, @"Default config should have 3 entities");
+    
+    XCTAssertTrue([[NSFileManager defaultManager] fileExistsAtPath:[self.customFileURL path]], @"sqlite file not created");
+}
+
+- (void)test_ExistingPSC
+{
+    NSURL *otherStoreURL = [[self.customFileURL URLByDeletingLastPathComponent] URLByAppendingPathComponent:@"RZCoreDataOtherConfig.sqlite"];
+    
+    XCTAssertFalse([[NSFileManager defaultManager] fileExistsAtPath:[self.customFileURL path]], @"sqlite file should not exist yet");
+    XCTAssertFalse([[NSFileManager defaultManager] fileExistsAtPath:[otherStoreURL path]], @"sqlite file should not exist yet");
+
+    RZCoreDataStack *stack = nil;
+    XCTAssertNoThrow(stack = [[RZCoreDataStack alloc] initWithModelName:@"RZVinylDemo"
+                                                          configuration:nil
+                                                              storeType:NSSQLiteStoreType
+                                                               storeURL:self.customFileURL
+                                                                options:kNilOptions], @"Init threw an exception");
+    
+    XCTAssertNotNil(stack, @"Stack should not be nil");
+    XCTAssertNotNil(stack.managedObjectModel, @"Model should not be nil");
+    XCTAssertNotNil(stack.managedObjectContext, @"MOC should not be nil");
+    XCTAssertNotNil(stack.persistentStoreCoordinator, @"PSC should not be nil");
+    
+    RZCoreDataStack *stack2 = nil;
+    XCTAssertNoThrow(stack2 = [[RZCoreDataStack alloc] initWithModelName:@"RZVinylDemo"
+                                                           configuration:@"OtherConfig"
+                                                               storeType:NSSQLiteStoreType
+                                                                storeURL:otherStoreURL
+                                              persistentStoreCoordinator:stack.persistentStoreCoordinator
+                                                                 options:kNilOptions], @"Init threw an exception");
+    
+    XCTAssertNotNil(stack2, @"Stack should not be nil");
+    XCTAssertNotNil(stack2.managedObjectModel, @"Model should not be nil");
+    XCTAssertNotNil(stack2.managedObjectContext, @"MOC should not be nil");
+    XCTAssertNotNil(stack2.persistentStoreCoordinator, @"PSC should not be nil");
+    XCTAssertEqualObjects(stack.persistentStoreCoordinator, stack2.persistentStoreCoordinator, @"PSC's should be equal");
+    
+    XCTAssertTrue([[NSFileManager defaultManager] fileExistsAtPath:[self.customFileURL path]], @"sqlite file not created");
+    XCTAssertTrue([[NSFileManager defaultManager] fileExistsAtPath:[otherStoreURL path]], @"sqlite file not created");
+
 }
 
 @end

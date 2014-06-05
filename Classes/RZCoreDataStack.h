@@ -71,6 +71,27 @@ typedef NS_OPTIONS(NSUInteger, RZCoreDataStackOptions)
                          storeURL:(NSURL *)storeURL
                           options:(RZCoreDataStackOptions)options;
 
+/**
+ *  Return a new data stack initialized with the provided data model name
+ *  and persistent store type.
+ *
+ *  @param modelName            The name of the Core Data Model. Pass nil to infer default value from application name.
+ *  @param modelConfiguration   The name of a configuration from the model to use for this stack.
+ *  @param storeType            The type of persistent store to use. Pass nil to default to in memory store.
+ *  @param storeURL             The URL of the persistent store's database file. If nil, defaults to a .sqlite file with
+ *                              the same name as the model, located in the @p Library/ directory.
+ *  @param persistentStoreCoordinator  An existing PSC to use in this stack. Pass nil to create a new one.
+ *  @param options              Additional options for the stack.
+ *
+ *  @return A new data stack instance.
+ */
+- (instancetype)initWithModelName:(NSString *)modelName
+                    configuration:(NSString *)modelConfiguration
+                        storeType:(NSString *)storeType
+                         storeURL:(NSURL *)storeURL
+       persistentStoreCoordinator:(NSPersistentStoreCoordinator *)persistentStoreCoordinator
+                          options:(RZCoreDataStackOptions)options;
+
 
 @property (nonatomic, strong, readonly) NSManagedObjectModel            *managedObjectModel;
 @property (nonatomic, strong, readonly) NSManagedObjectContext          *managedObjectContext;

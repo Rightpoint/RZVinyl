@@ -1,4 +1,24 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="5064" systemVersion="13D65" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
-    <elements/>
+    <entity name="BaseObject" isAbstract="YES" syncable="YES">
+        <attribute name="identifier" attributeType="Integer 32" defaultValueString="0" indexed="YES" syncable="YES"/>
+        <attribute name="lastModified" optional="YES" attributeType="Date" syncable="YES"/>
+    </entity>
+    <entity name="OtherThing" parentEntity="BaseObject" syncable="YES">
+        <attribute name="nickname" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="Thing" parentEntity="BaseObject" syncable="YES">
+        <attribute name="color" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="percentage" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+    </entity>
+    <configuration name="OtherConfig">
+        <memberEntity name="BaseObject"/>
+        <memberEntity name="OtherThing"/>
+    </configuration>
+    <elements>
+        <element name="Thing" positionX="-54" positionY="-9" width="128" height="88"/>
+        <element name="BaseObject" positionX="-36" positionY="36" width="128" height="75"/>
+        <element name="OtherThing" positionX="-18" positionY="54" width="128" height="60"/>
+    </elements>
 </model>
