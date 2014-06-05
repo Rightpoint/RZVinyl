@@ -43,7 +43,6 @@
  */
 + (instancetype)rzv_newObject;
 
-
 /**
  *  Create and return a new instance in the provided context.
  *

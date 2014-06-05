@@ -66,8 +66,20 @@
         XCTAssertNoThrow(newArtist = [Artist rzv_newObject], @"Creation threw exception");
         XCTAssertNotNil(newArtist, @"Failed to create new object");
         XCTAssertTrue([newArtist isKindOfClass:[Artist class]], @"New object is not of correct class");
+        
+        newArtist.remoteID = @100;
+        newArtist.name = @"Sergio";
+        newArtist.genre = @"Sax";
+        
     } completion:^(NSError *err) {
         XCTAssertNil(err, @"An error occurred during the background save: %@", err);
+        
+        [self.stack save:YES];
+        
+        Artist *matchingArtist = [Artist rzv_objectWithPrimaryKeyValue:@100 createNew:NO];
+        XCTAssertNotNil(matchingArtist, @"Could not fetch from main context");
+        XCTAssertEqualObjects(matchingArtist.name, @"Sergio", @"Fetched artist has wrong name");
+        
         finished = YES;
     }];
     
