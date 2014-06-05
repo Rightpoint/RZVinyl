@@ -134,9 +134,11 @@ typedef NS_OPTIONS(NSUInteger, RZCoreDataStackOptions)
 
 /**
  *  Asynchronously perform a database operation on a temporary child context in the background.
+ *  The context will be saved when the operation is finished, and all changes propagated to the main context.
  *
  *  @param block The block to perform.
  *  @param completion An optional completion block that is called on the main thread after the operation finishes.
+ *                    If there was an error saving the background context, it will be passed here.
  *
  *  @note When using this method, the @p currentThreadContext will point to the valid child context
  *        while within the scope of the block.
@@ -146,7 +148,7 @@ typedef NS_OPTIONS(NSUInteger, RZCoreDataStackOptions)
  *
  */
 - (void)performBlockUsingBackgroundContext:(RZCoreDataStackTransactionBlock)block
-                                completion:(void(^)())completion;
+                                completion:(void(^)(NSError *))completion;
 
 /**
  *  Spawn and return a temporary child context with private queue confinement.

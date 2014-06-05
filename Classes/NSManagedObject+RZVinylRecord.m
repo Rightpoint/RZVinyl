@@ -165,7 +165,7 @@
         entityName = [self rzv_cachedEntityName];
     }
     else {
-        dispatch_async(dispatch_get_main_queue(), ^{
+        dispatch_sync(dispatch_get_main_queue(), ^{
             entityName = [self rzv_cachedEntityName];
         });
     }
@@ -213,7 +213,7 @@
                 *stop = YES;
             }
         }];
-        if ( entityName ) {
+        if ( RZVAssert(entityName != nil, @"Could not find entity name for class %@", className) ) {
             [[self rzv_s_cachedEntityNames] setObject:entityName forKey:className];
         }
     }

@@ -1,13 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="5064" systemVersion="13D65" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
-    <entity name="BaseObject" isAbstract="YES" syncable="YES">
-        <attribute name="identifier" attributeType="Integer 32" defaultValueString="0" indexed="YES" syncable="YES"/>
-        <attribute name="lastModified" optional="YES" attributeType="Date" syncable="YES"/>
-    </entity>
-    <configuration name="OtherConfig">
-        <memberEntity name="BaseObject"/>
-    </configuration>
-    <elements>
-        <element name="BaseObject" positionX="160" positionY="-243" width="128" height="75"/>
-    </elements>
+    <configuration name="OtherConfig"/>
+    <elements/>
 </model>

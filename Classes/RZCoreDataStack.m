@@ -117,7 +117,7 @@ static NSString* const kRZCoreDataStackThreadContextKey = @"RZCoreDataStackConte
     return context;
 }
 
-- (void)performBlockUsingBackgroundContext:(RZCoreDataStackTransactionBlock)block completion:(void (^)())completion
+- (void)performBlockUsingBackgroundContext:(RZCoreDataStackTransactionBlock)block completion:(void (^)(NSError *))completion
 {
     if ( !RZVParameterAssert(block) ) {
         return;
@@ -128,8 +128,14 @@ static NSString* const kRZCoreDataStackThreadContextKey = @"RZCoreDataStackConte
         [[[NSThread currentThread] threadDictionary] setObject:context forKey:kRZCoreDataStackThreadContextKey];
         block(context);
         [[[NSThread currentThread] threadDictionary] removeObjectForKey:kRZCoreDataStackThreadContextKey];
+        
+        NSError *err = nil;
+        [context save:&err];
+        
         if ( completion ) {
-            dispatch_async(dispatch_get_main_queue(), completion);
+            dispatch_async(dispatch_get_main_queue(), ^{
+                completion(err);
+            });
         }
     }];
 }
