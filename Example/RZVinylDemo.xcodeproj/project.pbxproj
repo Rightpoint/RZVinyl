@@ -33,6 +33,7 @@
 		9AB9087F1941065F0063445A /* BaseObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AB9087E1941065F0063445A /* BaseObject.m */; };
 		9AB90883194107C30063445A /* BaseObject+RZVinyl.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AB90882194107C30063445A /* BaseObject+RZVinyl.m */; };
 		9AB9088619410A2D0063445A /* RZWaiter.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AB9088519410A2D0063445A /* RZWaiter.m */; };
+		9AB9088A194113D60063445A /* record_tests.json in Resources */ = {isa = PBXBuildFile; fileRef = 9AB90889194113D60063445A /* record_tests.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -89,6 +90,7 @@
 		9AB90882194107C30063445A /* BaseObject+RZVinyl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "BaseObject+RZVinyl.m"; sourceTree = "<group>"; };
 		9AB9088419410A2D0063445A /* RZWaiter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RZWaiter.h; sourceTree = "<group>"; };
 		9AB9088519410A2D0063445A /* RZWaiter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RZWaiter.m; sourceTree = "<group>"; };
+		9AB90889194113D60063445A /* record_tests.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = record_tests.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -227,6 +229,7 @@
 			isa = PBXGroup;
 			children = (
 				9AB908231940D7AC0063445A /* Model */,
+				9AB90888194113B50063445A /* Resources */,
 				9AB9088719410A320063445A /* Utils */,
 				9AB9081A193FD8330063445A /* RZCoreDataStackConfigTests.m */,
 				9AB90875194104860063445A /* RZVinylRecordTests.m */,
@@ -277,6 +280,14 @@
 			);
 			name = Utils;
 			path = Model;
+			sourceTree = "<group>";
+		};
+		9AB90888194113B50063445A /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				9AB90889194113D60063445A /* record_tests.json */,
+			);
+			name = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -364,6 +375,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9AB9088A194113D60063445A /* record_tests.json in Resources */,
 				9AB90811193FD7F70063445A /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -128,12 +128,12 @@ static NSString* const kRZCoreDataStackThreadContextKey = @"RZCoreDataStackConte
 
 - (NSManagedObjectContext *)currentThreadContext
 {
-    NSManagedObjectContext *context = [[[NSThread currentThread] threadDictionary] objectForKey:kRZCoreDataStackThreadContextKey];
-    if ( [NSThread isMainThread] || context == nil ) {
-        if ( ![NSThread isMainThread] ) {
-            RZVLogInfo(@"No managed object context found for current background thread. Returning main context.");
-        }
+    if ( [NSThread isMainThread] ) {
         return [self managedObjectContext];
+    }
+    NSManagedObjectContext *context = [[[NSThread currentThread] threadDictionary] objectForKey:kRZCoreDataStackThreadContextKey];
+    if ( context == nil ) {
+        RZVLogError(@"No managed object context found for current background thread.");
     }
     return context;
 }

@@ -1,0 +1,30 @@
+[
+  {
+    "name" : "Dusky",
+    "genre" : "Deep House",
+    "songs" : [
+      {
+        "title" : "What I Never Knew",
+        "length" : 203
+      }
+    ]
+  },
+  {
+    "name" : "BCee",
+    "genre" : "Drum & Bass"
+  },
+  {
+    "name" : "Tool",
+    "genre" : "Prog Metal",
+    "songs" : [
+      {
+        "title" : "Lateralus",
+        "Length" : "540"
+      },
+      {
+        "title" : "Aenima",
+        "Length" : "438"
+      }
+    ]
+  }
+]
