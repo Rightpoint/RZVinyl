@@ -8,6 +8,8 @@
 
 @import CoreData;
 
+typedef void (^RZCoreDataStackTransactionBlock)(NSManagedObjectContext *moc);
+
 typedef NS_OPTIONS(NSUInteger, RZCoreDataStackOptions)
 {
     /**
@@ -117,7 +119,30 @@ typedef NS_OPTIONS(NSUInteger, RZCoreDataStackOptions)
 @property (nonatomic, strong, readonly) NSPersistentStoreCoordinator    *persistentStoreCoordinator;
 
 /**
+ *  Asynchronously perform a database operation on a temporary child context in the background.
+ *
+ *  @param block The block to perform.
+ *  @param completion An optional completion block that is called on the main thread after the operation finishes.
+ *
+ *  @note When using this method, the @p currentThreadContext will point to the valid child context
+ *        while within the scope of the block.
+ *
+ *  @warning Any managed object instances manipulated in this block must belong to the child
+ *           context. Attempting to save/update objects from the main context will throw an exception.
+ *
+ */
+- (void)performBlockUsingBackgroundContext:(RZCoreDataStackTransactionBlock)block
+                                completion:(void(^)())completion;
+
+/**
  *  Spawn and return a temporary child context with private queue confinement.
+ *  This method is useful for creating a "scratch" context on which to make temporary edits.
+ *
+ *  @note You must use @p performBlock: to perform transactions with the returned context.
+ *
+ *  @warning The value of @p currentThreadContext will be nil within a block performed on this context.
+ *           To use the @p NSManagedObject+VinylRecord extensions with this context, you must pass it to
+ *           whatever method you are calling.
  *
  *  @return A newly spawned child context with private queue confinement.
  */
@@ -174,6 +199,15 @@ typedef NS_OPTIONS(NSUInteger, RZCoreDataStackOptions)
 //+ (RZCoreDataStack *)stackWithName:(NSString *)name;
 //+ (void)setStack:(RZCoreDataStack *)stack forName:(NSString *)name;
 
-
+/**
+ *  Return the managed object context for the current thread.
+ *  Will always either be the main thread's context or a temporary child context.
+ *  
+ *  @note The context returned by this method will be either main or private queue concurrency type,
+ *        so it is safest to always wrap context transactions in  @p performBlock:.
+ *
+ *  @return The managed object context for the current thread, or nil if no context is associated.
+ */
+- (NSManagedObjectContext *)currentThreadContext;
 
 @end

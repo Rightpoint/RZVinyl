@@ -7,4 +7,5 @@
 //
 
 #import "RZCoreDataStack.h"
-#import "NSManagedObject+RZVinyl.h"
+#import "NSManagedObject+RZVinylRecord.h"
+#import "NSManagedObject+RZVinylImport.h"

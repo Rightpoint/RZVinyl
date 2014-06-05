@@ -7,21 +7,9 @@
 //
 
 #import "RZCoreDataStack.h"
+#import "RZVinylDefines.h"
 
-#define RZDSAssertReturn(cond, msg, ...) \
-    NSAssert(cond, msg, ##__VA_ARGS__); \
-    if ( !(cond) ) { \
-        return; \
-    }
-
-#define RZDSAssertReturnNO(cond, msg, ...) \
-    NSAssert(cond, msg, ##__VA_ARGS__); \
-    if ( !(cond) ) { \
-        return NO; \
-    }
-
-#define RZDSLogError(msg, ...) \
-    NSLog((@"[RZDataStack]: ERROR -- " msg), ##__VA_ARGS__);
+static NSString* const kRZCoreDataStackThreadContextKey = @"RZCoreDataStackContext";
 
 @interface RZCoreDataStack ()
 
@@ -118,6 +106,24 @@
 
 #pragma mark - Public
 
+- (void)performBlockUsingBackgroundContext:(RZCoreDataStackTransactionBlock)block completion:(void (^)())completion
+{
+    NSParameterAssert(block);
+    if ( block == nil ) {
+        return;
+    }
+    
+    NSManagedObjectContext *context = [self temporaryChildContext];
+    [context performBlock:^{
+        [[[NSThread currentThread] threadDictionary] setObject:context forKey:kRZCoreDataStackThreadContextKey];
+        block(context);
+        [[[NSThread currentThread] threadDictionary] removeObjectForKey:kRZCoreDataStackThreadContextKey];
+        if ( completion ) {
+            dispatch_async(dispatch_get_main_queue(), completion);
+        }
+    }];
+}
+
 - (NSManagedObjectContext *)temporaryChildContext
 {
     NSManagedObjectContext *tempChild = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
@@ -158,7 +164,7 @@
     }
 
     if ( err ) {
-        RZDSLogError(@"Error saving database: %@", err);
+        RZVLogError(@"Error saving database: %@", err);
     }
 }
 
@@ -196,7 +202,7 @@
 
 - (BOOL)buildStack
 {
-    RZDSAssertReturnNO(self.modelName != nil, @"Must have a model name");
+    RZVAssertReturnNO(self.modelName != nil, @"Must have a model name");
     
     //
     // Create model
@@ -204,7 +210,7 @@
     if ( self.managedObjectModel == nil ) {
         self.managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:[[NSBundle mainBundle] URLForResource:self.modelName withExtension:@"momd"]];
         if ( self.managedObjectModel == nil ) {
-            RZDSLogError(@"Could not create managed object model for name %@", self.modelName);
+            RZVLogError(@"Could not create managed object model for name %@", self.modelName);
             return NO;
         }
     }
@@ -220,7 +226,7 @@
     NSMutableDictionary *options = [NSMutableDictionary dictionary];
     
     if ( self.storeType == NSSQLiteStoreType ) {
-        RZDSAssertReturnNO(self.storeURL != nil, @"Must have a store URL for SQLite stores");
+        RZVAssertReturnNO(self.storeURL != nil, @"Must have a store URL for SQLite stores");
         NSString *journalMode = [self hasOptionsSet:RZCoreDataStackOptionsDisableWriteAheadLog] ? @"DELETE" : @"WAL";
         options[NSSQLitePragmasOption] = @{@"journal_mode" : journalMode};
     }
@@ -235,7 +241,7 @@
                                                                  URL:self.storeURL
                                                              options:options error:&error] ) {
         
-        RZDSLogError(@"Error creating/reading persistent store: %@", error);
+        RZVLogError(@"Error creating/reading persistent store: %@", error);
         
         if ([self hasOptionsSet:RZCoreDataStackOptionDeleteDatabaseIfUnreadable] && self.storeURL ) {
             NSError *removeFileError = nil;
@@ -252,7 +258,7 @@
         }
         
         if ( error != nil ) {
-            RZDSLogError(@"Unresolved error creating PSC for data stack: %@", error);
+            RZVLogError(@"Unresolved error creating PSC for data stack: %@", error);
             return NO;
         }
     }
@@ -332,6 +338,15 @@ static RZCoreDataStack *s_defaultStack = nil;
 + (void)setDefaultStack:(RZCoreDataStack *)defaultStack
 {
     s_defaultStack = defaultStack;
+}
+
+- (NSManagedObjectContext *)currentThreadContext
+{
+    if ( [NSThread isMainThread] ) {
+        return [self managedObjectContext];
+    }
+    
+    return [[[NSThread currentThread] threadDictionary] objectForKey:kRZCoreDataStackThreadContextKey];
 }
 
 @end
