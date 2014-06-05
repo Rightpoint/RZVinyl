@@ -5,7 +5,7 @@ PROJ_PATH="Example/RZVinylDemo.xcodeproj"
 # end
 
 task :sync do
-  sync_project(PROJ_PATH, '--exclusion /External --exclusion /Classes')
+  sync_project(PROJ_PATH, '--exclusion /Classes')
 end
 
 task :usage do

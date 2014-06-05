@@ -1,3 +1,6 @@
 [submodule "External/RZAutoImport"]
 	path = External/RZAutoImport
 	url = https://github.com/Raizlabs/RZAutoImport.git
+[submodule "Classes/RZAutoImport"]
+	path = Classes/RZAutoImport
+	url = https://github.com/Raizlabs/RZAutoImport.git
