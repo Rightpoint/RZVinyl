@@ -88,7 +88,6 @@ static NSString* const kRZCoreDataStackCustomFilePath = @"test_tmp/RZCoreDataSta
     XCTAssertNotNil(stack.managedObjectModel, @"Model should not be nil");
     XCTAssertNotNil(stack.managedObjectContext, @"MOC should not be nil");
     XCTAssertNotNil(stack.persistentStoreCoordinator, @"PSC should not be nil");
-    XCTAssertEqual(stack.managedObjectModel.entities.count, 3, @"Default config should have 3 entities");
     
     XCTAssertTrue([[NSFileManager defaultManager] fileExistsAtPath:[self.customFileURL path]], @"sqlite file not created");
 }
@@ -129,6 +128,48 @@ static NSString* const kRZCoreDataStackCustomFilePath = @"test_tmp/RZCoreDataSta
     XCTAssertTrue([[NSFileManager defaultManager] fileExistsAtPath:[self.customFileURL path]], @"sqlite file not created");
     XCTAssertTrue([[NSFileManager defaultManager] fileExistsAtPath:[otherStoreURL path]], @"sqlite file not created");
 
+}
+
+- (void)test_DeleteUnreadable
+{
+    XCTAssertFalse([[NSFileManager defaultManager] fileExistsAtPath:[self.customFileURL path]], @"sqlite file should not exist yet");
+    
+    RZCoreDataStack *stack = nil;
+    XCTAssertNoThrow(stack = [[RZCoreDataStack alloc] initWithModelName:@"RZVinylDemo"
+                                                          configuration:nil
+                                                              storeType:NSSQLiteStoreType
+                                                               storeURL:self.customFileURL
+                                                                options:kNilOptions], @"Init threw an exception");
+    
+    XCTAssertNotNil(stack, @"Stack should not be nil");
+    XCTAssertNotNil(stack.managedObjectModel, @"Model should not be nil");
+    XCTAssertNotNil(stack.managedObjectContext, @"MOC should not be nil");
+    XCTAssertNotNil(stack.persistentStoreCoordinator, @"PSC should not be nil");
+    
+    XCTAssertTrue([[NSFileManager defaultManager] fileExistsAtPath:[self.customFileURL path]], @"sqlite file not created");
+    
+    RZCoreDataStack *stack2 = nil;
+    NSURL *testStoreURL = [[NSBundle bundleForClass:[self class]] URLForResource:@"TestModel" withExtension:@"momd"];
+    NSManagedObjectModel *testModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:testStoreURL];
+    XCTAssertNotNil(testModel, @"Test model failed to load");
+    XCTAssertNoThrow(stack2 = [[RZCoreDataStack alloc] initWithModel:testModel
+                                                           storeType:NSSQLiteStoreType
+                                                            storeURL:self.customFileURL
+                                          persistentStoreCoordinator:nil
+                                                             options:kNilOptions], @"Init threw an exception");
+    
+    XCTAssertNil(stack2, @"Database should be unreadable with this model");
+    
+    XCTAssertNoThrow(stack2 = [[RZCoreDataStack alloc] initWithModel:testModel
+                                                           storeType:NSSQLiteStoreType
+                                                            storeURL:self.customFileURL
+                                          persistentStoreCoordinator:nil
+                                                             options:RZCoreDataStackOptionDeleteDatabaseIfUnreadable], @"Init threw an exception");
+    
+    XCTAssertNotNil(stack2, @"Stack should have been deleted and rebuilt");
+    XCTAssertNotNil(stack2.managedObjectModel, @"Model should not be nil");
+    XCTAssertNotNil(stack2.managedObjectContext, @"MOC should not be nil");
+    XCTAssertNotNil(stack2.persistentStoreCoordinator, @"PSC should not be nil");
 }
 
 @end

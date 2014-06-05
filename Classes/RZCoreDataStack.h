@@ -80,7 +80,7 @@ typedef NS_OPTIONS(NSUInteger, RZCoreDataStackOptions)
  *  @param storeType            The type of persistent store to use. Pass nil to default to in memory store.
  *  @param storeURL             The URL of the persistent store's database file. If nil, defaults to a .sqlite file with
  *                              the same name as the model, located in the @p Library/ directory.
- *  @param persistentStoreCoordinator  An existing PSC to use in this stack. Pass nil to create a new one.
+ *  @param psc                  An existing persistent store coordinator to use in this stack. Pass nil to create a new one.
  *  @param options              Additional options for the stack.
  *
  *  @return A new data stack instance.
@@ -89,8 +89,27 @@ typedef NS_OPTIONS(NSUInteger, RZCoreDataStackOptions)
                     configuration:(NSString *)modelConfiguration
                         storeType:(NSString *)storeType
                          storeURL:(NSURL *)storeURL
-       persistentStoreCoordinator:(NSPersistentStoreCoordinator *)persistentStoreCoordinator
+       persistentStoreCoordinator:(NSPersistentStoreCoordinator *)psc
                           options:(RZCoreDataStackOptions)options;
+
+/**
+ *  Return a new data stack initialized with a preexisting data model and psc.
+ *  The managed object context(s) will be created automatically and a new store will be
+ *
+ *  @param model        A configured data model. Must not be nil.
+ *  @param storeType    The type of persistent store to use. Pass nil to default to in memory store.
+ *  @param storeURL     The URL of the persistent store's database file. If nil, defaults to a .sqlite file with
+ *                      the same name as the model, located in the @p Library/ directory.
+ *  @param psc          An existing persistent store coordinator to use in this stack. Pass nil to create a new one.
+ *  @param options      Additional options for the stack.
+ *
+ *  @return A new data stack instance.
+ */
+- (instancetype)initWithModel:(NSManagedObjectModel *)model
+                    storeType:(NSString *)storeType
+                     storeURL:(NSURL *)storeURL
+   persistentStoreCoordinator:(NSPersistentStoreCoordinator *)psc
+                      options:(RZCoreDataStackOptions)options;
 
 
 @property (nonatomic, strong, readonly) NSManagedObjectModel            *managedObjectModel;

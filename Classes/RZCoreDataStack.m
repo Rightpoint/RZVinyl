@@ -70,7 +70,7 @@
                     configuration:(NSString *)modelConfiguration
                         storeType:(NSString *)storeType
                          storeURL:(NSURL *)storeURL
-       persistentStoreCoordinator:(NSPersistentStoreCoordinator *)persistentStoreCoordinator
+       persistentStoreCoordinator:(NSPersistentStoreCoordinator *)psc
                           options:(RZCoreDataStackOptions)options
 {
     self = [super init];
@@ -79,13 +79,40 @@
         _modelConfiguration         = modelConfiguration;
         _storeType                  = storeType ?: NSInMemoryStoreType;
         _storeURL                   = storeURL;
-        _persistentStoreCoordinator = persistentStoreCoordinator;
+        _persistentStoreCoordinator = psc;
         _options                    = options;
         
         if ( ![self buildStack] ) {
             return nil;
         }
     }
+    return self;
+}
+
+- (instancetype)initWithModel:(NSManagedObjectModel *)model
+                    storeType:(NSString *)storeType
+                     storeURL:(NSURL *)storeURL
+   persistentStoreCoordinator:(NSPersistentStoreCoordinator *)psc
+                      options:(RZCoreDataStackOptions)options
+{
+    NSParameterAssert(model);
+    if ( model == nil ) {
+        return nil;
+    }
+    
+    self = [super init];
+    if ( self ) {
+        _managedObjectModel         = model;
+        _storeType                  = storeType ?: NSInMemoryStoreType;
+        _storeURL                   = storeURL;
+        _persistentStoreCoordinator = psc;
+        _options                    = options;
+        
+        if ( ![self buildStack] ) {
+            return nil;
+        }
+    }
+    
     return self;
 }
 
@@ -174,10 +201,12 @@
     //
     // Create model
     //
-    self.managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:[[NSBundle mainBundle] URLForResource:self.modelName withExtension:@"momd"]];
     if ( self.managedObjectModel == nil ) {
-        RZDSLogError(@"Could not create managed object model for name %@", self.modelName);
-        return NO;
+        self.managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:[[NSBundle mainBundle] URLForResource:self.modelName withExtension:@"momd"]];
+        if ( self.managedObjectModel == nil ) {
+            RZDSLogError(@"Could not create managed object model for name %@", self.modelName);
+            return NO;
+        }
     }
     
     //

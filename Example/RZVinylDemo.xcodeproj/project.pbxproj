@@ -24,6 +24,7 @@
 		9AB90811193FD7F70063445A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9AB9080F193FD7F70063445A /* InfoPlist.strings */; };
 		9AB9081B193FD8330063445A /* RZCoreDataStackConfigTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AB9081A193FD8330063445A /* RZCoreDataStackConfigTests.m */; };
 		9AB9081E193FD98F0063445A /* NSManagedObject+RZVinyl.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AB9081D193FD98F0063445A /* NSManagedObject+RZVinyl.m */; };
+		9AB908261940D7BC0063445A /* TestModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9AB908241940D7BC0063445A /* TestModel.xcdatamodeld */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,6 +65,7 @@
 		9AB9081A193FD8330063445A /* RZCoreDataStackConfigTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RZCoreDataStackConfigTests.m; sourceTree = "<group>"; };
 		9AB9081C193FD98F0063445A /* NSManagedObject+RZVinyl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSManagedObject+RZVinyl.h"; sourceTree = "<group>"; };
 		9AB9081D193FD98F0063445A /* NSManagedObject+RZVinyl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSManagedObject+RZVinyl.m"; sourceTree = "<group>"; };
+		9AB908251940D7BC0063445A /* TestModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TestModel.xcdatamodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -214,6 +216,7 @@
 		9AB9080C193FD7F70063445A /* RZVinylTests */ = {
 			isa = PBXGroup;
 			children = (
+				9AB908231940D7AC0063445A /* Model */,
 				9AB9081A193FD8330063445A /* RZCoreDataStackConfigTests.m */,
 				9AB9080D193FD7F70063445A /* Supporting Files */,
 			);
@@ -228,6 +231,14 @@
 				9AB90814193FD7F70063445A /* RZVinylTests-Prefix.pch */,
 			);
 			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		9AB908231940D7AC0063445A /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				9AB908241940D7BC0063445A /* TestModel.xcdatamodeld */,
+			);
+			name = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -340,6 +351,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9AB9081B193FD8330063445A /* RZCoreDataStackConfigTests.m in Sources */,
+				9AB908261940D7BC0063445A /* TestModel.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -549,6 +561,16 @@
 			);
 			currentVersion = 9A53613D193F90E000E87F4F /* RZVinylDemo.xcdatamodel */;
 			path = RZVinylDemo.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+		9AB908241940D7BC0063445A /* TestModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				9AB908251940D7BC0063445A /* TestModel.xcdatamodel */,
+			);
+			currentVersion = 9AB908251940D7BC0063445A /* TestModel.xcdatamodel */;
+			path = TestModel.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};
