@@ -11,12 +11,12 @@
 
 @implementation NSManagedObject (RZVinyl)
 
-+ (NSString *)rzv_primaryKey
++ (NSString *)rzv_primaryKeyPropertyName
 {
     return nil;
 }
 
-+ (RZCoreDataStack *)rzv_dataStack
++ (RZCoreDataStack *)rzv_coreDataStack
 {
     return [RZCoreDataStack defaultStack];
 }
