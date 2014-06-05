@@ -9,7 +9,7 @@
 @import CoreData;
 #import "RZAutoImportable.h"
 
-@class RZDataStack;
+@class RZCoreDataStack;
 
 @interface NSManagedObject (RZVinyl) <RZAutoImportable>
 
@@ -27,6 +27,6 @@
  *
  *  @return The data stack to use for this model object class.
  */
-+ (RZDataStack *)rzv_dataStack;
++ (RZCoreDataStack *)rzv_dataStack;
 
 @end

@@ -1,12 +1,12 @@
 //
-//  RZDataStack.m
+//  RZCoreDataStack.m
 //  RZVinylDemo
 //
 //  Created by Nick Donaldson on 6/4/14.
 //  Copyright (c) 2014 Raizlabs. All rights reserved.
 //
 
-#import "RZDataStack.h"
+#import "RZCoreDataStack.h"
 
 #define RZDSAssertReturn(cond, msg, ...) \
     NSAssert(cond, msg, ##__VA_ARGS__); \
@@ -23,7 +23,7 @@
 #define RZDSLogError(msg, ...) \
     NSLog((@"[RZDataStack]: ERROR -- " msg), ##__VA_ARGS__);
 
-@interface RZDataStack ()
+@interface RZCoreDataStack ()
 
 @property (nonatomic, strong, readwrite) NSManagedObjectModel            *managedObjectModel;
 @property (nonatomic, strong, readwrite) NSManagedObjectContext          *managedObjectContext;
@@ -36,11 +36,11 @@
 @property (nonatomic, copy) NSString *storeType;
 @property (nonatomic, copy) NSURL    *storeURL;
 
-@property (nonatomic, assign) RZDataStackOptions options;
+@property (nonatomic, assign) RZCoreDataStackOptions options;
 
 @end
 
-@implementation RZDataStack
+@implementation RZCoreDataStack
 
 + (void)load
 {
@@ -52,7 +52,11 @@
     return [self initWithModelName:nil configuration:nil storeType:nil storeURL:nil options:kNilOptions];
 }
 
-- (instancetype)initWithModelName:(NSString *)modelName configuration:(NSString *)modelConfiguration storeType:(NSString *)storeType storeURL:(NSURL *)storeURL options:(RZDataStackOptions)options
+- (instancetype)initWithModelName:(NSString *)modelName
+                    configuration:(NSString *)modelConfiguration
+                        storeType:(NSString *)storeType
+                         storeURL:(NSURL *)storeURL
+                          options:(RZCoreDataStackOptions)options
 {
     self = [super init];
     if ( self ) {
@@ -142,7 +146,7 @@
 
 #pragma mark - Private
 
-- (BOOL)hasOptionsSet:(RZDataStackOptions)options
+- (BOOL)hasOptionsSet:(RZCoreDataStackOptions)options
 {
     return ( ( self.options | options ) == options );
 }
@@ -167,14 +171,14 @@
     
     if ( self.storeType == NSSQLiteStoreType ) {
         RZDSAssertReturnNO(self.storeURL != nil, @"Must have a store URL for SQLite stores");
-        NSString *journalMode = [self hasOptionsSet:RZDataStackOptionsNoWriteAheadLog] ? @"DELETE" : @"WAL";
+        NSString *journalMode = [self hasOptionsSet:RZCoreDataStackOptionsDisableWriteAheadLog] ? @"DELETE" : @"WAL";
         options[NSSQLitePragmasOption] = @{@"journal_mode" : journalMode};
     }
 
     NSError *error = nil;
     self.persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:self.managedObjectModel];
     
-    if ( ![self hasOptionsSet:RZDataStackOptionNoAutoLightweightMigration] && self.storeURL ){
+    if ( ![self hasOptionsSet:RZCoreDataStackOptionDisableAutoLightweightMigration] && self.storeURL ){
         options[NSMigratePersistentStoresAutomaticallyOption] = @(YES);
         options[NSInferMappingModelAutomaticallyOption] = @(YES);
     }
@@ -186,7 +190,7 @@
         
         RZDSLogError(@"Error creating/reading persistent store: %@", error);
         
-        if ( [self hasOptionsSet:RZDataStackOptionDeleteDatabaseIfUnreadable] && self.storeURL ) {
+        if ([self hasOptionsSet:RZCoreDataStackOptionDeleteDatabaseIfUnreadable] && self.storeURL ) {
             NSError *removeFileError = nil;
             if ( [[NSFileManager defaultManager] removeItemAtURL:self.storeURL error:&removeFileError] ) {
                 [self.persistentStoreCoordinator addPersistentStoreWithType:self.storeType
@@ -215,7 +219,7 @@
     self.managedObjectContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
     self.managedObjectContext.parentContext = self.topLevelBackgroundContext;
     
-    if ( [self hasOptionsSet:RZDataStackOptionsCreateUndoManager] ) {
+    if ([self hasOptionsSet:RZCoreDataStackOptionsCreateUndoManager] ) {
         self.managedObjectContext.undoManager   = [[NSUndoManager alloc] init];
     }
     
@@ -246,7 +250,7 @@
         }
     }
     
-    RZDataStack *defaultStack = [[RZDataStack alloc] initWithModelName:modelName
+    RZCoreDataStack *defaultStack = [[RZCoreDataStack alloc] initWithModelName:modelName
                                                          configuration:configName
                                                              storeType:storeType
                                                               storeURL:nil
@@ -269,16 +273,16 @@
 
 @end
 
-@implementation RZDataStack (SharedAccess)
+@implementation RZCoreDataStack (SharedAccess)
 
-static RZDataStack *s_defaultStack = nil;
+static RZCoreDataStack *s_defaultStack = nil;
 
-+ (RZDataStack *)defaultStack
++ (RZCoreDataStack *)defaultStack
 {
     return s_defaultStack;
 }
 
-+ (void)setDefaultStack:(RZDataStack *)defaultStack
++ (void)setDefaultStack:(RZCoreDataStack *)defaultStack
 {
     s_defaultStack = defaultStack;
 }

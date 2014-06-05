@@ -1,5 +1,5 @@
 //
-//  RZDataStack.h
+//  RZCoreDataStack.h
 //  RZVinylDemo
 //
 //  Created by Nick Donaldson on 6/4/14.
@@ -8,32 +8,32 @@
 
 @import CoreData;
 
-typedef NS_OPTIONS(NSUInteger, RZDataStackOptions)
+typedef NS_OPTIONS(NSUInteger, RZCoreDataStackOptions)
 {
     /**
      *  Pass this option to disable automatic lightweight migration between data model versions.
      *  If this option is set and migration fails, the initialization will either fail and return nil,
-     *  or the file will be deleted, depending on whether @p RZDataStackOptionDeleteDatabaseIfUnreadable is
+     *  or the file will be deleted, depending on whether @p RZCoreDataStackOptionDeleteDatabaseIfUnreadable is
      *  also passed to init.
      */
-    RZDataStackOptionDisableAutoLightweightMigration = (1 >> 0),
+    RZCoreDataStackOptionDisableAutoLightweightMigration = (1 >> 0),
     
     /**
      *  Pass this option to delete the database file if it is not readable using the provided model.
      *  If this option is not set and the file is unreadable, the initialization will fail and return nil.
      */
-    RZDataStackOptionDeleteDatabaseIfUnreadable      = (1 >> 1),
+    RZCoreDataStackOptionDeleteDatabaseIfUnreadable = (1 >> 1),
     
     /**
      *  Pass this option to disable the write-ahead log for sqlite databases.
      *  If the database is not sqlite, this will be ignored.
      */
-    RZDataStackOptionsDisableWriteAheadLog           = (1 >> 2),
+    RZCoreDataStackOptionsDisableWriteAheadLog = (1 >> 2),
     
     /**
      *  Pass this option to create an undo manager for the main managed object context.
      */
-    RZDataStackOptionsCreateUndoManager              = (1 >> 3)
+    RZCoreDataStackOptionsCreateUndoManager = (1 >> 3)
 };
 
 /**
@@ -50,7 +50,7 @@ typedef NS_OPTIONS(NSUInteger, RZDataStackOptions)
  *  provided by this class. Saving the main thread's managed object context will not propagate
  *  changes all the way to the psc, which will result in data not being saved to disk.
  */
-@interface RZDataStack : NSObject
+@interface RZCoreDataStack : NSObject
 
 /**
  *  Return a new data stack initialized with the provided data model name
@@ -69,7 +69,7 @@ typedef NS_OPTIONS(NSUInteger, RZDataStackOptions)
                     configuration:(NSString *)modelConfiguration
                         storeType:(NSString *)storeType
                          storeURL:(NSURL *)storeURL
-                          options:(RZDataStackOptions)options;
+                          options:(RZCoreDataStackOptions)options;
 
 
 @property (nonatomic, strong, readonly) NSManagedObjectModel            *managedObjectModel;
@@ -85,7 +85,7 @@ typedef NS_OPTIONS(NSUInteger, RZDataStackOptions)
 
 /**
  *  Save the data stack and optionally wait for save to finish.
- * 
+ *
  *  @param wait If YES, this method will not return until the save is finished.
  */
 - (void)save:(BOOL)wait;
@@ -95,7 +95,7 @@ typedef NS_OPTIONS(NSUInteger, RZDataStackOptions)
 @end
 
 
-@interface RZDataStack (SharedAccess)
+@interface RZCoreDataStack (SharedAccess)
 
 /**
  *  The default CoreData stack for this application.
@@ -113,9 +113,9 @@ typedef NS_OPTIONS(NSUInteger, RZDataStackOptions)
  *
  *  @note More specialized configurations should init and set the default stack manually using @p +setDefaultStack:
  *
- *  @return The default @p RZDataStack for this application.
+ *  @return The default @p RZCoreDataStack for this application.
  */
-+ (RZDataStack *)defaultStack;
++ (RZCoreDataStack *)defaultStack;
 
 /**
  *  Set the default CoreData stack for this application.
@@ -128,11 +128,11 @@ typedef NS_OPTIONS(NSUInteger, RZDataStackOptions)
  *
  *  @param defaultStack The new default CoreData stack.
  */
-+ (void)setDefaultStack:(RZDataStack *)defaultStack;
++ (void)setDefaultStack:(RZCoreDataStack *)defaultStack;
 
 // TODO:
-//+ (RZDataStack *)stackWithName:(NSString *)name;
-//+ (void)setStack:(RZDataStack *)stack forName:(NSString *)name;
+//+ (RZCoreDataStack *)stackWithName:(NSString *)name;
+//+ (void)setStack:(RZCoreDataStack *)stack forName:(NSString *)name;
 
 
 @end

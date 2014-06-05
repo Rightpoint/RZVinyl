@@ -7,7 +7,7 @@
 //
 
 #import "NSManagedObject+RZVinyl.h"
-#import "RZDataStack.h"
+#import "RZCoreDataStack.h"
 
 @implementation NSManagedObject (RZVinyl)
 
@@ -16,9 +16,9 @@
     return nil;
 }
 
-+ (RZDataStack *)rzv_dataStack
++ (RZCoreDataStack *)rzv_dataStack
 {
-    return [RZDataStack defaultStack];
+    return [RZCoreDataStack defaultStack];
 }
 
 #pragma mark - RZAutoImportable

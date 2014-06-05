@@ -6,5 +6,5 @@
 //  Copyright (c) 2014 Raizlabs. All rights reserved.
 //
 
-#import "RZDataStack.h"
-#import "RZDataStackAccess.h"
+#import "RZCoreDataStack.h"
+#import "NSManagedObject+RZVinyl.h"
