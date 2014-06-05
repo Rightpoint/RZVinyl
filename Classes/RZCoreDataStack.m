@@ -106,6 +106,18 @@ static NSString* const kRZCoreDataStackThreadContextKey = @"RZCoreDataStackConte
 
 #pragma mark - Public
 
+- (NSManagedObjectContext *)currentThreadContext
+{
+    NSManagedObjectContext *context = [[[NSThread currentThread] threadDictionary] objectForKey:kRZCoreDataStackThreadContextKey];
+    if ( [NSThread isMainThread] || context == nil ) {
+        if ( ![NSThread isMainThread] ) {
+            RZVLogInfo(@"No managed object context found for current background thread. Returning main context.");
+        }
+        return [self managedObjectContext];
+    }
+    return context;
+}
+
 - (void)performBlockUsingBackgroundContext:(RZCoreDataStackTransactionBlock)block completion:(void (^)())completion
 {
     NSParameterAssert(block);
@@ -338,15 +350,6 @@ static RZCoreDataStack *s_defaultStack = nil;
 + (void)setDefaultStack:(RZCoreDataStack *)defaultStack
 {
     s_defaultStack = defaultStack;
-}
-
-- (NSManagedObjectContext *)currentThreadContext
-{
-    if ( [NSThread isMainThread] ) {
-        return [self managedObjectContext];
-    }
-    
-    return [[[NSThread currentThread] threadDictionary] objectForKey:kRZCoreDataStackThreadContextKey];
 }
 
 @end

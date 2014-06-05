@@ -119,6 +119,20 @@ typedef NS_OPTIONS(NSUInteger, RZCoreDataStackOptions)
 @property (nonatomic, strong, readonly) NSPersistentStoreCoordinator    *persistentStoreCoordinator;
 
 /**
+ *  Return the managed object context for the current thread.
+ *  Will always either be the main thread's context or a temporary child context.
+ *
+ *  @note The context returned by this method will be either main or private queue concurrency type,
+ *        so it is safest to always wrap context transactions in  @p performBlock:.
+ *
+ *  @note If no context is found for the current thread, the main context will be returned instead,
+ *        and a message will be logged to the console.
+ *
+ *  @return The managed object context for the current thread.
+ */
+- (NSManagedObjectContext *)currentThreadContext;
+
+/**
  *  Asynchronously perform a database operation on a temporary child context in the background.
  *
  *  @param block The block to perform.
@@ -198,16 +212,5 @@ typedef NS_OPTIONS(NSUInteger, RZCoreDataStackOptions)
 // TODO:
 //+ (RZCoreDataStack *)stackWithName:(NSString *)name;
 //+ (void)setStack:(RZCoreDataStack *)stack forName:(NSString *)name;
-
-/**
- *  Return the managed object context for the current thread.
- *  Will always either be the main thread's context or a temporary child context.
- *  
- *  @note The context returned by this method will be either main or private queue concurrency type,
- *        so it is safest to always wrap context transactions in  @p performBlock:.
- *
- *  @return The managed object context for the current thread, or nil if no context is associated.
- */
-- (NSManagedObjectContext *)currentThreadContext;
 
 @end
