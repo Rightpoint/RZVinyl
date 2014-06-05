@@ -179,14 +179,21 @@
         options[NSInferMappingModelAutomaticallyOption] = @(YES);
     }
     
-    if( ![self.persistentStoreCoordinator addPersistentStoreWithType:self.storeType configuration:self.modelConfiguration URL:self.storeURL options:options error:&error] ) {
+    if( ![self.persistentStoreCoordinator addPersistentStoreWithType:self.storeType
+                                                       configuration:self.modelConfiguration
+                                                                 URL:self.storeURL
+                                                             options:options error:&error] ) {
         
         RZDSLogError(@"Error creating/reading persistent store: %@", error);
         
         if ( [self hasOptionsSet:RZDataStackOptionDeleteDatabaseIfUnreadable] && self.storeURL ) {
             NSError *removeFileError = nil;
             if ( [[NSFileManager defaultManager] removeItemAtURL:self.storeURL error:&removeFileError] ) {
-                [self.persistentStoreCoordinator addPersistentStoreWithType:self.storeType configuration:self.modelConfiguration URL:self.storeURL options:options error:&error];
+                [self.persistentStoreCoordinator addPersistentStoreWithType:self.storeType
+                                                              configuration:self.modelConfiguration
+                                                                        URL:self.storeURL
+                                                                    options:options
+                                                                      error:&error];
             }
             else {
                 error = removeFileError;

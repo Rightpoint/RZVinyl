@@ -34,4 +34,9 @@
     XCTAssertNotNil(stack, @"Stack should not be nil");
 }
 
+- (void)test_CustomStoreURL
+{
+    
+}
+
 @end
