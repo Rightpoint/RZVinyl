@@ -28,17 +28,30 @@
  *          value, or nil if @p createNew is NO and an existing object was not found.
  */
 + (instancetype)rzv_objectWithPrimaryKeyValue:(id)primaryValue createNew:(BOOL)createNew;
++ (instancetype)rzv_objectWithPrimaryKeyValue:(id)primaryValue createNew:(BOOL)createNew inContext:(NSManagedObjectContext *)context;
 
-////
-////  Query/Fetch
-////
 //
+//  Query/Fetch
+//
+
 //+ (NSArray *)rzv_all;
 //
-//+ (NSArray *)rzv_where:(NSString *)predicateQuery, ...;
+//+ (NSArray *)rzv_allSorted:(NSArray *)sortDescriptors;
 //
-//+ (NSArray *)rzv_matching:(NSPredicate *)predicate;
+//+ (NSArray *)rzv_allSorted:(NSArray *)sortDescriptors inContext:(NSManagedObjectContext *)context;
+
++ (NSArray *)rzv_where:(NSString *)predicateQuery;
+
++ (NSArray *)rzv_where:(NSString *)predicateQuery sort:(NSArray *)sortDescriptors;
+
++ (NSArray *)rzv_where:(NSString *)predicateQuery sort:(NSArray *)sortDescriptors inContext:(NSManagedObjectContext *)context;
+
+//+ (NSArray *)rzv_wherePredicate:(NSPredicate *)predicate;
 //
+//+ (NSArray *)rzv_wherePredicate:(NSPredicate *)predicate withSortDescriptors:(NSArray *)sortDescriptors;
+//
+//+ (NSArray *)rzv_wherePredicate:(NSPredicate *)predicate withSortDescriptors:(NSArray *)sortDescriptors inContext:(NSManagedObjectContext *)context;
+
 ////
 ////  Save/Delete
 ////
@@ -47,6 +60,11 @@
 //
 //- (BOOL)delete;
 
+//
+//  Metadata
+//
+
++ (NSString *)rzv_entityName;
 
 //
 //  Subclassing

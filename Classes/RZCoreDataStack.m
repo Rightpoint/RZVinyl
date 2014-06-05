@@ -83,8 +83,7 @@ static NSString* const kRZCoreDataStackThreadContextKey = @"RZCoreDataStackConte
    persistentStoreCoordinator:(NSPersistentStoreCoordinator *)psc
                       options:(RZCoreDataStackOptions)options
 {
-    NSParameterAssert(model);
-    if ( model == nil ) {
+    if ( !RZVParameterAssert(model) ) {
         return nil;
     }
     
@@ -120,8 +119,7 @@ static NSString* const kRZCoreDataStackThreadContextKey = @"RZCoreDataStackConte
 
 - (void)performBlockUsingBackgroundContext:(RZCoreDataStackTransactionBlock)block completion:(void (^)())completion
 {
-    NSParameterAssert(block);
-    if ( block == nil ) {
+    if ( !RZVParameterAssert(block) ) {
         return;
     }
     
@@ -214,7 +212,9 @@ static NSString* const kRZCoreDataStackThreadContextKey = @"RZCoreDataStackConte
 
 - (BOOL)buildStack
 {
-    RZVAssertReturnNO(self.modelName != nil, @"Must have a model name");
+    if ( !RZVAssert(self.modelName != nil, @"Must have a model name") ) {
+        return NO;
+    }
     
     //
     // Create model
@@ -238,7 +238,9 @@ static NSString* const kRZCoreDataStackThreadContextKey = @"RZCoreDataStackConte
     NSMutableDictionary *options = [NSMutableDictionary dictionary];
     
     if ( self.storeType == NSSQLiteStoreType ) {
-        RZVAssertReturnNO(self.storeURL != nil, @"Must have a store URL for SQLite stores");
+        if ( !RZVAssert(self.storeURL != nil, @"Must have a store URL for SQLite stores") ) {
+            return NO;
+        }
         NSString *journalMode = [self hasOptionsSet:RZCoreDataStackOptionsDisableWriteAheadLog] ? @"DELETE" : @"WAL";
         options[NSSQLitePragmasOption] = @{@"journal_mode" : journalMode};
     }

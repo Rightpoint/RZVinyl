@@ -10,18 +10,11 @@
 //  Assertion
 //
 
-#define RZVAssertReturn(cond, msg, ...) \
-    NSAssert(cond, msg, ##__VA_ARGS__); \
-    if ( !(cond) ) { \
-        return; \
-    }
+#define RZVParameterAssert(param) \
+    ({ NSParameterAssert(param); (param != nil); })
 
-#define RZVAssertReturnNO(cond, msg, ...) \
-    NSAssert(cond, msg, ##__VA_ARGS__); \
-    if ( !(cond) ) { \
-        return NO; \
-    }
-
+#define RZVAssert(cond, msg, ...) \
+    ({ NSAssert(cond, msg, ##__VA_ARGS__); cond; })
 //
 //  Logging
 //
