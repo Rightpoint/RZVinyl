@@ -4,27 +4,10 @@
         <attribute name="identifier" attributeType="Integer 32" defaultValueString="0" indexed="YES" syncable="YES"/>
         <attribute name="lastModified" optional="YES" attributeType="Date" syncable="YES"/>
     </entity>
-    <entity name="Doodad" parentEntity="BaseObject" syncable="YES">
-        <attribute name="nickname" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="things" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Thing" inverseName="doodad" inverseEntity="Thing" syncable="YES"/>
-    </entity>
-    <entity name="Foobar" parentEntity="BaseObject" syncable="YES">
-        <attribute name="prefabulated" optional="YES" attributeType="Boolean" syncable="YES"/>
-    </entity>
-    <entity name="Thing" parentEntity="BaseObject" syncable="YES">
-        <attribute name="color" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="percentage" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
-        <relationship name="doodad" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Doodad" inverseName="things" inverseEntity="Doodad" syncable="YES"/>
-    </entity>
     <configuration name="OtherConfig">
         <memberEntity name="BaseObject"/>
-        <memberEntity name="Foobar"/>
     </configuration>
     <elements>
-        <element name="Thing" positionX="-180" positionY="-4" width="128" height="103"/>
         <element name="BaseObject" positionX="160" positionY="-243" width="128" height="75"/>
-        <element name="Doodad" positionX="97" positionY="-73" width="128" height="73"/>
-        <element name="Foobar" positionX="-90" positionY="155" width="128" height="58"/>
     </elements>
 </model>
