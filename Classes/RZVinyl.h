@@ -9,3 +9,5 @@
 #import "RZCoreDataStack.h"
 #import "NSManagedObject+RZVinylRecord.h"
 #import "NSManagedObject+RZVinylImport.h"
+#import "NSFetchRequest+RZVinylRecord.h"
+#import "NSFetchedResultsController+RZVinylRecord.h"

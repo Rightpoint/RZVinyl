@@ -17,40 +17,121 @@
 //
 
 /**
- *  Return an instance of this managed object class with the provided value for its primary key.
+ *  Create and return a new instance in the current thread's default context.
+ *
+ *  @return A new object instance.
+ */
++ (instancetype)rzv_newObject;
+
+
+/**
+ *  Create and return a new instance in the provided context.
+ *
+ *  @param context The context in which to create the instance.
+ *
+ *  @return A new object instance.
+ */
++ (instancetype)rzv_newObjectInContext:(NSManagedObjectContext *)context;
+
+/**
+ *  Return an instance of this managed object class with the provided value for its primary key
+ *  from the current thread's context.
  *
  *  @param primaryValue The value of the primary key (e.g. the remoteID)
  *  @param createNew    Pass YES to create a new object if one is not found.
  *
- *  @warning Calling this on a class that does not override @p rzv_primaryKey will always return nil.
+ *  @warning Calling this on a class that does not return a value for @p rzv_primaryKey will throw an exception.
  *
  *  @return An existing or new instance of this managed object class with the provided primary key
  *          value, or nil if @p createNew is NO and an existing object was not found.
  */
 + (instancetype)rzv_objectWithPrimaryKeyValue:(id)primaryValue createNew:(BOOL)createNew;
+
+/**
+ *  Return an instance of this managed object class with the provided value for its primary key
+ *  from the provided context.
+ *
+ *  @param primaryValue The value of the primary key (e.g. the remoteID)
+ *  @param createNew    Pass YES to create a new object if one is not found.
+ *  @param context      The context
+ *
+ *  @warning Calling this on a class that does not return a value for @p rzv_primaryKey will throw an exception.
+ *
+ *  @return An existing or new instance of this managed object class with the provided primary key
+ *          value, or nil if @p createNew is NO and an existing object was not found.
+ */
 + (instancetype)rzv_objectWithPrimaryKeyValue:(id)primaryValue createNew:(BOOL)createNew inContext:(NSManagedObjectContext *)context;
 
 //
 //  Query/Fetch
 //
 
-//+ (NSArray *)rzv_all;
-//
-//+ (NSArray *)rzv_allSorted:(NSArray *)sortDescriptors;
-//
-//+ (NSArray *)rzv_allSorted:(NSArray *)sortDescriptors inContext:(NSManagedObjectContext *)context;
+/**
+ *  Return an array of all objects of the receiver's entity in the current thread's context.
+ *
+ *  @return All objects of this class's entity type.
+ */
++ (NSArray *)rzv_all;
 
-+ (NSArray *)rzv_where:(NSString *)predicateQuery;
+/**
+ *  Return an array of all objects of the receiver's entity in the current thread's context, optionally sorted.
+ *
+ *  @param sortDescriptors An array of sort descriptors to sort the results.
+ *
+ *  @return All objects of this class's entity type.
+ */
++ (NSArray *)rzv_allSorted:(NSArray *)sortDescriptors;
 
-+ (NSArray *)rzv_where:(NSString *)predicateQuery sort:(NSArray *)sortDescriptors;
+/**
+ *  Return an array of all objects of the receiver's entity in the provided context, optionally sorted.
+ *
+ *  @param sortDescriptors An array of sort descriptors to sort the results.
+ *  @param context         The context from which to fetch objects.
+ *
+ *  @return All objects of this class's entity type.
+ */
++ (NSArray *)rzv_allSorted:(NSArray *)sortDescriptors inContext:(NSManagedObjectContext *)context;
 
-+ (NSArray *)rzv_where:(NSString *)predicateQuery sort:(NSArray *)sortDescriptors inContext:(NSManagedObjectContext *)context;
+/**
+ *  Return the results of a fetch on the current thread's context using a predicate or format string.
+ *
+ *  @param query An @p NSPredicate or predicate format string. Passing nil will return all objects.
+ *
+ *  @return The results of the fetch.
+ */
++ (NSArray *)rzv_where:(id)query;
 
-//+ (NSArray *)rzv_wherePredicate:(NSPredicate *)predicate;
-//
-//+ (NSArray *)rzv_wherePredicate:(NSPredicate *)predicate withSortDescriptors:(NSArray *)sortDescriptors;
-//
-//+ (NSArray *)rzv_wherePredicate:(NSPredicate *)predicate withSortDescriptors:(NSArray *)sortDescriptors inContext:(NSManagedObjectContext *)context;
+/**
+ *  Return the results of a fetch on the current thread's context using a predicate or format string
+ *  with optional sorting.
+ *
+ *  @param query            An @p NSPredicate or predicate format string. Passing nil will return all objects.
+ *  @param sortDescriptors  An optional array of sort descriptors.
+ *
+ *  @return The results of the fetch.
+ */
++ (NSArray *)rzv_where:(id)query sort:(NSArray *)sortDescriptors;
+
+/**
+ *  Return the results of a fetch on a particular context using a predicate or format string
+ *  with optional sorting.
+ *
+ *  @param query            An @p NSPredicate or predicate format string. Passing nil will return all objects.
+ *  @param sortDescriptors  An optional array of sort descriptors.
+ *  @param context          The managed object context on which to perform the fetch. Must not be nil.
+ *
+ *  @return The results of the fetch.
+ */
++ (NSArray *)rzv_where:(id)query sort:(NSArray *)sortDescriptors inContext:(NSManagedObjectContext *)context;
+
+
++ (NSUInteger)rzv_count;
+
++ (NSUInteger)rzv_countInContext:(NSManagedObjectContext *)context;
+
++ (NSUInteger)rzv_countWhere:(id)query;
+
++ (NSUInteger)rzv_countWhere:(id)query inContext:(NSManagedObjectContext *)context;
 
 ////
 ////  Save/Delete
