@@ -1,3 +1,5 @@
+require 'shellwords'
+
 PROJ_PATH="Example/RZVinylDemo.xcodeproj"
 TEST_SCHEME="RZVinylDemo"
 
@@ -16,7 +18,7 @@ task :sync do
 end
 
 task :test do
-  sh("xctool -project '#{PROJ_PATH}' -scheme '#{TEST_SCHEME}' -sdk iphonesimulator clean build test -freshSimulator") rescue nil
+  sh("xctool -project '#{PROJ_PATH}' -scheme '#{TEST_SCHEME}' -sdk iphonesimulator clean build test -freshInstall") rescue nil
   exit $?.exitstatus
 end
 
