@@ -1,1593 +1,645 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<plist version="1.0">
-<dict>
-	<key>archiveVersion</key>
-	<string>1</string>
-	<key>classes</key>
-	<dict/>
-	<key>objectVersion</key>
-	<string>46</string>
-	<key>objects</key>
-	<dict>
-		<key>9A53611C193F90E000E87F4F</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>9A536161193F92D100E87F4F</string>
-				<string>9A536130193F90E000E87F4F</string>
-				<string>9AB9080C193FD7F70063445A</string>
-				<string>9A536127193F90E000E87F4F</string>
-				<string>9A536126193F90E000E87F4F</string>
-			</array>
-			<key>isa</key>
-			<string>PBXGroup</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>9A53611D193F90E000E87F4F</key>
-		<dict>
-			<key>attributes</key>
-			<dict>
-				<key>CLASSPREFIX</key>
-				<string>RZ</string>
-				<key>LastUpgradeCheck</key>
-				<string>0510</string>
-				<key>ORGANIZATIONNAME</key>
-				<string>Raizlabs</string>
-				<key>TargetAttributes</key>
-				<dict>
-					<key>9AB90807193FD7F70063445A</key>
-					<dict>
-						<key>TestTargetID</key>
-						<string>9A536124193F90E000E87F4F</string>
-					</dict>
-				</dict>
-			</dict>
-			<key>buildConfigurationList</key>
-			<string>9A536120193F90E000E87F4F</string>
-			<key>compatibilityVersion</key>
-			<string>Xcode 3.2</string>
-			<key>developmentRegion</key>
-			<string>English</string>
-			<key>hasScannedForEncodings</key>
-			<string>0</string>
-			<key>isa</key>
-			<string>PBXProject</string>
-			<key>knownRegions</key>
-			<array>
-				<string>en</string>
-			</array>
-			<key>mainGroup</key>
-			<string>9A53611C193F90E000E87F4F</string>
-			<key>productRefGroup</key>
-			<string>9A536126193F90E000E87F4F</string>
-			<key>projectDirPath</key>
-			<string></string>
-			<key>projectReferences</key>
-			<array/>
-			<key>projectRoot</key>
-			<string></string>
-			<key>targets</key>
-			<array>
-				<string>9A536124193F90E000E87F4F</string>
-				<string>9AB90807193FD7F70063445A</string>
-			</array>
-		</dict>
-		<key>9A536120193F90E000E87F4F</key>
-		<dict>
-			<key>buildConfigurations</key>
-			<array>
-				<string>9A536155193F90E000E87F4F</string>
-				<string>9A536156193F90E000E87F4F</string>
-			</array>
-			<key>defaultConfigurationIsVisible</key>
-			<string>0</string>
-			<key>defaultConfigurationName</key>
-			<string>Release</string>
-			<key>isa</key>
-			<string>XCConfigurationList</string>
-		</dict>
-		<key>9A536121193F90E000E87F4F</key>
-		<dict>
-			<key>buildActionMask</key>
-			<string>2147483647</string>
-			<key>files</key>
-			<array>
-				<string>9A536165193F939800E87F4F</string>
-				<string>9AB9086D1940E95D0063445A</string>
-				<string>9A53613E193F90E000E87F4F</string>
-				<string>9AB9081E193FD98F0063445A</string>
-				<string>9A53613B193F90E000E87F4F</string>
-				<string>9AB908741940FEB50063445A</string>
-				<string>9A536137193F90E000E87F4F</string>
-				<string>9AB908711940FB0F0063445A</string>
-			</array>
-			<key>isa</key>
-			<string>PBXSourcesBuildPhase</string>
-			<key>runOnlyForDeploymentPostprocessing</key>
-			<string>0</string>
-		</dict>
-		<key>9A536122193F90E000E87F4F</key>
-		<dict>
-			<key>buildActionMask</key>
-			<string>2147483647</string>
-			<key>files</key>
-			<array>
-				<string>9A53612B193F90E000E87F4F</string>
-				<string>9A53612F193F90E000E87F4F</string>
-				<string>9A53612D193F90E000E87F4F</string>
-				<string>9A536129193F90E000E87F4F</string>
-			</array>
-			<key>isa</key>
-			<string>PBXFrameworksBuildPhase</string>
-			<key>runOnlyForDeploymentPostprocessing</key>
-			<string>0</string>
-		</dict>
-		<key>9A536123193F90E000E87F4F</key>
-		<dict>
-			<key>buildActionMask</key>
-			<string>2147483647</string>
-			<key>files</key>
-			<array>
-				<string>9A536135193F90E000E87F4F</string>
-				<string>9A536140193F90E000E87F4F</string>
-			</array>
-			<key>isa</key>
-			<string>PBXResourcesBuildPhase</string>
-			<key>runOnlyForDeploymentPostprocessing</key>
-			<string>0</string>
-		</dict>
-		<key>9A536124193F90E000E87F4F</key>
-		<dict>
-			<key>buildConfigurationList</key>
-			<string>9A536157193F90E000E87F4F</string>
-			<key>buildPhases</key>
-			<array>
-				<string>9A536121193F90E000E87F4F</string>
-				<string>9A536122193F90E000E87F4F</string>
-				<string>9A536123193F90E000E87F4F</string>
-			</array>
-			<key>buildRules</key>
-			<array/>
-			<key>dependencies</key>
-			<array/>
-			<key>isa</key>
-			<string>PBXNativeTarget</string>
-			<key>name</key>
-			<string>RZVinylDemo</string>
-			<key>productName</key>
-			<string>RZObjectiveRecord</string>
-			<key>productReference</key>
-			<string>9A536125193F90E000E87F4F</string>
-			<key>productType</key>
-			<string>com.apple.product-type.application</string>
-		</dict>
-		<key>9A536125193F90E000E87F4F</key>
-		<dict>
-			<key>explicitFileType</key>
-			<string>wrapper.application</string>
-			<key>includeInIndex</key>
-			<string>0</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>path</key>
-			<string>RZVinylDemo.app</string>
-			<key>sourceTree</key>
-			<string>BUILT_PRODUCTS_DIR</string>
-		</dict>
-		<key>9A536126193F90E000E87F4F</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>9A536125193F90E000E87F4F</string>
-				<string>9AB90808193FD7F70063445A</string>
-			</array>
-			<key>isa</key>
-			<string>PBXGroup</string>
-			<key>name</key>
-			<string>Products</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>9A536127193F90E000E87F4F</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>9A536128193F90E000E87F4F</string>
-				<string>9A53612A193F90E000E87F4F</string>
-				<string>9A53612C193F90E000E87F4F</string>
-				<string>9A53612E193F90E000E87F4F</string>
-				<string>9A536146193F90E000E87F4F</string>
-			</array>
-			<key>isa</key>
-			<string>PBXGroup</string>
-			<key>name</key>
-			<string>Frameworks</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>9A536128193F90E000E87F4F</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>wrapper.framework</string>
-			<key>name</key>
-			<string>Foundation.framework</string>
-			<key>path</key>
-			<string>System/Library/Frameworks/Foundation.framework</string>
-			<key>sourceTree</key>
-			<string>SDKROOT</string>
-		</dict>
-		<key>9A536129193F90E000E87F4F</key>
-		<dict>
-			<key>fileRef</key>
-			<string>9A536128193F90E000E87F4F</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>9A53612A193F90E000E87F4F</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>wrapper.framework</string>
-			<key>name</key>
-			<string>CoreGraphics.framework</string>
-			<key>path</key>
-			<string>System/Library/Frameworks/CoreGraphics.framework</string>
-			<key>sourceTree</key>
-			<string>SDKROOT</string>
-		</dict>
-		<key>9A53612B193F90E000E87F4F</key>
-		<dict>
-			<key>fileRef</key>
-			<string>9A53612A193F90E000E87F4F</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>9A53612C193F90E000E87F4F</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>wrapper.framework</string>
-			<key>name</key>
-			<string>UIKit.framework</string>
-			<key>path</key>
-			<string>System/Library/Frameworks/UIKit.framework</string>
-			<key>sourceTree</key>
-			<string>SDKROOT</string>
-		</dict>
-		<key>9A53612D193F90E000E87F4F</key>
-		<dict>
-			<key>fileRef</key>
-			<string>9A53612C193F90E000E87F4F</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>9A53612E193F90E000E87F4F</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>wrapper.framework</string>
-			<key>name</key>
-			<string>CoreData.framework</string>
-			<key>path</key>
-			<string>System/Library/Frameworks/CoreData.framework</string>
-			<key>sourceTree</key>
-			<string>SDKROOT</string>
-		</dict>
-		<key>9A53612F193F90E000E87F4F</key>
-		<dict>
-			<key>fileRef</key>
-			<string>9A53612E193F90E000E87F4F</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>9A536130193F90E000E87F4F</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>9A53615D193F91DA00E87F4F</string>
-				<string>9A53615E193F91DF00E87F4F</string>
-				<string>9A53615F193F91E700E87F4F</string>
-				<string>9A536131193F90E000E87F4F</string>
-				<string>9A536160193F91ED00E87F4F</string>
-			</array>
-			<key>isa</key>
-			<string>PBXGroup</string>
-			<key>path</key>
-			<string>RZVinylDemo</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>9A536131193F90E000E87F4F</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>9A536132193F90E000E87F4F</string>
-				<string>9A536133193F90E000E87F4F</string>
-				<string>9A536136193F90E000E87F4F</string>
-				<string>9A536138193F90E000E87F4F</string>
-			</array>
-			<key>isa</key>
-			<string>PBXGroup</string>
-			<key>path</key>
-			<string>Supporting Files</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>9A536132193F90E000E87F4F</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>text.plist.xml</string>
-			<key>path</key>
-			<string>RZVinylDemo-Info.plist</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>9A536133193F90E000E87F4F</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>9A536134193F90E000E87F4F</string>
-			</array>
-			<key>isa</key>
-			<string>PBXVariantGroup</string>
-			<key>name</key>
-			<string>InfoPlist.strings</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>9A536134193F90E000E87F4F</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>text.plist.strings</string>
-			<key>name</key>
-			<string>en</string>
-			<key>path</key>
-			<string>en.lproj/InfoPlist.strings</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>9A536135193F90E000E87F4F</key>
-		<dict>
-			<key>fileRef</key>
-			<string>9A536133193F90E000E87F4F</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>9A536136193F90E000E87F4F</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.objc</string>
-			<key>path</key>
-			<string>main.m</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>9A536137193F90E000E87F4F</key>
-		<dict>
-			<key>fileRef</key>
-			<string>9A536136193F90E000E87F4F</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>9A536138193F90E000E87F4F</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>path</key>
-			<string>RZVinylDemo-Prefix.pch</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>9A536139193F90E000E87F4F</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>path</key>
-			<string>RZAppDelegate.h</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>9A53613A193F90E000E87F4F</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.objc</string>
-			<key>path</key>
-			<string>RZAppDelegate.m</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>9A53613B193F90E000E87F4F</key>
-		<dict>
-			<key>fileRef</key>
-			<string>9A53613A193F90E000E87F4F</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>9A53613C193F90E000E87F4F</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>9A53613D193F90E000E87F4F</string>
-			</array>
-			<key>currentVersion</key>
-			<string>9A53613D193F90E000E87F4F</string>
-			<key>isa</key>
-			<string>XCVersionGroup</string>
-			<key>path</key>
-			<string>RZVinylDemo.xcdatamodeld</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-			<key>versionGroupType</key>
-			<string>wrapper.xcdatamodel</string>
-		</dict>
-		<key>9A53613D193F90E000E87F4F</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>wrapper.xcdatamodel</string>
-			<key>path</key>
-			<string>RZVinylDemo.xcdatamodel</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>9A53613E193F90E000E87F4F</key>
-		<dict>
-			<key>fileRef</key>
-			<string>9A53613C193F90E000E87F4F</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>9A53613F193F90E000E87F4F</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>folder.assetcatalog</string>
-			<key>path</key>
-			<string>Images.xcassets</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>9A536140193F90E000E87F4F</key>
-		<dict>
-			<key>fileRef</key>
-			<string>9A53613F193F90E000E87F4F</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>9A536146193F90E000E87F4F</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>wrapper.framework</string>
-			<key>name</key>
-			<string>XCTest.framework</string>
-			<key>path</key>
-			<string>Library/Frameworks/XCTest.framework</string>
-			<key>sourceTree</key>
-			<string>DEVELOPER_DIR</string>
-		</dict>
-		<key>9A536155193F90E000E87F4F</key>
-		<dict>
-			<key>buildSettings</key>
-			<dict>
-				<key>ALWAYS_SEARCH_USER_PATHS</key>
-				<string>NO</string>
-				<key>CLANG_CXX_LANGUAGE_STANDARD</key>
-				<string>gnu++0x</string>
-				<key>CLANG_CXX_LIBRARY</key>
-				<string>libc++</string>
-				<key>CLANG_ENABLE_MODULES</key>
-				<string>YES</string>
-				<key>CLANG_ENABLE_OBJC_ARC</key>
-				<string>YES</string>
-				<key>CLANG_WARN_BOOL_CONVERSION</key>
-				<string>YES</string>
-				<key>CLANG_WARN_CONSTANT_CONVERSION</key>
-				<string>YES</string>
-				<key>CLANG_WARN_DIRECT_OBJC_ISA_USAGE</key>
-				<string>YES_ERROR</string>
-				<key>CLANG_WARN_EMPTY_BODY</key>
-				<string>YES</string>
-				<key>CLANG_WARN_ENUM_CONVERSION</key>
-				<string>YES</string>
-				<key>CLANG_WARN_INT_CONVERSION</key>
-				<string>YES</string>
-				<key>CLANG_WARN_OBJC_ROOT_CLASS</key>
-				<string>YES_ERROR</string>
-				<key>CLANG_WARN__DUPLICATE_METHOD_MATCH</key>
-				<string>YES</string>
-				<key>CODE_SIGN_IDENTITY[sdk=iphoneos*]</key>
-				<string>iPhone Developer</string>
-				<key>COPY_PHASE_STRIP</key>
-				<string>NO</string>
-				<key>GCC_C_LANGUAGE_STANDARD</key>
-				<string>gnu99</string>
-				<key>GCC_DYNAMIC_NO_PIC</key>
-				<string>NO</string>
-				<key>GCC_OPTIMIZATION_LEVEL</key>
-				<string>0</string>
-				<key>GCC_PREPROCESSOR_DEFINITIONS</key>
-				<array>
-					<string>DEBUG=1</string>
-					<string>$(inherited)</string>
-				</array>
-				<key>GCC_SYMBOLS_PRIVATE_EXTERN</key>
-				<string>NO</string>
-				<key>GCC_WARN_64_TO_32_BIT_CONVERSION</key>
-				<string>YES</string>
-				<key>GCC_WARN_ABOUT_RETURN_TYPE</key>
-				<string>YES_ERROR</string>
-				<key>GCC_WARN_UNDECLARED_SELECTOR</key>
-				<string>YES</string>
-				<key>GCC_WARN_UNINITIALIZED_AUTOS</key>
-				<string>YES_AGGRESSIVE</string>
-				<key>GCC_WARN_UNUSED_FUNCTION</key>
-				<string>YES</string>
-				<key>GCC_WARN_UNUSED_VARIABLE</key>
-				<string>YES</string>
-				<key>IPHONEOS_DEPLOYMENT_TARGET</key>
-				<string>7.1</string>
-				<key>ONLY_ACTIVE_ARCH</key>
-				<string>YES</string>
-				<key>SDKROOT</key>
-				<string>iphoneos</string>
-			</dict>
-			<key>isa</key>
-			<string>XCBuildConfiguration</string>
-			<key>name</key>
-			<string>Debug</string>
-		</dict>
-		<key>9A536156193F90E000E87F4F</key>
-		<dict>
-			<key>buildSettings</key>
-			<dict>
-				<key>ALWAYS_SEARCH_USER_PATHS</key>
-				<string>NO</string>
-				<key>CLANG_CXX_LANGUAGE_STANDARD</key>
-				<string>gnu++0x</string>
-				<key>CLANG_CXX_LIBRARY</key>
-				<string>libc++</string>
-				<key>CLANG_ENABLE_MODULES</key>
-				<string>YES</string>
-				<key>CLANG_ENABLE_OBJC_ARC</key>
-				<string>YES</string>
-				<key>CLANG_WARN_BOOL_CONVERSION</key>
-				<string>YES</string>
-				<key>CLANG_WARN_CONSTANT_CONVERSION</key>
-				<string>YES</string>
-				<key>CLANG_WARN_DIRECT_OBJC_ISA_USAGE</key>
-				<string>YES_ERROR</string>
-				<key>CLANG_WARN_EMPTY_BODY</key>
-				<string>YES</string>
-				<key>CLANG_WARN_ENUM_CONVERSION</key>
-				<string>YES</string>
-				<key>CLANG_WARN_INT_CONVERSION</key>
-				<string>YES</string>
-				<key>CLANG_WARN_OBJC_ROOT_CLASS</key>
-				<string>YES_ERROR</string>
-				<key>CLANG_WARN__DUPLICATE_METHOD_MATCH</key>
-				<string>YES</string>
-				<key>CODE_SIGN_IDENTITY[sdk=iphoneos*]</key>
-				<string>iPhone Developer</string>
-				<key>COPY_PHASE_STRIP</key>
-				<string>YES</string>
-				<key>ENABLE_NS_ASSERTIONS</key>
-				<string>NO</string>
-				<key>GCC_C_LANGUAGE_STANDARD</key>
-				<string>gnu99</string>
-				<key>GCC_WARN_64_TO_32_BIT_CONVERSION</key>
-				<string>YES</string>
-				<key>GCC_WARN_ABOUT_RETURN_TYPE</key>
-				<string>YES_ERROR</string>
-				<key>GCC_WARN_UNDECLARED_SELECTOR</key>
-				<string>YES</string>
-				<key>GCC_WARN_UNINITIALIZED_AUTOS</key>
-				<string>YES_AGGRESSIVE</string>
-				<key>GCC_WARN_UNUSED_FUNCTION</key>
-				<string>YES</string>
-				<key>GCC_WARN_UNUSED_VARIABLE</key>
-				<string>YES</string>
-				<key>IPHONEOS_DEPLOYMENT_TARGET</key>
-				<string>7.1</string>
-				<key>SDKROOT</key>
-				<string>iphoneos</string>
-				<key>VALIDATE_PRODUCT</key>
-				<string>YES</string>
-			</dict>
-			<key>isa</key>
-			<string>XCBuildConfiguration</string>
-			<key>name</key>
-			<string>Release</string>
-		</dict>
-		<key>9A536157193F90E000E87F4F</key>
-		<dict>
-			<key>buildConfigurations</key>
-			<array>
-				<string>9A536158193F90E000E87F4F</string>
-				<string>9A536159193F90E000E87F4F</string>
-			</array>
-			<key>defaultConfigurationIsVisible</key>
-			<string>0</string>
-			<key>defaultConfigurationName</key>
-			<string>Release</string>
-			<key>isa</key>
-			<string>XCConfigurationList</string>
-		</dict>
-		<key>9A536158193F90E000E87F4F</key>
-		<dict>
-			<key>buildSettings</key>
-			<dict>
-				<key>ASSETCATALOG_COMPILER_APPICON_NAME</key>
-				<string>AppIcon</string>
-				<key>ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME</key>
-				<string>LaunchImage</string>
-				<key>GCC_PRECOMPILE_PREFIX_HEADER</key>
-				<string>YES</string>
-				<key>GCC_PREFIX_HEADER</key>
-				<string>RZVinylDemo/Supporting Files/RZVinylDemo-Prefix.pch</string>
-				<key>INFOPLIST_FILE</key>
-				<string>RZVinylDemo/Supporting Files/RZVinylDemo-Info.plist</string>
-				<key>PRODUCT_NAME</key>
-				<string>RZVinylDemo</string>
-				<key>WRAPPER_EXTENSION</key>
-				<string>app</string>
-			</dict>
-			<key>isa</key>
-			<string>XCBuildConfiguration</string>
-			<key>name</key>
-			<string>Debug</string>
-		</dict>
-		<key>9A536159193F90E000E87F4F</key>
-		<dict>
-			<key>buildSettings</key>
-			<dict>
-				<key>ASSETCATALOG_COMPILER_APPICON_NAME</key>
-				<string>AppIcon</string>
-				<key>ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME</key>
-				<string>LaunchImage</string>
-				<key>GCC_PRECOMPILE_PREFIX_HEADER</key>
-				<string>YES</string>
-				<key>GCC_PREFIX_HEADER</key>
-				<string>RZVinylDemo/Supporting Files/RZVinylDemo-Prefix.pch</string>
-				<key>INFOPLIST_FILE</key>
-				<string>RZVinylDemo/Supporting Files/RZVinylDemo-Info.plist</string>
-				<key>PRODUCT_NAME</key>
-				<string>RZVinylDemo</string>
-				<key>WRAPPER_EXTENSION</key>
-				<string>app</string>
-			</dict>
-			<key>isa</key>
-			<string>XCBuildConfiguration</string>
-			<key>name</key>
-			<string>Release</string>
-		</dict>
-		<key>9A53615D193F91DA00E87F4F</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>9A536139193F90E000E87F4F</string>
-				<string>9A53613A193F90E000E87F4F</string>
-			</array>
-			<key>isa</key>
-			<string>PBXGroup</string>
-			<key>path</key>
-			<string>Application</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>9A53615E193F91DF00E87F4F</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>9A53613C193F90E000E87F4F</string>
-			</array>
-			<key>isa</key>
-			<string>PBXGroup</string>
-			<key>path</key>
-			<string>Data</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>9A53615F193F91E700E87F4F</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>9A53613F193F90E000E87F4F</string>
-			</array>
-			<key>isa</key>
-			<string>PBXGroup</string>
-			<key>path</key>
-			<string>Resources</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>9A536160193F91ED00E87F4F</key>
-		<dict>
-			<key>children</key>
-			<array/>
-			<key>isa</key>
-			<string>PBXGroup</string>
-			<key>path</key>
-			<string>View Controllers</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>9A536161193F92D100E87F4F</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>9AB9088B194208540063445A</string>
-				<string>9A536162193F92E400E87F4F</string>
-				<string>9A536163193F939800E87F4F</string>
-				<string>9A536164193F939800E87F4F</string>
-				<string>9AB908721940FEB50063445A</string>
-				<string>9AB908731940FEB50063445A</string>
-				<string>9AB9086F1940FB0F0063445A</string>
-				<string>9AB908701940FB0F0063445A</string>
-				<string>9AB9081C193FD98F0063445A</string>
-				<string>9AB9081D193FD98F0063445A</string>
-				<string>9AB9086B1940E95D0063445A</string>
-				<string>9AB9086C1940E95D0063445A</string>
-			</array>
-			<key>isa</key>
-			<string>PBXGroup</string>
-			<key>name</key>
-			<string>Classes</string>
-			<key>path</key>
-			<string>../Classes</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>9A536162193F92E400E87F4F</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>path</key>
-			<string>RZVinyl.h</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>9A536163193F939800E87F4F</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>path</key>
-			<string>RZCoreDataStack.h</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>9A536164193F939800E87F4F</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.objc</string>
-			<key>path</key>
-			<string>RZCoreDataStack.m</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>9A536165193F939800E87F4F</key>
-		<dict>
-			<key>fileRef</key>
-			<string>9A536164193F939800E87F4F</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>9AB90804193FD7F70063445A</key>
-		<dict>
-			<key>buildActionMask</key>
-			<string>2147483647</string>
-			<key>files</key>
-			<array>
-				<string>9AB908791941065F0063445A</string>
-				<string>9AB90883194107C30063445A</string>
-				<string>9AB9087F1941065F0063445A</string>
-				<string>9AB9081B193FD8330063445A</string>
-				<string>9AB908261940D7BC0063445A</string>
-				<string>9AB9088619410A2D0063445A</string>
-				<string>9AB90876194104860063445A</string>
-				<string>9AB9087C1941065F0063445A</string>
-			</array>
-			<key>isa</key>
-			<string>PBXSourcesBuildPhase</string>
-			<key>runOnlyForDeploymentPostprocessing</key>
-			<string>0</string>
-		</dict>
-		<key>9AB90805193FD7F70063445A</key>
-		<dict>
-			<key>buildActionMask</key>
-			<string>2147483647</string>
-			<key>files</key>
-			<array>
-				<string>9AB90809193FD7F70063445A</string>
-				<string>9AB9080B193FD7F70063445A</string>
-				<string>9AB9080A193FD7F70063445A</string>
-			</array>
-			<key>isa</key>
-			<string>PBXFrameworksBuildPhase</string>
-			<key>runOnlyForDeploymentPostprocessing</key>
-			<string>0</string>
-		</dict>
-		<key>9AB90806193FD7F70063445A</key>
-		<dict>
-			<key>buildActionMask</key>
-			<string>2147483647</string>
-			<key>files</key>
-			<array>
-				<string>9AB9088A194113D60063445A</string>
-				<string>9AB90811193FD7F70063445A</string>
-			</array>
-			<key>isa</key>
-			<string>PBXResourcesBuildPhase</string>
-			<key>runOnlyForDeploymentPostprocessing</key>
-			<string>0</string>
-		</dict>
-		<key>9AB90807193FD7F70063445A</key>
-		<dict>
-			<key>buildConfigurationList</key>
-			<string>9AB90819193FD7F70063445A</string>
-			<key>buildPhases</key>
-			<array>
-				<string>9AB90804193FD7F70063445A</string>
-				<string>9AB90805193FD7F70063445A</string>
-				<string>9AB90806193FD7F70063445A</string>
-			</array>
-			<key>buildRules</key>
-			<array/>
-			<key>dependencies</key>
-			<array>
-				<string>9AB90816193FD7F70063445A</string>
-			</array>
-			<key>isa</key>
-			<string>PBXNativeTarget</string>
-			<key>name</key>
-			<string>RZVinylTests</string>
-			<key>productName</key>
-			<string>RZVinylTests</string>
-			<key>productReference</key>
-			<string>9AB90808193FD7F70063445A</string>
-			<key>productType</key>
-			<string>com.apple.product-type.bundle.unit-test</string>
-		</dict>
-		<key>9AB90808193FD7F70063445A</key>
-		<dict>
-			<key>explicitFileType</key>
-			<string>wrapper.cfbundle</string>
-			<key>includeInIndex</key>
-			<string>0</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>path</key>
-			<string>RZVinylTests.xctest</string>
-			<key>sourceTree</key>
-			<string>BUILT_PRODUCTS_DIR</string>
-		</dict>
-		<key>9AB90809193FD7F70063445A</key>
-		<dict>
-			<key>fileRef</key>
-			<string>9A536146193F90E000E87F4F</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>9AB9080A193FD7F70063445A</key>
-		<dict>
-			<key>fileRef</key>
-			<string>9A536128193F90E000E87F4F</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>9AB9080B193FD7F70063445A</key>
-		<dict>
-			<key>fileRef</key>
-			<string>9A53612C193F90E000E87F4F</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>9AB9080C193FD7F70063445A</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>9AB908231940D7AC0063445A</string>
-				<string>9AB90888194113B50063445A</string>
-				<string>9AB9088719410A320063445A</string>
-				<string>9AB9081A193FD8330063445A</string>
-				<string>9AB90875194104860063445A</string>
-				<string>9AB9080D193FD7F70063445A</string>
-			</array>
-			<key>isa</key>
-			<string>PBXGroup</string>
-			<key>path</key>
-			<string>RZVinylTests</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>9AB9080D193FD7F70063445A</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>9AB9080E193FD7F70063445A</string>
-				<string>9AB9080F193FD7F70063445A</string>
-				<string>9AB90814193FD7F70063445A</string>
-			</array>
-			<key>isa</key>
-			<string>PBXGroup</string>
-			<key>path</key>
-			<string>Supporting Files</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>9AB9080E193FD7F70063445A</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>text.plist.xml</string>
-			<key>path</key>
-			<string>RZVinylTests-Info.plist</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>9AB9080F193FD7F70063445A</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>9AB90810193FD7F70063445A</string>
-			</array>
-			<key>isa</key>
-			<string>PBXVariantGroup</string>
-			<key>name</key>
-			<string>InfoPlist.strings</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>9AB90810193FD7F70063445A</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>text.plist.strings</string>
-			<key>name</key>
-			<string>en</string>
-			<key>path</key>
-			<string>en.lproj/InfoPlist.strings</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>9AB90811193FD7F70063445A</key>
-		<dict>
-			<key>fileRef</key>
-			<string>9AB9080F193FD7F70063445A</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>9AB90814193FD7F70063445A</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>path</key>
-			<string>RZVinylTests-Prefix.pch</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>9AB90815193FD7F70063445A</key>
-		<dict>
-			<key>containerPortal</key>
-			<string>9A53611D193F90E000E87F4F</string>
-			<key>isa</key>
-			<string>PBXContainerItemProxy</string>
-			<key>proxyType</key>
-			<string>1</string>
-			<key>remoteGlobalIDString</key>
-			<string>9A536124193F90E000E87F4F</string>
-			<key>remoteInfo</key>
-			<string>RZVinylDemo</string>
-		</dict>
-		<key>9AB90816193FD7F70063445A</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXTargetDependency</string>
-			<key>target</key>
-			<string>9A536124193F90E000E87F4F</string>
-			<key>targetProxy</key>
-			<string>9AB90815193FD7F70063445A</string>
-		</dict>
-		<key>9AB90817193FD7F70063445A</key>
-		<dict>
-			<key>buildSettings</key>
-			<dict>
-				<key>BUNDLE_LOADER</key>
-				<string>$(BUILT_PRODUCTS_DIR)/RZVinylDemo.app/RZVinylDemo</string>
-				<key>FRAMEWORK_SEARCH_PATHS</key>
-				<array>
-					<string>$(SDKROOT)/Developer/Library/Frameworks</string>
-					<string>$(inherited)</string>
-					<string>$(DEVELOPER_FRAMEWORKS_DIR)</string>
-				</array>
-				<key>GCC_PRECOMPILE_PREFIX_HEADER</key>
-				<string>YES</string>
-				<key>GCC_PREFIX_HEADER</key>
-				<string>RZVinylTests/Supporting Files/RZVinylTests-Prefix.pch</string>
-				<key>GCC_PREPROCESSOR_DEFINITIONS</key>
-				<array>
-					<string>DEBUG=1</string>
-					<string>$(inherited)</string>
-				</array>
-				<key>INFOPLIST_FILE</key>
-				<string>RZVinylTests/Supporting Files/RZVinylTests-Info.plist</string>
-				<key>PRODUCT_NAME</key>
-				<string>$(TARGET_NAME)</string>
-				<key>TEST_HOST</key>
-				<string>$(BUNDLE_LOADER)</string>
-				<key>WRAPPER_EXTENSION</key>
-				<string>xctest</string>
-			</dict>
-			<key>isa</key>
-			<string>XCBuildConfiguration</string>
-			<key>name</key>
-			<string>Debug</string>
-		</dict>
-		<key>9AB90818193FD7F70063445A</key>
-		<dict>
-			<key>buildSettings</key>
-			<dict>
-				<key>BUNDLE_LOADER</key>
-				<string>$(BUILT_PRODUCTS_DIR)/RZVinylDemo.app/RZVinylDemo</string>
-				<key>FRAMEWORK_SEARCH_PATHS</key>
-				<array>
-					<string>$(SDKROOT)/Developer/Library/Frameworks</string>
-					<string>$(inherited)</string>
-					<string>$(DEVELOPER_FRAMEWORKS_DIR)</string>
-				</array>
-				<key>GCC_PRECOMPILE_PREFIX_HEADER</key>
-				<string>YES</string>
-				<key>GCC_PREFIX_HEADER</key>
-				<string>RZVinylTests/Supporting Files/RZVinylTests-Prefix.pch</string>
-				<key>INFOPLIST_FILE</key>
-				<string>RZVinylTests/Supporting Files/RZVinylTests-Info.plist</string>
-				<key>PRODUCT_NAME</key>
-				<string>$(TARGET_NAME)</string>
-				<key>TEST_HOST</key>
-				<string>$(BUNDLE_LOADER)</string>
-				<key>WRAPPER_EXTENSION</key>
-				<string>xctest</string>
-			</dict>
-			<key>isa</key>
-			<string>XCBuildConfiguration</string>
-			<key>name</key>
-			<string>Release</string>
-		</dict>
-		<key>9AB90819193FD7F70063445A</key>
-		<dict>
-			<key>buildConfigurations</key>
-			<array>
-				<string>9AB90817193FD7F70063445A</string>
-				<string>9AB90818193FD7F70063445A</string>
-			</array>
-			<key>defaultConfigurationIsVisible</key>
-			<string>0</string>
-			<key>defaultConfigurationName</key>
-			<string>Release</string>
-			<key>isa</key>
-			<string>XCConfigurationList</string>
-		</dict>
-		<key>9AB9081A193FD8330063445A</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.objc</string>
-			<key>path</key>
-			<string>RZCoreDataStackConfigTests.m</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>9AB9081B193FD8330063445A</key>
-		<dict>
-			<key>fileRef</key>
-			<string>9AB9081A193FD8330063445A</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>9AB9081C193FD98F0063445A</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>path</key>
-			<string>NSManagedObject+RZVinylRecord.h</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>9AB9081D193FD98F0063445A</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.objc</string>
-			<key>path</key>
-			<string>NSManagedObject+RZVinylRecord.m</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>9AB9081E193FD98F0063445A</key>
-		<dict>
-			<key>fileRef</key>
-			<string>9AB9081D193FD98F0063445A</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>9AB908231940D7AC0063445A</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>9AB90880194107AA0063445A</string>
-				<string>9AB908241940D7BC0063445A</string>
-				<string>9AB9087D1941065F0063445A</string>
-				<string>9AB9087E1941065F0063445A</string>
-				<string>9AB9087A1941065F0063445A</string>
-				<string>9AB9087B1941065F0063445A</string>
-				<string>9AB908771941065F0063445A</string>
-				<string>9AB908781941065F0063445A</string>
-			</array>
-			<key>isa</key>
-			<string>PBXGroup</string>
-			<key>path</key>
-			<string>Model</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>9AB908241940D7BC0063445A</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>9AB908251940D7BC0063445A</string>
-			</array>
-			<key>currentVersion</key>
-			<string>9AB908251940D7BC0063445A</string>
-			<key>isa</key>
-			<string>XCVersionGroup</string>
-			<key>path</key>
-			<string>TestModel.xcdatamodeld</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-			<key>versionGroupType</key>
-			<string>wrapper.xcdatamodel</string>
-		</dict>
-		<key>9AB908251940D7BC0063445A</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>wrapper.xcdatamodel</string>
-			<key>path</key>
-			<string>TestModel.xcdatamodel</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>9AB908261940D7BC0063445A</key>
-		<dict>
-			<key>fileRef</key>
-			<string>9AB908241940D7BC0063445A</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>9AB9086B1940E95D0063445A</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>path</key>
-			<string>NSManagedObject+RZVinylImport.h</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>9AB9086C1940E95D0063445A</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.objc</string>
-			<key>path</key>
-			<string>NSManagedObject+RZVinylImport.m</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>9AB9086D1940E95D0063445A</key>
-		<dict>
-			<key>fileRef</key>
-			<string>9AB9086C1940E95D0063445A</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>9AB9086E1940EBE90063445A</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>path</key>
-			<string>RZVinylDefines.h</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>9AB9086F1940FB0F0063445A</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>path</key>
-			<string>NSFetchedResultsController+RZVinylRecord.h</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>9AB908701940FB0F0063445A</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.objc</string>
-			<key>path</key>
-			<string>NSFetchedResultsController+RZVinylRecord.m</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>9AB908711940FB0F0063445A</key>
-		<dict>
-			<key>fileRef</key>
-			<string>9AB908701940FB0F0063445A</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>9AB908721940FEB50063445A</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>path</key>
-			<string>NSFetchRequest+RZVinylRecord.h</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>9AB908731940FEB50063445A</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.objc</string>
-			<key>path</key>
-			<string>NSFetchRequest+RZVinylRecord.m</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>9AB908741940FEB50063445A</key>
-		<dict>
-			<key>fileRef</key>
-			<string>9AB908731940FEB50063445A</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>9AB90875194104860063445A</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.objc</string>
-			<key>path</key>
-			<string>RZVinylRecordTests.m</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>9AB90876194104860063445A</key>
-		<dict>
-			<key>fileRef</key>
-			<string>9AB90875194104860063445A</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>9AB908771941065F0063445A</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>path</key>
-			<string>Song.h</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>9AB908781941065F0063445A</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.objc</string>
-			<key>path</key>
-			<string>Song.m</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>9AB908791941065F0063445A</key>
-		<dict>
-			<key>fileRef</key>
-			<string>9AB908781941065F0063445A</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>9AB9087A1941065F0063445A</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>path</key>
-			<string>Artist.h</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>9AB9087B1941065F0063445A</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.objc</string>
-			<key>path</key>
-			<string>Artist.m</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>9AB9087C1941065F0063445A</key>
-		<dict>
-			<key>fileRef</key>
-			<string>9AB9087B1941065F0063445A</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>9AB9087D1941065F0063445A</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>path</key>
-			<string>BaseObject.h</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>9AB9087E1941065F0063445A</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.objc</string>
-			<key>path</key>
-			<string>BaseObject.m</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>9AB9087F1941065F0063445A</key>
-		<dict>
-			<key>fileRef</key>
-			<string>9AB9087E1941065F0063445A</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>9AB90880194107AA0063445A</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>9AB90881194107C30063445A</string>
-				<string>9AB90882194107C30063445A</string>
-			</array>
-			<key>isa</key>
-			<string>PBXGroup</string>
-			<key>name</key>
-			<string>RZVinylExtensions</string>
-			<key>path</key>
-			<string>RZVinylExtensions</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>9AB90881194107C30063445A</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>path</key>
-			<string>BaseObject+RZVinyl.h</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>9AB90882194107C30063445A</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.objc</string>
-			<key>path</key>
-			<string>BaseObject+RZVinyl.m</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>9AB90883194107C30063445A</key>
-		<dict>
-			<key>fileRef</key>
-			<string>9AB90882194107C30063445A</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>9AB9088419410A2D0063445A</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>path</key>
-			<string>RZWaiter.h</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>9AB9088519410A2D0063445A</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.objc</string>
-			<key>path</key>
-			<string>RZWaiter.m</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>9AB9088619410A2D0063445A</key>
-		<dict>
-			<key>fileRef</key>
-			<string>9AB9088519410A2D0063445A</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>9AB9088719410A320063445A</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>9AB9088419410A2D0063445A</string>
-				<string>9AB9088519410A2D0063445A</string>
-			</array>
-			<key>isa</key>
-			<string>PBXGroup</string>
-			<key>name</key>
-			<string>Utils</string>
-			<key>path</key>
-			<string>Utils</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>9AB90888194113B50063445A</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>9AB90889194113D60063445A</string>
-			</array>
-			<key>isa</key>
-			<string>PBXGroup</string>
-			<key>name</key>
-			<string>Resources</string>
-			<key>path</key>
-			<string>Resources</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>9AB90889194113D60063445A</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>text.json</string>
-			<key>path</key>
-			<string>record_tests.json</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>9AB9088A194113D60063445A</key>
-		<dict>
-			<key>fileRef</key>
-			<string>9AB90889194113D60063445A</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>9AB9088B194208540063445A</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>9AB9086E1940EBE90063445A</string>
-			</array>
-			<key>isa</key>
-			<string>PBXGroup</string>
-			<key>name</key>
-			<string>Private</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-	</dict>
-	<key>rootObject</key>
-	<string>9A53611D193F90E000E87F4F</string>
-</dict>
-</plist>
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		9A536129193F90E000E87F4F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A536128193F90E000E87F4F /* Foundation.framework */; };
+		9A53612B193F90E000E87F4F /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A53612A193F90E000E87F4F /* CoreGraphics.framework */; };
+		9A53612D193F90E000E87F4F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A53612C193F90E000E87F4F /* UIKit.framework */; };
+		9A53612F193F90E000E87F4F /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A53612E193F90E000E87F4F /* CoreData.framework */; };
+		9A536135193F90E000E87F4F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9A536133193F90E000E87F4F /* InfoPlist.strings */; };
+		9A536137193F90E000E87F4F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A536136193F90E000E87F4F /* main.m */; };
+		9A53613B193F90E000E87F4F /* RZAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A53613A193F90E000E87F4F /* RZAppDelegate.m */; };
+		9A53613E193F90E000E87F4F /* RZVinylDemo.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9A53613C193F90E000E87F4F /* RZVinylDemo.xcdatamodeld */; };
+		9A536140193F90E000E87F4F /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9A53613F193F90E000E87F4F /* Images.xcassets */; };
+		9A536165193F939800E87F4F /* RZCoreDataStack.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A536164193F939800E87F4F /* RZCoreDataStack.m */; };
+		9AB90809193FD7F70063445A /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A536146193F90E000E87F4F /* XCTest.framework */; };
+		9AB9080A193FD7F70063445A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A536128193F90E000E87F4F /* Foundation.framework */; };
+		9AB9080B193FD7F70063445A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A53612C193F90E000E87F4F /* UIKit.framework */; };
+		9AB90811193FD7F70063445A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9AB9080F193FD7F70063445A /* InfoPlist.strings */; };
+		9AB9081B193FD8330063445A /* RZCoreDataStackConfigTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AB9081A193FD8330063445A /* RZCoreDataStackConfigTests.m */; };
+		9AB9081E193FD98F0063445A /* NSManagedObject+RZVinylRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AB9081D193FD98F0063445A /* NSManagedObject+RZVinylRecord.m */; };
+		9AB908261940D7BC0063445A /* TestModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9AB908241940D7BC0063445A /* TestModel.xcdatamodeld */; };
+		9AB9086D1940E95D0063445A /* NSManagedObject+RZVinylImport.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AB9086C1940E95D0063445A /* NSManagedObject+RZVinylImport.m */; };
+		9AB908711940FB0F0063445A /* NSFetchedResultsController+RZVinylRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AB908701940FB0F0063445A /* NSFetchedResultsController+RZVinylRecord.m */; };
+		9AB908741940FEB50063445A /* NSFetchRequest+RZVinylRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AB908731940FEB50063445A /* NSFetchRequest+RZVinylRecord.m */; };
+		9AB90876194104860063445A /* RZVinylRecordTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AB90875194104860063445A /* RZVinylRecordTests.m */; };
+		9AB908791941065F0063445A /* Song.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AB908781941065F0063445A /* Song.m */; };
+		9AB9087C1941065F0063445A /* Artist.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AB9087B1941065F0063445A /* Artist.m */; };
+		9AB9087F1941065F0063445A /* BaseObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AB9087E1941065F0063445A /* BaseObject.m */; };
+		9AB90883194107C30063445A /* BaseObject+RZVinyl.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AB90882194107C30063445A /* BaseObject+RZVinyl.m */; };
+		9AB9088619410A2D0063445A /* RZWaiter.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AB9088519410A2D0063445A /* RZWaiter.m */; };
+		9AB9088A194113D60063445A /* record_tests.json in Resources */ = {isa = PBXBuildFile; fileRef = 9AB90889194113D60063445A /* record_tests.json */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		9AB90815193FD7F70063445A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9A53611D193F90E000E87F4F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 9A536124193F90E000E87F4F;
+			remoteInfo = RZVinylDemo;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		9A536125193F90E000E87F4F /* RZVinylDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RZVinylDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		9A536128193F90E000E87F4F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		9A53612A193F90E000E87F4F /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		9A53612C193F90E000E87F4F /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		9A53612E193F90E000E87F4F /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		9A536132193F90E000E87F4F /* RZVinylDemo-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "RZVinylDemo-Info.plist"; sourceTree = "<group>"; };
+		9A536134193F90E000E87F4F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		9A536136193F90E000E87F4F /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		9A536138193F90E000E87F4F /* RZVinylDemo-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "RZVinylDemo-Prefix.pch"; sourceTree = "<group>"; };
+		9A536139193F90E000E87F4F /* RZAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RZAppDelegate.h; sourceTree = "<group>"; };
+		9A53613A193F90E000E87F4F /* RZAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RZAppDelegate.m; sourceTree = "<group>"; };
+		9A53613D193F90E000E87F4F /* RZVinylDemo.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = RZVinylDemo.xcdatamodel; sourceTree = "<group>"; };
+		9A53613F193F90E000E87F4F /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		9A536146193F90E000E87F4F /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		9A536162193F92E400E87F4F /* RZVinyl.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RZVinyl.h; sourceTree = "<group>"; };
+		9A536163193F939800E87F4F /* RZCoreDataStack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RZCoreDataStack.h; sourceTree = "<group>"; };
+		9A536164193F939800E87F4F /* RZCoreDataStack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RZCoreDataStack.m; sourceTree = "<group>"; };
+		9AB90808193FD7F70063445A /* RZVinylTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RZVinylTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		9AB9080E193FD7F70063445A /* RZVinylTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "RZVinylTests-Info.plist"; sourceTree = "<group>"; };
+		9AB90810193FD7F70063445A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		9AB90814193FD7F70063445A /* RZVinylTests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "RZVinylTests-Prefix.pch"; sourceTree = "<group>"; };
+		9AB9081A193FD8330063445A /* RZCoreDataStackConfigTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RZCoreDataStackConfigTests.m; sourceTree = "<group>"; };
+		9AB9081C193FD98F0063445A /* NSManagedObject+RZVinylRecord.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSManagedObject+RZVinylRecord.h"; sourceTree = "<group>"; };
+		9AB9081D193FD98F0063445A /* NSManagedObject+RZVinylRecord.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSManagedObject+RZVinylRecord.m"; sourceTree = "<group>"; };
+		9AB908251940D7BC0063445A /* TestModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TestModel.xcdatamodel; sourceTree = "<group>"; };
+		9AB9086B1940E95D0063445A /* NSManagedObject+RZVinylImport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSManagedObject+RZVinylImport.h"; sourceTree = "<group>"; };
+		9AB9086C1940E95D0063445A /* NSManagedObject+RZVinylImport.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSManagedObject+RZVinylImport.m"; sourceTree = "<group>"; };
+		9AB9086F1940FB0F0063445A /* NSFetchedResultsController+RZVinylRecord.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSFetchedResultsController+RZVinylRecord.h"; sourceTree = "<group>"; };
+		9AB908701940FB0F0063445A /* NSFetchedResultsController+RZVinylRecord.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSFetchedResultsController+RZVinylRecord.m"; sourceTree = "<group>"; };
+		9AB908721940FEB50063445A /* NSFetchRequest+RZVinylRecord.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSFetchRequest+RZVinylRecord.h"; sourceTree = "<group>"; };
+		9AB908731940FEB50063445A /* NSFetchRequest+RZVinylRecord.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSFetchRequest+RZVinylRecord.m"; sourceTree = "<group>"; };
+		9AB90875194104860063445A /* RZVinylRecordTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RZVinylRecordTests.m; sourceTree = "<group>"; };
+		9AB908771941065F0063445A /* Song.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Song.h; sourceTree = "<group>"; };
+		9AB908781941065F0063445A /* Song.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Song.m; sourceTree = "<group>"; };
+		9AB9087A1941065F0063445A /* Artist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Artist.h; sourceTree = "<group>"; };
+		9AB9087B1941065F0063445A /* Artist.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Artist.m; sourceTree = "<group>"; };
+		9AB9087D1941065F0063445A /* BaseObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseObject.h; sourceTree = "<group>"; };
+		9AB9087E1941065F0063445A /* BaseObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseObject.m; sourceTree = "<group>"; };
+		9AB90881194107C30063445A /* BaseObject+RZVinyl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "BaseObject+RZVinyl.h"; sourceTree = "<group>"; };
+		9AB90882194107C30063445A /* BaseObject+RZVinyl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "BaseObject+RZVinyl.m"; sourceTree = "<group>"; };
+		9AB9088419410A2D0063445A /* RZWaiter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RZWaiter.h; sourceTree = "<group>"; };
+		9AB9088519410A2D0063445A /* RZWaiter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RZWaiter.m; sourceTree = "<group>"; };
+		9AB90889194113D60063445A /* record_tests.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = record_tests.json; sourceTree = "<group>"; };
+		9AB9088D19420A9C0063445A /* RZVinylDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RZVinylDefines.h; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		9A536122193F90E000E87F4F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9A53612B193F90E000E87F4F /* CoreGraphics.framework in Frameworks */,
+				9A53612F193F90E000E87F4F /* CoreData.framework in Frameworks */,
+				9A53612D193F90E000E87F4F /* UIKit.framework in Frameworks */,
+				9A536129193F90E000E87F4F /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9AB90805193FD7F70063445A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9AB90809193FD7F70063445A /* XCTest.framework in Frameworks */,
+				9AB9080B193FD7F70063445A /* UIKit.framework in Frameworks */,
+				9AB9080A193FD7F70063445A /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		9A53611C193F90E000E87F4F = {
+			isa = PBXGroup;
+			children = (
+				9A536161193F92D100E87F4F /* Classes */,
+				9A536130193F90E000E87F4F /* RZVinylDemo */,
+				9AB9080C193FD7F70063445A /* RZVinylTests */,
+				9A536127193F90E000E87F4F /* Frameworks */,
+				9A536126193F90E000E87F4F /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		9A536126193F90E000E87F4F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				9A536125193F90E000E87F4F /* RZVinylDemo.app */,
+				9AB90808193FD7F70063445A /* RZVinylTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		9A536127193F90E000E87F4F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				9A536128193F90E000E87F4F /* Foundation.framework */,
+				9A53612A193F90E000E87F4F /* CoreGraphics.framework */,
+				9A53612C193F90E000E87F4F /* UIKit.framework */,
+				9A53612E193F90E000E87F4F /* CoreData.framework */,
+				9A536146193F90E000E87F4F /* XCTest.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		9A536130193F90E000E87F4F /* RZVinylDemo */ = {
+			isa = PBXGroup;
+			children = (
+				9A53615D193F91DA00E87F4F /* Application */,
+				9A53615E193F91DF00E87F4F /* Data */,
+				9A53615F193F91E700E87F4F /* Resources */,
+				9A536131193F90E000E87F4F /* Supporting Files */,
+				9A536160193F91ED00E87F4F /* View Controllers */,
+			);
+			path = RZVinylDemo;
+			sourceTree = "<group>";
+		};
+		9A536131193F90E000E87F4F /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				9A536132193F90E000E87F4F /* RZVinylDemo-Info.plist */,
+				9A536133193F90E000E87F4F /* InfoPlist.strings */,
+				9A536136193F90E000E87F4F /* main.m */,
+				9A536138193F90E000E87F4F /* RZVinylDemo-Prefix.pch */,
+			);
+			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		9A53615D193F91DA00E87F4F /* Application */ = {
+			isa = PBXGroup;
+			children = (
+				9A536139193F90E000E87F4F /* RZAppDelegate.h */,
+				9A53613A193F90E000E87F4F /* RZAppDelegate.m */,
+			);
+			path = Application;
+			sourceTree = "<group>";
+		};
+		9A53615E193F91DF00E87F4F /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				9A53613C193F90E000E87F4F /* RZVinylDemo.xcdatamodeld */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		9A53615F193F91E700E87F4F /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				9A53613F193F90E000E87F4F /* Images.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		9A536160193F91ED00E87F4F /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "View Controllers";
+			sourceTree = "<group>";
+		};
+		9A536161193F92D100E87F4F /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				9A536162193F92E400E87F4F /* RZVinyl.h */,
+				9A536163193F939800E87F4F /* RZCoreDataStack.h */,
+				9A536164193F939800E87F4F /* RZCoreDataStack.m */,
+				9AB908721940FEB50063445A /* NSFetchRequest+RZVinylRecord.h */,
+				9AB908731940FEB50063445A /* NSFetchRequest+RZVinylRecord.m */,
+				9AB9086F1940FB0F0063445A /* NSFetchedResultsController+RZVinylRecord.h */,
+				9AB908701940FB0F0063445A /* NSFetchedResultsController+RZVinylRecord.m */,
+				9AB9081C193FD98F0063445A /* NSManagedObject+RZVinylRecord.h */,
+				9AB9081D193FD98F0063445A /* NSManagedObject+RZVinylRecord.m */,
+				9AB9086B1940E95D0063445A /* NSManagedObject+RZVinylImport.h */,
+				9AB9086C1940E95D0063445A /* NSManagedObject+RZVinylImport.m */,
+				9AB9088C19420A9C0063445A /* Private */,
+			);
+			name = Classes;
+			path = ../Classes;
+			sourceTree = "<group>";
+		};
+		9AB9080C193FD7F70063445A /* RZVinylTests */ = {
+			isa = PBXGroup;
+			children = (
+				9AB908231940D7AC0063445A /* Model */,
+				9AB90888194113B50063445A /* Resources */,
+				9AB9088719410A320063445A /* Utils */,
+				9AB9081A193FD8330063445A /* RZCoreDataStackConfigTests.m */,
+				9AB90875194104860063445A /* RZVinylRecordTests.m */,
+				9AB9080D193FD7F70063445A /* Supporting Files */,
+			);
+			path = RZVinylTests;
+			sourceTree = "<group>";
+		};
+		9AB9080D193FD7F70063445A /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				9AB9080E193FD7F70063445A /* RZVinylTests-Info.plist */,
+				9AB9080F193FD7F70063445A /* InfoPlist.strings */,
+				9AB90814193FD7F70063445A /* RZVinylTests-Prefix.pch */,
+			);
+			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		9AB908231940D7AC0063445A /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				9AB90880194107AA0063445A /* RZVinylExtensions */,
+				9AB908241940D7BC0063445A /* TestModel.xcdatamodeld */,
+				9AB9087D1941065F0063445A /* BaseObject.h */,
+				9AB9087E1941065F0063445A /* BaseObject.m */,
+				9AB9087A1941065F0063445A /* Artist.h */,
+				9AB9087B1941065F0063445A /* Artist.m */,
+				9AB908771941065F0063445A /* Song.h */,
+				9AB908781941065F0063445A /* Song.m */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		9AB90880194107AA0063445A /* RZVinylExtensions */ = {
+			isa = PBXGroup;
+			children = (
+				9AB90881194107C30063445A /* BaseObject+RZVinyl.h */,
+				9AB90882194107C30063445A /* BaseObject+RZVinyl.m */,
+			);
+			path = RZVinylExtensions;
+			sourceTree = "<group>";
+		};
+		9AB9088719410A320063445A /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				9AB9088419410A2D0063445A /* RZWaiter.h */,
+				9AB9088519410A2D0063445A /* RZWaiter.m */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		9AB90888194113B50063445A /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				9AB90889194113D60063445A /* record_tests.json */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		9AB9088C19420A9C0063445A /* Private */ = {
+			isa = PBXGroup;
+			children = (
+				9AB9088D19420A9C0063445A /* RZVinylDefines.h */,
+			);
+			path = Private;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		9A536124193F90E000E87F4F /* RZVinylDemo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9A536157193F90E000E87F4F /* Build configuration list for PBXNativeTarget "RZVinylDemo" */;
+			buildPhases = (
+				9A536121193F90E000E87F4F /* Sources */,
+				9A536122193F90E000E87F4F /* Frameworks */,
+				9A536123193F90E000E87F4F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = RZVinylDemo;
+			productName = RZObjectiveRecord;
+			productReference = 9A536125193F90E000E87F4F /* RZVinylDemo.app */;
+			productType = "com.apple.product-type.application";
+		};
+		9AB90807193FD7F70063445A /* RZVinylTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9AB90819193FD7F70063445A /* Build configuration list for PBXNativeTarget "RZVinylTests" */;
+			buildPhases = (
+				9AB90804193FD7F70063445A /* Sources */,
+				9AB90805193FD7F70063445A /* Frameworks */,
+				9AB90806193FD7F70063445A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				9AB90816193FD7F70063445A /* PBXTargetDependency */,
+			);
+			name = RZVinylTests;
+			productName = RZVinylTests;
+			productReference = 9AB90808193FD7F70063445A /* RZVinylTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		9A53611D193F90E000E87F4F /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = RZ;
+				LastUpgradeCheck = 0510;
+				ORGANIZATIONNAME = Raizlabs;
+				TargetAttributes = {
+					9AB90807193FD7F70063445A = {
+						TestTargetID = 9A536124193F90E000E87F4F;
+					};
+				};
+			};
+			buildConfigurationList = 9A536120193F90E000E87F4F /* Build configuration list for PBXProject "RZVinylDemo" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 9A53611C193F90E000E87F4F;
+			productRefGroup = 9A536126193F90E000E87F4F /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				9A536124193F90E000E87F4F /* RZVinylDemo */,
+				9AB90807193FD7F70063445A /* RZVinylTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		9A536123193F90E000E87F4F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9A536135193F90E000E87F4F /* InfoPlist.strings in Resources */,
+				9A536140193F90E000E87F4F /* Images.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9AB90806193FD7F70063445A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9AB9088A194113D60063445A /* record_tests.json in Resources */,
+				9AB90811193FD7F70063445A /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		9A536121193F90E000E87F4F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9A536165193F939800E87F4F /* RZCoreDataStack.m in Sources */,
+				9AB9086D1940E95D0063445A /* NSManagedObject+RZVinylImport.m in Sources */,
+				9A53613E193F90E000E87F4F /* RZVinylDemo.xcdatamodeld in Sources */,
+				9AB9081E193FD98F0063445A /* NSManagedObject+RZVinylRecord.m in Sources */,
+				9A53613B193F90E000E87F4F /* RZAppDelegate.m in Sources */,
+				9AB908741940FEB50063445A /* NSFetchRequest+RZVinylRecord.m in Sources */,
+				9A536137193F90E000E87F4F /* main.m in Sources */,
+				9AB908711940FB0F0063445A /* NSFetchedResultsController+RZVinylRecord.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9AB90804193FD7F70063445A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9AB908791941065F0063445A /* Song.m in Sources */,
+				9AB90883194107C30063445A /* BaseObject+RZVinyl.m in Sources */,
+				9AB9087F1941065F0063445A /* BaseObject.m in Sources */,
+				9AB9081B193FD8330063445A /* RZCoreDataStackConfigTests.m in Sources */,
+				9AB908261940D7BC0063445A /* TestModel.xcdatamodeld in Sources */,
+				9AB9088619410A2D0063445A /* RZWaiter.m in Sources */,
+				9AB90876194104860063445A /* RZVinylRecordTests.m in Sources */,
+				9AB9087C1941065F0063445A /* Artist.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		9AB90816193FD7F70063445A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 9A536124193F90E000E87F4F /* RZVinylDemo */;
+			targetProxy = 9AB90815193FD7F70063445A /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		9A536133193F90E000E87F4F /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				9A536134193F90E000E87F4F /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		9AB9080F193FD7F70063445A /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				9AB90810193FD7F70063445A /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		9A536155193F90E000E87F4F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		9A536156193F90E000E87F4F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		9A536158193F90E000E87F4F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "RZVinylDemo/Supporting Files/RZVinylDemo-Prefix.pch";
+				INFOPLIST_FILE = "RZVinylDemo/Supporting Files/RZVinylDemo-Info.plist";
+				PRODUCT_NAME = RZVinylDemo;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		9A536159193F90E000E87F4F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "RZVinylDemo/Supporting Files/RZVinylDemo-Prefix.pch";
+				INFOPLIST_FILE = "RZVinylDemo/Supporting Files/RZVinylDemo-Info.plist";
+				PRODUCT_NAME = RZVinylDemo;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		9AB90817193FD7F70063445A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/RZVinylDemo.app/RZVinylDemo";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "RZVinylTests/Supporting Files/RZVinylTests-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "RZVinylTests/Supporting Files/RZVinylTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Debug;
+		};
+		9AB90818193FD7F70063445A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/RZVinylDemo.app/RZVinylDemo";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "RZVinylTests/Supporting Files/RZVinylTests-Prefix.pch";
+				INFOPLIST_FILE = "RZVinylTests/Supporting Files/RZVinylTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		9A536120193F90E000E87F4F /* Build configuration list for PBXProject "RZVinylDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9A536155193F90E000E87F4F /* Debug */,
+				9A536156193F90E000E87F4F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9A536157193F90E000E87F4F /* Build configuration list for PBXNativeTarget "RZVinylDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9A536158193F90E000E87F4F /* Debug */,
+				9A536159193F90E000E87F4F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9AB90819193FD7F70063445A /* Build configuration list for PBXNativeTarget "RZVinylTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9AB90817193FD7F70063445A /* Debug */,
+				9AB90818193FD7F70063445A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		9A53613C193F90E000E87F4F /* RZVinylDemo.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				9A53613D193F90E000E87F4F /* RZVinylDemo.xcdatamodel */,
+			);
+			currentVersion = 9A53613D193F90E000E87F4F /* RZVinylDemo.xcdatamodel */;
+			path = RZVinylDemo.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+		9AB908241940D7BC0063445A /* TestModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				9AB908251940D7BC0063445A /* TestModel.xcdatamodel */,
+			);
+			currentVersion = 9AB908251940D7BC0063445A /* TestModel.xcdatamodel */;
+			path = TestModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = 9A53611D193F90E000E87F4F /* Project object */;
+}
