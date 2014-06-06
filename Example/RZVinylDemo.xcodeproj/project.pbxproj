@@ -208,8 +208,8 @@
 		9A536161193F92D100E87F4F /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				9AB9088B194208540063445A /* Private */,
 				9A536162193F92E400E87F4F /* RZVinyl.h */,
-				9AB9086E1940EBE90063445A /* RZVinylDefines.h */,
 				9A536163193F939800E87F4F /* RZCoreDataStack.h */,
 				9A536164193F939800E87F4F /* RZCoreDataStack.m */,
 				9AB908721940FEB50063445A /* NSFetchRequest+RZVinylRecord.h */,
@@ -288,6 +288,14 @@
 				9AB90889194113D60063445A /* record_tests.json */,
 			);
 			name = Resources;
+			sourceTree = "<group>";
+		};
+		9AB9088B194208540063445A /* Private */ = {
+			isa = PBXGroup;
+			children = (
+				9AB9086E1940EBE90063445A /* RZVinylDefines.h */,
+			);
+			name = Private;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

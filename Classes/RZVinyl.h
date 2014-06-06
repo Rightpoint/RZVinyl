@@ -31,3 +31,13 @@
 #import "NSManagedObject+RZVinylImport.h"
 #import "NSFetchRequest+RZVinylRecord.h"
 #import "NSFetchedResultsController+RZVinylRecord.h"
+
+/**
+ *  Public Macros
+ */
+
+/**
+ *  Shorthand for creating an NSSortDescriptor
+ */
+#define RZVSortDesc(keyPath, isAscending) \
+    [NSSortDescriptor sortDescriptorWithKey:keyPath ascending:isAscending]

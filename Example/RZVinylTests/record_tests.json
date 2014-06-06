@@ -1,29 +1,35 @@
 [
   {
+    "id" : 1000,
     "name" : "Dusky",
     "genre" : "Deep House",
     "songs" : [
       {
+        "id" : 10000,
         "title" : "What I Never Knew",
         "length" : 203
       }
     ]
   },
   {
+    "id" : 1049,
     "name" : "BCee",
     "genre" : "Drum & Bass"
   },
   {
+    "id" : 2399,
     "name" : "Tool",
     "genre" : "Prog Metal",
     "songs" : [
       {
+        "id" : 10931,
         "title" : "Lateralus",
-        "Length" : "540"
+        "Length" : 540
       },
       {
+        "id" : 12844,
         "title" : "Aenima",
-        "Length" : "438"
+        "Length" : 438
       }
     ]
   }

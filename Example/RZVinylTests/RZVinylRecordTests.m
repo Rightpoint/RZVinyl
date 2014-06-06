@@ -32,6 +32,7 @@
                                                 options:kNilOptions];
     
     [RZCoreDataStack setDefaultStack:self.stack];
+    [self seedDatabase];
 }
 
 - (void)tearDown
@@ -49,7 +50,7 @@
     NSArray *testArtists = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfURL:testJSONURL] options:kNilOptions error:NULL];
     [testArtists enumerateObjectsUsingBlock:^(NSDictionary *artistDict, NSUInteger idx, BOOL *stop) {
         Artist *artist = [NSEntityDescription insertNewObjectForEntityForName:@"Artist" inManagedObjectContext:self.stack.managedObjectContext];
-        artist.remoteID = @(idx + 100);
+        artist.remoteID = artistDict[@"id"];
         artist.name = artistDict[@"name"];
         artist.genre = artistDict[@"genre"];
         
@@ -57,7 +58,7 @@
         NSArray *songArray = artistDict[@"songs"];
         [songArray enumerateObjectsUsingBlock:^(NSDictionary *songDict, NSUInteger songIdx, BOOL *stop) {
             Song *song = [NSEntityDescription insertNewObjectForEntityForName:@"Song" inManagedObjectContext:self.stack.managedObjectContext];
-            song.remoteID = @( (idx + 1) * 100 + songIdx );
+            song.remoteID = songDict[@"id"];
             song.title = songDict[@"title"];
             song.length = songDict[@"length"];
             [songs addObject:song];
@@ -171,27 +172,38 @@
 
 - (void)test_FetchAll
 {
-    [self seedDatabase];
+    // Get all artists
+    NSArray *artists = [Artist rzv_all];
+    XCTAssertNotNil(artists, @"Should not return nil");
+    XCTAssertEqual(artists.count, 3, @"Should be three artists");
+    
+    // Get all songs
+    NSArray *songs = [Song rzv_all];
+    XCTAssertNotNil(songs, @"Should not return nil");
+    XCTAssertEqual(songs.count, 3, @"Should be three songs");
+    
+    // Get all artists sorted by name
+    artists = [Artist rzv_allSorted:@[RZVSortDesc(@"name", YES)]];
 }
 
 - (void)test_QueryString
 {
-    [self seedDatabase];
+
 }
 
 - (void)test_QueryPredicate
 {
-    [self seedDatabase];
+
 }
 
 - (void)test_QuerySort
 {
-    [self seedDatabase];
+
 }
 
 - (void)testCount
 {
-    [self seedDatabase];
+
 }
 
 @end
