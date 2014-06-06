@@ -35,7 +35,7 @@ static NSString* const kRZCoreDataStackThreadContextKey = @"RZCoreDataStackConte
 @interface RZCoreDataStack ()
 
 @property (nonatomic, strong, readwrite) NSManagedObjectModel            *managedObjectModel;
-@property (nonatomic, strong, readwrite) NSManagedObjectContext          *managedObjectContext;
+@property (nonatomic, strong, readwrite) NSManagedObjectContext          *mainManagedObjectContext;
 @property (nonatomic, strong, readwrite) NSPersistentStoreCoordinator    *persistentStoreCoordinator;
 
 @property (nonatomic, strong) NSManagedObjectContext *topLevelBackgroundContext;
@@ -126,10 +126,10 @@ static NSString* const kRZCoreDataStackThreadContextKey = @"RZCoreDataStackConte
 
 #pragma mark - Public
 
-- (NSManagedObjectContext *)currentThreadContext
+- (NSManagedObjectContext *)currentThreadManagedObjectContext
 {
     if ( [NSThread isMainThread] ) {
-        return [self managedObjectContext];
+        return [self mainManagedObjectContext];
     }
     NSManagedObjectContext *context = [[[NSThread currentThread] threadDictionary] objectForKey:kRZCoreDataStackThreadContextKey];
     if ( context == nil ) {
@@ -144,7 +144,7 @@ static NSString* const kRZCoreDataStackThreadContextKey = @"RZCoreDataStackConte
         return;
     }
     
-    NSManagedObjectContext *context = [self temporaryChildContext];
+    NSManagedObjectContext *context = [self temporaryChildManagedObjectContext];
     [context performBlock:^{
         [[[NSThread currentThread] threadDictionary] setObject:context forKey:kRZCoreDataStackThreadContextKey];
         block(context);
@@ -161,10 +161,10 @@ static NSString* const kRZCoreDataStackThreadContextKey = @"RZCoreDataStackConte
     }];
 }
 
-- (NSManagedObjectContext *)temporaryChildContext
+- (NSManagedObjectContext *)temporaryChildManagedObjectContext
 {
     NSManagedObjectContext *tempChild = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
-    tempChild.parentContext = self.managedObjectContext;
+    tempChild.parentContext = self.mainManagedObjectContext;
     return tempChild;
 }
 
@@ -186,15 +186,15 @@ static NSString* const kRZCoreDataStackThreadContextKey = @"RZCoreDataStackConte
     };
     
     if ( wait ) {
-        [self.managedObjectContext performBlockAndWait:^{
-            if ( [self.managedObjectContext save:&err] ) {
+        [self.mainManagedObjectContext performBlockAndWait:^{
+            if ([self.mainManagedObjectContext save:&err]) {
                 DiskSave();
             }
         }];
     }
     else {
-        [self.managedObjectContext performBlock:^{
-            if ( [self.managedObjectContext save:&err] ) {
+        [self.mainManagedObjectContext performBlock:^{
+            if ([self.mainManagedObjectContext save:&err]) {
                 DiskSave();
             }
         }];
@@ -310,11 +310,11 @@ static NSString* const kRZCoreDataStackThreadContextKey = @"RZCoreDataStackConte
     self.topLevelBackgroundContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
     self.topLevelBackgroundContext.persistentStoreCoordinator = self.persistentStoreCoordinator;
 
-    self.managedObjectContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
-    self.managedObjectContext.parentContext = self.topLevelBackgroundContext;
+    self.mainManagedObjectContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
+    self.mainManagedObjectContext.parentContext = self.topLevelBackgroundContext;
     
     if ([self hasOptionsSet:RZCoreDataStackOptionsCreateUndoManager] ) {
-        self.managedObjectContext.undoManager   = [[NSUndoManager alloc] init];
+        self.mainManagedObjectContext.undoManager   = [[NSUndoManager alloc] init];
     }
     
     return YES;

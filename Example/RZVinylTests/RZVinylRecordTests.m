@@ -49,7 +49,7 @@
     NSURL *testJSONURL = [[NSBundle bundleForClass:[self class]] URLForResource:@"record_tests" withExtension:@"json"];
     NSArray *testArtists = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfURL:testJSONURL] options:kNilOptions error:NULL];
     [testArtists enumerateObjectsUsingBlock:^(NSDictionary *artistDict, NSUInteger idx, BOOL *stop) {
-        Artist *artist = [NSEntityDescription insertNewObjectForEntityForName:@"Artist" inManagedObjectContext:self.stack.managedObjectContext];
+        Artist *artist = [NSEntityDescription insertNewObjectForEntityForName:@"Artist" inManagedObjectContext:self.stack.mainManagedObjectContext];
         artist.remoteID = artistDict[@"id"];
         artist.name = artistDict[@"name"];
         artist.genre = artistDict[@"genre"];
@@ -57,7 +57,7 @@
         NSMutableSet *songs = [NSMutableSet set];
         NSArray *songArray = artistDict[@"songs"];
         [songArray enumerateObjectsUsingBlock:^(NSDictionary *songDict, NSUInteger songIdx, BOOL *stop) {
-            Song *song = [NSEntityDescription insertNewObjectForEntityForName:@"Song" inManagedObjectContext:self.stack.managedObjectContext];
+            Song *song = [NSEntityDescription insertNewObjectForEntityForName:@"Song" inManagedObjectContext:self.stack.mainManagedObjectContext];
             song.remoteID = songDict[@"id"];
             song.title = songDict[@"title"];
             song.length = songDict[@"length"];
@@ -82,7 +82,7 @@
 
 - (void)test_ChildContext
 {
-    NSManagedObjectContext *childContext = [self.stack temporaryChildContext];
+    NSManagedObjectContext *childContext = [self.stack temporaryChildManagedObjectContext];
     [childContext performBlockAndWait:^{
         Artist *newArtist = nil;
         XCTAssertNoThrow(newArtist = [Artist rzv_newObjectInContext:childContext], @"Creation with explicit context should not throw exception");
@@ -109,9 +109,9 @@
     
     [self.stack performBlockUsingBackgroundContext:^(NSManagedObjectContext *moc) {
         
-        XCTAssertNotEqualObjects(moc, self.stack.managedObjectContext, @"Current moc should not equal main moc");
-        XCTAssertNotEqualObjects([self.stack currentThreadContext], self.stack.managedObjectContext, @"Current moc should not equal main moc");
-        XCTAssertEqualObjects([self.stack currentThreadContext], moc, @"Current moc should equal block's moc");
+        XCTAssertNotEqualObjects(moc, self.stack.mainManagedObjectContext, @"Current moc should not equal main moc");
+        XCTAssertNotEqualObjects([self.stack currentThreadManagedObjectContext], self.stack.mainManagedObjectContext, @"Current moc should not equal main moc");
+        XCTAssertEqualObjects([self.stack currentThreadManagedObjectContext], moc, @"Current moc should equal block's moc");
 
         Artist *newArtist = nil;
         XCTAssertNoThrow(newArtist = [Artist rzv_newObject], @"Creation threw exception");
@@ -125,7 +125,7 @@
     } completion:^(NSError *err) {
         XCTAssertNil(err, @"An error occurred during the background save: %@", err);
         
-        [[self.stack managedObjectContext] reset];
+        [[self.stack mainManagedObjectContext] reset];
         
         Artist *matchingArtist = [Artist rzv_objectWithPrimaryKeyValue:@100 createNew:NO];
         XCTAssertNil(matchingArtist, @"Matching object should not exist after reset without save");
@@ -155,7 +155,7 @@
         XCTAssertNil(err, @"An error occurred during the background save: %@", err);
         
         [self.stack save:YES];
-        [[self.stack managedObjectContext] reset];
+        [[self.stack mainManagedObjectContext] reset];
         
         Artist *matchingArtist = [Artist rzv_objectWithPrimaryKeyValue:@100 createNew:NO];
         XCTAssertNotNil(matchingArtist, @"Matching object should exist after reset after save");
@@ -179,11 +179,11 @@
     
     Artist *pezzner = [Artist rzv_objectWithPrimaryKeyValue:@9999 createNew:YES];
     XCTAssertNotNil(pezzner, @"Should be new object");
-    XCTAssertTrue([self.stack.managedObjectContext hasChanges], @"Moc should have changes after new object add");
+    XCTAssertTrue([self.stack.mainManagedObjectContext hasChanges], @"Moc should have changes after new object add");
     XCTAssertEqualObjects(pezzner.remoteID, @9999, @"New object should have correct primary key value");
     XCTAssertNil(pezzner.name, @"New object should have nil attributes");
     
-    [self.stack.managedObjectContext reset];
+    [self.stack.mainManagedObjectContext reset];
     
     __block BOOL finished = NO;
     
@@ -196,7 +196,7 @@
         
         Artist *pezzner = [Artist rzv_objectWithPrimaryKeyValue:@9999 createNew:YES];
         XCTAssertNotNil(pezzner, @"Should be new object");
-        XCTAssertTrue([[self.stack currentThreadContext] hasChanges], @"Moc should have changes after new object add");
+        XCTAssertTrue([[self.stack currentThreadManagedObjectContext] hasChanges], @"Moc should have changes after new object add");
         XCTAssertEqualObjects(pezzner.remoteID, @9999, @"New object should have correct primary key value");
         XCTAssertNil(pezzner.name, @"New object should have nil attributes");
         XCTAssertEqualObjects(moc, pezzner.managedObjectContext, @"Wrong context");

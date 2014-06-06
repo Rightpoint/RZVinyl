@@ -136,7 +136,7 @@ typedef NS_OPTIONS(NSUInteger, RZCoreDataStackOptions)
 
 
 @property (nonatomic, strong, readonly) NSManagedObjectModel            *managedObjectModel;
-@property (nonatomic, strong, readonly) NSManagedObjectContext          *managedObjectContext;
+@property (nonatomic, strong, readonly) NSManagedObjectContext          *mainManagedObjectContext;
 @property (nonatomic, strong, readonly) NSPersistentStoreCoordinator    *persistentStoreCoordinator;
 
 /**
@@ -151,7 +151,7 @@ typedef NS_OPTIONS(NSUInteger, RZCoreDataStackOptions)
  *
  *  @return The managed object context for the current thread.
  */
-- (NSManagedObjectContext *)currentThreadContext;
+- (NSManagedObjectContext *)currentThreadManagedObjectContext;
 
 /**
  *  Asynchronously perform a database operation on a temporary child context in the background.
@@ -161,7 +161,7 @@ typedef NS_OPTIONS(NSUInteger, RZCoreDataStackOptions)
  *  @param completion An optional completion block that is called on the main thread after the operation finishes.
  *                    If there was an error saving the background context, it will be passed here.
  *
- *  @note When using this method, the @p currentThreadContext will point to the valid child context
+ *  @note When using this method, the @p currentThreadManagedObjectContext will point to the valid child context
  *        while within the scope of the block.
  *
  *  @warning Any managed object instances manipulated in this block must belong to the child
@@ -177,13 +177,13 @@ typedef NS_OPTIONS(NSUInteger, RZCoreDataStackOptions)
  *
  *  @note You must use @p performBlock: to perform transactions with the returned context.
  *
- *  @warning The value of @p currentThreadContext will be nil within a block performed on this context.
+ *  @warning The value of @p currentThreadManagedObjectContext will be nil within a block performed on this context.
  *           To use the @p NSManagedObject+VinylRecord extensions with this context, you must pass it to
  *           whatever method you are calling.
  *
  *  @return A newly spawned child context with private queue confinement.
  */
-- (NSManagedObjectContext *)temporaryChildContext;
+- (NSManagedObjectContext *)temporaryChildManagedObjectContext;
 
 /**
  *  Save the data stack and optionally wait for save to finish.

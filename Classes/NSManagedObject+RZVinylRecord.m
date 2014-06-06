@@ -42,7 +42,7 @@
     if ( !RZVAssert(stack != nil, @"No core data stack provided for class %@. Ensure that +rzv_coreDataStack is returning a valid instance.", NSStringFromClass(self)) ) {
         return nil;
     }
-    return [self rzv_newObjectInContext:[stack currentThreadContext]];
+    return [self rzv_newObjectInContext:[stack currentThreadManagedObjectContext]];
 }
 
 + (instancetype)rzv_newObjectInContext:(NSManagedObjectContext *)context
@@ -60,7 +60,7 @@
         return nil;
     }
     
-    return [self rzv_objectWithPrimaryKeyValue:primaryValue createNew:createNew inContext:[stack currentThreadContext]];
+    return [self rzv_objectWithPrimaryKeyValue:primaryValue createNew:createNew inContext:[stack currentThreadManagedObjectContext]];
 }
 
 + (instancetype)rzv_objectWithPrimaryKeyValue:(id)primaryValue createNew:(BOOL)createNew inContext:(NSManagedObjectContext *)context
@@ -89,7 +89,7 @@
     if ( !RZVAssert(stack != nil, @"No core data stack provided for class %@. Ensure that +rzv_coreDataStack is returning a valid instance.", NSStringFromClass(self)) ) {
         return nil;
     }
-    return [self rzv_objectWithAttributes:attributes createNew:createNew inContext:[stack currentThreadContext]];
+    return [self rzv_objectWithAttributes:attributes createNew:createNew inContext:[stack currentThreadManagedObjectContext]];
 }
 
 + (instancetype)rzv_objectWithAttributes:(NSDictionary *)attributes createNew:(BOOL)createNew inContext:(NSManagedObjectContext *)context
@@ -153,7 +153,7 @@
         return nil;
     }
     
-    return [self rzv_where:query sort:sortDescriptors inContext:[stack currentThreadContext]];
+    return [self rzv_where:query sort:sortDescriptors inContext:[stack currentThreadManagedObjectContext]];
 }
 
 + (NSArray *)rzv_where:(id)query sort:(NSArray *)sortDescriptors inContext:(NSManagedObjectContext *)context
@@ -191,7 +191,7 @@
         return 0;
     }
     
-    return [self rzv_countWhere:query inContext:[stack currentThreadContext]];
+    return [self rzv_countWhere:query inContext:[stack currentThreadManagedObjectContext]];
 }
 
 + (NSUInteger)rzv_countWhere:(id)query inContext:(NSManagedObjectContext *)context

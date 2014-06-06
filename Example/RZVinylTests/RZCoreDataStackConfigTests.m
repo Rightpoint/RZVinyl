@@ -50,7 +50,7 @@ static NSString* const kRZCoreDataStackCustomFilePath = @"test_tmp/RZCoreDataSta
     
     XCTAssertNotNil(stack, @"Stack should not be nil");
     XCTAssertNotNil(stack.managedObjectModel, @"Model should not be nil");
-    XCTAssertNotNil(stack.managedObjectContext, @"MOC should not be nil");
+    XCTAssertNotNil(stack.mainManagedObjectContext, @"MOC should not be nil");
     XCTAssertNotNil(stack.persistentStoreCoordinator, @"PSC should not be nil");
 }
 
@@ -67,7 +67,7 @@ static NSString* const kRZCoreDataStackCustomFilePath = @"test_tmp/RZCoreDataSta
     
     XCTAssertNotNil(stack, @"Stack should not be nil");
     XCTAssertNotNil(stack.managedObjectModel, @"Model should not be nil");
-    XCTAssertNotNil(stack.managedObjectContext, @"MOC should not be nil");
+    XCTAssertNotNil(stack.mainManagedObjectContext, @"MOC should not be nil");
     XCTAssertNotNil(stack.persistentStoreCoordinator, @"PSC should not be nil");
     
     XCTAssertTrue([[NSFileManager defaultManager] fileExistsAtPath:[self.customFileURL path]], @"sqlite file not created");
@@ -86,7 +86,7 @@ static NSString* const kRZCoreDataStackCustomFilePath = @"test_tmp/RZCoreDataSta
     
     XCTAssertNotNil(stack, @"Stack should not be nil");
     XCTAssertNotNil(stack.managedObjectModel, @"Model should not be nil");
-    XCTAssertNotNil(stack.managedObjectContext, @"MOC should not be nil");
+    XCTAssertNotNil(stack.mainManagedObjectContext, @"MOC should not be nil");
     XCTAssertNotNil(stack.persistentStoreCoordinator, @"PSC should not be nil");
     
     XCTAssertTrue([[NSFileManager defaultManager] fileExistsAtPath:[self.customFileURL path]], @"sqlite file not created");
@@ -108,7 +108,7 @@ static NSString* const kRZCoreDataStackCustomFilePath = @"test_tmp/RZCoreDataSta
     
     XCTAssertNotNil(stack, @"Stack should not be nil");
     XCTAssertNotNil(stack.managedObjectModel, @"Model should not be nil");
-    XCTAssertNotNil(stack.managedObjectContext, @"MOC should not be nil");
+    XCTAssertNotNil(stack.mainManagedObjectContext, @"MOC should not be nil");
     XCTAssertNotNil(stack.persistentStoreCoordinator, @"PSC should not be nil");
     
     RZCoreDataStack *stack2 = nil;
@@ -121,7 +121,7 @@ static NSString* const kRZCoreDataStackCustomFilePath = @"test_tmp/RZCoreDataSta
     
     XCTAssertNotNil(stack2, @"Stack should not be nil");
     XCTAssertNotNil(stack2.managedObjectModel, @"Model should not be nil");
-    XCTAssertNotNil(stack2.managedObjectContext, @"MOC should not be nil");
+    XCTAssertNotNil(stack2.mainManagedObjectContext, @"MOC should not be nil");
     XCTAssertNotNil(stack2.persistentStoreCoordinator, @"PSC should not be nil");
     XCTAssertEqualObjects(stack.persistentStoreCoordinator, stack2.persistentStoreCoordinator, @"PSC's should be equal");
     
@@ -143,7 +143,7 @@ static NSString* const kRZCoreDataStackCustomFilePath = @"test_tmp/RZCoreDataSta
     
     XCTAssertNotNil(stack, @"Stack should not be nil");
     XCTAssertNotNil(stack.managedObjectModel, @"Model should not be nil");
-    XCTAssertNotNil(stack.managedObjectContext, @"MOC should not be nil");
+    XCTAssertNotNil(stack.mainManagedObjectContext, @"MOC should not be nil");
     XCTAssertNotNil(stack.persistentStoreCoordinator, @"PSC should not be nil");
     
     XCTAssertTrue([[NSFileManager defaultManager] fileExistsAtPath:[self.customFileURL path]], @"sqlite file not created");
@@ -168,7 +168,7 @@ static NSString* const kRZCoreDataStackCustomFilePath = @"test_tmp/RZCoreDataSta
     
     XCTAssertNotNil(stack2, @"Stack should have been deleted and rebuilt");
     XCTAssertNotNil(stack2.managedObjectModel, @"Model should not be nil");
-    XCTAssertNotNil(stack2.managedObjectContext, @"MOC should not be nil");
+    XCTAssertNotNil(stack2.mainManagedObjectContext, @"MOC should not be nil");
     XCTAssertNotNil(stack2.persistentStoreCoordinator, @"PSC should not be nil");
 }
 
