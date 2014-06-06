@@ -30,6 +30,7 @@
 #import "NSManagedObject+RZVinylRecord.h"
 #import "RZCoreDataStack.h"
 #import "NSFetchRequest+RZVinylRecord.h"
+#import "NSManagedObject+RZVinylSubclass.h"
 #import "RZVinylDefines.h"
 
 @implementation NSManagedObject (RZVinylRecord)
@@ -279,18 +280,6 @@
     }
 
     return entityName;
-}
-
-#pragma mark - Subclassable
-
-+ (NSString *)rzv_primaryKey
-{
-    return nil;
-}
-
-+ (RZCoreDataStack *)rzv_coreDataStack
-{
-    return [RZCoreDataStack defaultStack];
 }
 
 #pragma mark - Private

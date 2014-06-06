@@ -27,6 +27,7 @@
 //  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #import "RZCoreDataStack.h"
+#import "NSManagedObject+RZVinylSubclass.h"
 #import "NSManagedObject+RZVinylRecord.h"
 #import "NSManagedObject+RZVinylImport.h"
 #import "NSFetchRequest+RZVinylRecord.h"

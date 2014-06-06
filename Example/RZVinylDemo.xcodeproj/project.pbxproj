@@ -34,6 +34,7 @@
 		9AB90883194107C30063445A /* BaseObject+RZVinyl.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AB90882194107C30063445A /* BaseObject+RZVinyl.m */; };
 		9AB9088619410A2D0063445A /* RZWaiter.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AB9088519410A2D0063445A /* RZWaiter.m */; };
 		9AB9088A194113D60063445A /* record_tests.json in Resources */ = {isa = PBXBuildFile; fileRef = 9AB90889194113D60063445A /* record_tests.json */; };
+		9AB9089019424B700063445A /* NSManagedObject+RZVinylSubclass.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AB9088F19424B700063445A /* NSManagedObject+RZVinylSubclass.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -91,6 +92,8 @@
 		9AB9088519410A2D0063445A /* RZWaiter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RZWaiter.m; sourceTree = "<group>"; };
 		9AB90889194113D60063445A /* record_tests.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = record_tests.json; sourceTree = "<group>"; };
 		9AB9088D19420A9C0063445A /* RZVinylDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RZVinylDefines.h; sourceTree = "<group>"; };
+		9AB9088E19424B700063445A /* NSManagedObject+RZVinylSubclass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSManagedObject+RZVinylSubclass.h"; sourceTree = "<group>"; };
+		9AB9088F19424B700063445A /* NSManagedObject+RZVinylSubclass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSManagedObject+RZVinylSubclass.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -217,6 +220,8 @@
 				9AB908701940FB0F0063445A /* NSFetchedResultsController+RZVinylRecord.m */,
 				9AB9081C193FD98F0063445A /* NSManagedObject+RZVinylRecord.h */,
 				9AB9081D193FD98F0063445A /* NSManagedObject+RZVinylRecord.m */,
+				9AB9088E19424B700063445A /* NSManagedObject+RZVinylSubclass.h */,
+				9AB9088F19424B700063445A /* NSManagedObject+RZVinylSubclass.m */,
 				9AB9086B1940E95D0063445A /* NSManagedObject+RZVinylImport.h */,
 				9AB9086C1940E95D0063445A /* NSManagedObject+RZVinylImport.m */,
 				9AB9088C19420A9C0063445A /* Private */,
@@ -402,6 +407,7 @@
 				9AB908741940FEB50063445A /* NSFetchRequest+RZVinylRecord.m in Sources */,
 				9A536137193F90E000E87F4F /* main.m in Sources */,
 				9AB908711940FB0F0063445A /* NSFetchedResultsController+RZVinylRecord.m in Sources */,
+				9AB9089019424B700063445A /* NSManagedObject+RZVinylSubclass.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

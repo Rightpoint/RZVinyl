@@ -36,7 +36,9 @@
  *  @note Because @p RZCoreDataStack uses a parent/child relationship between the PSC context and the main context,
  *        no "save" method is provided here. You must call @p -save: on the stack itself to persist data to the store.
  *
- *  @warning This category requires the use of @p RZCoreDataStack to access the default managed object context.
+ *  @warning This category requires the use of @p RZCoreDataStack to access the default managed object context,
+ *           as well as valid overrides for the methods in @p NSManagedObject+NSVinylSubclass.h on managed object subclasses.
+ *
  */
 @interface NSManagedObject (RZVinylRecord)
 
@@ -287,25 +289,5 @@
  *  @return The entity name.
  */
 + (NSString *)rzv_entityName;
-
-//
-//  Subclassing
-//
-
-/**
- *  Override in subclasses to provide the keypath to the property uniquely
- *  identifying this object
- *
- *  @return The keypath of the property uniquely identifying this object.
- */
-+ (NSString *)rzv_primaryKey;
-
-/**
- *  Override in subclasses to provide a different data stack for use with this
- *  model object class. Defaults to @p +[RZDataStack defaultStack]
- *
- *  @return The data stack to use for this model object class.
- */
-+ (RZCoreDataStack *)rzv_coreDataStack;
 
 @end
