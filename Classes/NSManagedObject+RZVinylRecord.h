@@ -31,7 +31,7 @@
 @class RZCoreDataStack;
 
 /**
- *  ActiveRecord-style extensinos for NSManagedObject.
+ *  ActiveRecord-style extensions for NSManagedObject.
  *
  *  @note Because @p RZCoreDataStack uses a parent/child relationship between the PSC context and the main context,
  *        no "save" method is provided here. You must call @p -save: on the stack itself to persist data to the store.
@@ -45,7 +45,7 @@
 //
 
 /**
- *  Create and return a new instance in the main default context.
+ *  Create and return a new instance in the main context.
  *
  *  @return A new object instance.
  */
@@ -61,8 +61,7 @@
 + (instancetype)rzv_newObjectInContext:(NSManagedObjectContext *)context;
 
 /**
- *  Return an instance of this managed object class with the provided value for its primary key
- *  from the main context.
+ *  Return an instance of this managed object class from the main context with the provided value for its primary key.
  *
  *  @param primaryValue The value of the primary key (e.g. the remoteID)
  *  @param createNew    Pass YES to create a new object if one is not found.
@@ -75,8 +74,8 @@
 + (instancetype)rzv_objectWithPrimaryKeyValue:(id)primaryValue createNew:(BOOL)createNew;
 
 /**
- *  Return an instance of this managed object class with the provided value for its primary key
- *  from the provided context.
+ *  Return an instance of this managed object class from the provided context with the provided value for its primary key.
+ *
  *
  *  @param primaryValue The value of the primary key (e.g. the remoteID)
  *  @param createNew    Pass YES to create a new object if one is not found.
@@ -90,7 +89,7 @@
 + (instancetype)rzv_objectWithPrimaryKeyValue:(id)primaryValue createNew:(BOOL)createNew inContext:(NSManagedObjectContext *)context;
 
 /**
- *  Find an object with the provided attribute/value pairs in the main default context and optionally create a new one if no match is found.
+ *  Find an object with the provided attribute/value pairs in the main context and optionally create a new one if no match is found.
  *
  *  @param values    Dictionary of key/value pairs for which to find a matching object. Must not be nil.
  *  @param createNew If YES and no match is found, a new object is created and initialized with the provided dictionary.
@@ -181,7 +180,7 @@
 + (NSArray *)rzv_where:(id)query sort:(NSArray *)sortDescriptors;
 
 /**
- *  Return the results of a fetch on a particular context using a predicate or format string
+ *  Return the results of a fetch on the provided context using a predicate or format string
  *  with optional sorting.
  *
  *  @param query            An @p NSPredicate or predicate format string. Passing nil will return all objects.
@@ -197,7 +196,7 @@
 //
 
 /**
- *  Return the count of objects of the receiver's type in the main default context.
+ *  Return the count of objects of the receiver's type in the main context.
  *
  *  @return The number of objects of this class's type.
  */
@@ -213,7 +212,7 @@
 + (NSUInteger)rzv_countInContext:(NSManagedObjectContext *)context;
 
 /**
- *  Return the count of objects of the receiver's type matching the query in the main default context.
+ *  Return the count of objects of the receiver's type matching the query in the main context.
  *
  *  @param query An @p NSPredicate or predicate format string. Passing nil will return the count of all objects.
  *
@@ -243,7 +242,7 @@
 - (void)rzv_delete;
 
 /**
- *  Delete all objects of the receiver's type from the main default context.
+ *  Delete all objects of the receiver's type from the main context.
  *
  *  @note You must save the @p RZCoreDataStack to persist the deletion to the store.
  */
@@ -259,7 +258,7 @@
 + (void)rzv_deleteAllInContext:(NSManagedObjectContext *)context;
 
 /**
- *  Delete all objects of the receiver's type matching the query from the main default context.
+ *  Delete all objects of the receiver's type matching the query from the main context.
  *
  *  @param query An @p NSPredicate or predicate format string. Passing nil will delete all objects.
  *
