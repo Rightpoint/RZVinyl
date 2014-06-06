@@ -81,33 +81,64 @@
  */
 + (instancetype)rzv_objectWithPrimaryKeyValue:(id)primaryValue createNew:(BOOL)createNew inContext:(NSManagedObjectContext *)context;
 
+/**
+ *  Find an object with the provided attribute/value pairs in the current thread's default context and optionally create a new one if no match is found.
+ *
+ *  @param values    Dictionary of key/value pairs for which to find a matching object. Must not be nil.
+ *  @param createNew If YES and no match is found, a new object is created and initialized with the provided dictionary.
+ *
+ *  @return A matching or new object with the provided attributes, or nil if @p createNew is NO and no match is found.
+ */
++ (instancetype)rzv_objectWithAttributes:(NSDictionary *)attributes createNew:(BOOL)createNew;
+
+/**
+ *  Find an object with the provided attribute/value pairs in the provided context and optionally create a new one if no match is found.
+ *
+ *  @param values    Dictionary of key/value pairs for which to find a matching object. Must not be nil.
+ *  @param createNew If YES and no match is found, a new object is created and initialized with the provided dictionary.
+ *  @param context   The context in which to find/create the object. Must not be nil.
+ *
+ *  @return A matching or new object with the provided attributes, or nil if @p createNew is NO and no match is found.
+ */
++ (instancetype)rzv_objectWithAttributes:(NSDictionary *)attributes createNew:(BOOL)createNew inContext:(NSManagedObjectContext *)context;
+
+
 //
 //  Query/Fetch
 //
 
 /**
- *  Return an array of all objects of the receiver's entity in the current thread's context.
+ *  Return an array of all objects of the receiver's type in the current thread's context.
  *
- *  @return All objects of this class's entity type.
+ *  @return All objects of this class's type.
  */
 + (NSArray *)rzv_all;
 
 /**
- *  Return an array of all objects of the receiver's entity in the current thread's context, optionally sorted.
+ *  Return an array of all objects of the receiver's type in the provided context.
+ *
+ *  @param context Context in which to fetch
+ *
+ *  @return All objects of this class's type.
+ */
++ (NSArray *)rzv_allInContext:(NSManagedObjectContext *)context;
+
+/**
+ *  Return an array of all objects of the receiver's type in the current thread's context, optionally sorted.
  *
  *  @param sortDescriptors An array of sort descriptors to sort the results.
  *
- *  @return All objects of this class's entity type.
+ *  @return All objects of this class's type.
  */
 + (NSArray *)rzv_allSorted:(NSArray *)sortDescriptors;
 
 /**
- *  Return an array of all objects of the receiver's entity in the provided context, optionally sorted.
+ *  Return an array of all objects of the receiver's type in the provided context, optionally sorted.
  *
  *  @param sortDescriptors An array of sort descriptors to sort the results.
  *  @param context         The context from which to fetch objects.
  *
- *  @return All objects of this class's entity type.
+ *  @return All objects of this class's type.
  */
 + (NSArray *)rzv_allSorted:(NSArray *)sortDescriptors inContext:(NSManagedObjectContext *)context;
 

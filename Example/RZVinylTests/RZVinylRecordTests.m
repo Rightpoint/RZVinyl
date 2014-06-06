@@ -128,13 +128,11 @@
         finished = YES;
     }];
     
-    [[RZWaiter waiter] waitWithTimeout:3
-                          pollInterval:0.1
-                        checkCondition:^BOOL{
-                            return finished;
-                        } onTimeout:^{
-                            XCTFail(@"Operation timed out");
-                        }];
+    [RZWaiter waitWithTimeout:3 pollInterval:0.1 checkCondition:^BOOL{
+        return finished;
+    } onTimeout:^{
+        XCTFail(@"Operation timed out");
+    }];
     
     finished = NO;
     
@@ -161,13 +159,11 @@
         finished = YES;
     }];
     
-    [[RZWaiter waiter] waitWithTimeout:3
-                          pollInterval:0.1
-                        checkCondition:^BOOL{
-                            return finished;
-                        } onTimeout:^{
-                            XCTFail(@"Operation timed out");
-                        }];
+    [RZWaiter waitWithTimeout:3 pollInterval:0.1 checkCondition:^BOOL{
+        return finished;
+    } onTimeout:^{
+        XCTFail(@"Operation timed out");
+    }];
 }
 
 - (void)test_FetchAll
@@ -184,6 +180,30 @@
     
     // Get all artists sorted by name
     artists = [Artist rzv_allSorted:@[RZVSortDesc(@"name", YES)]];
+    XCTAssertNotNil(artists, @"Should not return nil");
+    
+    NSArray *expectedNames = @[@"BCee", @"Dusky", @"Tool"];
+    XCTAssertEqualObjects([artists valueForKey:@"name"], expectedNames, @"Not in expected order");
+    
+    // Background get all
+    __block BOOL finished = NO;
+    [self.stack performBlockUsingBackgroundContext:^(NSManagedObjectContext *moc) {
+        
+        NSArray *artists = [Artist rzv_all];
+        XCTAssertNotNil(artists, @"Should not return nil");
+        XCTAssertEqual(artists.count, 3, @"Should be three artists");
+        
+    } completion:^(NSError *err) {
+        
+        XCTAssertNil(err, @"An error occurred during the background save: %@", err);
+        finished = YES;
+    }];
+    
+    [RZWaiter waitWithTimeout:3 pollInterval:0.1 checkCondition:^BOOL{
+        return finished;
+    } onTimeout:^{
+        XCTFail(@"Operation timed out");
+    }];
 }
 
 - (void)test_QueryString

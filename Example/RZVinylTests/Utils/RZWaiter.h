@@ -14,9 +14,7 @@ typedef void(^RZWaiterTimeout)(void);
 
 @interface RZWaiter : NSObject
 
-+ (RZWaiter*)waiter;
-
-- (void)waitWithTimeout:(NSTimeInterval)timeout
++ (void)waitWithTimeout:(NSTimeInterval)timeout
            pollInterval:(NSTimeInterval)delay
          checkCondition:(RZWaiterPollBlock)conditionBlock
               onTimeout:(RZWaiterTimeout)timeoutBlock;

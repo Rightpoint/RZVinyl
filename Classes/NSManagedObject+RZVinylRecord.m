@@ -83,11 +83,52 @@
     return object;
 }
 
++ (instancetype)rzv_objectWithAttributes:(NSDictionary *)attributes createNew:(BOOL)createNew
+{
+    RZCoreDataStack *stack = [self rzv_coreDataStack];
+    if ( !RZVAssert(stack != nil, @"No core data stack provided for class %@. Ensure that +rzv_coreDataStack is returning a valid instance.", NSStringFromClass(self)) ) {
+        return nil;
+    }
+    return [self rzv_objectWithAttributes:attributes createNew:createNew inContext:[stack currentThreadContext]];
+}
+
++ (instancetype)rzv_objectWithAttributes:(NSDictionary *)attributes createNew:(BOOL)createNew inContext:(NSManagedObjectContext *)context
+{
+    if ( !RZVParameterAssert(attributes) || !RZVParameterAssert(context) ) {
+        return nil;
+    }
+    
+    NSMutableArray *predicates = [NSMutableArray array];
+    [attributes enumerateKeysAndObjectsUsingBlock:^(NSString *key, id value, BOOL *stop) {
+        [predicates addObject:[NSPredicate predicateWithFormat:@"%K == %@", key, value]];
+    }];
+    
+    NSFetchRequest *fetch = [NSFetchRequest rzv_forEntity:[self rzv_entityName]
+                                            withPredicate:[NSCompoundPredicate andPredicateWithSubpredicates:predicates]
+                                                     sort:nil
+                                                inContext:context];
+    NSError *error = nil;
+    id result = [[context executeFetchRequest:fetch error:&error] lastObject];
+    if ( error ) {
+        RZVLogError(@"Error performing fetch: %@", error);
+    }
+    else if ( result == nil && createNew ) {
+        result = [self rzv_newObjectInContext:context];
+        [result setValuesForKeysWithDictionary:attributes];
+    }
+    return result;
+}
+
 #pragma mark - Query/Fetch
 
 + (NSArray *)rzv_all
 {
     return [self rzv_where:nil];
+}
+
++ (NSArray *)rzv_allInContext:(NSManagedObjectContext *)context
+{
+    return [self rzv_where:nil sort:nil inContext:context];
 }
 
 + (NSArray *)rzv_allSorted:(NSArray *)sortDescriptors
