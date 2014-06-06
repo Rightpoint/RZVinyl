@@ -10,7 +10,8 @@ task :sync do
 end
 
 task :test do
-  sh("xctool -project '#{PROJ_PATH}' -scheme '#{TEST_SCHEME}' -sdk iphonesimulator clean test")
+  sh("xctool -project '#{PROJ_PATH}' -scheme '#{TEST_SCHEME}' -sdk iphonesimulator clean test") rescue nil
+  exit $?.exitstatus
 end
 
 task :usage do
