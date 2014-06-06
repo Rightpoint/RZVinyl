@@ -31,11 +31,33 @@
 
 @interface NSFetchedResultsController (RZVinylRecord)
 
+/**
+ *  Returns a configured fetched results controller based on the provided arguments.
+ *
+ *  @param entityName      The name of the entity to fetch. Must not be nil.
+ *  @param context         The context in which to fetch. Must not be nil.
+ *  @param predicate       An optional predicate for the fetch.
+ *  @param sortDescriptors An optional array of sort descriptors to sort the results.
+ *
+ *  @return A configured fetched results controller.
+ */
 + (instancetype)rzv_forEntity:(NSString *)entityName
                     inContext:(NSManagedObjectContext *)context
                 withPredicate:(NSPredicate *)predicate
               sortDescriptors:(NSArray *)sortDescriptors;
 
+/**
+ *  Returns a configured fetched results controller based on the provided arguments.
+ *
+ *  @param entityName      The name of the entity to fetch. Must not be nil.
+ *  @param context         The context in which to fetch. Must not be nil.
+ *  @param predicate       An optional predicate for the fetch.
+ *  @param sortDescriptors An optional array of sort descriptors to sort the results.
+ *  @param sectionNameKeyPath An optional keypath by which to group the results into sections.
+ *  @param cacheName       An optional cache name for the controller. Pass nil to disable caching.
+ *
+ *  @return A configured fetched results controller.
+ */
 + (instancetype)rzv_forEntity:(NSString *)entityName
                     inContext:(NSManagedObjectContext *)context
                 withPredicate:(NSPredicate *)predicate
