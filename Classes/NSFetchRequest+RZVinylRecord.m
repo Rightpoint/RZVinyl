@@ -28,6 +28,7 @@
 
 
 #import "NSFetchRequest+RZVinylRecord.h"
+#import "RZVinylDefines.h"
 
 @implementation NSFetchRequest (RZVinylRecord)
 
@@ -35,6 +36,11 @@
 {
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     NSEntityDescription *entity = [NSEntityDescription entityForName:entityName inManagedObjectContext:context];
+    
+    if ( !RZVAssert(entity != nil, @"Cannot find entity named %@ in context", entityName)) {
+        return nil;
+    }
+    
     [fetchRequest setEntity:entity];
     
     if ( predicate ) {

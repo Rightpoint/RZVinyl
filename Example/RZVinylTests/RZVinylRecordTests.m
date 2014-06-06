@@ -295,12 +295,27 @@
 
 - (void)test_QueryPredicate
 {
-
-}
-
-- (void)test_QuerySort
-{
-
+    // Get all artists who have songs
+    NSArray *artists = [Artist rzv_where:[NSPredicate predicateWithFormat:@"songs.@count > 0"]];
+    XCTAssertEqual(artists.count, 2, @"Should be two artists with songs");
+    
+    // Get all artists who have songs sorted by name
+    NSArray *expectedNames = @[@"Dusky", @"Tool"];
+    
+    artists = [Artist rzv_where:[NSPredicate predicateWithFormat:@"songs.@count > 0"] sort:@[RZVKeySort(@"name", YES)]];
+    XCTAssertEqual(artists.count, 2, @"Should be two artists with songs");
+    XCTAssertEqualObjects(expectedNames, [artists valueForKey:@"name"], @"Not in correct order");
+    
+    // Try on child context
+    NSManagedObjectContext *scratchContext = [self.stack temporaryChildManagedObjectContext];
+    artists = [Artist rzv_where:[NSPredicate predicateWithFormat:@"songs.@count > 0"] inContext:scratchContext];
+    XCTAssertEqual(artists.count, 2, @"Should be two artists with songs");
+    XCTAssertEqual([[artists lastObject] managedObjectContext], scratchContext, @"Wrong Context");
+    
+    artists = [Artist rzv_where:[NSPredicate predicateWithFormat:@"songs.@count > 0"] sort:@[RZVKeySort(@"name", YES)] inContext:scratchContext];
+    XCTAssertEqual(artists.count, 2, @"Should be two artists with songs");
+    XCTAssertEqualObjects(expectedNames, [artists valueForKey:@"name"], @"Not in correct order");
+    XCTAssertEqual([[artists lastObject] managedObjectContext], scratchContext, @"Wrong Context");
 }
 
 - (void)test_Count
@@ -392,7 +407,6 @@
             Artist *mainDusky = [Artist rzv_objectWithPrimaryKeyValue:@1000 createNew:NO];
             XCTAssertNotNil(mainDusky, @"Should be a matching object on the main context prior to child save");
         }];
-        
     }];
     
     NSError *saveErr = nil;
@@ -405,7 +419,54 @@
 
 - (void)test_DeleteAll
 {
+    NSArray *artists = [Artist rzv_all];
+    XCTAssertEqual(artists.count, 3, @"Should be three artists to start");
     
+    [Artist rzv_deleteAll];
+    artists = [Artist rzv_all];
+    XCTAssertEqual(artists.count, 0, @"Should be no artists after delete all");
+    
+    [self.stack.mainManagedObjectContext reset];
+    
+    artists = [Artist rzv_all];
+    XCTAssertEqual(artists.count, 3, @"Should be three artists to start");
+    
+    [Artist rzv_deleteAllWhere:@"songs.@count == 0"];
+    artists = [Artist rzv_all];
+    XCTAssertEqual(artists.count, 2, @"Should be 2 artists after delete all with predicate");
+    
+    [self.stack.mainManagedObjectContext reset];
+
+    // Repeat in background
+    __block BOOL finished = NO;
+    [self.stack performBlockUsingBackgroundContext:^(NSManagedObjectContext *moc) {
+        
+        NSArray *artists = [Artist rzv_allInContext:moc];
+        XCTAssertEqual(artists.count, 3, @"Should be three artists to start");
+        
+        [Artist rzv_deleteAllInContext:moc];
+        artists = [Artist rzv_allInContext:moc];
+        XCTAssertEqual(artists.count, 0, @"Should be no artists after delete all");
+        
+        [moc reset];
+        
+        artists = [Artist rzv_allInContext:moc];
+        XCTAssertEqual(artists.count, 3, @"Should be three artists to start");
+        
+        [Artist rzv_deleteAllWhere:@"songs.@count == 0"];
+        artists = [Artist rzv_allInContext:moc];
+        XCTAssertEqual(artists.count, 2, @"Should be 2 artists after delete all with predicate");
+        
+    } completion:^(NSError *err) {
+        XCTAssertNil(err, @"An error occurred during the background save: %@", err);
+        finished = YES;
+    }];
+    
+    [RZWaiter waitWithTimeout:3 pollInterval:0.1 checkCondition:^BOOL{
+        return finished;
+    } onTimeout:^{
+        XCTFail(@"Operation timed out");
+    }];
 }
 
 @end
