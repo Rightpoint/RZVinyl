@@ -1,4 +1,5 @@
 PROJ_PATH="Example/RZVinylDemo.xcodeproj"
+TEST_SCHEME="RZVinylDemo"
 
 # task :test do
 #   Rake::Task['tests:test'].invoke
@@ -9,7 +10,7 @@ task :sync do
 end
 
 task :test do
-  
+  sh("xctool -project '#{PROJ_PATH}' -scheme '#{TEST_SCHEME}' -sdk iphonesimulator clean test")
 end
 
 task :usage do

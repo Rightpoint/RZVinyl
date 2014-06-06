@@ -216,7 +216,15 @@
 
 - (void)test_FetchOrCreateByAttributes
 {
-    
+    Artist *dusky = [Artist rzv_objectWithAttributes:@{ @"name" : @"Dusky" } createNew:NO];
+    XCTAssertNotNil(dusky, @"Should be a matching object");
+    XCTAssertEqualObjects(dusky.name, @"Dusky", @"Wrong object");
+    XCTAssertFalse([dusky.managedObjectContext hasChanges], @"Moc should not have changes");
+
+    Artist *pezzner = [Artist rzv_objectWithAttributes:@{ @"name" : @"Pezzner" } createNew:YES];
+    XCTAssertNotNil(pezzner, @"Should be a new object");
+    XCTAssertEqualObjects(pezzner.name, @"Pezzner", @"Failed to prepopulate new object");
+    XCTAssertTrue([pezzner.managedObjectContext hasChanges], @"Moc should have changes from new object");
 }
 
 - (void)test_FetchAll
@@ -238,7 +246,7 @@
     NSArray *expectedNames = @[@"BCee", @"Dusky", @"Tool"];
     XCTAssertEqualObjects([artists valueForKey:@"name"], expectedNames, @"Not in expected order");
     
-    // Background get all
+    // Background fetch all
     __block BOOL finished = NO;
     [self.stack performBlockUsingBackgroundContext:^(NSManagedObjectContext *moc) {
         
@@ -247,7 +255,6 @@
         XCTAssertEqual(artists.count, 3, @"Should be three artists");
         
     } completion:^(NSError *err) {
-        
         XCTAssertNil(err, @"An error occurred during the background save: %@", err);
         finished = YES;
     }];
@@ -274,9 +281,109 @@
 
 }
 
-- (void)testCount
+- (void)test_Count
 {
+    NSUInteger artistCount = [Artist rzv_count];
+    XCTAssertEqual(artistCount, 3, @"Should be three artists");
+    
+    NSUInteger artistsWithSongsCount = [Artist rzv_countWhere:@"songs.@count != 0"];
+    XCTAssertEqual(artistsWithSongsCount, 2, @"Should be two artists with songs");
+}
 
+- (void)test_Delete
+{
+    Artist *dusky = [Artist rzv_objectWithPrimaryKeyValue:@1000 createNew:NO];
+    XCTAssertNotNil(dusky, @"Should be a matching object");
+    
+    [dusky rzv_delete];
+    XCTAssertTrue(dusky.isDeleted, @"Should be deleted");
+    dusky = [Artist rzv_objectWithPrimaryKeyValue:@1000 createNew:NO];
+    XCTAssertNil(dusky, @"Fetching again should not return deleted object");
+    
+    [self.stack.mainManagedObjectContext reset];
+    
+    dusky = [Artist rzv_objectWithPrimaryKeyValue:@1000 createNew:NO];
+    XCTAssertNotNil(dusky, @"Fetching after reset without save should return object.");
+
+    [dusky rzv_delete];
+    XCTAssertTrue(dusky.isDeleted, @"Should be deleted");
+    dusky = [Artist rzv_objectWithPrimaryKeyValue:@1000 createNew:NO];
+    XCTAssertNil(dusky, @"Fetching again should not return deleted object");
+    
+    [self.stack save:YES];
+    [self.stack.mainManagedObjectContext reset];
+    
+    dusky = [Artist rzv_objectWithPrimaryKeyValue:@1000 createNew:NO];
+    XCTAssertNil(dusky, @"Fetching after reset with save should not return object.");
+}
+
+- (void)test_BackgroundDelete
+{
+    __block BOOL finished = NO;
+    
+    [self.stack performBlockUsingBackgroundContext:^(NSManagedObjectContext *moc) {
+        
+        Artist *dusky = [Artist rzv_objectWithPrimaryKeyValue:@1000 createNew:NO];
+        XCTAssertNotNil(dusky, @"Should be a matching object");
+        
+        [dusky rzv_delete];
+        XCTAssertTrue(dusky.isDeleted, @"Should be deleted");
+        dusky = [Artist rzv_objectWithPrimaryKeyValue:@1000 createNew:NO];
+        XCTAssertNil(dusky, @"Fetching again should not return deleted object");
+        
+        [[self.stack mainManagedObjectContext] performBlockAndWait:^{
+            Artist *mainDusky = [Artist rzv_objectWithPrimaryKeyValue:@1000 createNew:NO];
+            XCTAssertNotNil(mainDusky, @"Should be a matching object on the main context prior to save");
+        }];
+        
+    } completion:^(NSError *err) {
+        XCTAssertNil(err, @"An error occurred during the background save: %@", err);
+        
+        Artist *mainDusky = [Artist rzv_objectWithPrimaryKeyValue:@1000 createNew:NO];
+        XCTAssertNil(mainDusky, @"Should not be a matching object on the main context after save");
+        
+        finished = YES;
+    }];
+    
+    [RZWaiter waitWithTimeout:3 pollInterval:0.1 checkCondition:^BOOL{
+        return finished;
+    } onTimeout:^{
+        XCTFail(@"Operation timed out");
+    }];
+}
+
+- (void)test_ChildDelete
+{
+    NSManagedObjectContext *scratchContext = [self.stack temporaryChildManagedObjectContext];
+    [scratchContext performBlockAndWait:^{
+        
+        Artist *dusky = [Artist rzv_objectWithPrimaryKeyValue:@1000 createNew:NO inContext:scratchContext];
+        XCTAssertNotNil(dusky, @"Should be a matching object");
+        XCTAssertEqualObjects(dusky.managedObjectContext, scratchContext, @"Object is in wrong context");
+        
+        [dusky rzv_delete];
+        XCTAssertTrue(dusky.isDeleted, @"Should be deleted");
+        dusky = [Artist rzv_objectWithPrimaryKeyValue:@1000 createNew:NO inContext:scratchContext];
+        XCTAssertNil(dusky, @"Fetching again should not return deleted object");
+        
+        [[self.stack mainManagedObjectContext] performBlockAndWait:^{
+            Artist *mainDusky = [Artist rzv_objectWithPrimaryKeyValue:@1000 createNew:NO];
+            XCTAssertNotNil(mainDusky, @"Should be a matching object on the main context prior to child save");
+        }];
+        
+    }];
+    
+    NSError *saveErr = nil;
+    [scratchContext save:&saveErr];
+    XCTAssertNil(saveErr, @"Save caused an error: %@", saveErr);
+    
+    Artist *mainDusky = [Artist rzv_objectWithPrimaryKeyValue:@1000 createNew:NO];
+    XCTAssertNil(mainDusky, @"Should not be a matching object on the main context after child save");
+}
+
+- (void)test_DeleteAll
+{
+    
 }
 
 @end

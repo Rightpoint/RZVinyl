@@ -169,7 +169,7 @@ typedef NS_OPTIONS(NSUInteger, RZCoreDataStackOptions)
  *
  */
 - (void)performBlockUsingBackgroundContext:(RZCoreDataStackTransactionBlock)block
-                                completion:(void(^)(NSError *))completion;
+                                completion:(void(^)(NSError *err))completion;
 
 /**
  *  Spawn and return a temporary child context with private queue confinement.

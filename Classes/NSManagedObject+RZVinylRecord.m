@@ -73,9 +73,9 @@
         return nil;
     }
 
-    id object = [[self rzv_where:[NSPredicate predicateWithFormat:@"%K == %@", primaryKey, primaryValue]] lastObject];
+    id object = [[self rzv_where:[NSPredicate predicateWithFormat:@"%K == %@", primaryKey, primaryValue] inContext:context] lastObject];
     if ( object == nil && createNew ) {
-        object = [NSEntityDescription insertNewObjectForEntityForName:[self rzv_entityName] inManagedObjectContext:context];
+        object = [self rzv_newObjectInContext:context];
         [object setValue:primaryValue forKeyPath:primaryKey];
     }
     
@@ -143,6 +143,11 @@
 + (NSArray *)rzv_where:(id)query
 {
     return [self rzv_where:query sort:nil];
+}
+
++ (NSArray *)rzv_where:(id)query inContext:(NSManagedObjectContext *)context
+{
+    return [self rzv_where:query sort:nil inContext:context];
 }
 
 + (NSArray *)rzv_where:(id)query sort:(NSArray *)sortDescriptors
@@ -219,7 +224,7 @@
 
 - (void)rzv_delete
 {
-    if ( self.isInserted && self.managedObjectContext ) {
+    if ( self.managedObjectContext ) {
         [self.managedObjectContext deleteObject:self];
     }
     else {

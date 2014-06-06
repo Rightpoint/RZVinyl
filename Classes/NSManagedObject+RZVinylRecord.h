@@ -160,6 +160,16 @@
 + (NSArray *)rzv_where:(id)query;
 
 /**
+ *  Return the results of a fetch on the provided context using a predicate or format string.
+ *
+ *  @param query An @p NSPredicate or predicate format string. Passing nil will return all objects.
+ *  @param context          The managed object context on which to perform the fetch. Must not be nil.
+ *
+ *  @return The results of the fetch.
+ */
++ (NSArray *)rzv_where:(id)query inContext:(NSManagedObjectContext *)context;
+
+/**
  *  Return the results of a fetch on the current thread's context using a predicate or format string
  *  with optional sorting.
  *
