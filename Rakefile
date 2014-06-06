@@ -5,6 +5,12 @@ TEST_SCHEME="RZVinylDemo"
 #   Rake::Task['tests:test'].invoke
 # end
 
+task :prepare do
+  sh("brew update") rescue nil
+  exit $?.exitstatus unless $?.success?
+  sh("brew upgrade xctool") rescue nil # don't care if this fails on travis
+end
+
 task :sync do
   sync_project(PROJ_PATH, '--exclusion /Classes')
 end
