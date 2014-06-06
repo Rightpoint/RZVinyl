@@ -240,7 +240,7 @@
     XCTAssertEqual(songs.count, 3, @"Should be three songs");
     
     // Get all artists sorted by name
-    artists = [Artist rzv_allSorted:@[RZVSortDesc(@"name", YES)]];
+    artists = [Artist rzv_allSorted:@[RZVKeySort(@"name", YES)]];
     XCTAssertNotNil(artists, @"Should not return nil");
     
     NSArray *expectedNames = @[@"BCee", @"Dusky", @"Tool"];
@@ -268,7 +268,27 @@
 
 - (void)test_QueryString
 {
+    // Get all artists who have songs
+    NSArray *artists = [Artist rzv_where:@"songs.@count > 0"];
+    XCTAssertEqual(artists.count, 2, @"Should be two artists with songs");
+    
+    // Get all artists who have songs sorted by name
+    NSArray *expectedNames = @[@"Dusky", @"Tool"];
 
+    artists = [Artist rzv_where:@"songs.@count > 0" sort:@[RZVKeySort(@"name", YES)]];
+    XCTAssertEqual(artists.count, 2, @"Should be two artists with songs");
+    XCTAssertEqualObjects(expectedNames, [artists valueForKey:@"name"], @"Not in correct order");
+    
+    // Try on child context
+    NSManagedObjectContext *scratchContext = [self.stack temporaryChildManagedObjectContext];
+    artists = [Artist rzv_where:@"songs.@count > 0" inContext:scratchContext];
+    XCTAssertEqual(artists.count, 2, @"Should be two artists with songs");
+    XCTAssertEqual([[artists lastObject] managedObjectContext], scratchContext, @"Wrong Context");
+    
+    artists = [Artist rzv_where:@"songs.@count > 0" sort:@[RZVKeySort(@"name", YES)] inContext:scratchContext];
+    XCTAssertEqual(artists.count, 2, @"Should be two artists with songs");
+    XCTAssertEqualObjects(expectedNames, [artists valueForKey:@"name"], @"Not in correct order");
+    XCTAssertEqual([[artists lastObject] managedObjectContext], scratchContext, @"Wrong Context");
 }
 
 - (void)test_QueryPredicate

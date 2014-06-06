@@ -39,5 +39,5 @@
 /**
  *  Shorthand for creating an NSSortDescriptor
  */
-#define RZVSortDesc(keyPath, isAscending) \
+#define RZVKeySort(keyPath, isAscending) \
     [NSSortDescriptor sortDescriptorWithKey:keyPath ascending:isAscending]
