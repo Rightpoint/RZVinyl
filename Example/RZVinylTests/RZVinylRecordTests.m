@@ -103,11 +103,16 @@
     XCTAssertEqualObjects(matchingArtist.name, @"Sergio", @"Fetched artist has wrong name");
 }
 
-- (void)test_BackgroundSavePropagation
+- (void)test_BackgroundBlock
 {
     __block BOOL finished = NO;
     
     [self.stack performBlockUsingBackgroundContext:^(NSManagedObjectContext *moc) {
+        
+        XCTAssertNotEqualObjects(moc, self.stack.managedObjectContext, @"Current moc should not equal main moc");
+        XCTAssertNotEqualObjects([self.stack currentThreadContext], self.stack.managedObjectContext, @"Current moc should not equal main moc");
+        XCTAssertEqualObjects([self.stack currentThreadContext], moc, @"Current moc should equal block's moc");
+
         Artist *newArtist = nil;
         XCTAssertNoThrow(newArtist = [Artist rzv_newObject], @"Creation threw exception");
         XCTAssertNotNil(newArtist, @"Failed to create new object");
@@ -164,6 +169,54 @@
     } onTimeout:^{
         XCTFail(@"Operation timed out");
     }];
+}
+
+- (void)test_FetchOrCreateByPrimary
+{
+    Artist *dusky = [Artist rzv_objectWithPrimaryKeyValue:@1000 createNew:NO];
+    XCTAssertNotNil(dusky, @"Should be a matching object");
+    XCTAssertEqualObjects(dusky.name, @"Dusky", @"Wrong object");
+    
+    Artist *pezzner = [Artist rzv_objectWithPrimaryKeyValue:@9999 createNew:YES];
+    XCTAssertNotNil(pezzner, @"Should be new object");
+    XCTAssertTrue([self.stack.managedObjectContext hasChanges], @"Moc should have changes after new object add");
+    XCTAssertEqualObjects(pezzner.remoteID, @9999, @"New object should have correct primary key value");
+    XCTAssertNil(pezzner.name, @"New object should have nil attributes");
+    
+    [self.stack.managedObjectContext reset];
+    
+    __block BOOL finished = NO;
+    
+    [self.stack performBlockUsingBackgroundContext:^(NSManagedObjectContext *moc) {
+        
+        Artist *dusky = [Artist rzv_objectWithPrimaryKeyValue:@1000 createNew:NO];
+        XCTAssertNotNil(dusky, @"Should be a matching object");
+        XCTAssertEqualObjects(dusky.name, @"Dusky", @"Wrong object");
+        XCTAssertEqualObjects(moc, dusky.managedObjectContext, @"Wrong context");
+        
+        Artist *pezzner = [Artist rzv_objectWithPrimaryKeyValue:@9999 createNew:YES];
+        XCTAssertNotNil(pezzner, @"Should be new object");
+        XCTAssertTrue([[self.stack currentThreadContext] hasChanges], @"Moc should have changes after new object add");
+        XCTAssertEqualObjects(pezzner.remoteID, @9999, @"New object should have correct primary key value");
+        XCTAssertNil(pezzner.name, @"New object should have nil attributes");
+        XCTAssertEqualObjects(moc, pezzner.managedObjectContext, @"Wrong context");
+
+        
+    } completion:^(NSError *err) {
+        XCTAssertNil(err, @"An error occurred during the background save: %@", err);
+        finished = YES;
+    }];
+    
+    [RZWaiter waitWithTimeout:3 pollInterval:0.1 checkCondition:^BOOL{
+        return finished;
+    } onTimeout:^{
+        XCTFail(@"Operation timed out");
+    }];
+}
+
+- (void)test_FetchOrCreateByAttributes
+{
+    
 }
 
 - (void)test_FetchAll

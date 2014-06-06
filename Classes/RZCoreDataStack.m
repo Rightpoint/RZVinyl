@@ -138,7 +138,7 @@ static NSString* const kRZCoreDataStackThreadContextKey = @"RZCoreDataStackConte
     return context;
 }
 
-- (void)performBlockUsingBackgroundContext:(RZCoreDataStackTransactionBlock)block completion:(void (^)(NSError *))completion
+- (void)performBlockUsingBackgroundContext:(RZCoreDataStackTransactionBlock)block completion:(void (^)(NSError *err))completion
 {
     if ( !RZVParameterAssert(block) ) {
         return;
