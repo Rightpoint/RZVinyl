@@ -38,8 +38,8 @@
 
 + (instancetype)rzv_newObject
 {
-    RZCoreDataStack *stack = [self rzv_coreDataStack];
-    if ( !RZVAssert(stack != nil, @"No core data stack provided for class %@. Ensure that +rzv_coreDataStack is returning a valid instance.", NSStringFromClass(self)) ) {
+    RZCoreDataStack *stack = [self rzv_validCoreDataStack];
+    if ( stack == nil ){
         return nil;
     }
     return [self rzv_newObjectInContext:[stack currentThreadManagedObjectContext]];
@@ -55,11 +55,10 @@
 
 + (instancetype)rzv_objectWithPrimaryKeyValue:(id)primaryValue createNew:(BOOL)createNew
 {
-    RZCoreDataStack *stack = [self rzv_coreDataStack];
-    if ( !RZVAssert(stack != nil, @"No core data stack provided for class %@. Ensure that +rzv_coreDataStack is returning a valid instance.", NSStringFromClass(self)) ) {
+    RZCoreDataStack *stack = [self rzv_validCoreDataStack];
+    if ( stack == nil ){
         return nil;
     }
-    
     return [self rzv_objectWithPrimaryKeyValue:primaryValue createNew:createNew inContext:[stack currentThreadManagedObjectContext]];
 }
 
@@ -85,8 +84,8 @@
 
 + (instancetype)rzv_objectWithAttributes:(NSDictionary *)attributes createNew:(BOOL)createNew
 {
-    RZCoreDataStack *stack = [self rzv_coreDataStack];
-    if ( !RZVAssert(stack != nil, @"No core data stack provided for class %@. Ensure that +rzv_coreDataStack is returning a valid instance.", NSStringFromClass(self)) ) {
+    RZCoreDataStack *stack = [self rzv_validCoreDataStack];
+    if ( stack == nil ){
         return nil;
     }
     return [self rzv_objectWithAttributes:attributes createNew:createNew inContext:[stack currentThreadManagedObjectContext]];
@@ -148,11 +147,10 @@
 
 + (NSArray *)rzv_where:(id)query sort:(NSArray *)sortDescriptors
 {
-    RZCoreDataStack *stack = [self rzv_coreDataStack];
-    if ( !RZVAssert(stack != nil, @"No core data stack provided for class %@. Ensure that +rzv_coreDataStack is returning a valid instance.", NSStringFromClass(self)) ) {
+    RZCoreDataStack *stack = [self rzv_validCoreDataStack];
+    if ( stack == nil ){
         return nil;
     }
-    
     return [self rzv_where:query sort:sortDescriptors inContext:[stack currentThreadManagedObjectContext]];
 }
 
@@ -186,11 +184,10 @@
 
 + (NSUInteger)rzv_countWhere:(id)query
 {
-    RZCoreDataStack *stack = [self rzv_coreDataStack];
-    if ( !RZVAssert(stack != nil, @"No core data stack provided for class %@. Ensure that +rzv_coreDataStack is returning a valid instance.", NSStringFromClass(self)) ) {
+    RZCoreDataStack *stack = [self rzv_validCoreDataStack];
+    if ( stack == nil ){
         return 0;
     }
-    
     return [self rzv_countWhere:query inContext:[stack currentThreadManagedObjectContext]];
 }
 
@@ -261,11 +258,10 @@
 
 + (NSString *)rzv_cachedEntityName
 {
-    RZCoreDataStack *stack = [self rzv_coreDataStack];
-    if ( !RZVAssert(stack != nil, @"No core data stack provided for class %@. Ensure that +rzv_coreDataStack is returning a valid instance.", NSStringFromClass(self)) ) {
+    RZCoreDataStack *stack = [self rzv_validCoreDataStack];
+    if ( stack == nil ){
         return nil;
     }
-    
     NSString *className = NSStringFromClass(self);
     __block NSString *entityName = [[self rzv_s_cachedEntityNames] objectForKey:className];
     if ( entityName == nil ) {
@@ -280,6 +276,15 @@
         }
     }
     return entityName;
+}
+
++ (RZCoreDataStack *)rzv_validCoreDataStack
+{
+    RZCoreDataStack *stack = [self rzv_coreDataStack];
+    if ( !RZVAssert(stack != nil, @"No core data stack provided for class %@. Ensure that +rzv_coreDataStack is returning a valid instance.", NSStringFromClass(self)) ) {
+        return nil;
+    }
+    return stack;
 }
 
 + (NSPredicate *)rzv_predicateForQuery:(id)query
