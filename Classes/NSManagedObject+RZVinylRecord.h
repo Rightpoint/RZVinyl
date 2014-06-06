@@ -30,6 +30,14 @@
 
 @class RZCoreDataStack;
 
+/**
+ *  ActiveRecord-style extensinos for NSManagedObject.
+ *
+ *  @note Because @p RZCoreDataStack uses a parent/child relationship between the PSC context and the main context,
+ *        no "save" method is provided here. You must call @p -save: on the stack itself to persist data to the store.
+ *
+ *  @warning This category requires the use of @p RZCoreDataStack to access the default managed object context.
+ */
 @interface NSManagedObject (RZVinylRecord)
 
 //
@@ -136,7 +144,7 @@
  *  Return an array of all objects of the receiver's type in the provided context, optionally sorted.
  *
  *  @param sortDescriptors An array of sort descriptors to sort the results.
- *  @param context         The context from which to fetch objects.
+ *  @param context         The context from which to fetch objects. Must not be nil.
  *
  *  @return All objects of this class's type.
  */
@@ -174,27 +182,101 @@
  */
 + (NSArray *)rzv_where:(id)query sort:(NSArray *)sortDescriptors inContext:(NSManagedObjectContext *)context;
 
+//
+//  Count
+//
 
+/**
+ *  Return the count of objects of the receiver's type in the current thread's default context.
+ *
+ *  @return The number of objects of this class's type.
+ */
 + (NSUInteger)rzv_count;
 
+/**
+ *  Return the count of objects of the receiver's type in the provided context.
+ *
+ *  @param context The context in which to look for the objects. Must not be nil.
+ *
+ *  @return The number of objects of this class's type.
+ */
 + (NSUInteger)rzv_countInContext:(NSManagedObjectContext *)context;
 
+/**
+ *  Return the count of objects of the receiver's type matching the query in the current thread's default context.
+ *
+ *  @param query An @p NSPredicate or predicate format string. Passing nil will return the count of all objects.
+ *
+ *  @return The number of objects matching the query.
+ */
 + (NSUInteger)rzv_countWhere:(id)query;
 
+/**
+ *  Return the count of objects of the receiver's type matching the query in the provided context.
+ *
+ *  @param query An @p NSPredicate or predicate format string. Passing nil will return the count of all objects.
+ *  @param context The context in which to look for the objects. Must not be nil.
+ *
+ *  @return The number of objects matching the query.
+ */
 + (NSUInteger)rzv_countWhere:(id)query inContext:(NSManagedObjectContext *)context;
 
-////
-////  Save/Delete
-////
 //
-//- (BOOL)save;
+//  Delete
 //
-//- (BOOL)delete;
+
+/**
+ *  Delete this object from its current context. If this object is not inserted, no action is taken.
+ *
+ *  @note You must save the @p RZCoreDataStack to persist the deletion to the store.
+ */
+- (void)rzv_delete;
+
+/**
+ *  Delete all objects of the receiver's type from the current thread's default context.
+ *
+ *  @note You must save the @p RZCoreDataStack to persist the deletion to the store.
+ */
++ (void)rzv_deleteAll;
+
+/**
+ *  Delete all objects of the receiver's type from the provided context.
+ *
+ *  @param context The context from which to delete the objects.
+ *
+ *  @note You must save the @p RZCoreDataStack to persist the deletion to the store.
+ */
++ (void)rzv_deleteAllInContext:(NSManagedObjectContext *)context;
+
+/**
+ *  Delete all objects of the receiver's type matching the query from the current thread's default context.
+ *
+ *  @param query An @p NSPredicate or predicate format string. Passing nil will delete all objects.
+ *
+ *  @note You must save the @p RZCoreDataStack to persist the deletion to the store.
+ */
++ (void)rzv_deleteAllWhere:(id)query;
+
+/**
+ *  Delete all objects of the receiver's type matching the query from the provided context.
+ *
+ *  @param query An @p NSPredicate or predicate format string. Passing nil will delete all objects.
+ *  @param context The context from which to delete the objects.
+ *
+ *  @note You must save the @p RZCoreDataStack to persist the deletion to the store.
+ */
++ (void)rzv_deleteAllWhere:(id)query inContext:(NSManagedObjectContext *)context;
+
 
 //
 //  Metadata
 //
 
+/**
+ *  The entity name of the CoreData entity represented by this class.
+ *
+ *  @return The entity name.
+ */
 + (NSString *)rzv_entityName;
 
 //
@@ -202,7 +284,7 @@
 //
 
 /**
- *  Overrie in subclasses to provide the keypath to the property uniquely
+ *  Override in subclasses to provide the keypath to the property uniquely
  *  identifying this object
  *
  *  @return The keypath of the property uniquely identifying this object.
@@ -211,7 +293,7 @@
 
 /**
  *  Override in subclasses to provide a different data stack for use with this
- *  model object class. Defaults to the @p +defaultStack of @p RZDataStackAccess
+ *  model object class. Defaults to @p +[RZDataStack defaultStack]
  *
  *  @return The data stack to use for this model object class.
  */

@@ -172,6 +172,8 @@
     return fetchedObjects;
 }
 
+#pragma mark - Count
+
 + (NSUInteger)rzv_count
 {
     return [self rzv_countWhere:nil];
@@ -211,6 +213,48 @@
         RZVLogError(@"Error getting count of objects for entity %@: %@", [self rzv_entityName], err);
     }
     return count;
+}
+
+#pragma mark - Delete
+
+- (void)rzv_delete
+{
+    if ( self.isInserted && self.managedObjectContext ) {
+        [self.managedObjectContext deleteObject:self];
+    }
+    else {
+        RZVLogInfo(@"Object %@ was not deleted because it is not inserted in a context.", self);
+    }
+}
+
++ (void)rzv_deleteAll
+{
+    [self rzv_deleteAllWhere:nil];
+}
+
++ (void)rzv_deleteAllInContext:(NSManagedObjectContext *)context
+{
+    [self rzv_deleteAllWhere:nil inContext:context];
+}
+
++ (void)rzv_deleteAllWhere:(id)query
+{
+    RZCoreDataStack *stack = [self rzv_validCoreDataStack];
+    if ( stack == nil ) {
+        return;
+    }
+    [self rzv_deleteAllWhere:query inContext:[stack currentThreadManagedObjectContext]];
+}
+
++ (void)rzv_deleteAllWhere:(id)query inContext:(NSManagedObjectContext *)context
+{
+    if ( !RZVParameterAssert(context ) ) {
+        return;
+    }
+    
+    [[self rzv_where:query sort:nil inContext:context] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        [context deleteObject:obj];
+    }];
 }
 
 #pragma makr - Metadata
