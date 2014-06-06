@@ -104,9 +104,9 @@
     }];
     
     NSFetchRequest *fetch = [NSFetchRequest rzv_forEntity:[self rzv_entityName]
+                                                inContext:context
                                             withPredicate:[NSCompoundPredicate andPredicateWithSubpredicates:predicates]
-                                                     sort:nil
-                                                inContext:context];
+                                          sortDescriptors:nil];
     NSError *error = nil;
     id result = [[context executeFetchRequest:fetch error:&error] lastObject];
     if ( error ) {
@@ -170,7 +170,11 @@
     NSPredicate *predicate = [self rzv_predicateForQuery:query];
     
     NSError *error = nil;
-    NSFetchRequest *fetch = [NSFetchRequest rzv_forEntity:[self rzv_entityName] withPredicate:predicate sort:sortDescriptors inContext:context];
+    NSFetchRequest *fetch = [NSFetchRequest rzv_forEntity:[self rzv_entityName]
+                                                inContext:context
+                                            withPredicate:predicate
+                                          sortDescriptors:sortDescriptors];
+    
     NSArray *fetchedObjects = [context executeFetchRequest:fetch error:&error];
     if ( error ) {
         RZVLogError(@"Error performing fetch: %@", error);
@@ -208,9 +212,9 @@
     
     
     NSFetchRequest *fetch = [NSFetchRequest rzv_forEntity:[self rzv_entityName]
+                                                inContext:context
                                             withPredicate:[self rzv_predicateForQuery:query]
-                                                     sort:nil
-                                                inContext:context];
+                                          sortDescriptors:nil];
     [fetch setResultType:NSCountResultType];
     
     NSError *err = nil;

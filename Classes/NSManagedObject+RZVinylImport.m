@@ -31,15 +31,5 @@
 
 @implementation NSManagedObject (RZVinylImport)
 
-//
-//
-//
-//#pragma mark - RZAutoImportable
-//
-//+ (id)rzai_existingObjectForDict:(NSDictionary *)dict
-//{
-//    return nil;
-//}
-//
 
 @end

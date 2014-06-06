@@ -28,7 +28,44 @@
 
 
 #import "NSFetchedResultsController+RZVinylRecord.h"
+#import "RZVinylDefines.h"
+#import "NSFetchRequest+RZVinylRecord.h"
 
 @implementation NSFetchedResultsController (RZVinylRecord)
+
++ (instancetype)rzv_forEntity:(NSString *)entityName
+                    inContext:(NSManagedObjectContext *)context
+                withPredicate:(NSPredicate *)predicate
+              sortDescriptors:(NSArray *)sortDescriptors
+{
+    return [self rzv_forEntity:entityName
+                     inContext:context
+                 withPredicate:predicate
+               sortDescriptors:sortDescriptors
+            sectionNameKeyPath:nil
+                     cacheName:nil];
+}
+
++ (instancetype)rzv_forEntity:(NSString *)entityName
+                    inContext:(NSManagedObjectContext *)context
+                withPredicate:(NSPredicate *)predicate
+              sortDescriptors:(NSArray *)sortDescriptors
+           sectionNameKeyPath:(NSString *)sectionNameKeyPath
+                    cacheName:(NSString *)cacheName
+{
+    if ( !RZVParameterAssert(entityName) || !RZVParameterAssert(context) ) {
+        return nil;
+    }
+    
+    NSFetchRequest *fetch = [NSFetchRequest rzv_forEntity:entityName
+                                                inContext:context
+                                            withPredicate:predicate
+                                          sortDescriptors:sortDescriptors];
+    
+    return [[NSFetchedResultsController alloc] initWithFetchRequest:fetch
+                                               managedObjectContext:context
+                                                 sectionNameKeyPath:sectionNameKeyPath
+                                                          cacheName:cacheName];
+}
 
 @end

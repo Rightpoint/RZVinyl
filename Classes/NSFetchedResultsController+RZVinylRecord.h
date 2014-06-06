@@ -31,9 +31,16 @@
 
 @interface NSFetchedResultsController (RZVinylRecord)
 
-//+ (instancetype)rzv_forEntity:(NSString *)entityName
-//                        where:(NSPredicate *)predicate
-//                         sort:(NSArray *)sortDescriptors
-//                    inContext:(NSManagedObjectContext *)context;
++ (instancetype)rzv_forEntity:(NSString *)entityName
+                    inContext:(NSManagedObjectContext *)context
+                withPredicate:(NSPredicate *)predicate
+              sortDescriptors:(NSArray *)sortDescriptors;
+
++ (instancetype)rzv_forEntity:(NSString *)entityName
+                    inContext:(NSManagedObjectContext *)context
+                withPredicate:(NSPredicate *)predicate
+              sortDescriptors:(NSArray *)sortDescriptors
+           sectionNameKeyPath:(NSString *)sectionNameKeyPath
+                    cacheName:(NSString *)cacheName;
 
 @end

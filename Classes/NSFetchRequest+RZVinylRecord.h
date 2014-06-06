@@ -35,15 +35,15 @@
  *  Returns a configured fetch request based on the provided arguments.
  *
  *  @param entityName      The name of the entity to fetch. Must not be nil.
+ *  @param context         The context in which to fetch. Must not be nil.
  *  @param predicate       An optional predicate for the fetch.
  *  @param sortDescriptors An optional array of sort descriptors to sort the result.
- *  @param context         The context in which to fetch. Must not be nil.
  *
  *  @return A configured fetch request.
  */
 + (instancetype)rzv_forEntity:(NSString *)entityName
+                    inContext:(NSManagedObjectContext *)context
                 withPredicate:(NSPredicate *)predicate
-                         sort:(NSArray *)sortDescriptors
-                    inContext:(NSManagedObjectContext *)context;
+              sortDescriptors:(NSArray *)sortDescriptors;
 
 @end
