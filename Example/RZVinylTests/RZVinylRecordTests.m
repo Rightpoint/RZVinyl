@@ -88,6 +88,7 @@
         XCTAssertNoThrow(newArtist = [Artist rzv_newObjectInContext:childContext], @"Creation with explicit context should not throw exception");
         XCTAssertNotNil(newArtist, @"Failed to create new object");
         XCTAssertTrue([newArtist isKindOfClass:[Artist class]], @"New object is not of correct class");
+        XCTAssertEqualObjects(newArtist.managedObjectContext, childContext, @"Wrong Context");
         
         newArtist.remoteID = @100;
         newArtist.name = @"Sergio";
@@ -110,13 +111,12 @@
     [self.stack performBlockUsingBackgroundContext:^(NSManagedObjectContext *moc) {
         
         XCTAssertNotEqualObjects(moc, self.stack.mainManagedObjectContext, @"Current moc should not equal main moc");
-        XCTAssertNotEqualObjects([self.stack currentThreadManagedObjectContext], self.stack.mainManagedObjectContext, @"Current moc should not equal main moc");
-        XCTAssertEqualObjects([self.stack currentThreadManagedObjectContext], moc, @"Current moc should equal block's moc");
 
         Artist *newArtist = nil;
-        XCTAssertNoThrow(newArtist = [Artist rzv_newObject], @"Creation threw exception");
+        XCTAssertNoThrow(newArtist = [Artist rzv_newObjectInContext:moc], @"Creation threw exception");
         XCTAssertNotNil(newArtist, @"Failed to create new object");
         XCTAssertTrue([newArtist isKindOfClass:[Artist class]], @"New object is not of correct class");
+        XCTAssertEqualObjects(newArtist.managedObjectContext, moc, @"Wrong Context");
         
         newArtist.remoteID = @100;
         newArtist.name = @"Sergio";
@@ -143,9 +143,10 @@
     
     [self.stack performBlockUsingBackgroundContext:^(NSManagedObjectContext *moc) {
         Artist *newArtist = nil;
-        XCTAssertNoThrow(newArtist = [Artist rzv_newObject], @"Creation threw exception");
+        XCTAssertNoThrow(newArtist = [Artist rzv_newObjectInContext:moc], @"Creation threw exception");
         XCTAssertNotNil(newArtist, @"Failed to create new object");
         XCTAssertTrue([newArtist isKindOfClass:[Artist class]], @"New object is not of correct class");
+        XCTAssertEqualObjects(newArtist.managedObjectContext, moc, @"Wrong Context");
         
         newArtist.remoteID = @100;
         newArtist.name = @"Sergio";
@@ -189,14 +190,14 @@
     
     [self.stack performBlockUsingBackgroundContext:^(NSManagedObjectContext *moc) {
         
-        Artist *dusky = [Artist rzv_objectWithPrimaryKeyValue:@1000 createNew:NO];
+        Artist *dusky = [Artist rzv_objectWithPrimaryKeyValue:@1000 createNew:NO inContext:moc];
         XCTAssertNotNil(dusky, @"Should be a matching object");
         XCTAssertEqualObjects(dusky.name, @"Dusky", @"Wrong object");
         XCTAssertEqualObjects(moc, dusky.managedObjectContext, @"Wrong context");
         
-        Artist *pezzner = [Artist rzv_objectWithPrimaryKeyValue:@9999 createNew:YES];
+        Artist *pezzner = [Artist rzv_objectWithPrimaryKeyValue:@9999 createNew:YES inContext:moc];
         XCTAssertNotNil(pezzner, @"Should be new object");
-        XCTAssertTrue([[self.stack currentThreadManagedObjectContext] hasChanges], @"Moc should have changes after new object add");
+        XCTAssertTrue([moc hasChanges], @"Moc should have changes after new object add");
         XCTAssertEqualObjects(pezzner.remoteID, @9999, @"New object should have correct primary key value");
         XCTAssertNil(pezzner.name, @"New object should have nil attributes");
         XCTAssertEqualObjects(moc, pezzner.managedObjectContext, @"Wrong context");
@@ -250,9 +251,10 @@
     __block BOOL finished = NO;
     [self.stack performBlockUsingBackgroundContext:^(NSManagedObjectContext *moc) {
         
-        NSArray *artists = [Artist rzv_all];
+        NSArray *artists = [Artist rzv_allInContext:moc];
         XCTAssertNotNil(artists, @"Should not return nil");
         XCTAssertEqual(artists.count, 3, @"Should be three artists");
+        XCTAssertEqualObjects([[artists lastObject] managedObjectContext], moc, @"Wrong context");
         
     } completion:^(NSError *err) {
         XCTAssertNil(err, @"An error occurred during the background save: %@", err);
@@ -343,12 +345,12 @@
     
     [self.stack performBlockUsingBackgroundContext:^(NSManagedObjectContext *moc) {
         
-        Artist *dusky = [Artist rzv_objectWithPrimaryKeyValue:@1000 createNew:NO];
+        Artist *dusky = [Artist rzv_objectWithPrimaryKeyValue:@1000 createNew:NO inContext:moc];
         XCTAssertNotNil(dusky, @"Should be a matching object");
         
         [dusky rzv_delete];
         XCTAssertTrue(dusky.isDeleted, @"Should be deleted");
-        dusky = [Artist rzv_objectWithPrimaryKeyValue:@1000 createNew:NO];
+        dusky = [Artist rzv_objectWithPrimaryKeyValue:@1000 createNew:NO inContext:moc];
         XCTAssertNil(dusky, @"Fetching again should not return deleted object");
         
         [[self.stack mainManagedObjectContext] performBlockAndWait:^{

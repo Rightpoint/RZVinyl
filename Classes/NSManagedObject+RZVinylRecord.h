@@ -45,7 +45,7 @@
 //
 
 /**
- *  Create and return a new instance in the current thread's default context.
+ *  Create and return a new instance in the main default context.
  *
  *  @return A new object instance.
  */
@@ -62,7 +62,7 @@
 
 /**
  *  Return an instance of this managed object class with the provided value for its primary key
- *  from the current thread's context.
+ *  from the main context.
  *
  *  @param primaryValue The value of the primary key (e.g. the remoteID)
  *  @param createNew    Pass YES to create a new object if one is not found.
@@ -90,7 +90,7 @@
 + (instancetype)rzv_objectWithPrimaryKeyValue:(id)primaryValue createNew:(BOOL)createNew inContext:(NSManagedObjectContext *)context;
 
 /**
- *  Find an object with the provided attribute/value pairs in the current thread's default context and optionally create a new one if no match is found.
+ *  Find an object with the provided attribute/value pairs in the main default context and optionally create a new one if no match is found.
  *
  *  @param values    Dictionary of key/value pairs for which to find a matching object. Must not be nil.
  *  @param createNew If YES and no match is found, a new object is created and initialized with the provided dictionary.
@@ -116,7 +116,7 @@
 //
 
 /**
- *  Return an array of all objects of the receiver's type in the current thread's context.
+ *  Return an array of all objects of the receiver's type in the main context.
  *
  *  @return All objects of this class's type.
  */
@@ -132,7 +132,7 @@
 + (NSArray *)rzv_allInContext:(NSManagedObjectContext *)context;
 
 /**
- *  Return an array of all objects of the receiver's type in the current thread's context, optionally sorted.
+ *  Return an array of all objects of the receiver's type in the main context, optionally sorted.
  *
  *  @param sortDescriptors An array of sort descriptors to sort the results.
  *
@@ -151,7 +151,7 @@
 + (NSArray *)rzv_allSorted:(NSArray *)sortDescriptors inContext:(NSManagedObjectContext *)context;
 
 /**
- *  Return the results of a fetch on the current thread's context using a predicate or format string.
+ *  Return the results of a fetch on the main context using a predicate or format string.
  *
  *  @param query An @p NSPredicate or predicate format string. Passing nil will return all objects.
  *
@@ -170,7 +170,7 @@
 + (NSArray *)rzv_where:(id)query inContext:(NSManagedObjectContext *)context;
 
 /**
- *  Return the results of a fetch on the current thread's context using a predicate or format string
+ *  Return the results of a fetch on the main context using a predicate or format string
  *  with optional sorting.
  *
  *  @param query            An @p NSPredicate or predicate format string. Passing nil will return all objects.
@@ -197,7 +197,7 @@
 //
 
 /**
- *  Return the count of objects of the receiver's type in the current thread's default context.
+ *  Return the count of objects of the receiver's type in the main default context.
  *
  *  @return The number of objects of this class's type.
  */
@@ -213,7 +213,7 @@
 + (NSUInteger)rzv_countInContext:(NSManagedObjectContext *)context;
 
 /**
- *  Return the count of objects of the receiver's type matching the query in the current thread's default context.
+ *  Return the count of objects of the receiver's type matching the query in the main default context.
  *
  *  @param query An @p NSPredicate or predicate format string. Passing nil will return the count of all objects.
  *
@@ -236,14 +236,14 @@
 //
 
 /**
- *  Delete this object from its current context. If this object is not inserted, no action is taken.
+ *  Delete this object from its managed object context. If this object is not inserted, no action is taken.
  *
  *  @note You must save the @p RZCoreDataStack to persist the deletion to the store.
  */
 - (void)rzv_delete;
 
 /**
- *  Delete all objects of the receiver's type from the current thread's default context.
+ *  Delete all objects of the receiver's type from the main default context.
  *
  *  @note You must save the @p RZCoreDataStack to persist the deletion to the store.
  */
@@ -259,7 +259,7 @@
 + (void)rzv_deleteAllInContext:(NSManagedObjectContext *)context;
 
 /**
- *  Delete all objects of the receiver's type matching the query from the current thread's default context.
+ *  Delete all objects of the receiver's type matching the query from the main default context.
  *
  *  @param query An @p NSPredicate or predicate format string. Passing nil will delete all objects.
  *

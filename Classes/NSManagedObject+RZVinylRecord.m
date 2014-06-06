@@ -42,7 +42,7 @@
     if ( stack == nil ){
         return nil;
     }
-    return [self rzv_newObjectInContext:[stack currentThreadManagedObjectContext]];
+    return [self rzv_newObjectInContext:[stack mainManagedObjectContext]];
 }
 
 + (instancetype)rzv_newObjectInContext:(NSManagedObjectContext *)context
@@ -59,7 +59,7 @@
     if ( stack == nil ){
         return nil;
     }
-    return [self rzv_objectWithPrimaryKeyValue:primaryValue createNew:createNew inContext:[stack currentThreadManagedObjectContext]];
+    return [self rzv_objectWithPrimaryKeyValue:primaryValue createNew:createNew inContext:[stack mainManagedObjectContext]];
 }
 
 + (instancetype)rzv_objectWithPrimaryKeyValue:(id)primaryValue createNew:(BOOL)createNew inContext:(NSManagedObjectContext *)context
@@ -88,7 +88,7 @@
     if ( stack == nil ){
         return nil;
     }
-    return [self rzv_objectWithAttributes:attributes createNew:createNew inContext:[stack currentThreadManagedObjectContext]];
+    return [self rzv_objectWithAttributes:attributes createNew:createNew inContext:[stack mainManagedObjectContext]];
 }
 
 + (instancetype)rzv_objectWithAttributes:(NSDictionary *)attributes createNew:(BOOL)createNew inContext:(NSManagedObjectContext *)context
@@ -156,7 +156,7 @@
     if ( stack == nil ){
         return nil;
     }
-    return [self rzv_where:query sort:sortDescriptors inContext:[stack currentThreadManagedObjectContext]];
+    return [self rzv_where:query sort:sortDescriptors inContext:[stack mainManagedObjectContext]];
 }
 
 + (NSArray *)rzv_where:(id)query sort:(NSArray *)sortDescriptors inContext:(NSManagedObjectContext *)context
@@ -195,7 +195,7 @@
     if ( stack == nil ){
         return 0;
     }
-    return [self rzv_countWhere:query inContext:[stack currentThreadManagedObjectContext]];
+    return [self rzv_countWhere:query inContext:[stack mainManagedObjectContext]];
 }
 
 + (NSUInteger)rzv_countWhere:(id)query inContext:(NSManagedObjectContext *)context
@@ -248,7 +248,7 @@
     if ( stack == nil ) {
         return;
     }
-    [self rzv_deleteAllWhere:query inContext:[stack currentThreadManagedObjectContext]];
+    [self rzv_deleteAllWhere:query inContext:[stack mainManagedObjectContext]];
 }
 
 + (void)rzv_deleteAllWhere:(id)query inContext:(NSManagedObjectContext *)context

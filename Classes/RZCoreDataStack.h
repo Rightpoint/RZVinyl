@@ -140,20 +140,6 @@ typedef NS_OPTIONS(NSUInteger, RZCoreDataStackOptions)
 @property (nonatomic, strong, readonly) NSPersistentStoreCoordinator    *persistentStoreCoordinator;
 
 /**
- *  Return the managed object context for the current thread.
- *  Will always either be the main thread's context or a temporary child context.
- *
- *  @note The context returned by this method will be either main or private queue concurrency type,
- *        so it is safest to always wrap context transactions in  @p performBlock:.
- *
- *  @note If no context is found for the current thread, the main context will be returned instead,
- *        and a message will be logged to the console.
- *
- *  @return The managed object context for the current thread.
- */
-- (NSManagedObjectContext *)currentThreadManagedObjectContext;
-
-/**
  *  Asynchronously perform a database operation on a temporary child context in the background.
  *  The context will be saved when the operation is finished, and all changes propagated to the main context.
  *
@@ -161,11 +147,10 @@ typedef NS_OPTIONS(NSUInteger, RZCoreDataStackOptions)
  *  @param completion An optional completion block that is called on the main thread after the operation finishes.
  *                    If there was an error saving the background context, it will be passed here.
  *
- *  @note When using this method, the @p currentThreadManagedObjectContext will point to the valid child context
- *        while within the scope of the block.
+ *  @note The full stack is not saved in this method. To persist data to to the persistent store, call @p -save: on the stack.
  *
- *  @warning Any managed object instances manipulated in this block must belong to the child
- *           context. Attempting to save/update objects from the main context will throw an exception.
+ *  @warning When using this method, you must pass the context given to the block to to the methods in
+ *           @p NSManagedObject+VinylRecord.h. Failure to do so will cause all transactions to happen on the main context.
  *
  */
 - (void)performBlockUsingBackgroundContext:(RZCoreDataStackTransactionBlock)block
@@ -175,11 +160,7 @@ typedef NS_OPTIONS(NSUInteger, RZCoreDataStackOptions)
  *  Spawn and return a temporary child context with private queue confinement.
  *  This method is useful for creating a "scratch" context on which to make temporary edits.
  *
- *  @note You must use @p performBlock: to perform transactions with the returned context.
- *
- *  @warning The value of @p currentThreadManagedObjectContext will be nil within a block performed on this context.
- *           To use the @p NSManagedObject+VinylRecord extensions with this context, you must pass it to
- *           whatever method you are calling.
+ *  @note You must use @p performBlock: to perform transactions using the returned context.
  *
  *  @return A newly spawned child context with private queue confinement.
  */

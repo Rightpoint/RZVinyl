@@ -30,8 +30,6 @@
 #import "RZCoreDataStack.h"
 #import "RZVinylDefines.h"
 
-static NSString* const kRZCoreDataStackThreadContextKey = @"RZCoreDataStackContext";
-
 @interface RZCoreDataStack ()
 
 @property (nonatomic, strong, readwrite) NSManagedObjectModel            *managedObjectModel;
@@ -126,18 +124,6 @@ static NSString* const kRZCoreDataStackThreadContextKey = @"RZCoreDataStackConte
 
 #pragma mark - Public
 
-- (NSManagedObjectContext *)currentThreadManagedObjectContext
-{
-    if ( [NSThread isMainThread] ) {
-        return [self mainManagedObjectContext];
-    }
-    NSManagedObjectContext *context = [[[NSThread currentThread] threadDictionary] objectForKey:kRZCoreDataStackThreadContextKey];
-    if ( context == nil ) {
-        RZVLogError(@"No managed object context found for current background thread.");
-    }
-    return context;
-}
-
 - (void)performBlockUsingBackgroundContext:(RZCoreDataStackTransactionBlock)block completion:(void (^)(NSError *err))completion
 {
     if ( !RZVParameterAssert(block) ) {
@@ -146,13 +132,9 @@ static NSString* const kRZCoreDataStackThreadContextKey = @"RZCoreDataStackConte
     
     NSManagedObjectContext *context = [self temporaryChildManagedObjectContext];
     [context performBlock:^{
-        [[[NSThread currentThread] threadDictionary] setObject:context forKey:kRZCoreDataStackThreadContextKey];
         block(context);
-        [[[NSThread currentThread] threadDictionary] removeObjectForKey:kRZCoreDataStackThreadContextKey];
-        
         NSError *err = nil;
-        [context save:&err];
-        
+        [context save:&err];        
         if ( completion ) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 completion(err);
