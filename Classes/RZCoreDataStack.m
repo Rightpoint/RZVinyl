@@ -43,6 +43,8 @@
 @property (nonatomic, copy) NSString *storeType;
 @property (nonatomic, copy) NSURL    *storeURL;
 
+@property (nonatomic, strong) dispatch_queue_t backgroundContextQueue;
+
 @property (nonatomic, assign) RZCoreDataStackOptions options;
 
 @end
@@ -56,7 +58,11 @@
 
 - (id)init
 {
-    return [self initWithModelName:nil configuration:nil storeType:nil storeURL:nil options:kNilOptions];
+    return [self initWithModelName:nil
+                     configuration:nil
+                         storeType:nil
+                          storeURL:nil
+                           options:kNilOptions];
 }
 
 - (instancetype)initWithModelName:(NSString *)modelName
@@ -89,6 +95,8 @@
         _persistentStoreCoordinator = psc;
         _options                    = options;
         
+        _backgroundContextQueue     = dispatch_queue_create("com.rzvinyl.backgroundContextQueue", DISPATCH_QUEUE_SERIAL);
+        
         if ( ![self buildStack] ) {
             return nil;
         }
@@ -114,6 +122,8 @@
         _persistentStoreCoordinator = psc;
         _options                    = options;
         
+        _backgroundContextQueue     = dispatch_queue_create("com.rzvinyl.backgroundContextQueue", DISPATCH_QUEUE_SERIAL);
+        
         if ( ![self buildStack] ) {
             return nil;
         }
@@ -130,17 +140,19 @@
         return;
     }
     
-    NSManagedObjectContext *context = [self temporaryChildManagedObjectContext];
-    [context performBlock:^{
-        block(context);
-        NSError *err = nil;
-        [context save:&err];        
-        if ( completion ) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                completion(err);
-            });
-        }
-    }];
+    dispatch_async(self.backgroundContextQueue, ^{
+        NSManagedObjectContext *context = [self temporaryChildManagedObjectContext];
+        [context performBlock:^{
+            block(context);
+            NSError *err = nil;
+            [context save:&err];
+            if ( completion ) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    completion(err);
+                });
+            }
+        }];
+    });
 }
 
 - (NSManagedObjectContext *)temporaryChildManagedObjectContext

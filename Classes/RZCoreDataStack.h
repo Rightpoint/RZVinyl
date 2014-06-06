@@ -147,6 +147,10 @@ typedef NS_OPTIONS(NSUInteger, RZCoreDataStackOptions)
  *  @param completion An optional completion block that is called on the main thread after the operation finishes.
  *                    If there was an error saving the background context, it will be passed here.
  *
+ *  @note Blocks sent to this method will be enqueued on a serial queue until other blocks finish, to prevent parallel child contexts
+ *        from being spawned, where subsequent child contexts might not have the latest data, potentially leading to duplicate objects, etc.
+ *        To avoid this behavior, e.g. to prevent longer-lasting background tasks from holding up the queue, use @p -temporaryChildManagedObjectContext.
+ *
  *  @note The full stack is not saved in this method. To persist data to to the persistent store, call @p -save: on the stack.
  *
  *  @warning When using this method, you must pass the context given to the block to to the methods in
