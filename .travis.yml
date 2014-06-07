@@ -2,7 +2,10 @@ language: objective-c
 before_install: 
     - rake install
     - cd Example && pod install && cd $TRAVIS_BUILD_DIR
-script: rake test
+before_script:
+    - export LANG=en_US.UTF-8
+script: 
+    - rake test
 notifications:
     email:
         recipients:
