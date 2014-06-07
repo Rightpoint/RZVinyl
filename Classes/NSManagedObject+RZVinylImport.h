@@ -27,9 +27,9 @@
 //  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
-#import <CoreData/CoreData.h>
+@import CoreData;
+#include "RZAutoImport.h"
 
-// TODO:
 @interface NSManagedObject (RZVinylImport)
 
 @end

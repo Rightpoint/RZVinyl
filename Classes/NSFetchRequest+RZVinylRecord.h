@@ -27,7 +27,7 @@
 //  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
-#import <CoreData/CoreData.h>
+@import CoreData;
 
 @interface NSFetchRequest (RZVinylRecord)
 
