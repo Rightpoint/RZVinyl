@@ -1,2 +1,3 @@
+platform :ios
 pod 'RZVinyl', :path => '../'
 pod 'RZAutoImport', :path => '../../RZAutoImport'
