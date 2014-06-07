@@ -21,6 +21,7 @@ Pod::Spec.new do |s|
   s.frameworks = "Foundation", "CoreData"
   s.requires_arc = true
 
-  s.dependency "RZAutoImport", :path => "../RZAutoImport"
+  s.dependency 'RZAutoImport', '~> 1.0'
 
 end
+ 
