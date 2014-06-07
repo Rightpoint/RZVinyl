@@ -1,6 +1,6 @@
 //
 //  NSManagedObject+RZVinylSubclass.m
-//  RZVinylDemo
+//  RZVinyl
 //
 //  Created by Nick Donaldson on 6/6/14.
 //
@@ -34,6 +34,12 @@
 {
     return nil;
 }
+
++ (NSString *)rzv_externalPrimaryKey
+{
+    return nil;
+}
+
 
 + (RZCoreDataStack *)rzv_coreDataStack
 {

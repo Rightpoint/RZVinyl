@@ -1,6 +1,6 @@
 //
 //  NSManagedObject+RZVinylImport.m
-//  RZVinylDemo
+//  RZVinyl
 //
 //  Created by Nick Donaldson on 6/5/14.
 //
@@ -28,8 +28,124 @@
 
 
 #import "NSManagedObject+RZVinylImport.h"
+#import "NSManagedObject+RZVinylRecord.h"
+#import "NSManagedObject+RZVinylSubclass.h"
+#import "NSManagedObject+RZVinylRecord_private.h"
+#import "RZVinylDefines.h"
+#import <objc/runtime.h>
 
 @implementation NSManagedObject (RZVinylImport)
 
++ (instancetype)rzv_objectFromDictionary:(NSDictionary *)dict inContext:(NSManagedObjectContext *)context
+{
+    // !!!: Performing this atomically so calls to the normal RZAutoImport methods are still valid.
+    //      Otherwise, calls to those methods would risk resource contention.
+    __block id object = nil;
+    [self rzv_performBlockAtomically:^{
+        [self rzv_pushImportContext:context];
+        object = [self rzai_objectFromDictionary:dict];
+        [self rzv_popImportContext];
+    }];
+    return object;
+}
+
++ (NSArray *)rzv_objectsFromArray:(NSArray *)array inContext:(NSManagedObjectContext *)context
+{
+    // !!!: Performing this atomically so calls to the normal RZAutoImport methods are still valid.
+    //      Otherwise, calls to those methods would risk resource contention.
+    __block NSArray *objects = nil;
+    [self rzv_performBlockAtomically:^{
+        [self rzv_pushImportContext:context];
+        objects = [self rzai_objectsFromArray:array];
+        [self rzv_popImportContext];
+    }];
+    return objects;
+}
+
+#pragma mark - RZAutoImportable
+
++ (id)rzai_existingObjectForDict:(NSDictionary *)dict
+{
+    __block id object = nil;
+    
+    [self rzv_performBlockAtomically:^{
+        
+        NSManagedObjectContext *context = [self rzv_currentImportContext];
+        if ( context == nil ){
+            return;
+        }
+        
+        NSString *externalPrimaryKey = [self rzv_externalPrimaryKey] ?: [self rzv_primaryKey];
+        id primaryValue = externalPrimaryKey ? [dict objectForKey:externalPrimaryKey] : nil;
+        if ( primaryValue != nil ) {
+            object = [self rzv_objectWithPrimaryKeyValue:primaryValue createNew:YES inContext:context];
+        }
+        else {
+            RZVLogInfo(@"Class %@ for entity %@ does not provide a primary key and cannot be uniqued. Creating new instance...", NSStringFromClass(self), [self rzv_entityName] );
+            object = [self rzv_newObjectInContext:context];
+        }
+    
+    }];
+    return object;
+}
+
+#pragma mark - Private
+
++ (NSMutableArray *)s_rzv_importContextStack
+{
+    static NSMutableArray *s_importContextStack = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        s_importContextStack = [NSMutableArray array];
+    });
+    return s_importContextStack;
+}
+
++ (void)rzv_performBlockAtomically:(void(^)())block
+{
+    // !!!: Would use a serial queue but need reentrancy here.
+    static NSRecursiveLock *s_contextLock = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        s_contextLock = [[NSRecursiveLock alloc] init];
+    });
+    
+    if ( block ) {
+        [s_contextLock lock];
+        block();
+        [s_contextLock unlock];
+    }
+}
+
++ (NSManagedObjectContext *)rzv_currentImportContext
+{
+    __block NSManagedObjectContext *currentContext = nil;
+    [self rzv_performBlockAtomically:^{
+        currentContext = [[self s_rzv_importContextStack] lastObject];
+        if ( currentContext == nil ) {
+            currentContext = [[self rzv_validCoreDataStack] mainManagedObjectContext];
+            [self rzv_pushImportContext:currentContext];
+        }
+    }];
+    return currentContext;
+}
+
++ (void)rzv_pushImportContext:(NSManagedObjectContext *)context
+{
+    if ( context != nil ) {
+        [self rzv_performBlockAtomically:^{
+            [[self s_rzv_importContextStack] addObject:context];
+        }];
+    }
+}
+
++ (void)rzv_popImportContext
+{
+    [self rzv_performBlockAtomically:^{
+        if ( [[self s_rzv_importContextStack] count] > 0 ) {
+            [[self s_rzv_importContextStack] removeLastObject];
+        }
+    }];
+}
 
 @end

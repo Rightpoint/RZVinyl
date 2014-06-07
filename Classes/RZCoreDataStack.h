@@ -1,6 +1,6 @@
 //
 //  RZCoreDataStack.h
-//  RZVinylDemo
+//  RZVinyl
 //
 //  Created by Nick Donaldson on 6/4/14.
 //

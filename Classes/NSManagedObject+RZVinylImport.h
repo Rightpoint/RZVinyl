@@ -1,6 +1,6 @@
 //
 //  NSManagedObject+RZVinylImport.h
-//  RZVinylDemo
+//  RZVinyl
 //
 //  Created by Nick Donaldson on 6/5/14.
 //
@@ -30,6 +30,17 @@
 @import CoreData;
 #include "RZAutoImport.h"
 
-@interface NSManagedObject (RZVinylImport)
+/**
+ *  Automatic importing of dictionary representations (e.g. deserialized JSON response) 
+ *  of an object to CoreData, using RZVinyl and RZAutoImport. Provides a partial implementation
+ *  of @RZAutoImportable.
+ *
+ *  @warning DO NOT override @p +rzai_existingObjectForDictionary unless you know what you are doing.
+ */
+@interface NSManagedObject (RZVinylImport) <RZAutoImportable>
+
++ (instancetype)rzv_objectFromDictionary:(NSDictionary *)dict inContext:(NSManagedObjectContext *)context;
+
++ (NSArray *)rzv_objectsFromArray:(NSArray *)array inContext:(NSManagedObjectContext *)context;
 
 @end

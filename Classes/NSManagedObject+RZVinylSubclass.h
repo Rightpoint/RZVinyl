@@ -1,6 +1,6 @@
 //
 //  NSManagedObject+RZVinylSubclass.h
-//  RZVinylDemo
+//  RZVinyl
 //
 //  Created by Nick Donaldson on 6/6/14.
 //
@@ -34,12 +34,27 @@
 @interface NSManagedObject (RZVinylSubclass)
 
 /**
- *  Override in subclasses to provide the keypath to the property uniquely
+ *  Override in subclasses to provide the key name of the property uniquely
  *  identifying this object
  *
- *  @return The keypath of the property uniquely identifying this object.
+ *  @return The key name of the property uniquely identifying this object.
  */
 + (NSString *)rzv_primaryKey;
+
+/**
+ *  Override in subclasses to provide a key to use for the primary key when importing
+ *  values or updating/creating a new instance from an NSDictionary using NSManagedObject+RZVinylImport.
+ *
+ *  For example, a JSON response might contain key/value pair "ID" : 1000 for the object's primary key,
+ *  but your managed object subclass might store this value as an attribute named "remoteID", hence it is 
+ *  necessary to provide both keys separately to enforce unique instances in the database.
+ *
+ *  @note Failure to override (or returning nil, the default) will cause the value of @p +rzv_primaryKey
+ *  to be used for the external key as well.
+ *
+ *  @return The key in dictionary representations whose value uniquely identifies this object.
+ */
++ (NSString *)rzv_externalPrimaryKey;
 
 /**
  *  Override in subclasses to provide a different data stack for use with this

@@ -1,6 +1,6 @@
 //
 //  RZVinylDefines.h
-//  RZVinylDemo
+//  RZVinyl
 //
 //  Created by Nick Donaldson on 6/5/14.
 //
