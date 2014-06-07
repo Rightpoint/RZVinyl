@@ -1,5 +1,22 @@
-PROJ_PATH="Example/RZVinylDemo.xcodeproj"
+
+WORKSPACE_PATH="Example/RZVinylDemo.xcworkspace"
 TEST_SCHEME="RZVinylDemo"
+
+#
+# Build
+#
+
+task :install do
+  # don't care if this fails on travis
+  sh("brew update") rescue nil
+  sh("brew upgrade xctool") rescue nil
+  sh("gem install cocoapods --no-rdoc --no-ri --no-document --quiet") rescue nil
+end
+
+task :test do
+  sh("xctool -workspace '#{WORKSPACE_PATH}' -scheme '#{TEST_SCHEME}' -sdk iphonesimulator clean build test -freshInstall") rescue nil
+  exit $?.exitstatus
+end
 
 task :clean do
   sh("rm -f Example/Podfile.lock")
@@ -7,28 +24,32 @@ task :clean do
   sh("rm -rf Example/*.xcworkspace")
 end
 
-task :prepare do
-  sh("brew update") rescue nil
-  exit $?.exitstatus unless $?.success?
-  sh("brew upgrade xctool") rescue nil # don't care if this fails on travis
+#
+# Utils
+#
+
+task :usage do
+  puts "Usage:"
+  puts "  rake install      -- install build dependencies (xctool, cocoapods)"
+  puts "  rake test         -- run unit tests"
+  puts "  rake clean        -- clean up test cocoapods"
+  puts "  rake sync         -- synchronize project/directory hierarchy"
+  puts "  rake usage        -- print this message"
 end
 
 task :sync do
   sync_project(PROJ_PATH, '--exclusion /Classes')
 end
 
-task :test do
-  sh("xctool -project '#{PROJ_PATH}' -scheme '#{TEST_SCHEME}' -sdk iphonesimulator clean build test -freshInstall") rescue nil
-  exit $?.exitstatus
-end
-
-task :usage do
-  puts "Usage:"
-  puts "  rake sync -- synchronize project/directory hierarchy"
-  puts "  rake test -- run unit tests"
-end
+#
+# Default
+#
 
 task :default => 'usage'
+
+#
+# Private
+#
 
 private
 

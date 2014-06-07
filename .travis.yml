@@ -1,5 +1,7 @@
 language: objective-c
-before_install: rake prepare
+before_install: 
+    - rake install
+    - cd Example && pod install && cd $TRAVIS_BUILD_DIR
 script: rake test
 notifications:
     email:
