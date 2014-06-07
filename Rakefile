@@ -1,6 +1,12 @@
 PROJ_PATH="Example/RZVinylDemo.xcodeproj"
 TEST_SCHEME="RZVinylDemo"
 
+task :clean do
+  sh("rm -f Example/Podfile.lock")
+  sh "rm -rf Example/Pods"
+  sh("rm -rf Example/*.xcworkspace")
+end
+
 task :prepare do
   sh("brew update") rescue nil
   exit $?.exitstatus unless $?.success?
