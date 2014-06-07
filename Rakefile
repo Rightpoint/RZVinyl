@@ -1,11 +1,5 @@
-require 'shellwords'
-
 PROJ_PATH="Example/RZVinylDemo.xcodeproj"
 TEST_SCHEME="RZVinylDemo"
-
-# task :test do
-#   Rake::Task['tests:test'].invoke
-# end
 
 task :prepare do
   sh("brew update") rescue nil
