@@ -16,17 +16,12 @@
 		9A53613B193F90E000E87F4F /* RZAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A53613A193F90E000E87F4F /* RZAppDelegate.m */; };
 		9A53613E193F90E000E87F4F /* RZVinylDemo.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9A53613C193F90E000E87F4F /* RZVinylDemo.xcdatamodeld */; };
 		9A536140193F90E000E87F4F /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9A53613F193F90E000E87F4F /* Images.xcassets */; };
-		9A536165193F939800E87F4F /* RZCoreDataStack.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A536164193F939800E87F4F /* RZCoreDataStack.m */; };
 		9AB90809193FD7F70063445A /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A536146193F90E000E87F4F /* XCTest.framework */; };
 		9AB9080A193FD7F70063445A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A536128193F90E000E87F4F /* Foundation.framework */; };
 		9AB9080B193FD7F70063445A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A53612C193F90E000E87F4F /* UIKit.framework */; };
 		9AB90811193FD7F70063445A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9AB9080F193FD7F70063445A /* InfoPlist.strings */; };
 		9AB9081B193FD8330063445A /* RZCoreDataStackConfigTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AB9081A193FD8330063445A /* RZCoreDataStackConfigTests.m */; };
-		9AB9081E193FD98F0063445A /* NSManagedObject+RZVinylRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AB9081D193FD98F0063445A /* NSManagedObject+RZVinylRecord.m */; };
 		9AB908261940D7BC0063445A /* TestModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9AB908241940D7BC0063445A /* TestModel.xcdatamodeld */; };
-		9AB9086D1940E95D0063445A /* NSManagedObject+RZVinylImport.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AB9086C1940E95D0063445A /* NSManagedObject+RZVinylImport.m */; };
-		9AB908711940FB0F0063445A /* NSFetchedResultsController+RZVinylRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AB908701940FB0F0063445A /* NSFetchedResultsController+RZVinylRecord.m */; };
-		9AB908741940FEB50063445A /* NSFetchRequest+RZVinylRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AB908731940FEB50063445A /* NSFetchRequest+RZVinylRecord.m */; };
 		9AB90876194104860063445A /* RZVinylRecordTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AB90875194104860063445A /* RZVinylRecordTests.m */; };
 		9AB908791941065F0063445A /* Song.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AB908781941065F0063445A /* Song.m */; };
 		9AB9087C1941065F0063445A /* Artist.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AB9087B1941065F0063445A /* Artist.m */; };
@@ -34,7 +29,6 @@
 		9AB90883194107C30063445A /* BaseObject+RZVinyl.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AB90882194107C30063445A /* BaseObject+RZVinyl.m */; };
 		9AB9088619410A2D0063445A /* RZWaiter.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AB9088519410A2D0063445A /* RZWaiter.m */; };
 		9AB9088A194113D60063445A /* record_tests.json in Resources */ = {isa = PBXBuildFile; fileRef = 9AB90889194113D60063445A /* record_tests.json */; };
-		9AB9089019424B700063445A /* NSManagedObject+RZVinylSubclass.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AB9088F19424B700063445A /* NSManagedObject+RZVinylSubclass.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,23 +56,12 @@
 		9A53613D193F90E000E87F4F /* RZVinylDemo.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = RZVinylDemo.xcdatamodel; sourceTree = "<group>"; };
 		9A53613F193F90E000E87F4F /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		9A536146193F90E000E87F4F /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
-		9A536162193F92E400E87F4F /* RZVinyl.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RZVinyl.h; sourceTree = "<group>"; };
-		9A536163193F939800E87F4F /* RZCoreDataStack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RZCoreDataStack.h; sourceTree = "<group>"; };
-		9A536164193F939800E87F4F /* RZCoreDataStack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RZCoreDataStack.m; sourceTree = "<group>"; };
 		9AB90808193FD7F70063445A /* RZVinylTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RZVinylTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AB9080E193FD7F70063445A /* RZVinylTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "RZVinylTests-Info.plist"; sourceTree = "<group>"; };
 		9AB90810193FD7F70063445A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		9AB90814193FD7F70063445A /* RZVinylTests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "RZVinylTests-Prefix.pch"; sourceTree = "<group>"; };
 		9AB9081A193FD8330063445A /* RZCoreDataStackConfigTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RZCoreDataStackConfigTests.m; sourceTree = "<group>"; };
-		9AB9081C193FD98F0063445A /* NSManagedObject+RZVinylRecord.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSManagedObject+RZVinylRecord.h"; sourceTree = "<group>"; };
-		9AB9081D193FD98F0063445A /* NSManagedObject+RZVinylRecord.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSManagedObject+RZVinylRecord.m"; sourceTree = "<group>"; };
 		9AB908251940D7BC0063445A /* TestModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TestModel.xcdatamodel; sourceTree = "<group>"; };
-		9AB9086B1940E95D0063445A /* NSManagedObject+RZVinylImport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSManagedObject+RZVinylImport.h"; sourceTree = "<group>"; };
-		9AB9086C1940E95D0063445A /* NSManagedObject+RZVinylImport.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSManagedObject+RZVinylImport.m"; sourceTree = "<group>"; };
-		9AB9086F1940FB0F0063445A /* NSFetchedResultsController+RZVinylRecord.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSFetchedResultsController+RZVinylRecord.h"; sourceTree = "<group>"; };
-		9AB908701940FB0F0063445A /* NSFetchedResultsController+RZVinylRecord.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSFetchedResultsController+RZVinylRecord.m"; sourceTree = "<group>"; };
-		9AB908721940FEB50063445A /* NSFetchRequest+RZVinylRecord.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSFetchRequest+RZVinylRecord.h"; sourceTree = "<group>"; };
-		9AB908731940FEB50063445A /* NSFetchRequest+RZVinylRecord.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSFetchRequest+RZVinylRecord.m"; sourceTree = "<group>"; };
 		9AB90875194104860063445A /* RZVinylRecordTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RZVinylRecordTests.m; sourceTree = "<group>"; };
 		9AB908771941065F0063445A /* Song.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Song.h; sourceTree = "<group>"; };
 		9AB908781941065F0063445A /* Song.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Song.m; sourceTree = "<group>"; };
@@ -91,9 +74,6 @@
 		9AB9088419410A2D0063445A /* RZWaiter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RZWaiter.h; sourceTree = "<group>"; };
 		9AB9088519410A2D0063445A /* RZWaiter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RZWaiter.m; sourceTree = "<group>"; };
 		9AB90889194113D60063445A /* record_tests.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = record_tests.json; sourceTree = "<group>"; };
-		9AB9088D19420A9C0063445A /* RZVinylDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RZVinylDefines.h; sourceTree = "<group>"; };
-		9AB9088E19424B700063445A /* NSManagedObject+RZVinylSubclass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSManagedObject+RZVinylSubclass.h"; sourceTree = "<group>"; };
-		9AB9088F19424B700063445A /* NSManagedObject+RZVinylSubclass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSManagedObject+RZVinylSubclass.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -124,7 +104,6 @@
 		9A53611C193F90E000E87F4F = {
 			isa = PBXGroup;
 			children = (
-				9A536161193F92D100E87F4F /* Classes */,
 				9A536130193F90E000E87F4F /* RZVinylDemo */,
 				9AB9080C193FD7F70063445A /* RZVinylTests */,
 				9A536127193F90E000E87F4F /* Frameworks */,
@@ -208,28 +187,6 @@
 			path = "View Controllers";
 			sourceTree = "<group>";
 		};
-		9A536161193F92D100E87F4F /* Classes */ = {
-			isa = PBXGroup;
-			children = (
-				9A536162193F92E400E87F4F /* RZVinyl.h */,
-				9A536163193F939800E87F4F /* RZCoreDataStack.h */,
-				9A536164193F939800E87F4F /* RZCoreDataStack.m */,
-				9AB908721940FEB50063445A /* NSFetchRequest+RZVinylRecord.h */,
-				9AB908731940FEB50063445A /* NSFetchRequest+RZVinylRecord.m */,
-				9AB9086F1940FB0F0063445A /* NSFetchedResultsController+RZVinylRecord.h */,
-				9AB908701940FB0F0063445A /* NSFetchedResultsController+RZVinylRecord.m */,
-				9AB9081C193FD98F0063445A /* NSManagedObject+RZVinylRecord.h */,
-				9AB9081D193FD98F0063445A /* NSManagedObject+RZVinylRecord.m */,
-				9AB9088E19424B700063445A /* NSManagedObject+RZVinylSubclass.h */,
-				9AB9088F19424B700063445A /* NSManagedObject+RZVinylSubclass.m */,
-				9AB9086B1940E95D0063445A /* NSManagedObject+RZVinylImport.h */,
-				9AB9086C1940E95D0063445A /* NSManagedObject+RZVinylImport.m */,
-				9AB9088C19420A9C0063445A /* Private */,
-			);
-			name = Classes;
-			path = ../Classes;
-			sourceTree = "<group>";
-		};
 		9AB9080C193FD7F70063445A /* RZVinylTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -292,14 +249,6 @@
 				9AB90889194113D60063445A /* record_tests.json */,
 			);
 			path = Resources;
-			sourceTree = "<group>";
-		};
-		9AB9088C19420A9C0063445A /* Private */ = {
-			isa = PBXGroup;
-			children = (
-				9AB9088D19420A9C0063445A /* RZVinylDefines.h */,
-			);
-			path = Private;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -399,15 +348,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9A536165193F939800E87F4F /* RZCoreDataStack.m in Sources */,
-				9AB9086D1940E95D0063445A /* NSManagedObject+RZVinylImport.m in Sources */,
 				9A53613E193F90E000E87F4F /* RZVinylDemo.xcdatamodeld in Sources */,
-				9AB9081E193FD98F0063445A /* NSManagedObject+RZVinylRecord.m in Sources */,
 				9A53613B193F90E000E87F4F /* RZAppDelegate.m in Sources */,
-				9AB908741940FEB50063445A /* NSFetchRequest+RZVinylRecord.m in Sources */,
 				9A536137193F90E000E87F4F /* main.m in Sources */,
-				9AB908711940FB0F0063445A /* NSFetchedResultsController+RZVinylRecord.m in Sources */,
-				9AB9089019424B700063445A /* NSManagedObject+RZVinylSubclass.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
