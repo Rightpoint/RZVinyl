@@ -1,3 +1,6 @@
-platform :ios
+platform :ios, '7.0'
+
 pod 'RZVinyl', :path => '../'
 pod 'RZAutoImport', :path => '../../RZAutoImport'
+
+link_with 'RZVinylDemo', 'RZVinylTests'
