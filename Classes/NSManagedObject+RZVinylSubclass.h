@@ -43,7 +43,7 @@
 
 /**
  *  Override in subclasses to provide a key to use for the primary key when importing
- *  values or updating/creating a new instance from an NSDictionary using NSManagedObject+RZVinylImport.
+ *  values or updating/creating a new instance from an NSDictionary using NSManagedObject+RZAutoImport.
  *
  *  For example, a JSON response might contain key/value pair "ID" : 1000 for the object's primary key,
  *  but your managed object subclass might store this value as an attribute named "remoteID", hence it is 

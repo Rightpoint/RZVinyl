@@ -29,7 +29,7 @@
     self.rawArtists = nil;
 }
 
-- (void)test_SingleImport
+- (void)test_ObjectImport
 {
     NSDictionary *duskyRaw = [self.rawArtists objectAtIndex:0];
     XCTAssertNotNil(duskyRaw, @"Failed to import test json");
@@ -61,6 +61,11 @@
     } onTimeout:^{
         XCTFail(@"Operation timed out");
     }];
+}
+
+- (void)test_ArrayImport
+{
+    
 }
 
 @end

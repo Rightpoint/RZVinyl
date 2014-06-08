@@ -29,7 +29,7 @@
 #import "RZCoreDataStack.h"
 #import "NSManagedObject+RZVinylSubclass.h"
 #import "NSManagedObject+RZVinylRecord.h"
-#import "NSManagedObject+RZVinylImport.h"
+#import "NSManagedObject+RZAutoImport.h"
 #import "NSFetchRequest+RZVinylRecord.h"
 #import "NSFetchedResultsController+RZVinylRecord.h"
 

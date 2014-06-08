@@ -1,5 +1,5 @@
 //
-//  NSManagedObject+RZVinylImport.m
+//  NSManagedObject+RZAutoImport.m
 //  RZVinyl
 //
 //  Created by Nick Donaldson on 6/5/14.
@@ -27,13 +27,13 @@
 //  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
-#import "NSManagedObject+RZVinylImport.h"
+#import "NSManagedObject+RZAutoImport.h"
 #import "NSManagedObject+RZVinylRecord.h"
 #import "NSManagedObject+RZVinylSubclass.h"
 #import "NSManagedObject+RZVinylRecord_private.h"
 #import "RZVinylDefines.h"
 
-@implementation NSManagedObject (RZVinylImport)
+@implementation NSManagedObject (RZAutoImport)
 
 //!!!: Overridden to support default context
 + (instancetype)rzai_objectFromDictionary:(NSDictionary *)dict
@@ -65,7 +65,6 @@
         [self rzv_setCurrentThreadImportContext:nil];
     }
     return object;
-
 }
 
 + (NSArray *)rzai_objectsFromArray:(NSArray *)array inContext:(NSManagedObjectContext *)context
@@ -86,13 +85,18 @@
     return objects;
 }
 
-#pragma mark - RZAutoImportable
+#pragma mark - RZAutoImportablej
 
 + (id)rzai_existingObjectForDict:(NSDictionary *)dict
 {
     NSManagedObjectContext *context = [self rzv_currentThreadImportContext];
-    if ( context == nil ){
-        RZVLogError(@"This thread does not have an associated managed object context at the moment.");
+    return [self rzai_existingObjectForDict:dict inContext:context];
+}
+
++ (id)rzai_existingObjectForDict:(NSDictionary *)dict inContext:(NSManagedObjectContext *)context
+{
+    if ( !RZVParameterAssert(context) ){
+        RZVLogError(@"This thread does not have an associated managed object context at the moment. It should.");
         return nil;
     }
     
@@ -108,6 +112,11 @@
     }
     
     return object;
+}
+
+- (BOOL)rzai_shouldImportValue:(id)value forKey:(NSString *)key
+{
+    return YES;
 }
 
 #pragma mark - Private
