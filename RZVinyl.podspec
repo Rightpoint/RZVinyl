@@ -16,13 +16,29 @@ Pod::Spec.new do |s|
   s.platform            = :ios, "7.0"
   s.source              = { :git => "https://github.com/Raizlabs/RZVinyl.git", :branch => "develop" }
 
-  s.source_files        = "Classes", "Classes/**/*.{h,m}"
-  s.public_header_files  = "Classes/*.h"
-  s.private_header_files = "Classes/Private/*.h"
   s.frameworks          = "Foundation", "CoreData"
   s.requires_arc        = true
+  
+  s.default_subspec     = 'Complete'
+  
+  s.subspec "Core" do |sp|
+    sp.source_files         = "Classes/*.{h,m}", "Classes/Private/*.{h,m}"
+    sp.public_header_files  = "Classes/*.h"
+    sp.private_header_files = "Classes/Private/*.h"
+  end
+  
+  s.subspec "AutoImport" do |sp|
+    sp.dependency 'RZVinyl/Core'
+    sp.source_files = "Classes/Extensions/*.{h,m}"
+    # sp.dependency 'RZAutoImport', '~> 1.0'
+  end
+  
+  # TODO: Networking?
+  
+  s.subspec "Complete" do |sp|
+    sp.dependency 'RZVinyl/AutoImport'
+  end
 
-#  s.dependency 'RZAutoImport', '~> 1.0'
 
 end
  
