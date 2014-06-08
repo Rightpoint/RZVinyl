@@ -14,7 +14,7 @@ Pod::Spec.new do |s|
   s.social_media_url    = "http://twitter.com/raizlabs"
 
   s.platform            = :ios, "7.0"
-  s.source              = { :git => "https://github.com/Raizlabs/RZVinyl.git", :branch => "develop" }
+  s.source              = { :git => "https://github.com/Raizlabs/RZVinyl.git", :branch => "feature/ndonald2/import" }
 
   s.frameworks          = "Foundation", "CoreData"
   s.requires_arc        = true
@@ -30,6 +30,7 @@ Pod::Spec.new do |s|
   s.subspec "AutoImport" do |sp|
     sp.dependency 'RZVinyl/Core'
     sp.source_files = "Classes/Extensions/*.{h,m}"
+    sp.xcconfig = {'GCC_PREPROCESSOR_DEFINITIONS' => 'RZV_AUTOIMPORT_AVAILABLE=1'}
     # sp.dependency 'RZAutoImport', '~> 1.0'
   end
   

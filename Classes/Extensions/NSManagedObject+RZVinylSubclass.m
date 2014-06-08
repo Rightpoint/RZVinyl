@@ -40,7 +40,6 @@
     return nil;
 }
 
-
 + (RZCoreDataStack *)rzv_coreDataStack
 {
     return [RZCoreDataStack defaultStack];

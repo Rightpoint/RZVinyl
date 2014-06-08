@@ -27,11 +27,15 @@
 //  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #import "RZCoreDataStack.h"
-#import "NSManagedObject+RZVinylSubclass.h"
 #import "NSManagedObject+RZVinylRecord.h"
-#import "NSManagedObject+RZAutoImport.h"
 #import "NSFetchRequest+RZVinylRecord.h"
 #import "NSFetchedResultsController+RZVinylRecord.h"
+
+#if (RZV_AUTOIMPORT_AVAILABLE)
+    #import "NSManagedObject+RZAutoImport.h"
+    #import "NSManagedObject+RZVinylSubclass.h"
+#endif
+
 
 /**
  *  Public Macros

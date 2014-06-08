@@ -20,7 +20,7 @@
 //
 //  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 //  EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-//  MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+//  MERCHANTABILITY, F  ITNESS FOR A PARTICULAR PURPOSE AND
 //  NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
 //  LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 //  OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
@@ -29,7 +29,7 @@
 #import "RZCoreDataStack.h"
 
 /**
- *  Methods to override in @p NSManagedObject subclasses to support @p RZVinylRecord extensions.
+ *  Methods to optionally override in @p NSManagedObject subclasses to support @p RZAutoImport extensions.
  */
 @interface NSManagedObject (RZVinylSubclass)
 

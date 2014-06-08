@@ -65,7 +65,40 @@
 
 - (void)test_ArrayImport
 {
+    XCTAssertNotNil(self.rawArtists, @"Failed to import test json");
     
+    NSArray *artists = [Artist rzai_objectsFromArray:self.rawArtists];
+    XCTAssertNotNil(artists, @"Failed to import array");
+    XCTAssertEqual(artists.count, 3, @"Wrong number of artists");
+    
+    NSSet *expectedNames = [NSSet setWithArray:@[@"BCee", @"Dusky", @"Tool"]];
+    NSSet *importedNames = [NSSet setWithArray:[artists valueForKey:@"name"]];
+    XCTAssertTrue([expectedNames isEqualToSet:importedNames], @"Failed to import names correctly");
+
+    [self.stack.mainManagedObjectContext reset];
+    
+    __block BOOL finished = NO;
+    [self.stack performBlockUsingBackgroundContext:^(NSManagedObjectContext *context) {
+        
+        NSArray *artists = [Artist rzai_objectsFromArray:self.rawArtists inContext:context];
+        XCTAssertNotNil(artists, @"Failed to import array");
+        XCTAssertEqual(artists.count, 3, @"Wrong number of artists");
+        XCTAssertEqualObjects(context, [artists[0] managedObjectContext], @"Wrong context");
+        
+        NSSet *expectedNames = [NSSet setWithArray:@[@"BCee", @"Dusky", @"Tool"]];
+        NSSet *importedNames = [NSSet setWithArray:[artists valueForKey:@"name"]];
+        XCTAssertTrue([expectedNames isEqualToSet:importedNames], @"Failed to import names correctly");
+        
+    } completion:^(NSError *err) {
+        XCTAssertNil(err, @"Error during background context save: %@", err);
+        finished = YES;
+    }];
+    
+    [RZWaiter waitWithTimeout:3 pollInterval:0.1 checkCondition:^BOOL{
+        return finished;
+    } onTimeout:^{
+        XCTFail(@"Operation timed out");
+    }];
 }
 
 @end
