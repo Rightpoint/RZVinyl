@@ -16,4 +16,9 @@
     return NSStringFromSelector(@selector(remoteID));
 }
 
++ (NSString *)rzv_externalPrimaryKey
+{
+    return @"id";
+}
+
 @end

@@ -29,7 +29,7 @@
 
 @import CoreData;
 
-typedef void (^RZCoreDataStackTransactionBlock)(NSManagedObjectContext *moc);
+typedef void (^RZCoreDataStackTransactionBlock)(NSManagedObjectContext *context);
 
 typedef NS_OPTIONS(NSUInteger, RZCoreDataStackOptions)
 {

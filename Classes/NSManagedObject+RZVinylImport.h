@@ -39,8 +39,10 @@
  */
 @interface NSManagedObject (RZVinylImport) <RZAutoImportable>
 
-+ (instancetype)rzv_objectFromDictionary:(NSDictionary *)dict inContext:(NSManagedObjectContext *)context;
++ (instancetype)rzai_objectFromDictionary:(NSDictionary *)dict
+                                inContext:(NSManagedObjectContext *)context;
 
-+ (NSArray *)rzv_objectsFromArray:(NSArray *)array inContext:(NSManagedObjectContext *)context;
++ (NSArray *)rzai_objectsFromArray:(NSArray *)array
+                         inContext:(NSManagedObjectContext *)context;
 
 @end

@@ -8,7 +8,6 @@
 
 #import "BaseObject.h"
 
-
 @implementation BaseObject
 
 @dynamic remoteID;

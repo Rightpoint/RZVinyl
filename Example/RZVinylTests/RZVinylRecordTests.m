@@ -6,15 +6,9 @@
 //  Copyright (c) 2014 Raizlabs. All rights reserved.
 //
 
-@import XCTest;
-#import "RZVinyl.h"
-#import "Artist.h"
-#import "Song.h"
-#import "RZWaiter.h"
+#import "RZVinylBaseTestCase.h"
 
-@interface RZVinylRecordTests : XCTestCase
-
-@property (nonatomic, strong) RZCoreDataStack *stack;
+@interface RZVinylRecordTests : RZVinylBaseTestCase
 
 @end
 
@@ -23,22 +17,7 @@
 - (void)setUp
 {
     [super setUp];
-    NSURL *modelURL = [[NSBundle bundleForClass:[self class]] URLForResource:@"TestModel" withExtension:@"momd"];
-    NSManagedObjectModel *model = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
-    self.stack = [[RZCoreDataStack alloc] initWithModel:model
-                                              storeType:NSInMemoryStoreType
-                                               storeURL:nil
-                             persistentStoreCoordinator:nil
-                                                options:kNilOptions];
-    
-    [RZCoreDataStack setDefaultStack:self.stack];
     [self seedDatabase];
-}
-
-- (void)tearDown
-{
-    [super tearDown];
-    self.stack = nil;
 }
 
 #pragma mark - Utils
@@ -108,15 +87,15 @@
 {
     __block BOOL finished = NO;
     
-    [self.stack performBlockUsingBackgroundContext:^(NSManagedObjectContext *moc) {
+    [self.stack performBlockUsingBackgroundContext:^(NSManagedObjectContext *context) {
         
-        XCTAssertNotEqualObjects(moc, self.stack.mainManagedObjectContext, @"Current moc should not equal main moc");
+        XCTAssertNotEqualObjects(context, self.stack.mainManagedObjectContext, @"Current moc should not equal main moc");
 
         Artist *newArtist = nil;
-        XCTAssertNoThrow(newArtist = [Artist rzv_newObjectInContext:moc], @"Creation threw exception");
+        XCTAssertNoThrow(newArtist = [Artist rzv_newObjectInContext:context], @"Creation threw exception");
         XCTAssertNotNil(newArtist, @"Failed to create new object");
         XCTAssertTrue([newArtist isKindOfClass:[Artist class]], @"New object is not of correct class");
-        XCTAssertEqualObjects(newArtist.managedObjectContext, moc, @"Wrong Context");
+        XCTAssertEqualObjects(newArtist.managedObjectContext, context, @"Wrong Context");
         
         newArtist.remoteID = @100;
         newArtist.name = @"Sergio";
@@ -141,12 +120,12 @@
     
     finished = NO;
     
-    [self.stack performBlockUsingBackgroundContext:^(NSManagedObjectContext *moc) {
+    [self.stack performBlockUsingBackgroundContext:^(NSManagedObjectContext *context) {
         Artist *newArtist = nil;
-        XCTAssertNoThrow(newArtist = [Artist rzv_newObjectInContext:moc], @"Creation threw exception");
+        XCTAssertNoThrow(newArtist = [Artist rzv_newObjectInContext:context], @"Creation threw exception");
         XCTAssertNotNil(newArtist, @"Failed to create new object");
         XCTAssertTrue([newArtist isKindOfClass:[Artist class]], @"New object is not of correct class");
-        XCTAssertEqualObjects(newArtist.managedObjectContext, moc, @"Wrong Context");
+        XCTAssertEqualObjects(newArtist.managedObjectContext, context, @"Wrong Context");
         
         newArtist.remoteID = @100;
         newArtist.name = @"Sergio";
@@ -188,19 +167,19 @@
     
     __block BOOL finished = NO;
     
-    [self.stack performBlockUsingBackgroundContext:^(NSManagedObjectContext *moc) {
+    [self.stack performBlockUsingBackgroundContext:^(NSManagedObjectContext *context) {
         
-        Artist *dusky = [Artist rzv_objectWithPrimaryKeyValue:@1000 createNew:NO inContext:moc];
+        Artist *dusky = [Artist rzv_objectWithPrimaryKeyValue:@1000 createNew:NO inContext:context];
         XCTAssertNotNil(dusky, @"Should be a matching object");
         XCTAssertEqualObjects(dusky.name, @"Dusky", @"Wrong object");
-        XCTAssertEqualObjects(moc, dusky.managedObjectContext, @"Wrong context");
+        XCTAssertEqualObjects(context, dusky.managedObjectContext, @"Wrong context");
         
-        Artist *pezzner = [Artist rzv_objectWithPrimaryKeyValue:@9999 createNew:YES inContext:moc];
+        Artist *pezzner = [Artist rzv_objectWithPrimaryKeyValue:@9999 createNew:YES inContext:context];
         XCTAssertNotNil(pezzner, @"Should be new object");
-        XCTAssertTrue([moc hasChanges], @"Moc should have changes after new object add");
+        XCTAssertTrue([context hasChanges], @"Moc should have changes after new object add");
         XCTAssertEqualObjects(pezzner.remoteID, @9999, @"New object should have correct primary key value");
         XCTAssertNil(pezzner.name, @"New object should have nil attributes");
-        XCTAssertEqualObjects(moc, pezzner.managedObjectContext, @"Wrong context");
+        XCTAssertEqualObjects(context, pezzner.managedObjectContext, @"Wrong context");
 
         
     } completion:^(NSError *err) {
@@ -249,12 +228,12 @@
     
     // Background fetch all
     __block BOOL finished = NO;
-    [self.stack performBlockUsingBackgroundContext:^(NSManagedObjectContext *moc) {
+    [self.stack performBlockUsingBackgroundContext:^(NSManagedObjectContext *context) {
         
-        NSArray *artists = [Artist rzv_allInContext:moc];
+        NSArray *artists = [Artist rzv_allInContext:context];
         XCTAssertNotNil(artists, @"Should not return nil");
         XCTAssertEqual(artists.count, 3, @"Should be three artists");
-        XCTAssertEqualObjects([[artists lastObject] managedObjectContext], moc, @"Wrong context");
+        XCTAssertEqualObjects([[artists lastObject] managedObjectContext], context, @"Wrong context");
         
     } completion:^(NSError *err) {
         XCTAssertNil(err, @"An error occurred during the background save: %@", err);
@@ -358,14 +337,14 @@
 {
     __block BOOL finished = NO;
     
-    [self.stack performBlockUsingBackgroundContext:^(NSManagedObjectContext *moc) {
+    [self.stack performBlockUsingBackgroundContext:^(NSManagedObjectContext *context) {
         
-        Artist *dusky = [Artist rzv_objectWithPrimaryKeyValue:@1000 createNew:NO inContext:moc];
+        Artist *dusky = [Artist rzv_objectWithPrimaryKeyValue:@1000 createNew:NO inContext:context];
         XCTAssertNotNil(dusky, @"Should be a matching object");
         
         [dusky rzv_delete];
         XCTAssertTrue(dusky.isDeleted, @"Should be deleted");
-        dusky = [Artist rzv_objectWithPrimaryKeyValue:@1000 createNew:NO inContext:moc];
+        dusky = [Artist rzv_objectWithPrimaryKeyValue:@1000 createNew:NO inContext:context];
         XCTAssertNil(dusky, @"Fetching again should not return deleted object");
         
         [[self.stack mainManagedObjectContext] performBlockAndWait:^{
@@ -439,22 +418,22 @@
 
     // Repeat in background
     __block BOOL finished = NO;
-    [self.stack performBlockUsingBackgroundContext:^(NSManagedObjectContext *moc) {
+    [self.stack performBlockUsingBackgroundContext:^(NSManagedObjectContext *context) {
         
-        NSArray *artists = [Artist rzv_allInContext:moc];
+        NSArray *artists = [Artist rzv_allInContext:context];
         XCTAssertEqual(artists.count, 3, @"Should be three artists to start");
         
-        [Artist rzv_deleteAllInContext:moc];
-        artists = [Artist rzv_allInContext:moc];
+        [Artist rzv_deleteAllInContext:context];
+        artists = [Artist rzv_allInContext:context];
         XCTAssertEqual(artists.count, 0, @"Should be no artists after delete all");
         
-        [moc reset];
+        [context reset];
         
-        artists = [Artist rzv_allInContext:moc];
+        artists = [Artist rzv_allInContext:context];
         XCTAssertEqual(artists.count, 3, @"Should be three artists to start");
         
         [Artist rzv_deleteAllWhere:@"songs.@count == 0"];
-        artists = [Artist rzv_allInContext:moc];
+        artists = [Artist rzv_allInContext:context];
         XCTAssertEqual(artists.count, 2, @"Should be 2 artists after delete all with predicate");
         
     } completion:^(NSError *err) {

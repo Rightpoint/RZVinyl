@@ -7,6 +7,7 @@
 //
 
 #import "BaseObject.h"
+#import "RZVinyl.h"
 
 @interface BaseObject (RZVinyl)
 

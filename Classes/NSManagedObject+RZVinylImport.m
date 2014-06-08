@@ -32,33 +32,57 @@
 #import "NSManagedObject+RZVinylSubclass.h"
 #import "NSManagedObject+RZVinylRecord_private.h"
 #import "RZVinylDefines.h"
-#import <objc/runtime.h>
 
 @implementation NSManagedObject (RZVinylImport)
 
-+ (instancetype)rzv_objectFromDictionary:(NSDictionary *)dict inContext:(NSManagedObjectContext *)context
+//!!!: Overridden to support default context
++ (instancetype)rzai_objectFromDictionary:(NSDictionary *)dict
 {
-    // !!!: Performing this atomically so calls to the normal RZAutoImport methods are still valid.
-    //      Otherwise, calls to those methods would risk resource contention.
-    __block id object = nil;
-    [self rzv_performBlockAtomically:^{
-        [self rzv_pushImportContext:context];
-        object = [self rzai_objectFromDictionary:dict];
-        [self rzv_popImportContext];
-    }];
-    return object;
+    NSManagedObjectContext *context = [[self rzv_validCoreDataStack] mainManagedObjectContext];
+    return [self rzai_objectFromDictionary:dict inContext:context];
 }
 
-+ (NSArray *)rzv_objectsFromArray:(NSArray *)array inContext:(NSManagedObjectContext *)context
+//!!!: Overridden to support default context
++ (NSArray *)rzai_objectsFromArray:(NSArray *)array
 {
-    // !!!: Performing this atomically so calls to the normal RZAutoImport methods are still valid.
-    //      Otherwise, calls to those methods would risk resource contention.
-    __block NSArray *objects = nil;
-    [self rzv_performBlockAtomically:^{
-        [self rzv_pushImportContext:context];
-        objects = [self rzai_objectsFromArray:array];
-        [self rzv_popImportContext];
-    }];
+    NSManagedObjectContext *context = [[self rzv_validCoreDataStack] mainManagedObjectContext];
+    return [self rzai_objectsFromArray:array inContext:context];
+}
+
++ (instancetype)rzai_objectFromDictionary:(NSDictionary *)dict inContext:(NSManagedObjectContext *)context
+{
+    if ( !RZVParameterAssert(context) ) {
+        return nil;
+    }
+    //!!!: If there is a context in the current thread dictionary, then this is a nested call to this method.
+    //     In that case, do not modify the thread dictionary.
+    BOOL nestedCall = ([self rzv_currentThreadImportContext] != nil);
+    if ( !nestedCall ){
+        [self rzv_setCurrentThreadImportContext:context];
+    }
+    id object = [super rzai_objectFromDictionary:dict];
+    if ( !nestedCall ) {
+        [self rzv_setCurrentThreadImportContext:nil];
+    }
+    return object;
+
+}
+
++ (NSArray *)rzai_objectsFromArray:(NSArray *)array inContext:(NSManagedObjectContext *)context
+{
+    if ( !RZVParameterAssert(context) ) {
+        return nil;
+    }
+    //!!!: If there is a context in the current thread dictionary, then this is a nested call to this method.
+    //     In that case, do not modify the thread dictionary.
+    BOOL nestedCall = ([self rzv_currentThreadImportContext] != nil);
+    if ( !nestedCall ){
+        [self rzv_setCurrentThreadImportContext:context];
+    }
+    NSArray *objects = [super rzai_objectsFromArray:array];
+    if ( !nestedCall ) {
+        [self rzv_setCurrentThreadImportContext:nil];
+    }
     return objects;
 }
 
@@ -66,86 +90,43 @@
 
 + (id)rzai_existingObjectForDict:(NSDictionary *)dict
 {
-    __block id object = nil;
+    NSManagedObjectContext *context = [self rzv_currentThreadImportContext];
+    if ( context == nil ){
+        RZVLogError(@"This thread does not have an associated managed object context at the moment.");
+        return nil;
+    }
     
-    [self rzv_performBlockAtomically:^{
-        
-        NSManagedObjectContext *context = [self rzv_currentImportContext];
-        if ( context == nil ){
-            return;
-        }
-        
-        NSString *externalPrimaryKey = [self rzv_externalPrimaryKey] ?: [self rzv_primaryKey];
-        id primaryValue = externalPrimaryKey ? [dict objectForKey:externalPrimaryKey] : nil;
-        if ( primaryValue != nil ) {
-            object = [self rzv_objectWithPrimaryKeyValue:primaryValue createNew:YES inContext:context];
-        }
-        else {
-            RZVLogInfo(@"Class %@ for entity %@ does not provide a primary key and cannot be uniqued. Creating new instance...", NSStringFromClass(self), [self rzv_entityName] );
-            object = [self rzv_newObjectInContext:context];
-        }
+    id object = nil;
+    NSString *externalPrimaryKey = [self rzv_externalPrimaryKey] ?: [self rzv_primaryKey];
+    id primaryValue = externalPrimaryKey ? [dict objectForKey:externalPrimaryKey] : nil;
+    if ( primaryValue != nil ) {
+        object = [self rzv_objectWithPrimaryKeyValue:primaryValue createNew:YES inContext:context];
+    }
+    else {
+        RZVLogInfo(@"Class %@ for entity %@ does not provide a primary key and cannot be uniqued. Creating new instance...", NSStringFromClass(self), [self rzv_entityName] );
+        object = [self rzv_newObjectInContext:context];
+    }
     
-    }];
     return object;
 }
 
 #pragma mark - Private
 
-+ (NSMutableArray *)s_rzv_importContextStack
+static NSString * const kRZVinylImportThreadContextKey = @"RZVinylImportThreadContext";
+
++ (NSManagedObjectContext *)rzv_currentThreadImportContext
 {
-    static NSMutableArray *s_importContextStack = nil;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        s_importContextStack = [NSMutableArray array];
-    });
-    return s_importContextStack;
+    return [[[NSThread currentThread] threadDictionary] objectForKey:kRZVinylImportThreadContextKey];
 }
 
-+ (void)rzv_performBlockAtomically:(void(^)())block
++ (void)rzv_setCurrentThreadImportContext:(NSManagedObjectContext *)context
 {
-    // !!!: Would use a serial queue but need reentrancy here.
-    static NSRecursiveLock *s_contextLock = nil;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        s_contextLock = [[NSRecursiveLock alloc] init];
-    });
-    
-    if ( block ) {
-        [s_contextLock lock];
-        block();
-        [s_contextLock unlock];
+    if ( context ) {
+        [[[NSThread currentThread] threadDictionary] setObject:context forKey:kRZVinylImportThreadContextKey];
     }
-}
-
-+ (NSManagedObjectContext *)rzv_currentImportContext
-{
-    __block NSManagedObjectContext *currentContext = nil;
-    [self rzv_performBlockAtomically:^{
-        currentContext = [[self s_rzv_importContextStack] lastObject];
-        if ( currentContext == nil ) {
-            currentContext = [[self rzv_validCoreDataStack] mainManagedObjectContext];
-            [self rzv_pushImportContext:currentContext];
-        }
-    }];
-    return currentContext;
-}
-
-+ (void)rzv_pushImportContext:(NSManagedObjectContext *)context
-{
-    if ( context != nil ) {
-        [self rzv_performBlockAtomically:^{
-            [[self s_rzv_importContextStack] addObject:context];
-        }];
+    else {
+        [[[NSThread currentThread] threadDictionary] removeObjectForKey:kRZVinylImportThreadContextKey];
     }
-}
-
-+ (void)rzv_popImportContext
-{
-    [self rzv_performBlockAtomically:^{
-        if ( [[self s_rzv_importContextStack] count] > 0 ) {
-            [[self s_rzv_importContextStack] removeLastObject];
-        }
-    }];
 }
 
 @end
