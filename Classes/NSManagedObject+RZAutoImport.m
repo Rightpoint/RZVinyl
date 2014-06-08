@@ -96,7 +96,7 @@
 + (id)rzai_existingObjectForDict:(NSDictionary *)dict inContext:(NSManagedObjectContext *)context
 {
     if ( !RZVParameterAssert(context) ){
-        RZVLogError(@"This thread does not have an associated managed object context at the moment. It should.");
+        RZVLogError(@"This thread does not have an associated managed object context at the moment, and that's a problem.");
         return nil;
     }
     
@@ -116,6 +116,19 @@
 
 - (BOOL)rzai_shouldImportValue:(id)value forKey:(NSString *)key
 {
+    NSManagedObjectContext *context = [[self class] rzv_currentThreadImportContext];
+    return [self rzai_shouldImportValue:value forKey:key inContext:context];
+}
+
+- (BOOL)rzai_shouldImportValue:(id)value forKey:(NSString *)key inContext:(NSManagedObjectContext *)context
+{
+    if ( !RZVParameterAssert(context) ){
+        RZVLogError(@"This thread does not have an associated managed object context at the moment, and that's a problem.");
+        return NO;
+    }
+    
+    // TODO: Check cached relationship mapping info. If collection type matches, perform import.
+    
     return YES;
 }
 
