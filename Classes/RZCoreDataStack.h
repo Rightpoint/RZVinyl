@@ -190,6 +190,9 @@ typedef NS_OPTIONS(NSUInteger, RZCoreDataStackOptions)
  *
  *  @param completion Optional completion block.
  *
+ *  @warning Calling this method will save to the persistent store, so any other unsaved
+ *           changes in the main managed object context will also be saved.
+ *
  *  @see @p RZCoreDataStackOptionsEnableAutoStalePurge option.
  */
 - (void)purgeStaleObjectsWithCompletion:(void(^)(NSError *err))completion;

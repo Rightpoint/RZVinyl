@@ -450,7 +450,26 @@
 
 - (void)test_PurgeStale
 {
+    __block BOOL finished = NO;
+ 
+    NSArray *artists = [Artist rzv_all];
+    XCTAssertNotNil(artists, @"Should not return nil");
+    XCTAssertEqual(artists.count, 3, @"Should be three artists");
     
+    // This will purge artists with no songs
+    [self.stack purgeStaleObjectsWithCompletion:^(NSError *err) {
+        XCTAssertNil(err, @"Error purging stale objects: %@", err);
+        NSArray *artists = [Artist rzv_all];
+        XCTAssertNotNil(artists, @"Should not return nil");
+        XCTAssertEqual(artists.count, 2, @"Should only be two artists after purge");
+        finished = YES;
+    }];
+    
+    [RZWaiter waitWithTimeout:3 pollInterval:0.1 checkCondition:^BOOL{
+        return finished;
+    } onTimeout:^{
+        XCTFail(@"Operation timed out");
+    }];
 }
 
 @end
