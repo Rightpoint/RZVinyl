@@ -235,8 +235,4 @@ typedef NS_OPTIONS(NSUInteger, RZCoreDataStackOptions)
  */
 + (void)setDefaultStack:(RZCoreDataStack *)defaultStack;
 
-// TODO:
-//+ (RZCoreDataStack *)stackWithName:(NSString *)name;
-//+ (void)setStack:(RZCoreDataStack *)stack forName:(NSString *)name;
-
 @end

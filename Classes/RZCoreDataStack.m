@@ -435,7 +435,7 @@
         __block UIBackgroundTaskIdentifier backgroundPurgeTaskID = UIBackgroundTaskInvalid;
         
         [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
-            //???: Need to clean this up in any other way?
+            // ???: Need to clean this task up in any other way?
             [[UIApplication sharedApplication] endBackgroundTask:backgroundPurgeTaskID];
             backgroundPurgeTaskID = UIBackgroundTaskInvalid;
         }];
