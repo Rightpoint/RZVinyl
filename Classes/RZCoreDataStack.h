@@ -60,7 +60,7 @@ typedef NS_OPTIONS(NSUInteger, RZCoreDataStackOptions)
     
     /**
      *  Pass this option to automatically purge stale objects from the main MOC when backgrounding the app.
-     *  @see @p purgeStaleObjects
+     *  @see @p purgeStaleObjectsWithCompletion
      */
     RZCoreDataStackOptionsEnableAutoStalePurge = (1 << 4)
 };
@@ -188,9 +188,11 @@ typedef NS_OPTIONS(NSUInteger, RZCoreDataStackOptions)
  *  Staleness for each entity type is determined by the predicate returned by 
  *  @p rzv_stalenessPredicate in an @p NSManagedObject subclass.
  *
+ *  @param completion Optional completion block.
+ *
  *  @see @p RZCoreDataStackOptionsEnableAutoStalePurge option.
  */
-- (void)purgeStaleObjects;
+- (void)purgeStaleObjectsWithCompletion:(void(^)(NSError *err))completion;
 
 @end
 

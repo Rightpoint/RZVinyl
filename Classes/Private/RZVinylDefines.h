@@ -58,6 +58,8 @@
 
 /**
  *  Perform the submitted block synchronously on a private serial queue.
+ *  Does not support reentrancy. Do not do anything in the block that would result
+ *  in this method being called from within the block.
  *
  *  @param block Block to perform synchronously on private serial queue.
  */

@@ -28,6 +28,7 @@
 
 
 #import "RZCoreDataStack.h"
+#import "NSManagedObject+RZVinylRecord.h"
 #import "RZVinylDefines.h"
 
 @interface RZCoreDataStack ()
@@ -42,14 +43,16 @@
 @property (nonatomic, copy) NSString *modelConfiguration;
 @property (nonatomic, copy) NSString *storeType;
 @property (nonatomic, copy) NSURL    *storeURL;
-
 @property (nonatomic, strong) dispatch_queue_t backgroundContextQueue;
-
 @property (nonatomic, assign) RZCoreDataStackOptions options;
+
+@property (nonatomic, readonly, strong) NSDictionary *entityClassNamesToStalenessPredicates;
 
 @end
 
 @implementation RZCoreDataStack
+
+@synthesize entityClassNamesToStalenessPredicates = _entityClassNamesToStalenessPredicates;
 
 + (void)load
 {
@@ -164,39 +167,60 @@
 
 - (void)save:(BOOL)wait
 {
-    __block NSError *err = nil;
-    
-    void (^DiskSave)() = ^{
-        if ( wait ) {
-            [self.topLevelBackgroundContext performBlockAndWait:^{
-                [self.topLevelBackgroundContext save:&err];
-            }];
-        }
-        else {
-            [self.topLevelBackgroundContext performBlock:^{
-                [self.topLevelBackgroundContext save:&err];
-            }];
+    __block NSError *bgSaveErr = nil;
+    void (^diskSave)() = ^{
+        if ( ![self.topLevelBackgroundContext save:&bgSaveErr] ) {
+            RZVLogError(@"Error saving to persistent store: %@", bgSaveErr);
         }
     };
     
-    if ( wait ) {
+    __block NSError *err = nil;
+    if ( [self.mainManagedObjectContext hasChanges] ) {
         [self.mainManagedObjectContext performBlockAndWait:^{
-            if ([self.mainManagedObjectContext save:&err]) {
-                DiskSave();
+            if ( ![self.mainManagedObjectContext save:&err] ) {
+                RZVLogError(@"Error saving main managed object context: %@", bgSaveErr);
             }
         }];
     }
-    else {
-        [self.mainManagedObjectContext performBlock:^{
-            if ([self.mainManagedObjectContext save:&err]) {
-                DiskSave();
-            }
-        }];
+    
+    if ( [self.topLevelBackgroundContext hasChanges] ) {
+        if ( wait ) {
+            [self.topLevelBackgroundContext performBlockAndWait:diskSave];
+        }
+        else {
+            [self.topLevelBackgroundContext performBlock:diskSave];
+        }
     }
+    
+}
 
-    if ( err ) {
-        RZVLogError(@"Error saving database: %@", err);
-    }
+- (void)purgeStaleObjectsWithCompletion:(void (^)(NSError *))completion
+{
+    [self performBlockUsingBackgroundContext:^(NSManagedObjectContext *context) {
+        
+        [self.entityClassNamesToStalenessPredicates enumerateKeysAndObjectsUsingBlock:^(NSString *className, NSPredicate *predicate, BOOL *stop) {
+            
+            Class moClass = NSClassFromString(className);
+            if ( moClass != Nil ) {
+                [moClass rzv_deleteAllWhere:predicate];
+            }
+            
+        }];
+        
+    } completion:^(NSError *err) {
+
+        if ( err == nil ) {
+            [self save:YES];
+        }
+        else {
+            RZVLogError(@"Error saving after stale objects purge: %@", err);
+        }
+        
+        if (completion) {
+            completion(err);
+        }
+        
+    }];
 }
 
 #pragma mark - Lazy Default Properties
@@ -222,6 +246,32 @@
         }
     }
     return _storeURL;
+}
+
+- (NSDictionary *)entityClassNamesToStalenessPredicates
+{
+    __block NSDictionary *result = nil;
+    
+    //!!!: Must be a thread-safe lazy load
+    rzv_performBlockAtomically(^{
+        if ( _entityClassNamesToStalenessPredicates == nil ) {
+            // Enumerate the model and discover stale predicates for each entity class
+            NSMutableDictionary *classNamesToStalePredicates = [NSMutableDictionary dictionary];
+            [[self.managedObjectModel entities] enumerateObjectsUsingBlock:^(NSEntityDescription *entity, NSUInteger idx, BOOL *stop) {
+                Class moClass = NSClassFromString(entity.managedObjectClassName);
+                if ( moClass != Nil ) {
+                    NSPredicate *predicate = [moClass rzv_stalenessPredicate];
+                    if ( predicate != nil ) {
+                        [classNamesToStalePredicates setObject:predicate forKey:entity.managedObjectClassName];
+                    }
+                }
+            }];
+            _entityClassNamesToStalenessPredicates = [NSDictionary dictionaryWithDictionary:classNamesToStalePredicates];
+        }
+        result = _entityClassNamesToStalenessPredicates;
+    });
+    
+    return result;
 }
 
 #pragma mark - Private
