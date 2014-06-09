@@ -158,7 +158,7 @@
     
     __block BOOL shouldImport = YES;
     NSString *normKey = rzai_normalizedKey(key);
-    RZAIPropertyInfo *propInfo = [[[self class] rzai_importMapping] objectForKey:normKey];
+    RZAIPropertyInfo *propInfo = [[[self class] rzai_importMappings] objectForKey:normKey];
     if ( propInfo != nil && (propInfo.dataType == RZAutoImportDataTypeOtherObject || propInfo.dataType == RZAutoImportDataTypeNSSet) ) {
 
         // Check cached relationship mapping info. If collection type matches, perform automatic relationship import
@@ -226,7 +226,7 @@ static NSString * const kRZVinylImportThreadContextKey = @"RZVinylImportThreadCo
     }
     
     NSString *normKey = rzai_normalizedKey(key);
-    RZAIPropertyInfo *propInfo = [[self rzai_importMapping] objectForKey:normKey];
+    RZAIPropertyInfo *propInfo = [[self rzai_importMappings] objectForKey:normKey];
     
     __block id relationshipInfo = [classRelationshipMappings objectForKey:normKey];
     if ( relationshipInfo == nil && propInfo.propertyName != nil ) {
