@@ -33,9 +33,7 @@ Pod::Spec.new do |s|
     sp.xcconfig = {'GCC_PREPROCESSOR_DEFINITIONS' => 'RZV_AUTOIMPORT_AVAILABLE=1'}
     # sp.dependency 'RZAutoImport', '~> 1.0'
   end
-  
-  # TODO: Networking?
-  
+    
   s.subspec "Complete" do |sp|
     sp.dependency 'RZVinyl/AutoImport'
   end
