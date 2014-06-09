@@ -28,7 +28,7 @@
 
 
 @import CoreData;
-#import "RZAutoImport.h"
+#import "NSObject+RZAutoImport.h"
 
 /**
  *  Automatic importing of dictionary representations (e.g. deserialized JSON response) 

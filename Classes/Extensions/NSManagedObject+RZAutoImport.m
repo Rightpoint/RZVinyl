@@ -28,10 +28,22 @@
 
 
 #import "NSManagedObject+RZAutoImport.h"
+#import "NSObject+RZAutoImport_private.h"
 #import "NSManagedObject+RZVinylRecord.h"
 #import "NSManagedObject+RZVinylSubclass.h"
 #import "NSManagedObject+RZVinylRecord_private.h"
+#import "RZVinylRelationshipInfo.h"
 #import "RZVinylDefines.h"
+
+//
+//  Private Declarations
+
+// Performs the block within a reentrant lock
+static void rzai_performBlockAtomically(void(^block)());
+
+//
+// Implementation
+//
 
 @implementation NSManagedObject (RZAutoImport)
 
@@ -127,7 +139,10 @@
         return NO;
     }
     
-    // TODO: Check cached relationship mapping info. If collection type matches, perform import.
+    // Check cached relationship mapping info. If collection type matches, perform import.
+    rzai_performBlockAtomically(^{
+        RZVinylRelationshipInfo *relationshipInfo = [[self class] rzai_relationshipInfoForKey:key];
+    });
     
     return YES;
 }
@@ -150,5 +165,55 @@ static NSString * const kRZVinylImportThreadContextKey = @"RZVinylImportThreadCo
         [[[NSThread currentThread] threadDictionary] removeObjectForKey:kRZVinylImportThreadContextKey];
     }
 }
+
++ (RZVinylRelationshipInfo *)rzai_relationshipInfoForKey:(NSString *)key
+{
+    static NSMutableDictionary *s_cachedMappings = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        s_cachedMappings = [NSMutableDictionary dictionary];
+    });
+    
+    NSString *className = NSStringFromClass(self);
+    NSMutableDictionary *classMapping = [s_cachedMappings objectForKey:className];
+    if ( classMapping == nil ) {
+        classMapping = [NSMutableDictionary dictionary];
+        [s_cachedMappings setObject:classMapping forKey:className];
+    }
+    
+//    NSString *normKey = rzai_normalizedKey(key);
+//    id relationshipInfo = [classMapping objectForKey:normKey];
+//    if ( relationshipInfo == nil ) {
+//        
+//        NSEntityDescription *entity = [[[[self rzv_coreDataStack] managedObjectModel] entitiesByName] objectForKey:[self rzv_entityName]];
+//        NSDictionary *relationships = [entity relationshipsByName];
+//        [relationships enumerateKeysAndObjectsUsingBlock:^(NSString *name, NSRelationshipDescription *relationshipDesc, BOOL *stop) {
+//
+//        }];
+//        
+//    }
+//
+//    // !!!: To prevent further checking of non-relationship keys, we cache NSNull
+//    //      so this ensures that a valid relationshipInfo object is returned
+//    return [relationshipInfo isEqual:[NSNull null]] ? nil : relationshipInfo;
+    return nil;
+}
+
+
+static void rzai_performBlockAtomically(void(^block)()) {
+    
+    static NSRecursiveLock *s_lock = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        s_lock = [[NSRecursiveLock alloc] init];
+    });
+    
+    if ( block ) {
+        [s_lock lock];
+        block();
+        [s_lock unlock];
+    }
+}
+
 
 @end
