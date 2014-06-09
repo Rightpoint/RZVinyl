@@ -43,7 +43,7 @@ typedef NS_OPTIONS(NSUInteger, RZCoreDataStackOptions)
     
     /**
      *  Pass this option to delete the database file if it is not readable using the provided model.
-     *  If this option is not set and the file is unreadable, the initialization will fail and return nil.
+     *  If this option is not set and the file is unreadable, the initialization will fail and an exception will be thrown.
      */
     RZCoreDataStackOptionDeleteDatabaseIfUnreadable = (1 << 1),
     

@@ -152,11 +152,11 @@ static NSString* const kRZCoreDataStackCustomFilePath = @"test_tmp/RZCoreDataSta
     NSURL *testStoreURL = [[NSBundle bundleForClass:[self class]] URLForResource:@"TestModel" withExtension:@"momd"];
     NSManagedObjectModel *testModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:testStoreURL];
     XCTAssertNotNil(testModel, @"Test model failed to load");
-    XCTAssertNoThrow(stack2 = [[RZCoreDataStack alloc] initWithModel:testModel
+    XCTAssertThrows(stack2 = [[RZCoreDataStack alloc] initWithModel:testModel
                                                            storeType:NSSQLiteStoreType
                                                             storeURL:self.customFileURL
                                           persistentStoreCoordinator:nil
-                                                             options:RZCoreDataStackOptionDisableAutoLightweightMigration], @"Init threw an exception");
+                                                             options:RZCoreDataStackOptionDisableAutoLightweightMigration], @"Init with unreadable model should throw an exception");
     
     XCTAssertNil(stack2, @"Database should be unreadable with this model");
     

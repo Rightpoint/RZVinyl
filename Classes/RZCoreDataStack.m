@@ -352,7 +352,9 @@
         }
         
         if ( error != nil ) {
-            RZVLogError(@"Unresolved error creating PSC for data stack: %@", error);
+            @throw [NSException exceptionWithName:NSInternalInconsistencyException
+                                           reason:[NSString stringWithFormat:@"Unresolved error creating PSC for data stack: %@", error]
+                                         userInfo:nil];
             return NO;
         }
     }
