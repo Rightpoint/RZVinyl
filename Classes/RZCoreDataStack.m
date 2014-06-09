@@ -31,6 +31,8 @@
 #import "NSManagedObject+RZVinylRecord.h"
 #import "RZVinylDefines.h"
 
+static RZCoreDataStack *s_defaultStack = nil;
+
 @interface RZCoreDataStack ()
 
 @property (nonatomic, strong, readwrite) NSManagedObjectModel            *managedObjectModel;
@@ -372,6 +374,10 @@
         self.mainManagedObjectContext.undoManager   = [[NSUndoManager alloc] init];
     }
     
+    if ( [self hasOptionsSet:RZCoreDataStackOptionMakeDefault] ) {
+        s_defaultStack = self;
+    }
+    
     return YES;
 }
 
@@ -406,7 +412,7 @@
                                                                        options:kNilOptions];
     
     if ( defaultStack != nil ) {
-        [self setDefaultStack:defaultStack];
+        s_defaultStack = defaultStack;
     }
     else {
         NSLog(@"[RZDataStackAccess] ERROR: Could not build default CoreData stack from info.plist values. Please check your entries:");
@@ -453,16 +459,9 @@
 
 @implementation RZCoreDataStack (SharedAccess)
 
-static RZCoreDataStack *s_defaultStack = nil;
-
 + (RZCoreDataStack *)defaultStack
 {
     return s_defaultStack;
-}
-
-+ (void)setDefaultStack:(RZCoreDataStack *)defaultStack
-{
-    s_defaultStack = defaultStack;
 }
 
 @end

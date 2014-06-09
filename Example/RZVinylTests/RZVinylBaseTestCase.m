@@ -25,9 +25,7 @@
                                               storeType:NSInMemoryStoreType
                                                storeURL:nil
                              persistentStoreCoordinator:nil
-                                                options:kNilOptions];
-    
-    [RZCoreDataStack setDefaultStack:self.stack];
+                                                options:RZCoreDataStackOptionMakeDefault];
 }
 
 - (void)tearDown

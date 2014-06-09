@@ -34,35 +34,41 @@ typedef void (^RZCoreDataStackTransactionBlock)(NSManagedObjectContext *context)
 typedef NS_OPTIONS(NSUInteger, RZCoreDataStackOptions)
 {
     /**
+     *  Pass this option during init to make the newly-allocated receiver the default stack,
+     *  accessible by using +defaultStack.
+     */
+    RZCoreDataStackOptionMakeDefault = (1 << 0),
+    
+    /**
      *  Pass this option to disable automatic lightweight migration between data model versions.
      *  If this option is set and migration fails, the initialization will either fail and return nil,
      *  or the file will be deleted, depending on whether @p RZCoreDataStackOptionDeleteDatabaseIfUnreadable is
      *  also passed to init.
      */
-    RZCoreDataStackOptionDisableAutoLightweightMigration = (1 << 0),
+    RZCoreDataStackOptionDisableAutoLightweightMigration = (1 << 1),
     
     /**
      *  Pass this option to delete the database file if it is not readable using the provided model.
      *  If this option is not set and the file is unreadable, the initialization will fail and an exception will be thrown.
      */
-    RZCoreDataStackOptionDeleteDatabaseIfUnreadable = (1 << 1),
+    RZCoreDataStackOptionDeleteDatabaseIfUnreadable = (1 << 2),
     
     /**
      *  Pass this option to disable the write-ahead log for sqlite databases.
      *  If the database is not sqlite, this will be ignored.
      */
-    RZCoreDataStackOptionsDisableWriteAheadLog = (1 << 2),
+    RZCoreDataStackOptionsDisableWriteAheadLog = (1 << 3),
     
     /**
      *  Pass this option to create an undo manager for the main managed object context.
      */
-    RZCoreDataStackOptionsCreateUndoManager = (1 << 3),
+    RZCoreDataStackOptionsCreateUndoManager = (1 << 4),
     
     /**
      *  Pass this option to automatically purge stale objects from the main MOC when backgrounding the app.
      *  @see @p purgeStaleObjectsWithCompletion
      */
-    RZCoreDataStackOptionsEnableAutoStalePurge = (1 << 4)
+    RZCoreDataStackOptionsEnableAutoStalePurge = (1 << 5)
 };
 
 /**
@@ -204,10 +210,13 @@ typedef NS_OPTIONS(NSUInteger, RZCoreDataStackOptions)
 
 /**
  *  The default CoreData stack for this application.
- *  Automatically configured on app launch using default settings, if @p RZVDataModelName is present in @p info.plist.
- *  Otherwise defaults to nil.
+ *  The value of the default stack will be overridden by a new stack if the
+ *  @p RZCoreDataStackOptionMakeDefault option is passed on init.
  *
- *  Can be further customized by adding the following keys to the @p info.plist.
+ *  Will be automatically configured on app launch using default settings, 
+ *  if @p RZVDataModelName is present in @p info.plist. Otherwise defaults to nil.
+ *
+ *  @note The auto-configuration can be further customized by adding the following keys to the @p info.plist.
  *
  *  @p RZVDataModelName (required) - The name of the CoreData model file, without any extension
  *
@@ -216,23 +225,8 @@ typedef NS_OPTIONS(NSUInteger, RZCoreDataStackOptions)
  *
  *  @p RZVPersistentStoreType  - Either "sqlite" or "memory". Defaults to "memory".
  *
- *  @note More specialized configurations should init and set the default stack manually using @p +setDefaultStack:
- *
  *  @return The default @p RZCoreDataStack for this application.
  */
 + (RZCoreDataStack *)defaultStack;
-
-/**
- *  Set the default CoreData stack for this application.
- *  This is not necessary if using @p info.plist keys to define
- *  the CoreData stack (see above).
- *
- *  @warning It is recommended to set this early in app lifetime,
- *           such as during @p appDidFinishLaunching:. Do NOT change
- *           the default stack while it is in use.
- *
- *  @param defaultStack The new default CoreData stack.
- */
-+ (void)setDefaultStack:(RZCoreDataStack *)defaultStack;
 
 @end
