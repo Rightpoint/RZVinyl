@@ -7,6 +7,7 @@
         <relationship name="songs" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Song" inverseName="artist" inverseEntity="Song" syncable="YES"/>
     </entity>
     <entity name="BaseObject" representedClassName="BaseObject" isAbstract="YES" syncable="YES">
+        <attribute name="lastUpdated" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="remoteID" attributeType="Integer 32" indexed="YES" syncable="YES"/>
     </entity>
     <entity name="Song" representedClassName="Song" parentEntity="BaseObject" syncable="YES">
@@ -16,7 +17,7 @@
     </entity>
     <elements>
         <element name="Artist" positionX="9" positionY="63" width="128" height="103"/>
-        <element name="BaseObject" positionX="-18" positionY="27" width="128" height="60"/>
+        <element name="BaseObject" positionX="-18" positionY="27" width="128" height="75"/>
         <element name="Song" positionX="18" positionY="63" width="128" height="88"/>
     </elements>
 </model>

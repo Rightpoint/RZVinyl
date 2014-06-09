@@ -12,5 +12,6 @@
 @interface BaseObject : NSManagedObject
 
 @property (nonatomic, retain) NSNumber * remoteID;
+@property (nonatomic, retain) NSDate *lastUpdated;
 
 @end

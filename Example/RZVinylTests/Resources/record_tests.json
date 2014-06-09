@@ -1,6 +1,7 @@
 [
   {
     "id" : 1000,
+    "lastUpdated" : "2014-06-04T12:00:00Z",
     "name" : "Dusky",
     "genre" : "Deep House",
     "songs" : [
@@ -13,11 +14,13 @@
   },
   {
     "id" : 1049,
+    "lastUpdated" : "2014-06-04T12:00:00Z",
     "name" : "BCee",
     "genre" : "Drum & Bass"
   },
   {
     "id" : 2399,
+    "lastUpdated" : "2014-06-04T12:00:00Z",
     "name" : "Tool",
     "genre" : "Prog Metal",
     "songs" : [

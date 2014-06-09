@@ -11,5 +11,6 @@
 @implementation BaseObject
 
 @dynamic remoteID;
+@dynamic lastUpdated;
 
 @end

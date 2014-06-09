@@ -31,14 +31,21 @@
 
 - (void)test_ObjectImport
 {
+    NSDateFormatter *testFormatter  = [[NSDateFormatter alloc] init];
+    testFormatter.dateFormat        = @"yyyy-MM-dd'T'HH:mm:ss'Z'";
+    testFormatter.locale            = [NSLocale localeWithLocaleIdentifier:@"en_US_POSIX"];
+    testFormatter.timeZone          = [NSTimeZone timeZoneForSecondsFromGMT:0];
+    
     NSDictionary *duskyRaw = [self.rawArtists objectAtIndex:0];
     XCTAssertNotNil(duskyRaw, @"Failed to import test json");
     
     Artist *dusky = [Artist rzai_objectFromDictionary:duskyRaw];
     XCTAssertNotNil(dusky, @"Failed to import from dict");
     XCTAssertEqualObjects(dusky.managedObjectContext, self.stack.mainManagedObjectContext, @"Wrong context");
-    XCTAssertEqualObjects(dusky.name, @"Dusky", @"Name import failed");
-    XCTAssertEqualObjects(dusky.genre, @"Deep House", @"Genre import failed");
+    XCTAssertEqualObjects(dusky.name, duskyRaw[@"name"], @"Name import failed");
+    XCTAssertEqualObjects(dusky.remoteID, duskyRaw[@"id"], @"Remote ID import failed");
+    XCTAssertEqualObjects(dusky.genre, duskyRaw[@"genre"], @"Genre import failed");
+    XCTAssertEqualObjects([testFormatter stringFromDate:dusky.lastUpdated], duskyRaw[@"lastUpdated"], @"Date import failed");
     
     [self.stack.mainManagedObjectContext reset];
     
@@ -48,8 +55,10 @@
         Artist *dusky = [Artist rzai_objectFromDictionary:duskyRaw inContext:context];
         XCTAssertNotNil(dusky, @"Failed to import from dict");
         XCTAssertEqualObjects(dusky.managedObjectContext, context, @"Wrong context");
-        XCTAssertEqualObjects(dusky.name, @"Dusky", @"Name import failed");
-        XCTAssertEqualObjects(dusky.genre, @"Deep House", @"Genre import failed");
+        XCTAssertEqualObjects(dusky.name, duskyRaw[@"name"], @"Name import failed");
+        XCTAssertEqualObjects(dusky.remoteID, duskyRaw[@"id"], @"Remote ID import failed");
+        XCTAssertEqualObjects(dusky.genre, duskyRaw[@"genre"], @"Genre import failed");
+        XCTAssertEqualObjects([testFormatter stringFromDate:dusky.lastUpdated], duskyRaw[@"lastUpdated"], @"Date import failed");
         
     } completion:^(NSError *err) {
         XCTAssertNil(err, @"Error during background context save: %@", err);
