@@ -1,5 +1,5 @@
 //
-//  NSManagedObject+RZVinylSubclass.h
+//  NSManagedObject+RZAutoImportableSubclass.h
 //  RZVinyl
 //
 //  Created by Nick Donaldson on 6/6/14.
@@ -31,7 +31,7 @@
 /**
  *  Methods to optionally override in @p NSManagedObject subclasses to support @p RZAutoImport extensions.
  */
-@interface NSManagedObject (RZVinylSubclass)
+@interface NSManagedObject (RZAutoImportableSubclass)
 
 /**
  *  Override in subclasses to provide the key name of the property uniquely

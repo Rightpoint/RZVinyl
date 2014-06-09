@@ -30,7 +30,7 @@
 #import "NSManagedObject+RZAutoImport.h"
 #import "NSObject+RZAutoImport_private.h"
 #import "NSManagedObject+RZVinylRecord.h"
-#import "NSManagedObject+RZVinylSubclass.h"
+#import "NSManagedObject+RZAutoImportableSubclass.h"
 #import "NSManagedObject+RZVinylRecord_private.h"
 #import "RZVinylRelationshipInfo.h"
 #import "RZVinylDefines.h"

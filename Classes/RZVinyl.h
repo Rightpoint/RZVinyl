@@ -33,7 +33,7 @@
 
 #if (RZV_AUTOIMPORT_AVAILABLE)
     #import "NSManagedObject+RZAutoImport.h"
-    #import "NSManagedObject+RZVinylSubclass.h"
+    #import "NSManagedObject+RZAutoImportableSubclass.h"
 #endif
 
 

@@ -1,5 +1,5 @@
 //
-//  NSManagedObject+RZVinylSubclass.m
+//  NSManagedObject+RZAutoImportableSubclass.m
 //  RZVinyl
 //
 //  Created by Nick Donaldson on 6/6/14.
@@ -26,9 +26,9 @@
 //  OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 //  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-#import "NSManagedObject+RZVinylSubclass.h"
+#import "NSManagedObject+RZAutoImportableSubclass.h"
 
-@implementation NSManagedObject (RZVinylSubclass)
+@implementation NSManagedObject (RZAutoImportableSubclass)
 
 + (NSString *)rzv_primaryKey
 {
