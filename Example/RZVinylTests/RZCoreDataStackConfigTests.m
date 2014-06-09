@@ -156,7 +156,7 @@ static NSString* const kRZCoreDataStackCustomFilePath = @"test_tmp/RZCoreDataSta
                                                            storeType:NSSQLiteStoreType
                                                             storeURL:self.customFileURL
                                           persistentStoreCoordinator:nil
-                                                             options:kNilOptions], @"Init threw an exception");
+                                                             options:RZCoreDataStackOptionDisableAutoLightweightMigration], @"Init threw an exception");
     
     XCTAssertNil(stack2, @"Database should be unreadable with this model");
     

@@ -103,6 +103,8 @@
         if ( ![self buildStack] ) {
             return nil;
         }
+        
+        [self registerForNotifications];
     }
     return self;
 }
@@ -130,9 +132,16 @@
         if ( ![self buildStack] ) {
             return nil;
         }
+        
+        [self registerForNotifications];
     }
     
     return self;
+}
+
+- (void)dealloc
+{
+    [self unregisterForNotifications];
 }
 
 #pragma mark - Public
@@ -278,7 +287,7 @@
 
 - (BOOL)hasOptionsSet:(RZCoreDataStackOptions)options
 {
-    return ( ( self.options | options ) == options );
+    return ( ( self.options & options ) == options );
 }
 
 - (BOOL)buildStack
@@ -406,6 +415,35 @@
         if ( storeTypeRaw ) {
             NSLog(@"Persistent Store Type (RZVPersistentStoreType): %@", storeTypeRaw);
         }
+    }
+}
+
+- (void)registerForNotifications
+{
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleAppDidEnterBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
+}
+
+- (void)unregisterForNotifications
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidEnterBackgroundNotification object:nil];
+}
+
+- (void)handleAppDidEnterBackground:(NSNotification *)notification
+{
+    if ( [self hasOptionsSet:RZCoreDataStackOptionsEnableAutoStalePurge] ) {
+        
+        __block UIBackgroundTaskIdentifier backgroundPurgeTaskID = UIBackgroundTaskInvalid;
+        
+        [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
+            //???: Need to clean this up in any other way?
+            [[UIApplication sharedApplication] endBackgroundTask:backgroundPurgeTaskID];
+            backgroundPurgeTaskID = UIBackgroundTaskInvalid;
+        }];
+        
+        [self purgeStaleObjectsWithCompletion:^(NSError *err) {
+            [[UIApplication sharedApplication] endBackgroundTask:backgroundPurgeTaskID];
+            backgroundPurgeTaskID = UIBackgroundTaskInvalid;
+        }];
     }
 }
 
