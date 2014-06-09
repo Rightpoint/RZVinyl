@@ -60,6 +60,27 @@
 + (instancetype)rzai_objectFromDictionary:(NSDictionary *)dict inContext:(NSManagedObjectContext *)context;
 
 /**
+ *  Creates or updates an object in the provided managed object context using the key/value pairs in the provided dictionary.
+ *  If an an object with a matching primary key value exists in the context, this method will update it with the values in
+ *  the dictionary and return the result. If no existing object is found, this method will create/insert a new one and initialize
+ *  it with the values in the dictionary.
+ *
+ *  @param dict    The dictionary representing the object to be inserted/updated.
+ *  @param context The context in which to find/insert the object. Must not be nil.
+ *  @param mappings An optional dictionary of extra mappings from keys to property names to
+ *                  use in the import. These will override/supplement implicit mappings and mappings
+ *                  provided by @p RZAutoImportable.
+ *
+ *  @note Calling @p rzai_objectFromDictionary: without the context parameter will use the default context provided by
+ *        calling @p +rzv_coreDataStack on the managed object subclass.
+ *
+ *  @note This method does not save the context or the core data stack.
+ *
+ *  @return A matching or newly created object updated from the key/value pairs in the dictionary.
+ */
++ (instancetype)rzai_objectFromDictionary:(NSDictionary *)dict inContext:(NSManagedObjectContext *)context withMappings:(NSDictionary *)mappings;
+
+/**
  *  Creates or updates multiple objects in the provided managed object context using the key/value pairs in the dictionaries 
  *  in the provided array. If an an object with a matching primary key value for a dictionary exists in the context, this method will 
  *  update it with the values in the dictionary. If no existing object is found, this method will create/insert a new one and initialize
@@ -76,6 +97,27 @@
  *  @return An array matching or newly created objects updated from the key/value pairs in the dictionaries in the array.
  */
 + (NSArray *)rzai_objectsFromArray:(NSArray *)array inContext:(NSManagedObjectContext *)context;
+
+/**
+ *  Creates or updates multiple objects in the provided managed object context using the key/value pairs in the dictionaries
+ *  in the provided array. If an an object with a matching primary key value for a dictionary exists in the context, this method will
+ *  update it with the values in the dictionary. If no existing object is found, this method will create/insert a new one and initialize
+ *  it with the values in the dictionary. The corresponding imported/updated objects are returned in a new array.
+ *
+ *  @param array   An array of @p NSDictionary instances representing objects to be inserted/updated.
+ *  @param context The context in which to find/insert the object. Must not be nil.
+ *  @param mappings An optional dictionary of extra mappings from keys to property names to
+ *                  use in the import. These will override/supplement implicit mappings and mappings
+ *                  provided by @p RZAutoImportable.
+ *
+ *  @note Calling @p rzai_objectsFromArray: without the context parameter will use the default context provided by
+ *        calling @p +rzv_coreDataStack on the managed object subclass.
+ *
+ *  @note This method does not save the context or the core data stack.
+ *
+ *  @return An array matching or newly created objects updated from the key/value pairs in the dictionaries in the array.
+ */
++ (NSArray *)rzai_objectsFromArray:(NSArray *)array inContext:(NSManagedObjectContext *)context withMappings:(NSDictionary *)mappings;
 
 //
 //  RZAutoImportable Protocol

@@ -28,7 +28,32 @@
 
 #import "RZVinylRelationshipInfo.h"
 
+@interface RZVinylRelationshipInfo ()
+
+@property (nonatomic, readwrite, copy)   NSString *sourcePropertyName;
+@property (nonatomic, readwrite, copy)   NSString *sourceEntityName;
+@property (nonatomic, readwrite, assign) Class    sourceClass;
+@property (nonatomic, readwrite, copy)   NSString *destinationPropertyName;
+@property (nonatomic, readwrite, copy)   NSString *destinationEntityName;
+@property (nonatomic, readwrite, assign) Class    destinationClass;
+@property (nonatomic, readwrite, assign) BOOL     isToMany;
+
+@end
+
 @implementation RZVinylRelationshipInfo
+
++ (RZVinylRelationshipInfo *)relationshipInfoFromDescription:(NSRelationshipDescription *)description
+{
+    RZVinylRelationshipInfo *info = [[RZVinylRelationshipInfo alloc] init];
+    info.sourcePropertyName         = description.name;
+    info.sourceEntityName           = description.entity.name;
+    info.sourceClass                = NSClassFromString(description.entity.managedObjectClassName);
+    info.destinationPropertyName    = description.inverseRelationship.name;
+    info.destinationEntityName      = description.destinationEntity.name;
+    info.destinationClass           = NSClassFromString(description.destinationEntity.managedObjectClassName);
+    info.isToMany                   = description.isToMany;
+    return info;
+}
 
 
 @end

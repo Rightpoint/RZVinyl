@@ -28,6 +28,20 @@
 
 @import CoreData;
 
+/**
+ *  More convenient model for NSRelationshipDescription and its inverse.
+ *  FOR INTERNAL LIBRARY USE ONLY
+ */
 @interface RZVinylRelationshipInfo : NSObject
+
+@property (nonatomic, readonly, copy)   NSString *sourcePropertyName;
+@property (nonatomic, readonly, copy)   NSString *sourceEntityName;
+@property (nonatomic, readonly, assign) Class    sourceClass;
+@property (nonatomic, readonly, copy)   NSString *destinationPropertyName;
+@property (nonatomic, readonly, copy)   NSString *destinationEntityName;
+@property (nonatomic, readonly, assign) Class    destinationClass;
+@property (nonatomic, readonly, assign) BOOL     isToMany;
+
++ (RZVinylRelationshipInfo *)relationshipInfoFromDescription:(NSRelationshipDescription *)description;
 
 @end
