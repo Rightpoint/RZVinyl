@@ -36,12 +36,6 @@
 #import "RZVinylDefines.h"
 
 //
-//  Private Declarations
-
-// Performs the block within a reentrant lock
-static void rzai_performBlockAtomically(void(^block)());
-
-//
 // Implementation
 //
 
@@ -168,13 +162,17 @@ static void rzai_performBlockAtomically(void(^block)());
     if ( propInfo != nil && (propInfo.dataType == RZAutoImportDataTypeOtherObject || propInfo.dataType == RZAutoImportDataTypeNSSet) ) {
 
         // Check cached relationship mapping info. If collection type matches, perform automatic relationship import
-        rzai_performBlockAtomically(^{
-            RZVinylRelationshipInfo *relationshipInfo = [[self class] rzai_relationshipInfoForKey:key];
-            if ( relationshipInfo != nil ) {
-                [self rzv_performRelationshipImportWithValue:value forRelationship:relationshipInfo];
-                shouldImport = NO;
-            }
+        __block RZVinylRelationshipInfo *relationshipInfo = nil;
+        
+        // !!!: This needs to be done in a thread-safe way - the cache is mutable state
+        rzv_performBlockAtomically(^{
+            relationshipInfo = [[self class] rzai_relationshipInfoForKey:key];
         });
+        
+        if ( relationshipInfo != nil ) {
+            [self rzv_performRelationshipImportWithValue:value forRelationship:relationshipInfo];
+            shouldImport = NO;
+        }
     }
     
     return shouldImport;
@@ -183,21 +181,6 @@ static void rzai_performBlockAtomically(void(^block)());
 #pragma mark - Private
 
 static NSString * const kRZVinylImportThreadContextKey = @"RZVinylImportThreadContext";
-
-static void rzai_performBlockAtomically(void(^block)()) {
-    
-    static NSRecursiveLock *s_lock = nil;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        s_lock = [[NSRecursiveLock alloc] init];
-    });
-    
-    if ( block ) {
-        [s_lock lock];
-        block();
-        [s_lock unlock];
-    }
-}
 
 + (NSManagedObjectContext *)rzv_currentThreadImportContext
 {

@@ -139,9 +139,4 @@
     }];
 }
 
-- (void)test_ThreadContention
-{
-
-}
-
 @end

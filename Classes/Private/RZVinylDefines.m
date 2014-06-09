@@ -1,5 +1,5 @@
 //
-//  RZVinylDefines.h
+//  RZVinylDefines.m
 //  RZVinyl
 //
 //  Created by Nick Donaldson on 6/5/14.
@@ -26,40 +26,17 @@
 //  OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 //  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-@import Foundation;
+#import "RZVinylDefines.h"
 
-/**
- *  This header contains private definitions for internal usage in RZVinyl.
- *  These are NOT intended for public usage.
- */
-
-//
-//  Assertion
-//
-
-#define RZVParameterAssert(param) \
-    ({ NSParameterAssert(param); (param != nil); })
-
-#define RZVAssert(cond, msg, ...) \
-    ({ NSAssert(cond, msg, ##__VA_ARGS__); cond; })
-//
-//  Logging
-//
-
-#define RZVLogInfo(msg, ...) \
-    NSLog((@"[RZDataStack]: INFO -- " msg), ##__VA_ARGS__);
-
-#define RZVLogError(msg, ...) \
-    NSLog((@"[RZDataStack]: ERROR -- " msg), ##__VA_ARGS__);
-
-//
-//  Thread Synchronization
-//
-
-/**
- *  Perform the submitted block synchronously on a private serial queue.
- *
- *  @param block Block to perform synchronously on private serial queue.
- */
-OBJC_EXTERN void rzv_performBlockAtomically(void(^block)());
-
+void rzv_performBlockAtomically(void(^block)()) {
+    
+    static dispatch_queue_t s_syncQueue = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        s_syncQueue = dispatch_queue_create("com.rzvinyl.syncQueue", DISPATCH_QUEUE_SERIAL);
+    });
+    
+    if ( block != nil ) {
+        dispatch_sync(s_syncQueue, block);
+    }
+}
