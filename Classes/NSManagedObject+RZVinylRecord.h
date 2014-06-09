@@ -290,4 +290,16 @@
  */
 + (NSString *)rzv_entityName;
 
+//
+//  Subclassable
+//
+
+/**
+ *  Override in subclasses to return a predicate to be used when purging stale objects from the persistent store.
+ *  Returns nil (no objects considered stale) by default.
+ *
+ *  @return A predicate to use with @p RZCoreDataStack's @p -purgeStaleObjects
+ */
++ (NSPredicate *)rzv_stalenessPredicate;
+
 @end

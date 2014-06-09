@@ -39,24 +39,30 @@ typedef NS_OPTIONS(NSUInteger, RZCoreDataStackOptions)
      *  or the file will be deleted, depending on whether @p RZCoreDataStackOptionDeleteDatabaseIfUnreadable is
      *  also passed to init.
      */
-    RZCoreDataStackOptionDisableAutoLightweightMigration = (1 >> 0),
+    RZCoreDataStackOptionDisableAutoLightweightMigration = (1 << 0),
     
     /**
      *  Pass this option to delete the database file if it is not readable using the provided model.
      *  If this option is not set and the file is unreadable, the initialization will fail and return nil.
      */
-    RZCoreDataStackOptionDeleteDatabaseIfUnreadable = (1 >> 1),
+    RZCoreDataStackOptionDeleteDatabaseIfUnreadable = (1 << 1),
     
     /**
      *  Pass this option to disable the write-ahead log for sqlite databases.
      *  If the database is not sqlite, this will be ignored.
      */
-    RZCoreDataStackOptionsDisableWriteAheadLog = (1 >> 2),
+    RZCoreDataStackOptionsDisableWriteAheadLog = (1 << 2),
     
     /**
      *  Pass this option to create an undo manager for the main managed object context.
      */
-    RZCoreDataStackOptionsCreateUndoManager = (1 >> 3)
+    RZCoreDataStackOptionsCreateUndoManager = (1 << 3),
+    
+    /**
+     *  Pass this option to automatically purge stale objects from the main MOC when backgrounding the app.
+     *  @see @p purgeStaleObjects
+     */
+    RZCoreDataStackOptionsEnableAutoStalePurge = (1 << 4)
 };
 
 /**
@@ -177,7 +183,14 @@ typedef NS_OPTIONS(NSUInteger, RZCoreDataStackOptions)
  */
 - (void)save:(BOOL)wait;
 
-// TODO: Delete/reset entire database
+/**
+ *  Performs a serialzed background purge of all stale objects in the persistent store.
+ *  Staleness for each entity type is determined by the predicate returned by 
+ *  @p rzv_stalenessPredicate in an @p NSManagedObject subclass.
+ *
+ *  @see @p RZCoreDataStackOptionsEnableAutoStalePurge option.
+ */
+- (void)purgeStaleObjects;
 
 @end
 

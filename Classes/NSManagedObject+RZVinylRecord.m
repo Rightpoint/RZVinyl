@@ -267,7 +267,7 @@
     }];
 }
 
-#pragma makr - Metadata
+#pragma mark - Metadata
 
 + (NSString *)rzv_entityName
 {
@@ -284,6 +284,13 @@
     }
 
     return entityName;
+}
+
+#pragma mark - Subclassable
+
++ (NSPredicate *)rzv_stalenessPredicate
+{
+    return nil;
 }
 
 #pragma mark - Private
