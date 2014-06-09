@@ -18,7 +18,7 @@ task :test do
   exit $?.exitstatus
 end
 
-task :clean do
+task :cleanpods do
   sh("rm -f Example/Podfile.lock")
   sh "rm -rf Example/Pods"
   sh("rm -rf Example/*.xcworkspace")
