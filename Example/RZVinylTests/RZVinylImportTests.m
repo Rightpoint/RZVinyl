@@ -139,4 +139,44 @@
     }];
 }
 
+- (void)test_BigImport_100
+{
+    const NSUInteger iterations = 100;
+    
+    NSDictionary *templateDict = @{
+       @"name" : @"Rick Astley",
+       @"genre" : @"Pop",
+       @"songs" : @[
+          @{
+              @"id" : @1337,
+              @"title" : @"Never Gonna Give You Up"
+           }
+       ]
+    };
+    
+    NSMutableArray *artistArray = [NSMutableArray array];
+    for ( NSUInteger i = 0; i < iterations; i++ ) {
+        NSMutableDictionary *artistDict = [templateDict mutableCopy];
+        [artistDict setObject:@(i+1) forKey:@"id"];
+        [artistArray addObject:artistDict];
+    }
+    
+    // Without optimization: 4.9 seconds
+    // With optimization:
+    __block NSArray *artists = nil;
+    uint64_t time = dispatch_benchmark(iterations, ^{
+        artists = [Artist rzai_objectsFromArray:artistArray];
+    });
+    
+    NSLog(@"Import of %lu artists took %llu ns", (unsigned long)iterations, time);
+    
+    XCTAssertNotNil(artists, @"Failed to import artists");
+    XCTAssertEqual(artists.count, iterations, @"Incorrect number of artists imported");
+    
+    NSSet *artistNames = [NSSet setWithArray:[artists valueForKey:@"name"]];
+    XCTAssertEqual(artistNames.count, 1, @"Should all be the same artist name");
+    XCTAssertEqualObjects([artistNames anyObject], @"Rick Astley", @"Wrong artist name");
+    
+}
+
 @end
