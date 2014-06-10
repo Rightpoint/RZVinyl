@@ -42,12 +42,22 @@
 
 #define RZVAssert(cond, msg, ...) \
     ({ NSAssert(cond, msg, ##__VA_ARGS__); cond; })
+
+#define RZVAssertSubclassOverride() \
+    @throw [NSException exceptionWithName:NSInternalInconsistencyException \
+                                   reason:[NSString stringWithFormat:@"Subclasses must override %@", NSStringFromSelector(_cmd)] \
+                                 userInfo:nil];
+
 //
 //  Logging
 //
 
-#define RZVLogInfo(msg, ...) \
-    NSLog((@"[RZDataStack]: INFO -- " msg), ##__VA_ARGS__);
+#if ( DEBUG )
+    #define RZVLogInfo(msg, ...) \
+        NSLog((@"[RZDataStack]: INFO -- " msg), ##__VA_ARGS__);
+#else
+    #define RZVLogInfo(msg, ...)
+#endif
 
 #define RZVLogError(msg, ...) \
     NSLog((@"[RZDataStack]: ERROR -- " msg), ##__VA_ARGS__);

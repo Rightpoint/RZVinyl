@@ -162,7 +162,7 @@
     }
     
     // Without optimization: 4.9 seconds
-    // With optimization:
+    // With optimization: 2.96 seconds
     __block NSArray *artists = nil;
     uint64_t time = dispatch_benchmark(iterations, ^{
         artists = [Artist rzai_objectsFromArray:artistArray];

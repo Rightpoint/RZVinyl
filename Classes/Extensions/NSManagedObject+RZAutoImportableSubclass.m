@@ -27,12 +27,13 @@
 //  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #import "NSManagedObject+RZAutoImportableSubclass.h"
+#import "RZVinylDefines.h"
 
 @implementation NSManagedObject (RZAutoImportableSubclass)
 
 + (NSString *)rzv_primaryKey
 {
-    return nil;
+    RZVAssertSubclassOverride();
 }
 
 + (NSString *)rzv_externalPrimaryKey

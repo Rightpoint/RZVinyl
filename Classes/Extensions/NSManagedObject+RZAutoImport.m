@@ -32,6 +32,7 @@
 #import "NSManagedObject+RZVinylRecord.h"
 #import "NSManagedObject+RZAutoImportableSubclass.h"
 #import "NSManagedObject+RZVinylRecord_private.h"
+#import "NSFetchRequest+RZVinylRecord.h"
 #import "RZVinylRelationshipInfo.h"
 #import "RZVinylDefines.h"
 
@@ -67,19 +68,19 @@
     }
     
     NSMutableDictionary *extraMappings = (mappings != nil) ? [mappings mutableCopy] : [NSMutableDictionary dictionary];
-    if ( [self rzv_primaryKeyMapping] ) {
-        [extraMappings addEntriesFromDictionary:[self rzv_primaryKeyMapping]];
+    if ( [self rzai_primaryKeyMapping] ) {
+        [extraMappings addEntriesFromDictionary:[self rzai_primaryKeyMapping]];
     }
     
     //!!!: If there is a context in the current thread dictionary, then this is a nested call to this method.
     //     In that case, do not modify the thread dictionary.
     BOOL nestedCall = ([self rzv_currentThreadImportContext] != nil);
     if ( !nestedCall ){
-        [self rzv_setCurrentThreadImportContext:context];
+        [self rzai_setCurrentThreadImportContext:context];
     }
     id object = [super rzai_objectFromDictionary:dict withMappings:extraMappings];
     if ( !nestedCall ) {
-        [self rzv_setCurrentThreadImportContext:nil];
+        [self rzai_setCurrentThreadImportContext:nil];
     }
     return object;
 }
@@ -96,20 +97,56 @@
     }
     
     NSMutableDictionary *extraMappings = (mappings != nil) ? [mappings mutableCopy] : [NSMutableDictionary dictionary];
-    if ( [self rzv_primaryKeyMapping] ) {
-        [extraMappings addEntriesFromDictionary:[self rzv_primaryKeyMapping]];
+    if ( [self rzai_primaryKeyMapping] ) {
+        [extraMappings addEntriesFromDictionary:[self rzai_primaryKeyMapping]];
     }
     
     //!!!: If there is a context in the current thread dictionary, then this is a nested call to this method.
     //     In that case, do not modify the thread dictionary.
     BOOL nestedCall = ([self rzv_currentThreadImportContext] != nil);
     if ( !nestedCall ){
-        [self rzv_setCurrentThreadImportContext:context];
+        [self rzai_setCurrentThreadImportContext:context];
     }
-    // TODO: Make this more efficient by pre-fetching existing objects for the primary keys represented in the array.
-    NSArray *objects = [super rzai_objectsFromArray:array withMappings:extraMappings];
+
+    NSArray *objects = nil;
+
+    if ( [self rzv_primaryKey] != nil ) {
+    
+        NSMutableArray *updatedObjects = [NSMutableArray array];
+        
+        NSString *externalPrimaryKey = [self rzv_externalPrimaryKey] ?: [self rzv_primaryKey];
+        
+        // Pre-fetch all objects that have a primary key in the set of objects being imported
+        NSDictionary *existingObjectsByID = [self rzai_existingObjectsByIDForArray:array inContext:context];
+        [array enumerateObjectsUsingBlock:^(NSDictionary *rawDict, NSUInteger idx, BOOL *stop) {
+            id importedObject = nil;
+            id primaryValue = [rawDict objectForKey:externalPrimaryKey];
+            
+            if ( primaryValue != nil ) {
+                importedObject = [existingObjectsByID objectForKey:primaryValue];
+            }
+            
+            if ( importedObject == nil ) {
+                importedObject = [super rzai_objectFromDictionary:rawDict withMappings:extraMappings];
+            }
+            else {
+                [importedObject rzai_importValuesFromDict:rawDict withMappings:extraMappings];
+            }
+            
+            if ( importedObject != nil ) {
+                [updatedObjects addObject:importedObject];
+            }
+        }];
+        
+        objects = [NSArray arrayWithArray:updatedObjects];
+    }
+    else {
+        // Default to creating new object instances.
+        objects = [super rzai_objectsFromArray:array];
+    }
+    
     if ( !nestedCall ) {
-        [self rzv_setCurrentThreadImportContext:nil];
+        [self rzai_setCurrentThreadImportContext:nil];
     }
     return objects;
 }
@@ -170,7 +207,7 @@
         });
         
         if ( relationshipInfo != nil ) {
-            [self rzv_performRelationshipImportWithValue:value forRelationship:relationshipInfo];
+            [self rzai_performRelationshipImportWithValue:value forRelationship:relationshipInfo];
             shouldImport = NO;
         }
     }
@@ -187,7 +224,7 @@ static NSString * const kRZVinylImportThreadContextKey = @"RZVinylImportThreadCo
     return [[[NSThread currentThread] threadDictionary] objectForKey:kRZVinylImportThreadContextKey];
 }
 
-+ (void)rzv_setCurrentThreadImportContext:(NSManagedObjectContext *)context
++ (void)rzai_setCurrentThreadImportContext:(NSManagedObjectContext *)context
 {
     if ( context ) {
         [[[NSThread currentThread] threadDictionary] setObject:context forKey:kRZVinylImportThreadContextKey];
@@ -197,7 +234,7 @@ static NSString * const kRZVinylImportThreadContextKey = @"RZVinylImportThreadCo
     }
 }
 
-+ (NSDictionary *)rzv_primaryKeyMapping
++ (NSDictionary *)rzai_primaryKeyMapping
 {
     NSString *primaryKey = [self rzv_primaryKey];
     NSString *externalPrimaryKey = [self rzv_externalPrimaryKey];
@@ -252,7 +289,27 @@ static NSString * const kRZVinylImportThreadContextKey = @"RZVinylImportThreadCo
     return [relationshipInfo isEqual:[NSNull null]] ? nil : relationshipInfo;
 }
 
-- (void)rzv_performRelationshipImportWithValue:(id)value forRelationship:(RZVinylRelationshipInfo *)relationshipInfo
++ (NSDictionary *)rzai_existingObjectsByIDForArray:(NSArray *)array inContext:(NSManagedObjectContext *)context
+{
+    NSString *primaryKey = [self rzv_primaryKey];
+    NSString *externalPrimaryKey = [self rzv_externalPrimaryKey] ?: primaryKey;
+    
+    NSSet       *primaryKeySet   = [NSSet setWithArray:[array valueForKey:externalPrimaryKey]];
+    NSPredicate *existingObjPred = [NSPredicate predicateWithFormat:@"%K in %@", primaryKey, primaryKeySet];
+    NSArray     *existingObjects = [self rzv_where:existingObjPred inContext:context];
+    
+    NSMutableDictionary *existingObjsByID = [NSMutableDictionary dictionary];
+    [existingObjects enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        id primaryValue = [obj valueForKey:primaryKey];
+        if ( primaryValue ) {
+            [existingObjsByID setObject:obj forKey:primaryValue];
+        }
+    }];
+    
+    return [NSDictionary dictionaryWithDictionary:existingObjsByID];
+}
+
+- (void)rzai_performRelationshipImportWithValue:(id)value forRelationship:(RZVinylRelationshipInfo *)relationshipInfo
 {
     if ( !RZVParameterAssert(relationshipInfo) ) {
         return;
