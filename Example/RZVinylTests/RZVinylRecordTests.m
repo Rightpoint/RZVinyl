@@ -59,27 +59,27 @@
     XCTAssertTrue([newArtist isKindOfClass:[Artist class]], @"New object is not of correct class");
 }
 
-- (void)test_ChildContext
+- (void)test_BackgroundContext
 {
-    NSManagedObjectContext *childContext = [self.stack temporaryManagedObjectContext];
-    [childContext performBlockAndWait:^{
+    NSManagedObjectContext *bgContext = [self.stack temporaryManagedObjectContext];
+    [bgContext performBlockAndWait:^{
         Artist *newArtist = nil;
-        XCTAssertNoThrow(newArtist = [Artist rzv_newObjectInContext:childContext], @"Creation with explicit context should not throw exception");
+        XCTAssertNoThrow(newArtist = [Artist rzv_newObjectInContext:bgContext], @"Creation with explicit context should not throw exception");
         XCTAssertNotNil(newArtist, @"Failed to create new object");
         XCTAssertTrue([newArtist isKindOfClass:[Artist class]], @"New object is not of correct class");
-        XCTAssertEqualObjects(newArtist.managedObjectContext, childContext, @"Wrong Context");
+        XCTAssertEqualObjects(newArtist.managedObjectContext, bgContext, @"Wrong Context");
         
         newArtist.remoteID = @100;
         newArtist.name = @"Sergio";
         newArtist.genre = @"Sax";
         
         NSError *err = nil;
-        [childContext save:&err];
-        XCTAssertNil(err, @"Saving child context failed: %@", err);
+        [bgContext save:&err];
+        XCTAssertNil(err, @"Saving background context failed: %@", err);
     }];
     
     Artist *matchingArtist = [Artist rzv_objectWithPrimaryKeyValue:@100 createNew:NO];
-    XCTAssertNotNil(matchingArtist, @"Could not fetch from main context");
+    XCTAssertNotNil(matchingArtist, @"Could not find object from main context");
     XCTAssertEqualObjects(matchingArtist.name, @"Sergio", @"Fetched artist has wrong name");
 }
 
@@ -104,11 +104,9 @@
     } completion:^(NSError *err) {
         XCTAssertNil(err, @"An error occurred during the background save: %@", err);
         
-        [[self.stack mainManagedObjectContext] reset];
-        
         Artist *matchingArtist = [Artist rzv_objectWithPrimaryKeyValue:@100 createNew:NO];
-        XCTAssertNotNil(matchingArtist, @"Matching object should exist in main context after background save");
-        
+        XCTAssertNotNil(matchingArtist, @"Matching object should exist in main context immediately after background save");
+       
         finished = YES;
     }];
     
@@ -120,26 +118,27 @@
     
     finished = NO;
     
+    Artist *snoop = [Artist rzv_objectWithAttributes:@{ @"remoteID" : @101, @"name" : @"Snoop Dogg" } createNew:YES];
+    [self.stack save:YES];
+    
     [self.stack performBlockUsingBackgroundContext:^(NSManagedObjectContext *context) {
-        Artist *newArtist = nil;
-        XCTAssertNoThrow(newArtist = [Artist rzv_newObjectInContext:context], @"Creation threw exception");
-        XCTAssertNotNil(newArtist, @"Failed to create new object");
-        XCTAssertTrue([newArtist isKindOfClass:[Artist class]], @"New object is not of correct class");
-        XCTAssertEqualObjects(newArtist.managedObjectContext, context, @"Wrong Context");
+        Artist *bgSnoop = nil;
+        XCTAssertNoThrow(bgSnoop = [Artist rzv_objectWithPrimaryKeyValue:@101 createNew:NO inContext:context], @"Background fetch threw exception");
+        XCTAssertNotNil(bgSnoop, @"Could not find new object in background context");
+        XCTAssertEqualObjects(bgSnoop.managedObjectContext, context, @"Wrong Context");
         
-        newArtist.remoteID = @100;
-        newArtist.name = @"Sergio";
-        newArtist.genre = @"Sax";
+        bgSnoop.name = @"Snoop Lion";
+        bgSnoop.genre = @"Hip Hop";
         
     } completion:^(NSError *err) {
         XCTAssertNil(err, @"An error occurred during the background save: %@", err);
         
-        [self.stack save:YES];
-        [[self.stack mainManagedObjectContext] reset];
+        [self.stack.mainManagedObjectContext refreshObject:snoop mergeChanges:YES];
         
-        Artist *matchingArtist = [Artist rzv_objectWithPrimaryKeyValue:@100 createNew:NO];
-        XCTAssertNotNil(matchingArtist, @"Matching object should exist after reset after save");
-        XCTAssertEqualObjects(matchingArtist.name, @"Sergio", @"Fetched artist has wrong name");
+        Artist *matchingArtist = [Artist rzv_objectWithPrimaryKeyValue:@101 createNew:NO];
+        XCTAssertNotNil(matchingArtist, @"Matching object should exist in main context immediately after background save");
+        XCTAssertEqualObjects(matchingArtist, snoop, @"Not equal objects after bg changes and merge");
+        XCTAssertEqualObjects(snoop.name, @"Snoop Lion", @"Failed to merge updated name");
         
         finished = YES;
     }];
