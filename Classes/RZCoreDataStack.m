@@ -33,6 +33,8 @@
 
 static RZCoreDataStack *s_defaultStack = nil;
 
+static NSString* const kRZCoreDataStackParentStackKey = @"RZCoreDataStackParentStack";
+
 @interface RZCoreDataStack ()
 
 @property (nonatomic, strong, readwrite) NSManagedObjectModel            *managedObjectModel;
@@ -155,7 +157,7 @@ static RZCoreDataStack *s_defaultStack = nil;
     }
     
     dispatch_async(self.backgroundContextQueue, ^{
-        NSManagedObjectContext *context = [self temporaryChildManagedObjectContext];
+        NSManagedObjectContext *context = [self temporaryManagedObjectContext];
         [context performBlock:^{
             block(context);
             NSError *err = nil;
@@ -169,11 +171,12 @@ static RZCoreDataStack *s_defaultStack = nil;
     });
 }
 
-- (NSManagedObjectContext *)temporaryChildManagedObjectContext
+- (NSManagedObjectContext *)temporaryManagedObjectContext
 {
-    NSManagedObjectContext *tempChild = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
-    tempChild.parentContext = self.mainManagedObjectContext;
-    return tempChild;
+    NSManagedObjectContext *tempContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
+    [[tempContext userInfo] setObject:self forKey:kRZCoreDataStackParentStackKey];
+    tempContext.parentContext = self.topLevelBackgroundContext;
+    return tempContext;
 }
 
 - (void)save:(BOOL)wait
@@ -426,14 +429,19 @@ static RZCoreDataStack *s_defaultStack = nil;
     }
 }
 
+#pragma mark - Notifications
+
 - (void)registerForNotifications
 {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleAppDidEnterBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleContextDidSave:) name:NSManagedObjectContextDidSaveNotification object:nil];
 }
 
 - (void)unregisterForNotifications
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidEnterBackgroundNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:NSManagedObjectContextDidSaveNotification object:nil];
+
 }
 
 - (void)handleAppDidEnterBackground:(NSNotification *)notification
@@ -452,6 +460,14 @@ static RZCoreDataStack *s_defaultStack = nil;
             [[UIApplication sharedApplication] endBackgroundTask:backgroundPurgeTaskID];
             backgroundPurgeTaskID = UIBackgroundTaskInvalid;
         }];
+    }
+}
+
+- (void)handleContextDidSave:(NSNotification *)notification
+{
+    NSManagedObjectContext *context = [notification object];
+    if ( [[context userInfo] objectForKey:kRZCoreDataStackParentStackKey] == self ) {
+        [self.mainManagedObjectContext mergeChangesFromContextDidSaveNotification:notification];
     }
 }
 

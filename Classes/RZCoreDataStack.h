@@ -73,13 +73,13 @@ typedef NS_OPTIONS(NSUInteger, RZCoreDataStackOptions)
 
 /**
  *  An efficient wrapper for a basic application-level CoreData stack.
- *  Makes use of M. Zarra's parent/child pattern for efficient disk writes.
+ *  Makes use of M. Zarra's private writer pattern for efficient disk writes.
  *  
  *  @code
  *  [ PSC ]
  *    - [ Private Queue MOC ]
  *       - [ Main Queue MOC ]
- *          - [ Temporary child MOC ] @endcode
+ *       - [ Temporary child MOCs ] @endcode
  *
  *  @warning To save to the persistent store coordinator, you must use the @p save: method
  *  provided by this class. Saving the main thread's managed object context will not propagate
@@ -161,7 +161,7 @@ typedef NS_OPTIONS(NSUInteger, RZCoreDataStackOptions)
  *
  *  @note Blocks sent to this method will be enqueued on a serial queue until other blocks finish, to prevent parallel child contexts
  *        from being spawned, where subsequent child contexts might not have the latest data, potentially leading to duplicate objects, etc.
- *        To avoid this behavior, e.g. to prevent longer-lasting background tasks from holding up the queue, use @p -temporaryChildManagedObjectContext.
+ *        To avoid this behavior, e.g. to prevent longer-lasting background tasks from holding up the queue, use @p -temporaryManagedObjectContext.
  *
  *  @note The full stack is not saved in this method. To persist data to to the persistent store, call @p -save: on the stack.
  *
@@ -173,14 +173,17 @@ typedef NS_OPTIONS(NSUInteger, RZCoreDataStackOptions)
                                 completion:(void(^)(NSError *err))completion;
 
 /**
- *  Spawn and return a temporary child context with private queue confinement.
+ *  Spawn and return a temporary context with private queue confinement.
  *  This method is useful for creating a "scratch" context on which to make temporary edits.
  *
  *  @note You must use @p performBlock: to perform transactions using the returned context.
  *
- *  @return A newly spawned child context with private queue confinement.
+ *  @warning Since this context is a sibling of the main context, be mindful of the merge policy when saving it.
+ *           Also, you must save the stack after saving this context or changes are not persisted to disk.
+ *
+ *  @return A newly spawned temporary context with private queue confinement.
  */
-- (NSManagedObjectContext *)temporaryChildManagedObjectContext;
+- (NSManagedObjectContext *)temporaryManagedObjectContext;
 
 /**
  *  Save the data stack and optionally wait for save to finish.

@@ -61,7 +61,7 @@
 
 - (void)test_ChildContext
 {
-    NSManagedObjectContext *childContext = [self.stack temporaryChildManagedObjectContext];
+    NSManagedObjectContext *childContext = [self.stack temporaryManagedObjectContext];
     [childContext performBlockAndWait:^{
         Artist *newArtist = nil;
         XCTAssertNoThrow(newArtist = [Artist rzv_newObjectInContext:childContext], @"Creation with explicit context should not throw exception");
@@ -107,7 +107,7 @@
         [[self.stack mainManagedObjectContext] reset];
         
         Artist *matchingArtist = [Artist rzv_objectWithPrimaryKeyValue:@100 createNew:NO];
-        XCTAssertNil(matchingArtist, @"Matching object should not exist after reset without save");
+        XCTAssertNotNil(matchingArtist, @"Matching object should exist in main context after background save");
         
         finished = YES;
     }];
@@ -261,7 +261,7 @@
     XCTAssertEqualObjects(expectedNames, [artists valueForKey:@"name"], @"Not in correct order");
     
     // Try on child context
-    NSManagedObjectContext *scratchContext = [self.stack temporaryChildManagedObjectContext];
+    NSManagedObjectContext *scratchContext = [self.stack temporaryManagedObjectContext];
     artists = [Artist rzv_where:@"songs.@count > 0" inContext:scratchContext];
     XCTAssertEqual(artists.count, 2, @"Should be two artists with songs");
     XCTAssertEqual([[artists lastObject] managedObjectContext], scratchContext, @"Wrong Context");
@@ -286,7 +286,7 @@
     XCTAssertEqualObjects(expectedNames, [artists valueForKey:@"name"], @"Not in correct order");
     
     // Try on child context
-    NSManagedObjectContext *scratchContext = [self.stack temporaryChildManagedObjectContext];
+    NSManagedObjectContext *scratchContext = [self.stack temporaryManagedObjectContext];
     artists = [Artist rzv_where:[NSPredicate predicateWithFormat:@"songs.@count > 0"] inContext:scratchContext];
     XCTAssertEqual(artists.count, 2, @"Should be two artists with songs");
     XCTAssertEqual([[artists lastObject] managedObjectContext], scratchContext, @"Wrong Context");
@@ -370,7 +370,7 @@
 
 - (void)test_ChildDelete
 {
-    NSManagedObjectContext *scratchContext = [self.stack temporaryChildManagedObjectContext];
+    NSManagedObjectContext *scratchContext = [self.stack temporaryManagedObjectContext];
     [scratchContext performBlockAndWait:^{
         
         Artist *dusky = [Artist rzv_objectWithPrimaryKeyValue:@1000 createNew:NO inContext:scratchContext];
@@ -432,7 +432,7 @@
         artists = [Artist rzv_allInContext:context];
         XCTAssertEqual(artists.count, 3, @"Should be three artists to start");
         
-        [Artist rzv_deleteAllWhere:@"songs.@count == 0"];
+        [Artist rzv_deleteAllWhere:@"songs.@count == 0" inContext:context];
         artists = [Artist rzv_allInContext:context];
         XCTAssertEqual(artists.count, 2, @"Should be 2 artists after delete all with predicate");
         
