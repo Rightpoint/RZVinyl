@@ -139,9 +139,9 @@
     }];
 }
 
-- (void)test_BigImport_100
+- (void)test_BigImport_1000
 {
-    const NSUInteger iterations = 100;
+    const NSUInteger count = 1000;
     
     NSDictionary *templateDict = @{
        @"name" : @"Rick Astley",
@@ -155,23 +155,21 @@
     };
     
     NSMutableArray *artistArray = [NSMutableArray array];
-    for ( NSUInteger i = 0; i < iterations; i++ ) {
+    for ( NSUInteger i = 0; i < count; i++ ) {
         NSMutableDictionary *artistDict = [templateDict mutableCopy];
         [artistDict setObject:@(i+1) forKey:@"id"];
         [artistArray addObject:artistDict];
     }
     
-    // Without optimization: 4.9 seconds
-    // With optimization: 2.3 seconds
     __block NSArray *artists = nil;
-    uint64_t time = dispatch_benchmark(iterations, ^{
+    uint64_t time = dispatch_benchmark(1, ^{
         artists = [Artist rzai_objectsFromArray:artistArray];
     });
     
-    NSLog(@"Import of %lu artists took %llu ns", (unsigned long)iterations, time);
+    NSLog(@"Import of %lu artists took %f s", (unsigned long)count, (double)time/NSEC_PER_SEC);
     
     XCTAssertNotNil(artists, @"Failed to import artists");
-    XCTAssertEqual(artists.count, iterations, @"Incorrect number of artists imported");
+    XCTAssertEqual(artists.count, count, @"Incorrect number of artists imported");
     
     NSSet *artistNames = [NSSet setWithArray:[artists valueForKey:@"name"]];
     XCTAssertEqual(artistNames.count, 1, @"Should all be the same artist name");
