@@ -133,11 +133,10 @@
             }
             
             if ( importedObject == nil ) {
-                importedObject = [super rzai_objectFromDictionary:rawDict withMappings:extraMappings];
+                importedObject = [self rzv_newObjectInContext:context];
             }
-            else {
-                [importedObject rzai_importValuesFromDict:rawDict withMappings:extraMappings];
-            }
+            
+            [importedObject rzai_importValuesFromDict:rawDict withMappings:extraMappings];
             
             if ( importedObject != nil ) {
                 [updatedObjects addObject:importedObject];
