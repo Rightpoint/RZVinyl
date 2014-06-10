@@ -103,14 +103,20 @@
     
     //!!!: If there is a context in the current thread dictionary, then this is a nested call to this method.
     //     In that case, do not modify the thread dictionary.
-    BOOL nestedCall = ([self rzv_currentThreadImportContext] != nil);
+    BOOL nestedCall = ( [self rzv_currentThreadImportContext] != nil );
     if ( !nestedCall ){
         [self rzai_setCurrentThreadImportContext:context];
     }
 
     NSArray *objects = nil;
 
-    if ( [self rzv_primaryKey] != nil ) {
+    if ( array.count == 1 ) {
+        id importedObject = [super rzai_objectFromDictionary:array[0] withMappings:extraMappings];
+        if ( importedObject ) {
+            objects = @[importedObject];
+        }
+    }
+    else if ( [self rzv_primaryKey] != nil ) {
     
         NSMutableArray *updatedObjects = [NSMutableArray array];
         

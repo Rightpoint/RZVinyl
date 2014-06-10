@@ -176,6 +176,9 @@
     NSSet *artistNames = [NSSet setWithArray:[artists valueForKey:@"name"]];
     XCTAssertEqual(artistNames.count, 1, @"Should all be the same artist name");
     XCTAssertEqualObjects([artistNames anyObject], @"Rick Astley", @"Wrong artist name");
+    
+    Artist *aRick = [artists lastObject];
+    XCTAssertEqual(aRick.songs.count, 1, @"Failed to import song");
 }
 
 @end
