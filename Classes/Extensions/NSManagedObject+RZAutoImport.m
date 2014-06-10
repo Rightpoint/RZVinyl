@@ -194,8 +194,7 @@
     }
     
     __block BOOL shouldImport = YES;
-    NSString *normKey = rzai_normalizedKey(key);
-    RZAIPropertyInfo *propInfo = [[[self class] rzai_importMappings] objectForKey:normKey];
+    RZAIPropertyInfo *propInfo = [[self class] rzai_propertyInfoForExternalKey:key withMappings:nil];
     if ( propInfo != nil && (propInfo.dataType == RZAutoImportDataTypeOtherObject || propInfo.dataType == RZAutoImportDataTypeNSSet) ) {
 
         // Check cached relationship mapping info. If collection type matches, perform automatic relationship import
@@ -262,10 +261,9 @@ static NSString * const kRZVinylImportThreadContextKey = @"RZVinylImportThreadCo
         [s_cachedRelationshipMappings setObject:classRelationshipMappings forKey:className];
     }
     
-    NSString *normKey = rzai_normalizedKey(key);
-    RZAIPropertyInfo *propInfo = [[self rzai_importMappings] objectForKey:normKey];
+    RZAIPropertyInfo *propInfo = [self rzai_propertyInfoForExternalKey:key withMappings:nil];
     
-    __block id relationshipInfo = [classRelationshipMappings objectForKey:normKey];
+    __block id relationshipInfo = [classRelationshipMappings objectForKey:key];
     if ( relationshipInfo == nil && propInfo.propertyName != nil ) {
         
         NSManagedObjectModel *model = [[[self rzv_currentThreadImportContext] persistentStoreCoordinator] managedObjectModel];
@@ -277,10 +275,10 @@ static NSString * const kRZVinylImportThreadContextKey = @"RZVinylImportThreadCo
         }
         
         if ( relationshipInfo ) {
-            [classRelationshipMappings setObject:relationshipInfo forKey:normKey];
+            [classRelationshipMappings setObject:relationshipInfo forKey:key];
         }
         else {
-            [classRelationshipMappings setObject:[NSNull null] forKey:normKey];
+            [classRelationshipMappings setObject:[NSNull null] forKey:key];
         }
     }
 

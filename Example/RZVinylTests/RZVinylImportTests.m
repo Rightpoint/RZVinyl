@@ -162,7 +162,7 @@
     }
     
     // Without optimization: 4.9 seconds
-    // With optimization: 2.9 seconds
+    // With optimization: 2.5 seconds
     __block NSArray *artists = nil;
     uint64_t time = dispatch_benchmark(iterations, ^{
         artists = [Artist rzai_objectsFromArray:artistArray];
@@ -176,7 +176,6 @@
     NSSet *artistNames = [NSSet setWithArray:[artists valueForKey:@"name"]];
     XCTAssertEqual(artistNames.count, 1, @"Should all be the same artist name");
     XCTAssertEqualObjects([artistNames anyObject], @"Rick Astley", @"Wrong artist name");
-    
 }
 
 @end
