@@ -115,12 +115,24 @@
     } onTimeout:^{
         XCTFail(@"Operation timed out");
     }];
+}
+
+- (void)test_BackgroundMerge
+{
+    //
+    // Save in background context should merge changes to the main context
+    //
     
-    finished = NO;
+    __block BOOL finished = NO;
     
     Artist *snoop = [Artist rzv_objectWithAttributes:@{ @"remoteID" : @101, @"name" : @"Snoop Dogg" } createNew:YES];
-    [self.stack save:YES];
     
+    // Must obtain permanent ID for newly created object
+    NSError *err = nil;
+    [self.stack.mainManagedObjectContext obtainPermanentIDsForObjects:@[snoop] error:&err];
+    XCTAssertNil(err, @"Error obtaining permanent object ID's: %@", err);
+    [self.stack save:YES];
+
     [self.stack performBlockUsingBackgroundContext:^(NSManagedObjectContext *context) {
         Artist *bgSnoop = nil;
         XCTAssertNoThrow(bgSnoop = [Artist rzv_objectWithPrimaryKeyValue:@101 createNew:NO inContext:context], @"Background fetch threw exception");
@@ -132,14 +144,7 @@
         
     } completion:^(NSError *err) {
         XCTAssertNil(err, @"An error occurred during the background save: %@", err);
-        
-        [self.stack.mainManagedObjectContext refreshObject:snoop mergeChanges:YES];
-        
-        Artist *matchingArtist = [Artist rzv_objectWithPrimaryKeyValue:@101 createNew:NO];
-        XCTAssertNotNil(matchingArtist, @"Matching object should exist in main context immediately after background save");
-        XCTAssertEqualObjects(matchingArtist, snoop, @"Not equal objects after bg changes and merge");
         XCTAssertEqualObjects(snoop.name, @"Snoop Lion", @"Failed to merge updated name");
-        
         finished = YES;
     }];
     
