@@ -19,7 +19,7 @@ Pod::Spec.new do |s|
   s.frameworks          = "Foundation", "CoreData"
   s.requires_arc        = true
   
-  s.default_subspec     = 'Complete'
+  s.default_subspec     = 'Default'
   
   s.subspec "Core" do |sp|
     sp.source_files         = "Classes/*.{h,m}", "Classes/Private/*.{h,m}"
@@ -27,7 +27,7 @@ Pod::Spec.new do |s|
     sp.private_header_files = "Classes/Private/*.h"
   end
   
-  s.subspec "AutoImport" do |sp|
+  s.subspec "Default" do |sp|
     sp.dependency 'RZVinyl/Core'
     sp.source_files = "Classes/Extensions/*.{h,m}", "Classes/Extensions/Private/*.{h,m}"
     sp.public_header_files = "Classes/Extensions/*.h"
@@ -36,10 +36,5 @@ Pod::Spec.new do |s|
     # sp.dependency 'RZAutoImport', '~> 1.0'
   end
     
-  s.subspec "Complete" do |sp|
-    sp.dependency 'RZVinyl/AutoImport'
-  end
-
-
 end
  

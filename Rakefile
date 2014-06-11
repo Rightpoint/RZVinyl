@@ -1,28 +1,64 @@
 
+PROJ_PATH="Example/RZVinylDemo.xcodeproj"
 WORKSPACE_PATH="Example/RZVinylDemo.xcworkspace"
 TEST_SCHEME="RZVinylDemo"
 
 #
-# Build
+# Install
 #
 
-task :install do
-  # don't care if this fails on travis
-  sh("brew update") rescue nil
-  sh("brew upgrade xctool") rescue nil
-  sh("gem install cocoapods --no-rdoc --no-ri --no-document --quiet") rescue nil
+namespace :install do
+  
+  task :tools do
+    # don't care if this fails on travis
+    sh("brew update") rescue nil
+    sh("brew upgrade xctool") rescue nil
+    sh("gem install cocoapods --no-rdoc --no-ri --no-document --quiet") rescue nil
+  end
+
+  task :pods do
+    sh("cd Example && pod install")
+  end
+  
 end
+
+task :install do
+  Rake::Task['install:tools'].invoke
+  Rake::Task['install:pods'].invoke
+end
+
+#
+# Test
+#
 
 task :test do
   sh("xctool -workspace '#{WORKSPACE_PATH}' -scheme '#{TEST_SCHEME}' -sdk iphonesimulator clean build test -freshInstall") rescue nil
   exit $?.exitstatus
 end
 
-task :cleanpods do
-  sh("rm -f Example/Podfile.lock")
-  sh "rm -rf Example/Pods"
-  sh("rm -rf Example/*.xcworkspace")
+#
+# Clean
+#
+
+namespace :clean do
+  
+  task :pods do
+    sh("rm -f Example/Podfile.lock")
+    sh "rm -rf Example/Pods"
+    sh("rm -rf Example/*.xcworkspace")
+  end
+  
+  task :example do
+    sh("xctool -project '#{PROJ_PATH}' -scheme '#{TEST_SCHEME}' -sdk iphonesimulator clean") rescue nil
+  end
+    
 end
+
+task :clean do
+  Rake::Task['clean:pods'].invoke
+  Rake::Task['clean:example'].invoke
+end
+
 
 #
 # Utils
@@ -30,11 +66,15 @@ end
 
 task :usage do
   puts "Usage:"
-  puts "  rake install      -- install build dependencies (xctool, cocoapods)"
-  puts "  rake test         -- run unit tests"
-  puts "  rake clean        -- clean up test cocoapods"
-  puts "  rake sync         -- synchronize project/directory hierarchy"
-  puts "  rake usage        -- print this message"
+  puts "  rake install       -- install all dependencies (xctool, cocoapods)"
+  puts "  rake install:pods  -- install cocoapods for tests/example"
+  puts "  rake install:tools -- install build tool dependencies"
+  puts "  rake test          -- run unit tests"
+  puts "  rake clean         -- clean everything"
+  puts "  rake clean:example -- clean the example project build artifacts"
+  puts "  rake clean:pods    -- clean up cocoapods artifacts"
+  puts "  rake sync          -- synchronize project/directory hierarchy (dev only)"
+  puts "  rake usage         -- print this message"
 end
 
 task :sync do
