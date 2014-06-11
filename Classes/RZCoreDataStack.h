@@ -34,36 +34,30 @@ typedef void (^RZCoreDataStackTransactionBlock)(NSManagedObjectContext *context)
 typedef NS_OPTIONS(NSUInteger, RZCoreDataStackOptions)
 {
     /**
-     *  Pass this option during init to make the newly-allocated receiver the default stack,
-     *  accessible by using +defaultStack.
-     */
-    RZCoreDataStackOptionMakeDefault = (1 << 0),
-    
-    /**
      *  Pass this option to disable automatic lightweight migration between data model versions.
      *  If this option is set and migration fails, the initialization will either fail and return nil,
      *  or the file will be deleted, depending on whether @p RZCoreDataStackOptionDeleteDatabaseIfUnreadable is
      *  also passed to init.
      */
-    RZCoreDataStackOptionDisableAutoLightweightMigration = (1 << 1),
+    RZCoreDataStackOptionDisableAutoLightweightMigration = (1 << 0),
     
     /**
      *  Pass this option to delete the database file if it is not readable using the provided model.
      *  If this option is not set and the file is unreadable, the initialization will fail and an exception will be thrown.
      */
-    RZCoreDataStackOptionDeleteDatabaseIfUnreadable = (1 << 2),
+    RZCoreDataStackOptionDeleteDatabaseIfUnreadable = (1 << 1),
     
     /**
      *  Pass this option to disable the write-ahead log for sqlite databases.
      *  If the database is not sqlite, this will be ignored.
      */
-    RZCoreDataStackOptionsDisableWriteAheadLog = (1 << 3),
+    RZCoreDataStackOptionsDisableWriteAheadLog = (1 << 2),
     
     /**
      *  Pass this option to automatically purge stale objects from the main MOC when backgrounding the app.
      *  @see @p purgeStaleObjectsWithCompletion
      */
-    RZCoreDataStackOptionsEnableAutoStalePurge = (1 << 4)
+    RZCoreDataStackOptionsEnableAutoStalePurge = (1 << 3)
 };
 
 /**
@@ -103,8 +97,9 @@ typedef NS_OPTIONS(NSUInteger, RZCoreDataStackOptions)
  *  Set the default CoreData stack for this application.
  *  It is recommended to call this method as early as possible in the application lifecycle.
  *
- *  @note While changing the default stack during an app's execution is possible, it is not likely 
- *        to be necessary and may result in undesirable behavior if not done carefully.
+ *  @warning While changing the default stack during an app's execution is technically possible, it is 
+ *           not likely to be necessary and may result in undesirable behavior if not done carefully.
+ *           Notably, this method is not thread-safe.
  *
  *  @param stack The stack to use as the new default stack. Must not be nil.
  */

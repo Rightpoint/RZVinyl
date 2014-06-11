@@ -61,7 +61,6 @@ static NSString* const kRZCoreDataStackParentStackKey = @"RZCoreDataStackParentS
 
 + (RZCoreDataStack *)defaultStack
 {
-    // TODO: thread safe
     if ( s_defaultStack == nil ) {
         s_defaultStack = [[RZCoreDataStack alloc] initWithModelName:nil
                                                       configuration:nil
@@ -394,10 +393,6 @@ static NSString* const kRZCoreDataStackParentStackKey = @"RZCoreDataStackParentS
 
     self.mainManagedObjectContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
     self.mainManagedObjectContext.parentContext = self.topLevelBackgroundContext;
-    
-    if ( [self hasOptionsSet:RZCoreDataStackOptionMakeDefault] ) {
-        s_defaultStack = self;
-    }
     
     return YES;
 }
