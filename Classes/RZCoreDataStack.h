@@ -60,15 +60,10 @@ typedef NS_OPTIONS(NSUInteger, RZCoreDataStackOptions)
     RZCoreDataStackOptionsDisableWriteAheadLog = (1 << 3),
     
     /**
-     *  Pass this option to create an undo manager for the main managed object context.
-     */
-    RZCoreDataStackOptionsCreateUndoManager = (1 << 4),
-    
-    /**
      *  Pass this option to automatically purge stale objects from the main MOC when backgrounding the app.
      *  @see @p purgeStaleObjectsWithCompletion
      */
-    RZCoreDataStackOptionsEnableAutoStalePurge = (1 << 5)
+    RZCoreDataStackOptionsEnableAutoStalePurge = (1 << 4)
 };
 
 /**
@@ -76,16 +71,41 @@ typedef NS_OPTIONS(NSUInteger, RZCoreDataStackOptions)
  *  Makes use of M. Zarra's private writer pattern for efficient disk writes.
  *  
  *  @code
- *  [ PSC ]
- *    - [ Private Queue MOC ]
- *       - [ Main Queue MOC ]
- *       - [ Temporary child MOCs ] @endcode
+ *               [ PSC ]
+ *                  |
+ *        [ Private Queue MOC ]
+ *            |           |
+ *  [ Main Queue MOC ]  [ Background MOC(s) ]
+ *            |
+ *  [ Temporary MOC(s) ]@endcode
  *
  *  @warning To save to the persistent store coordinator, you must use the @p save: method
  *  provided by this class. Saving the main thread's managed object context will not propagate
  *  changes all the way to the psc, which will result in data not being saved to disk.
  */
 @interface RZCoreDataStack : NSObject
+
+/**
+ *  The default CoreData stack for this application. Without additional configuration, the
+ *
+ *  The value of the default stack will be overridden by a new stack if the
+ *  @p RZCoreDataStackOptionMakeDefault option is passed on init.
+ *
+ *  Will be automatically configured on app launch using default settings,
+ *  if @p RZVDataModelName is present in @p info.plist. Otherwise defaults to nil.
+ *
+ *  @note The auto-configuration can be further customized by adding the following keys to the @p info.plist.
+ *
+ *  @p RZVDataModelName (required) - The name of the CoreData model file, without any extension
+ *
+ *  @p RZVDataModelConfiguration - The name of a configuration from the data model to use.
+ *                                 Defaults to the default configuration.
+ *
+ *  @p RZVPersistentStoreType  - Either "sqlite" or "memory". Defaults to "memory".
+ *
+ *  @return The default @p RZCoreDataStack for this application.
+ */
++ (RZCoreDataStack *)defaultStack;
 
 /**
  *  Return a new data stack initialized with the provided data model name
@@ -147,21 +167,37 @@ typedef NS_OPTIONS(NSUInteger, RZCoreDataStackOptions)
                       options:(RZCoreDataStackOptions)options;
 
 
-@property (nonatomic, strong, readonly) NSManagedObjectModel            *managedObjectModel;
+/**
+ *  The main queue's managed object context for this CoreData stack.
+ *  All classes observing context notifications or managed objects driving UI should use this context.
+ *
+ *  @warning Obviously, you must manipulate this context and its objects from the main thread,
+ *           or by using one of the +p performBlock methods.
+ */
 @property (nonatomic, strong, readonly) NSManagedObjectContext          *mainManagedObjectContext;
+
+/**
+ *  The managed object model used in this CoreData stack.
+ */
+@property (nonatomic, strong, readonly) NSManagedObjectModel            *managedObjectModel;
+
+/**
+ *  The persistent store coordinator used in this CoreData stack.
+ */
 @property (nonatomic, strong, readonly) NSPersistentStoreCoordinator    *persistentStoreCoordinator;
 
 /**
- *  Asynchronously perform a database operation on a temporary child context in the background.
- *  The context will be saved when the operation is finished, and all changes propagated to the main context.
+ *  Asynchronously perform a database operation on a temporary background managed object context.
+ *  The context will be saved when the operation is finished, and all changes merged into to the main context.
  *
- *  @param block The block to perform.
+ *  @param block      The block to perform.
  *  @param completion An optional completion block that is called on the main thread after the operation finishes.
  *                    If there was an error saving the background context, it will be passed here.
  *
- *  @note Blocks sent to this method will be enqueued on a serial queue until other blocks finish, to prevent parallel child contexts
- *        from being spawned, where subsequent child contexts might not have the latest data, potentially leading to duplicate objects, etc.
- *        To avoid this behavior, e.g. to prevent longer-lasting background tasks from holding up the queue, use @p -temporaryManagedObjectContext.
+ *  @note Blocks sent to this method will be enqueued on a serial queue until other pending blocks finish, to prevent 
+ *        parallell background contexts from being spawned. This is useful for preventing duplicate objects resulting from
+ *        concurrent imports on different contexts. To prevent longer-lasting background tasks from holding up the queue, 
+ *        use @p -backgroundManagedObjectContext, but be mindful of potential duplicate objects or merge issues.
  *
  *  @note The full stack is not saved in this method. To persist data to to the persistent store, call @p -save: on the stack.
  *
@@ -173,15 +209,30 @@ typedef NS_OPTIONS(NSUInteger, RZCoreDataStackOptions)
                                 completion:(void(^)(NSError *err))completion;
 
 /**
- *  Spawn and return a temporary context with private queue confinement.
- *  This method is useful for creating a "scratch" context on which to make temporary edits.
+ *  Creates, initializes, and returns a new managed object context with private queue confinement,
+ *  which is a sibling of the main managed object context. This can be used for longer, concurrent
+ *  background imports or other operations to prevent blocking the main thread. Upon saving this
+ *  context, changes will be automatically merged into the main context.
  *
- *  @note You must use @p performBlock: to perform transactions using the returned context.
+ *  @note You must use @p performBlock: to manipulate the returned context.
  *
  *  @warning Since this context is a sibling of the main context, be mindful of the merge policy when saving it.
- *           Also, you must save the stack after saving this context or changes are not persisted to disk.
+ *           Also, you must call @p save: after saving this context or changes are not persisted to disk.
  *
- *  @return A newly spawned temporary context with private queue confinement.
+ *  @return A new background managed object context with private queue confinement.
+ */
+- (NSManagedObjectContext *)backgroundManagedObjectContext;
+
+/**
+ *  Creates initializes, and returns a new managed object context with main queue confinement,
+ *  which is a child of the main managed object context. This can be used as a "scratchpad" of sorts,
+ *  for making changes to objects on the main queue with the option of later discarding the changes.
+ *
+ *  @note You must manipulate the returned context on the main thread.
+ *
+ *  @warning You must call @p +save: after saving this context or changes are not persisted to disk.
+ *
+ *  @return A new temporary managed object context with private queue confinement.
  */
 - (NSManagedObjectContext *)temporaryManagedObjectContext;
 
@@ -199,37 +250,15 @@ typedef NS_OPTIONS(NSUInteger, RZCoreDataStackOptions)
  *
  *  @param completion Optional completion block.
  *
- *  @warning Calling this method will save to the persistent store, so any other unsaved
- *           changes in the main managed object context will also be saved.
+ *  @note   Calling this method will save to the persistent store, so any other unsaved
+ *          changes in the main managed object context will also be saved.
+ *
+ *  @warning This may invalidate existing managed object instances if the objects they represent
+ *           are deleted. Subscribe to @p NSManagedObjectContextObjectsDidChange and check for object
+ *           deletion in the main context.
  *
  *  @see @p RZCoreDataStackOptionsEnableAutoStalePurge option.
  */
 - (void)purgeStaleObjectsWithCompletion:(void(^)(NSError *err))completion;
-
-@end
-
-
-@interface RZCoreDataStack (SharedAccess)
-
-/**
- *  The default CoreData stack for this application.
- *  The value of the default stack will be overridden by a new stack if the
- *  @p RZCoreDataStackOptionMakeDefault option is passed on init.
- *
- *  Will be automatically configured on app launch using default settings, 
- *  if @p RZVDataModelName is present in @p info.plist. Otherwise defaults to nil.
- *
- *  @note The auto-configuration can be further customized by adding the following keys to the @p info.plist.
- *
- *  @p RZVDataModelName (required) - The name of the CoreData model file, without any extension
- *
- *  @p RZVDataModelConfiguration - The name of a configuration from the data model to use.
- *                                 Defaults to the default configuration.
- *
- *  @p RZVPersistentStoreType  - Either "sqlite" or "memory". Defaults to "memory".
- *
- *  @return The default @p RZCoreDataStack for this application.
- */
-+ (RZCoreDataStack *)defaultStack;
 
 @end

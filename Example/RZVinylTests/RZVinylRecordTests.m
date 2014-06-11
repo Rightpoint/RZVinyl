@@ -61,7 +61,7 @@
 
 - (void)test_BackgroundContext
 {
-    NSManagedObjectContext *bgContext = [self.stack temporaryManagedObjectContext];
+    NSManagedObjectContext *bgContext = [self.stack backgroundManagedObjectContext];
     [bgContext performBlockAndWait:^{
         Artist *newArtist = nil;
         XCTAssertNoThrow(newArtist = [Artist rzv_newObjectInContext:bgContext], @"Creation with explicit context should not throw exception");
@@ -265,7 +265,7 @@
     XCTAssertEqualObjects(expectedNames, [artists valueForKey:@"name"], @"Not in correct order");
     
     // Try on child context
-    NSManagedObjectContext *scratchContext = [self.stack temporaryManagedObjectContext];
+    NSManagedObjectContext *scratchContext = [self.stack backgroundManagedObjectContext];
     artists = [Artist rzv_where:@"songs.@count > 0" inContext:scratchContext];
     XCTAssertEqual(artists.count, 2, @"Should be two artists with songs");
     XCTAssertEqual([[artists lastObject] managedObjectContext], scratchContext, @"Wrong Context");
@@ -290,7 +290,7 @@
     XCTAssertEqualObjects(expectedNames, [artists valueForKey:@"name"], @"Not in correct order");
     
     // Try on child context
-    NSManagedObjectContext *scratchContext = [self.stack temporaryManagedObjectContext];
+    NSManagedObjectContext *scratchContext = [self.stack backgroundManagedObjectContext];
     artists = [Artist rzv_where:[NSPredicate predicateWithFormat:@"songs.@count > 0"] inContext:scratchContext];
     XCTAssertEqual(artists.count, 2, @"Should be two artists with songs");
     XCTAssertEqual([[artists lastObject] managedObjectContext], scratchContext, @"Wrong Context");
@@ -374,7 +374,7 @@
 
 - (void)test_ChildDelete
 {
-    NSManagedObjectContext *scratchContext = [self.stack temporaryManagedObjectContext];
+    NSManagedObjectContext *scratchContext = [self.stack backgroundManagedObjectContext];
     [scratchContext performBlockAndWait:^{
         
         Artist *dusky = [Artist rzv_objectWithPrimaryKeyValue:@1000 createNew:NO inContext:scratchContext];

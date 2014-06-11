@@ -63,6 +63,11 @@ static NSString* const kRZCoreDataStackParentStackKey = @"RZCoreDataStackParentS
     [self buildDefaultStack];
 }
 
++ (RZCoreDataStack *)defaultStack
+{
+    return s_defaultStack;
+}
+
 - (id)init
 {
     return [self initWithModelName:nil
@@ -157,7 +162,7 @@ static NSString* const kRZCoreDataStackParentStackKey = @"RZCoreDataStackParentS
     }
     
     dispatch_async(self.backgroundContextQueue, ^{
-        NSManagedObjectContext *context = [self temporaryManagedObjectContext];
+        NSManagedObjectContext *context = [self backgroundManagedObjectContext];
         [context performBlock:^{
             block(context);
             NSError *err = nil;
@@ -171,11 +176,19 @@ static NSString* const kRZCoreDataStackParentStackKey = @"RZCoreDataStackParentS
     });
 }
 
+- (NSManagedObjectContext *)backgroundManagedObjectContext
+{
+    NSManagedObjectContext *bgContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
+    [[bgContext userInfo] setObject:self forKey:kRZCoreDataStackParentStackKey];
+    bgContext.parentContext = self.topLevelBackgroundContext;
+    return bgContext;
+}
+
 - (NSManagedObjectContext *)temporaryManagedObjectContext
 {
-    NSManagedObjectContext *tempContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
+    NSManagedObjectContext *tempContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
     [[tempContext userInfo] setObject:self forKey:kRZCoreDataStackParentStackKey];
-    tempContext.parentContext = self.topLevelBackgroundContext;
+    tempContext.parentContext = self.mainManagedObjectContext;
     return tempContext;
 }
 
@@ -373,10 +386,6 @@ static NSString* const kRZCoreDataStackParentStackKey = @"RZCoreDataStackParentS
     self.mainManagedObjectContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
     self.mainManagedObjectContext.parentContext = self.topLevelBackgroundContext;
     
-    if ([self hasOptionsSet:RZCoreDataStackOptionsCreateUndoManager] ) {
-        self.mainManagedObjectContext.undoManager   = [[NSUndoManager alloc] init];
-    }
-    
     if ( [self hasOptionsSet:RZCoreDataStackOptionMakeDefault] ) {
         s_defaultStack = self;
     }
@@ -451,7 +460,6 @@ static NSString* const kRZCoreDataStackParentStackKey = @"RZCoreDataStackParentS
         __block UIBackgroundTaskIdentifier backgroundPurgeTaskID = UIBackgroundTaskInvalid;
         
         [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
-            // ???: Need to clean this task up in any other way?
             [[UIApplication sharedApplication] endBackgroundTask:backgroundPurgeTaskID];
             backgroundPurgeTaskID = UIBackgroundTaskInvalid;
         }];
@@ -469,15 +477,6 @@ static NSString* const kRZCoreDataStackParentStackKey = @"RZCoreDataStackParentS
     if ( [[context userInfo] objectForKey:kRZCoreDataStackParentStackKey] == self ) {
         [self.mainManagedObjectContext mergeChangesFromContextDidSaveNotification:notification];
     }
-}
-
-@end
-
-@implementation RZCoreDataStack (SharedAccess)
-
-+ (RZCoreDataStack *)defaultStack
-{
-    return s_defaultStack;
 }
 
 @end
