@@ -19,7 +19,7 @@ Pod::Spec.new do |s|
   s.frameworks          = "Foundation", "CoreData"
   s.requires_arc        = true
   
-  s.default_subspec     = 'Default'
+  s.default_subspec     = 'Extensions'
   
   s.subspec "Core" do |sp|
     sp.source_files         = "Classes/*.{h,m}", "Classes/Private/*.{h,m}"
@@ -27,11 +27,11 @@ Pod::Spec.new do |s|
     sp.private_header_files = "Classes/Private/*.h"
   end
   
-  s.subspec "Default" do |sp|
+  s.subspec "Extensions" do |sp|
     sp.dependency 'RZVinyl/Core'
-    sp.source_files = "Classes/Extensions/*.{h,m}", "Classes/Extensions/Private/*.{h,m}"
-    sp.public_header_files = "Classes/Extensions/*.h"
-    sp.private_header_files = "Classes/Extensions/Private/*.h"
+    sp.source_files = "Extensions/*.{h,m}", "Extensions/Private/*.{h,m}"
+    sp.public_header_files = "Extensions/*.h"
+    sp.private_header_files = "Extensions/Private/*.h"
     sp.xcconfig = {'GCC_PREPROCESSOR_DEFINITIONS' => 'RZV_AUTOIMPORT_AVAILABLE=1'}
     # sp.dependency 'RZAutoImport', '~> 1.0'
   end
