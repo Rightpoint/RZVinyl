@@ -20,7 +20,7 @@ pod RZVinyl, '~> 1.0'
 To exclude RZAutoImport extensions, use the `Core` subspec: 
 
 ```
-pod RZVinyl/Core, ~> 1.0`
+pod RZVinyl/Core, '~> 1.0'
 ```
 
 RZVinyl follows semantic versioning conventions. As newer versions are released, you will need to update the version spec in your Podfile as necessary.
