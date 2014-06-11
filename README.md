@@ -29,7 +29,7 @@ RZVinyl follows semantic versioning conventions. As newer versions are released,
 
 ##### Without Import Extensions
 
-Simply copy/add the contents of `Classes/` into your project, excluding the `Extensions/` directory, and ensure that you are linking with CoreData.
+Simply copy/add the contents of `Classes/` into your project and ensure that you are linking with CoreData. **Do not** copy the contents of `Extensions/`.
 
 ##### With Import Extensions
 
@@ -38,8 +38,9 @@ Because of the optional RZAutoImport extensions, which depend on the RZAutoImpor
 To install manually with RZAutoImport extensions:
 
 1. Follow the steps for installing without import extensions.
-2. Install [RZAutoImport](https://github.com/Raizlabs/RZAutoImport) in your project as well.
-3. Add the following to your build configuration's compiler flags:
+2. Also copy the contents of `Extensions/` into your project.
+3. Install [RZAutoImport](https://github.com/Raizlabs/RZAutoImport) in your project.
+4. Add the following to your build configuration's compiler flags:
 ```
 -DRZV_AUTOIMPORT_AVAILABLE=1
 ```
