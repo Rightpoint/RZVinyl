@@ -8,6 +8,7 @@
 
 #import <XCTest/XCTest.h>
 #import "RZVinyl.h"
+#import "RZCoreDataStack+TestUtils.h"
 
 static NSString* const kRZCoreDataStackCustomFilePath = @"test_tmp/RZCoreDataStackConfigTest.sqlite";
 
@@ -37,6 +38,14 @@ static NSString* const kRZCoreDataStackCustomFilePath = @"test_tmp/RZCoreDataSta
     if ( [[NSFileManager defaultManager] fileExistsAtPath:[testTempDirURL path]] ){
         [[NSFileManager defaultManager] removeItemAtURL:testTempDirURL error:NULL];
     }
+}
+
+- (void)test_DefaultStack
+{
+    RZCoreDataStack *stack = [RZCoreDataStack defaultStack];
+    XCTAssertNotNil(stack, @"Default stack should be created if it doesn't exist");
+    XCTAssertThrows([RZCoreDataStack setDefaultStack:[[RZCoreDataStack alloc] init]], @"Should not be able to set another default stack.");
+    [RZCoreDataStack resetDefaultStack];
 }
 
 - (void)test_DefaultOptions

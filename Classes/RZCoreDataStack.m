@@ -33,7 +33,6 @@
 #import <libkern/OSAtomic.h>
 
 static RZCoreDataStack *s_defaultStack = nil;
-
 static NSString* const kRZCoreDataStackParentStackKey = @"RZCoreDataStackParentStack";
 
 @interface RZCoreDataStack ()
@@ -62,6 +61,7 @@ static NSString* const kRZCoreDataStackParentStackKey = @"RZCoreDataStackParentS
 + (RZCoreDataStack *)defaultStack
 {
     if ( s_defaultStack == nil ) {
+        RZVLogInfo(@"The default stack has been accessed without being configured. Creating a new default stack with the default options.");
         s_defaultStack = [[RZCoreDataStack alloc] initWithModelName:nil
                                                       configuration:nil
                                                           storeType:nil
@@ -73,7 +73,14 @@ static NSString* const kRZCoreDataStackParentStackKey = @"RZCoreDataStackParentS
 
 + (void)setDefaultStack:(RZCoreDataStack *)stack
 {
-    s_defaultStack = stack;
+    if ( s_defaultStack == nil ) {
+        s_defaultStack = stack;
+    }
+    else {
+        @throw [NSException exceptionWithName:NSInternalInconsistencyException
+                                       reason:@"The default stack has already been set and cannot be changed."
+                                     userInfo:nil];
+    }
 }
 
 - (id)init
@@ -439,3 +446,13 @@ static NSString* const kRZCoreDataStackParentStackKey = @"RZCoreDataStackParentS
 }
 
 @end
+
+//=====================
+//  FOR TESTING ONLY
+//=====================
+
+void __rzv_resetDefaultStack()
+{
+    s_defaultStack = nil;
+}
+

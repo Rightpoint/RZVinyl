@@ -19,6 +19,7 @@
 		9A53613E193F90E000E87F4F /* RZVinylDemo.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9A53613C193F90E000E87F4F /* RZVinylDemo.xcdatamodeld */; };
 		9A536140193F90E000E87F4F /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9A53613F193F90E000E87F4F /* Images.xcassets */; };
 		9A74A5C81946488100A06937 /* Artist+RZVinyl.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A74A5C71946488100A06937 /* Artist+RZVinyl.m */; };
+		9A95F0F51948DC8B00139457 /* RZCoreDataStack+TestUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A95F0F41948DC8B00139457 /* RZCoreDataStack+TestUtils.m */; };
 		9AB90809193FD7F70063445A /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A536146193F90E000E87F4F /* XCTest.framework */; };
 		9AB9080A193FD7F70063445A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A536128193F90E000E87F4F /* Foundation.framework */; };
 		9AB9080B193FD7F70063445A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A53612C193F90E000E87F4F /* UIKit.framework */; };
@@ -63,6 +64,8 @@
 		9A536146193F90E000E87F4F /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		9A74A5C61946488100A06937 /* Artist+RZVinyl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Artist+RZVinyl.h"; sourceTree = "<group>"; };
 		9A74A5C71946488100A06937 /* Artist+RZVinyl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Artist+RZVinyl.m"; sourceTree = "<group>"; };
+		9A95F0F31948DC8B00139457 /* RZCoreDataStack+TestUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RZCoreDataStack+TestUtils.h"; sourceTree = "<group>"; };
+		9A95F0F41948DC8B00139457 /* RZCoreDataStack+TestUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "RZCoreDataStack+TestUtils.m"; sourceTree = "<group>"; };
 		9AB90808193FD7F70063445A /* RZVinylTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RZVinylTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AB9080E193FD7F70063445A /* RZVinylTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "RZVinylTests-Info.plist"; sourceTree = "<group>"; };
 		9AB90810193FD7F70063445A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -260,6 +263,8 @@
 			children = (
 				9AB9088419410A2D0063445A /* RZWaiter.h */,
 				9AB9088519410A2D0063445A /* RZWaiter.m */,
+				9A95F0F31948DC8B00139457 /* RZCoreDataStack+TestUtils.h */,
+				9A95F0F41948DC8B00139457 /* RZCoreDataStack+TestUtils.m */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -453,6 +458,7 @@
 				9AB9081B193FD8330063445A /* RZCoreDataStackConfigTests.m in Sources */,
 				9AB908261940D7BC0063445A /* TestModel.xcdatamodeld in Sources */,
 				9AB9088619410A2D0063445A /* RZWaiter.m in Sources */,
+				9A95F0F51948DC8B00139457 /* RZCoreDataStack+TestUtils.m in Sources */,
 				9A74A5C81946488100A06937 /* Artist+RZVinyl.m in Sources */,
 				9AB90876194104860063445A /* RZVinylRecordTests.m in Sources */,
 				9AB9087C1941065F0063445A /* Artist.m in Sources */,

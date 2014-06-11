@@ -82,12 +82,13 @@ typedef NS_OPTIONS(NSUInteger, RZCoreDataStackOptions)
 /**
  *  The default CoreData stack for this application.
  *  An application can have more than one isntance of @p RZCoreDataStack,
- *  but the instance returned here will be used by default for all
- *  of the methods that don't take a context argument in @p NSManagedObject+RZVinylRecord.
+ *  but the instance returned here will be used by default for all of the methods 
+ *  in @p NSManagedObject+RZVinylRecord that don't take a context argument.
  *
- *  @warning On first access, this will return a new instance with all the default options, 
- *           using an inferred model name. To override this behavior, call @p +setDefaultStack early
- *           in the application lifecyle, before any other accesses are made to the default stack.
+ *  @warning On first access, if the default stack has not been set, this will return a new instance 
+ *           with all the default options, using an inferred model name. To override this behavior, 
+ *           call @p +setDefaultStack early in the application lifecyle, before any other accesses are 
+ *           made to the default stack.
  *
  *  @return The default @p RZCoreDataStack for this application.
  */
@@ -97,9 +98,8 @@ typedef NS_OPTIONS(NSUInteger, RZCoreDataStackOptions)
  *  Set the default CoreData stack for this application.
  *  It is recommended to call this method as early as possible in the application lifecycle.
  *
- *  @warning While changing the default stack during an app's execution is technically possible, it is 
- *           not likely to be necessary and may result in undesirable behavior if not done carefully.
- *           Notably, this method is not thread-safe.
+ *  @warning Once the default stack has been set, it cannot be changed. Attempting to set it again
+ *           will throw a runtime exception.
  *
  *  @param stack The stack to use as the new default stack. Must not be nil.
  */
