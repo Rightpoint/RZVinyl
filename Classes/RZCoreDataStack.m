@@ -30,6 +30,7 @@
 #import "RZCoreDataStack.h"
 #import "NSManagedObject+RZVinylRecord.h"
 #import "RZVinylDefines.h"
+#import <libkern/OSAtomic.h>
 
 static RZCoreDataStack *s_defaultStack = nil;
 
@@ -58,14 +59,22 @@ static NSString* const kRZCoreDataStackParentStackKey = @"RZCoreDataStackParentS
 
 @synthesize entityClassNamesToStalenessPredicates = _entityClassNamesToStalenessPredicates;
 
-+ (void)load
-{
-    [self buildDefaultStack];
-}
-
 + (RZCoreDataStack *)defaultStack
 {
+    // TODO: thread safe
+    if ( s_defaultStack == nil ) {
+        s_defaultStack = [[RZCoreDataStack alloc] initWithModelName:nil
+                                                      configuration:nil
+                                                          storeType:nil
+                                                           storeURL:nil
+                                                            options:kNilOptions];
+    }
     return s_defaultStack;
+}
+
++ (void)setDefaultStack:(RZCoreDataStack *)stack
+{
+    s_defaultStack = stack;
 }
 
 - (id)init
@@ -102,7 +111,7 @@ static NSString* const kRZCoreDataStackParentStackKey = @"RZCoreDataStackParentS
     if ( self ) {
         _modelName                  = modelName;
         _modelConfiguration         = modelConfiguration;
-        _storeType                  = storeType ?: NSInMemoryStoreType;
+        _storeType                  = storeType ?: NSSQLiteStoreType;
         _storeURL                   = storeURL;
         _persistentStoreCoordinator = psc;
         _options                    = options;
@@ -391,51 +400,6 @@ static NSString* const kRZCoreDataStackParentStackKey = @"RZCoreDataStackParentS
     }
     
     return YES;
-}
-
-+ (void)buildDefaultStack
-{
-    NSString *modelName    = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"RZVDataModelName"];
-    if ( modelName == nil ) {
-        return;
-    }
-    
-    NSString *configName   = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"RZVDataModelConfiguration"];
-    NSString *storeTypeRaw = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"RZVPersistentStoreType"];
-    
-    NSString *storeType = nil;
-    if ( storeTypeRaw ) {
-        if ( [storeTypeRaw isEqualToString:@"memory"] ) {
-            storeType = NSInMemoryStoreType;
-        }
-        else if ( [storeTypeRaw isEqualToString:@"sqlite"] ) {
-            storeType = NSSQLiteStoreType;
-        }
-        else {
-            storeType = NSInMemoryStoreType;
-            NSLog(@"[RZDataStackAccess] WARNING: Unknown store type \"%@\" in info.plist. Defaulting to in-memory store.", storeTypeRaw);
-        }
-    }
-    
-    RZCoreDataStack *defaultStack = [[RZCoreDataStack alloc] initWithModelName:modelName
-                                                                 configuration:configName
-                                                                     storeType:storeType
-                                                                      storeURL:nil
-                                                                       options:kNilOptions];
-    
-    if ( defaultStack != nil ) {
-        s_defaultStack = defaultStack;
-    }
-    else {
-        NSLog(@"[RZDataStackAccess] ERROR: Could not build default CoreData stack from info.plist values. Please check your entries:");
-        NSLog(@"Model Name (RZVDataModelName): %@", modelName);
-        if ( configName ) {
-            NSLog(@"Config Name (RZVDataModelConfiguration): %@", configName);
-        }
-        if ( storeTypeRaw ) {
-            NSLog(@"Persistent Store Type (RZVPersistentStoreType): %@", storeTypeRaw);
-        }
-    }
 }
 
 #pragma mark - Notifications

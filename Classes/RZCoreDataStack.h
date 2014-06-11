@@ -86,26 +86,29 @@ typedef NS_OPTIONS(NSUInteger, RZCoreDataStackOptions)
 @interface RZCoreDataStack : NSObject
 
 /**
- *  The default CoreData stack for this application. Without additional configuration, the
+ *  The default CoreData stack for this application.
+ *  An application can have more than one isntance of @p RZCoreDataStack,
+ *  but the instance returned here will be used by default for all
+ *  of the methods that don't take a context argument in @p NSManagedObject+RZVinylRecord.
  *
- *  The value of the default stack will be overridden by a new stack if the
- *  @p RZCoreDataStackOptionMakeDefault option is passed on init.
- *
- *  Will be automatically configured on app launch using default settings,
- *  if @p RZVDataModelName is present in @p info.plist. Otherwise defaults to nil.
- *
- *  @note The auto-configuration can be further customized by adding the following keys to the @p info.plist.
- *
- *  @p RZVDataModelName (required) - The name of the CoreData model file, without any extension
- *
- *  @p RZVDataModelConfiguration - The name of a configuration from the data model to use.
- *                                 Defaults to the default configuration.
- *
- *  @p RZVPersistentStoreType  - Either "sqlite" or "memory". Defaults to "memory".
+ *  @warning On first access, this will return a new instance with all the default options, 
+ *           using an inferred model name. To override this behavior, call @p +setDefaultStack early
+ *           in the application lifecyle, before any other accesses are made to the default stack.
  *
  *  @return The default @p RZCoreDataStack for this application.
  */
 + (RZCoreDataStack *)defaultStack;
+
+/**
+ *  Set the default CoreData stack for this application.
+ *  It is recommended to call this method as early as possible in the application lifecycle.
+ *
+ *  @note While changing the default stack during an app's execution is possible, it is not likely 
+ *        to be necessary and may result in undesirable behavior if not done carefully.
+ *
+ *  @param stack The stack to use as the new default stack. Must not be nil.
+ */
++ (void)setDefaultStack:(RZCoreDataStack *)stack;
 
 /**
  *  Return a new data stack initialized with the provided data model name
@@ -113,7 +116,7 @@ typedef NS_OPTIONS(NSUInteger, RZCoreDataStackOptions)
  *
  *  @param modelName            The name of the Core Data Model. Pass nil to infer default value from application name.
  *  @param modelConfiguration   The name of a configuration from the model to use for this stack.
- *  @param storeType            The type of persistent store to use. Pass nil to default to in memory store.
+ *  @param storeType            The type of persistent store to use. Pass nil to default to sqlite store.
  *  @param storeURL             The URL of the persistent store's database file. If nil, defaults to a .sqlite file with
  *                              the same name as the model, located in the @p Library/ directory.
  *  @param options              Additional options for the stack.
@@ -132,7 +135,7 @@ typedef NS_OPTIONS(NSUInteger, RZCoreDataStackOptions)
  *
  *  @param modelName            The name of the Core Data Model. Pass nil to infer default value from application name.
  *  @param modelConfiguration   The name of a configuration from the model to use for this stack.
- *  @param storeType            The type of persistent store to use. Pass nil to default to in memory store.
+ *  @param storeType            The type of persistent store to use. Pass nil to default to sqlite store.
  *  @param storeURL             The URL of the persistent store's database file. If nil, defaults to a .sqlite file with
  *                              the same name as the model, located in the @p Library/ directory.
  *  @param psc                  An existing persistent store coordinator to use in this stack. Pass nil to create a new one.
@@ -152,7 +155,7 @@ typedef NS_OPTIONS(NSUInteger, RZCoreDataStackOptions)
  *  The managed object context(s) will be created automatically and a new store will be
  *
  *  @param model        A configured data model. Must not be nil.
- *  @param storeType    The type of persistent store to use. Pass nil to default to in memory store.
+ *  @param storeType    The type of persistent store to use. Pass nil to default to sqlite store.
  *  @param storeURL     The URL of the persistent store's database file. If nil, defaults to a .sqlite file with
  *                      the same name as the model, located in the @p Library/ directory.
  *  @param psc          An existing persistent store coordinator to use in this stack. Pass nil to create a new one.

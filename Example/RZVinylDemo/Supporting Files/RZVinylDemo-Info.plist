@@ -34,7 +34,5 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
-	<key>RZVDataModelName</key>
-	<string>RZVinylDemo</string>
 </dict>
 </plist>
