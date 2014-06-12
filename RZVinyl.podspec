@@ -32,8 +32,8 @@ Pod::Spec.new do |s|
     sp.source_files = "Extensions/*.{h,m}", "Extensions/Private/*.{h,m}"
     sp.public_header_files = "Extensions/*.h"
     sp.private_header_files = "Extensions/Private/*.h"
-    sp.xcconfig = {'GCC_PREPROCESSOR_DEFINITIONS' => 'RZV_AUTOIMPORT_AVAILABLE=1'}
-    # sp.dependency 'RZAutoImport', '~> 1.0'
+    sp.xcconfig = {'GCC_PREPROCESSOR_DEFINITIONS' => 'RZV_IMPORT_AVAILABLE=1'}
+    # sp.dependency 'RZImport', '~> 1.0'
   end
     
 end

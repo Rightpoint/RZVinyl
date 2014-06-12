@@ -39,7 +39,7 @@
     NSDictionary *duskyRaw = [self.rawArtists objectAtIndex:0];
     XCTAssertNotNil(duskyRaw, @"Failed to import test json");
     
-    Artist *dusky = [Artist rzai_objectFromDictionary:duskyRaw];
+    Artist *dusky = [Artist rzi_objectFromDictionary:duskyRaw];
     XCTAssertNotNil(dusky, @"Failed to import from dict");
     XCTAssertEqualObjects(dusky.managedObjectContext, self.stack.mainManagedObjectContext, @"Wrong context");
     XCTAssertEqualObjects(dusky.name, duskyRaw[@"name"], @"Name import failed");
@@ -59,7 +59,7 @@
     __block BOOL finished = NO;
     [self.stack performBlockUsingBackgroundContext:^(NSManagedObjectContext *context) {
         
-        Artist *dusky = [Artist rzai_objectFromDictionary:duskyRaw inContext:context];
+        Artist *dusky = [Artist rzi_objectFromDictionary:duskyRaw inContext:context];
         XCTAssertNotNil(dusky, @"Failed to import from dict");
         XCTAssertEqualObjects(dusky.managedObjectContext, context, @"Wrong context");
         XCTAssertEqualObjects(dusky.name, duskyRaw[@"name"], @"Name import failed");
@@ -91,7 +91,7 @@
 {
     XCTAssertNotNil(self.rawArtists, @"Failed to import test json");
     
-    NSArray *artists = [Artist rzai_objectsFromArray:self.rawArtists];
+    NSArray *artists = [Artist rzi_objectsFromArray:self.rawArtists];
     XCTAssertNotNil(artists, @"Failed to import array");
     XCTAssertEqual(artists.count, 3, @"Wrong number of artists");
     
@@ -111,7 +111,7 @@
     __block BOOL finished = NO;
     [self.stack performBlockUsingBackgroundContext:^(NSManagedObjectContext *context) {
         
-        NSArray *artists = [Artist rzai_objectsFromArray:self.rawArtists inContext:context];
+        NSArray *artists = [Artist rzi_objectsFromArray:self.rawArtists inContext:context];
         XCTAssertNotNil(artists, @"Failed to import array");
         XCTAssertEqual(artists.count, 3, @"Wrong number of artists");
         XCTAssertEqualObjects(context, [artists[0] managedObjectContext], @"Wrong context");
@@ -163,7 +163,7 @@
     
     __block NSArray *artists = nil;
     uint64_t time = dispatch_benchmark(1, ^{
-        artists = [Artist rzai_objectsFromArray:artistArray];
+        artists = [Artist rzi_objectsFromArray:artistArray];
     });
     
     NSLog(@"Import of %lu artists took %f s", (unsigned long)count, (double)time/NSEC_PER_SEC);

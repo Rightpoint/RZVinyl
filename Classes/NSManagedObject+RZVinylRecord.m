@@ -30,7 +30,7 @@
 #import "NSManagedObject+RZVinylRecord.h"
 #import "RZCoreDataStack.h"
 #import "NSFetchRequest+RZVinylRecord.h"
-#import "NSManagedObject+RZAutoImportableSubclass.h"
+#import "NSManagedObject+RZImportableSubclass.h"
 #import "RZVinylDefines.h"
 
 @implementation NSManagedObject (RZVinylRecord)
