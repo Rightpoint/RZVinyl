@@ -303,6 +303,18 @@
 + (RZCoreDataStack *)rzv_coreDataStack;
 
 /**
+ *  Override in subclasses to provide the key name of the property uniquely
+ *  identifying this object
+ *
+ *  @warning It is @b mandatory to return a non-nil value from each @p NSManagedObject subclass
+ *           in order to use RZVinyl. Failure to do so will throw a runtime exception when using
+ *           the methods in the @p NSManagedObject categories.
+ *
+ *  @return The key name of the property uniquely identifying this object.
+ */
++ (NSString *)rzv_primaryKey;
+
+/**
  *  Override in subclasses to return a predicate to be used when purging stale objects from the persistent store.
  *  Returns nil (no objects considered stale) by default.
  *

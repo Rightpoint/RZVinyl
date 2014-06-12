@@ -292,6 +292,11 @@
     return nil;
 }
 
++ (NSString *)rzv_primaryKey
+{
+    return nil;
+}
+
 + (RZCoreDataStack *)rzv_coreDataStack
 {
     return [RZCoreDataStack defaultStack];

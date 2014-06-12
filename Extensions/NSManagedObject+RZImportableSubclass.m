@@ -31,11 +31,6 @@
 
 @implementation NSManagedObject (RZImportableSubclass)
 
-+ (NSString *)rzv_primaryKey
-{
-    RZVAssertSubclassOverride();
-}
-
 + (NSString *)rzv_externalPrimaryKey
 {
     return nil;
