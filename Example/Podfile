@@ -1,6 +1,6 @@
 platform :ios, '7.0'
 
 pod 'RZVinyl', :path => '../'
-pod 'RZAutoImport', :git => 'https://github.com/Raizlabs/RZAutoImport.git', :branch => "develop"
+pod 'RZImport', :git => 'https://github.com/Raizlabs/RZImport.git', :branch => "develop"
 
 link_with 'RZVinylDemo', 'RZVinylTests'
