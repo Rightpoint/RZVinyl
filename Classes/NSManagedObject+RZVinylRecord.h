@@ -295,11 +295,20 @@
 //
 
 /**
+ *  Override in subclasses to provide a different data stack for use with this
+ *  model object class. Defaults to @p +[RZDataStack defaultStack]
+ *
+ *  @return The data stack to use for this model object class.
+ */
++ (RZCoreDataStack *)rzv_coreDataStack;
+
+/**
  *  Override in subclasses to return a predicate to be used when purging stale objects from the persistent store.
  *  Returns nil (no objects considered stale) by default.
  *
  *  @return A predicate to use with @p RZCoreDataStack's @p -purgeStaleObjects
  */
 + (NSPredicate *)rzv_stalenessPredicate;
+
 
 @end

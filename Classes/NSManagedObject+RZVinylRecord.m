@@ -30,7 +30,6 @@
 #import "NSManagedObject+RZVinylRecord.h"
 #import "RZCoreDataStack.h"
 #import "NSFetchRequest+RZVinylRecord.h"
-#import "NSManagedObject+RZImportableSubclass.h"
 #import "RZVinylDefines.h"
 
 @implementation NSManagedObject (RZVinylRecord)
@@ -291,6 +290,11 @@
 + (NSPredicate *)rzv_stalenessPredicate
 {
     return nil;
+}
+
++ (RZCoreDataStack *)rzv_coreDataStack
+{
+    return [RZCoreDataStack defaultStack];
 }
 
 #pragma mark - Private

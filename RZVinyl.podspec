@@ -14,7 +14,7 @@ Pod::Spec.new do |s|
   s.social_media_url    = "http://twitter.com/raizlabs"
 
   s.platform            = :ios, "7.0"
-  s.source              = { :git => "https://github.com/Raizlabs/RZVinyl.git", :branch => "feature/ndonald2/import" }
+  s.source              = { :git => "https://github.com/Raizlabs/RZVinyl.git", :branch => "develop" }
 
   s.frameworks          = "Foundation", "CoreData"
   s.requires_arc        = true
@@ -33,7 +33,7 @@ Pod::Spec.new do |s|
     sp.public_header_files = "Extensions/*.h"
     sp.private_header_files = "Extensions/Private/*.h"
     sp.xcconfig = {'GCC_PREPROCESSOR_DEFINITIONS' => 'RZV_IMPORT_AVAILABLE=1'}
-    # sp.dependency 'RZImport', '~> 1.0'
+    sp.dependency 'RZImport', '~> 1.0'
   end
     
 end
