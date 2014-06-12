@@ -1,5 +1,5 @@
 //
-//  NSManagedObject+RZAutoImportableSubclass.h
+//  NSManagedObject+RZImportableSubclass.h
 //  RZVinyl
 //
 //  Created by Nick Donaldson on 6/6/14.
@@ -29,9 +29,9 @@
 #import "RZCoreDataStack.h"
 
 /**
- *  Methods to optionally override in @p NSManagedObject subclasses to support @p RZAutoImport extensions.
+ *  Methods to optionally override in @p NSManagedObject subclasses to support @p RZImport extensions.
  */
-@interface NSManagedObject (RZAutoImportableSubclass)
+@interface NSManagedObject (RZImportableSubclass)
 
 /**
  *  Override in subclasses to provide the key name of the property uniquely
@@ -47,7 +47,7 @@
 
 /**
  *  Override in subclasses to provide a key to use for the primary key when importing
- *  values or updating/creating a new instance from an NSDictionary using NSManagedObject+RZAutoImport.
+ *  values or updating/creating a new instance from an NSDictionary using NSManagedObject+RZImport.
  *
  *  For example, a JSON response might contain key/value pair "ID" : 1000 for the object's primary key,
  *  but your managed object subclass might store this value as an attribute named "remoteID", hence it is 

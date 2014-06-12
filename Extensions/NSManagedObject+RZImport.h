@@ -1,5 +1,5 @@
 //
-//  NSManagedObject+RZAutoImport.h
+//  NSManagedObject+RZImport.h
 //  RZVinyl
 //
 //  Created by Nick Donaldson on 6/5/14.
@@ -28,18 +28,18 @@
 
 
 @import CoreData;
-#import "NSObject+RZAutoImport.h"
+#import "NSObject+RZImport.h"
 
 /**
  *  Automatic importing of dictionary representations (e.g. deserialized JSON response) 
- *  of an object to CoreData, using RZVinyl and RZAutoImport. Provides a partial implementation
- *  of @RZAutoImportable.
+ *  of an object to CoreData, using RZVinyl and RZImport. Provides a partial implementation
+ *  of @RZImportable.
  *
- *  @warning Do not override the extended methods or thir equivalents from @p RZAutoImportable without reading 
+ *  @warning Do not override the extended methods or their equivalents from @p RZAutoImportable without reading 
  *           the method documentation. This category provides a crucial implementation of these methods that enables 
- *           automaitic CoreData importing.
+ *           automatic CoreData importing.
  */
-@interface NSManagedObject (RZAutoImport) <RZAutoImportable>
+@interface NSManagedObject (RZImport) <RZImportable>
 
 /**
  *  Creates or updates an object in the provided managed object context using the key/value pairs in the provided dictionary.
@@ -50,14 +50,14 @@
  *  @param dict    The dictionary representing the object to be inserted/updated.
  *  @param context The context in which to find/insert the object. Must not be nil.
  *
- *  @note Calling @p rzai_objectFromDictionary: without the context parameter will use the default context provided by
+ *  @note Calling @p rzi_objectFromDictionary: without the context parameter will use the default context provided by
  *        calling @p +rzv_coreDataStack on the managed object subclass.
  *
  *  @note This method does not save the context or the core data stack.
  *
  *  @return A matching or newly created object updated from the key/value pairs in the dictionary.
  */
-+ (instancetype)rzai_objectFromDictionary:(NSDictionary *)dict inContext:(NSManagedObjectContext *)context;
++ (instancetype)rzi_objectFromDictionary:(NSDictionary *)dict inContext:(NSManagedObjectContext *)context;
 
 /**
  *  Creates or updates an object in the provided managed object context using the key/value pairs in the provided dictionary.
@@ -71,14 +71,14 @@
  *                  use in the import. These will override/supplement implicit mappings and mappings
  *                  provided by @p RZAutoImportable.
  *
- *  @note Calling @p rzai_objectFromDictionary: without the context parameter will use the default context provided by
+ *  @note Calling @p rzi_objectFromDictionary: without the context parameter will use the default context provided by
  *        calling @p +rzv_coreDataStack on the managed object subclass.
  *
  *  @note This method does not save the context or the core data stack.
  *
  *  @return A matching or newly created object updated from the key/value pairs in the dictionary.
  */
-+ (instancetype)rzai_objectFromDictionary:(NSDictionary *)dict inContext:(NSManagedObjectContext *)context withMappings:(NSDictionary *)mappings;
++ (instancetype)rzi_objectFromDictionary:(NSDictionary *)dict inContext:(NSManagedObjectContext *)context withMappings:(NSDictionary *)mappings;
 
 /**
  *  Creates or updates multiple objects in the provided managed object context using the key/value pairs in the dictionaries 
@@ -89,14 +89,14 @@
  *  @param array   An array of @p NSDictionary instances representing objects to be inserted/updated.
  *  @param context The context in which to find/insert the object. Must not be nil.
  *
- *  @note Calling @p rzai_objectsFromArray: without the context parameter will use the default context provided by
+ *  @note Calling @p rzi_objectsFromArray: without the context parameter will use the default context provided by
  *        calling @p +rzv_coreDataStack on the managed object subclass.
  *
  *  @note This method does not save the context or the core data stack.
  *
  *  @return An array matching or newly created objects updated from the key/value pairs in the dictionaries in the array.
  */
-+ (NSArray *)rzai_objectsFromArray:(NSArray *)array inContext:(NSManagedObjectContext *)context;
++ (NSArray *)rzi_objectsFromArray:(NSArray *)array inContext:(NSManagedObjectContext *)context;
 
 /**
  *  Creates or updates multiple objects in the provided managed object context using the key/value pairs in the dictionaries
@@ -110,14 +110,14 @@
  *                  use in the import. These will override/supplement implicit mappings and mappings
  *                  provided by @p RZAutoImportable.
  *
- *  @note Calling @p rzai_objectsFromArray: without the context parameter will use the default context provided by
+ *  @note Calling @p rzi_objectsFromArray: without the context parameter will use the default context provided by
  *        calling @p +rzv_coreDataStack on the managed object subclass.
  *
  *  @note This method does not save the context or the core data stack.
  *
  *  @return An array matching or newly created objects updated from the key/value pairs in the dictionaries in the array.
  */
-+ (NSArray *)rzai_objectsFromArray:(NSArray *)array inContext:(NSManagedObjectContext *)context withMappings:(NSDictionary *)mappings;
++ (NSArray *)rzi_objectsFromArray:(NSArray *)array inContext:(NSManagedObjectContext *)context withMappings:(NSDictionary *)mappings;
 
 //
 //  RZAutoImportable Protocol
@@ -133,33 +133,33 @@
  *  @param dict The dictionary representing an instance of the receiver's class.
  *  @param context The managed object context in which to find/insert the object.
  *
- *  @warning Do not implement the @p RZAutoImportable protocol method @p +rzai_existingObjectForDict: in subclasses.
- *           This methid is called by an internal implementation of @p +rzai_existingObjectForDict: which will pass along the correct
+ *  @warning Do not implement the @p RZAutoImportable protocol method @p +rzi_existingObjectForDict: in subclasses.
+ *           This methid is called by an internal implementation of @p +rzi_existingObjectForDict: which will pass along the correct
  *           context based on a bit of internal state.
  *
  *  @return A valid NSManagedObject initialized with the provided dictionary, or nil
  *          if an object could not be created.
  */
-+ (id)rzai_existingObjectForDict:(NSDictionary *)dict inContext:(NSManagedObjectContext *)context;
++ (id)rzi_existingObjectForDict:(NSDictionary *)dict inContext:(NSManagedObjectContext *)context;
 
 /**
  *  Extended implementation of the method from @p RZAutoImportable.
  *  Do not call directly; this is exposed for reasons of documentation only.
  *
  *  If you override this method in an @p NSManagedObject subclass for purposes of validation, you must only prevent 
- *  invalid values from being imported byreturning @p NO. For valid import values, you should return the value returned 
+ *  invalid values from being imported by returning @p NO. For valid import values, you should return the value returned
  *  by this (@p super's) implementation.
  *
  *  @param value   The value being imported for @p key
  *  @param key     The key being imported.
  *  @param context The context in which the import is taking place.
  *
- *  @warning Do not implement the @p RZAutoImportable protocol method @p +rzai_shouldImportValue:forKey: in subclasses.
- *           This method is called by an internal implementation of @p +rzai_shouldImportValue:forKey: which will pass along the correct
+ *  @warning Do not implement the @p RZAutoImportable protocol method @p +rzi_shouldImportValue:forKey: in subclasses.
+ *           This method is called by an internal implementation of @p +rzi_shouldImportValue:forKey: which will pass along the correct
  *           context based on a bit of internal state.
  *
- *  @return YES if @p RZAutoImport should perform automatic value import, NO to prevent it from doing so.
+ *  @return YES if @p RZImport should perform automatic value import, NO to prevent it from doing so.
  */
-- (BOOL)rzai_shouldImportValue:(id)value forKey:(NSString *)key inContext:(NSManagedObjectContext *)context;
+- (BOOL)rzi_shouldImportValue:(id)value forKey:(NSString *)key inContext:(NSManagedObjectContext *)context;
 
 @end
