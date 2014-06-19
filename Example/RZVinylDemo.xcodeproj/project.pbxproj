@@ -19,6 +19,7 @@
 		9A53613E193F90E000E87F4F /* RZVinylDemo.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9A53613C193F90E000E87F4F /* RZVinylDemo.xcdatamodeld */; };
 		9A536140193F90E000E87F4F /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9A53613F193F90E000E87F4F /* Images.xcassets */; };
 		9A74A5C81946488100A06937 /* Artist+RZVinyl.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A74A5C71946488100A06937 /* Artist+RZVinyl.m */; };
+		9A75DB8C195388D700173911 /* person_data.json in Resources */ = {isa = PBXBuildFile; fileRef = 9A75DB8B195388D700173911 /* person_data.json */; };
 		9A95F0F51948DC8B00139457 /* RZCoreDataStack+TestUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A95F0F41948DC8B00139457 /* RZCoreDataStack+TestUtils.m */; };
 		9AB90809193FD7F70063445A /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A536146193F90E000E87F4F /* XCTest.framework */; };
 		9AB9080A193FD7F70063445A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A536128193F90E000E87F4F /* Foundation.framework */; };
@@ -64,6 +65,7 @@
 		9A536146193F90E000E87F4F /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		9A74A5C61946488100A06937 /* Artist+RZVinyl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Artist+RZVinyl.h"; sourceTree = "<group>"; };
 		9A74A5C71946488100A06937 /* Artist+RZVinyl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Artist+RZVinyl.m"; sourceTree = "<group>"; };
+		9A75DB8B195388D700173911 /* person_data.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = person_data.json; sourceTree = "<group>"; };
 		9A95F0F31948DC8B00139457 /* RZCoreDataStack+TestUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RZCoreDataStack+TestUtils.h"; sourceTree = "<group>"; };
 		9A95F0F41948DC8B00139457 /* RZCoreDataStack+TestUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "RZCoreDataStack+TestUtils.m"; sourceTree = "<group>"; };
 		9AB90808193FD7F70063445A /* RZVinylTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RZVinylTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -194,6 +196,7 @@
 		9A53615F193F91E700E87F4F /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				9A75DB8B195388D700173911 /* person_data.json */,
 				9A53613F193F90E000E87F4F /* Images.xcassets */,
 			);
 			path = Resources;
@@ -358,6 +361,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9A536135193F90E000E87F4F /* InfoPlist.strings in Resources */,
+				9A75DB8C195388D700173911 /* person_data.json in Resources */,
 				9A536140193F90E000E87F4F /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -1,5 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="5064" systemVersion="13D65" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
+    <entity name="Interest" representedClassName="RZInterest" syncable="YES">
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="people" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Person" inverseName="interests" inverseEntity="Person" syncable="YES"/>
+    </entity>
+    <entity name="Person" representedClassName="RZPerson" syncable="YES">
+        <attribute name="bio" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="gender" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="remoteId" attributeType="Integer 32" defaultValueString="0" indexed="YES" syncable="YES"/>
+        <relationship name="interests" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Interest" inverseName="people" inverseEntity="Interest" syncable="YES"/>
+    </entity>
     <configuration name="OtherConfig"/>
-    <elements/>
+    <elements>
+        <element name="Person" positionX="160" positionY="192" width="128" height="118"/>
+        <element name="Interest" positionX="162" positionY="225" width="128" height="73"/>
+    </elements>
 </model>
