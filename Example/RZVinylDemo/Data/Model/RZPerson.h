@@ -1,0 +1,31 @@
+//
+//  RZPerson.h
+//  RZVinylDemo
+//
+//  Created by Nick Donaldson on 6/19/14.
+//  Copyright (c) 2014 Raizlabs. All rights reserved.
+//
+
+#import <Foundation/Foundation.h>
+#import <CoreData/CoreData.h>
+
+@class RZInterest;
+
+@interface RZPerson : NSManagedObject
+
+@property (nonatomic, retain) NSString * bio;
+@property (nonatomic, retain) NSString * gender;
+@property (nonatomic, retain) NSString * name;
+@property (nonatomic, retain) NSNumber * remoteId;
+@property (nonatomic, retain) NSSet *interests;
+
+@end
+
+@interface RZPerson (CoreDataGeneratedAccessors)
+
+- (void)addInterestsObject:(RZInterest *)value;
+- (void)removeInterestsObject:(RZInterest *)value;
+- (void)addInterests:(NSSet *)values;
+- (void)removeInterests:(NSSet *)values;
+
+@end

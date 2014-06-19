@@ -78,7 +78,7 @@ task :usage do
 end
 
 task :sync do
-  sync_project(PROJ_PATH, '--exclusion /Classes')
+  sync_project(PROJ_PATH, "")
 end
 
 #
