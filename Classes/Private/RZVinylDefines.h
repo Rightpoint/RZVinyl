@@ -36,12 +36,18 @@
 //
 //  Assertion
 //
-
+/**
+ * Assertion macros that return whether condiition is satisfied.
+ * Allows graceful handling of exceptions when assertions disabled.
+ */
 #define RZVParameterAssert(param) \
     ({ NSParameterAssert(param); (param != nil); })
 
 #define RZVAssert(cond, msg, ...) \
     ({ NSAssert(cond, msg, ##__VA_ARGS__); cond; })
+
+#define RZVAssertMainThread(msg, ...) \
+    RZVAssert([NSThread isMainThread], msg, ##__VA_ARGS__)
 
 #define RZVAssertSubclassOverride() \
     @throw [NSException exceptionWithName:NSInternalInconsistencyException \
