@@ -63,6 +63,7 @@
 {
     NSManagedObjectContext *bgContext = [self.stack backgroundManagedObjectContext];
     [bgContext performBlockAndWait:^{
+        
         Artist *newArtist = nil;
         XCTAssertNoThrow(newArtist = [Artist rzv_newObjectInContext:bgContext], @"Creation with explicit context should not throw exception");
         XCTAssertNotNil(newArtist, @"Failed to create new object");
@@ -92,6 +93,7 @@
         XCTAssertNotEqualObjects(context, self.stack.mainManagedObjectContext, @"Current moc should not equal main moc");
 
         Artist *newArtist = nil;
+        XCTAssertThrows(newArtist = [Artist rzv_newObject], @"Attempting to create a new object on bg thread without providing a context should throw exception.");
         XCTAssertNoThrow(newArtist = [Artist rzv_newObjectInContext:context], @"Creation threw exception");
         XCTAssertNotNil(newArtist, @"Failed to create new object");
         XCTAssertTrue([newArtist isKindOfClass:[Artist class]], @"New object is not of correct class");

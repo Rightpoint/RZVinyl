@@ -244,7 +244,7 @@ static NSString* const kRZCoreDataStackParentStackKey = @"RZCoreDataStackParentS
             
             Class moClass = NSClassFromString(className);
             if ( moClass != Nil ) {
-                [moClass rzv_deleteAllWhere:predicate];
+                [moClass rzv_deleteAllWhere:predicate inContext:context];
             }
             
         }];
