@@ -8,7 +8,20 @@
 
 #import "RZAppDelegate.h"
 
+static NSString* const kRZManagedObjectModelName = @"RZVinylDemo";
+
 @implementation RZAppDelegate
+
+- (BOOL)application:(UIApplication *)application willFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+{
+    [RZCoreDataStack setDefaultStack:[[RZCoreDataStack alloc] initWithModelName:kRZManagedObjectModelName
+                                                                  configuration:nil
+                                                                      storeType:NSSQLiteStoreType
+                                                                       storeURL:nil
+                                                                        options:RZCoreDataStackOptionsEnableAutoStalePurge]];
+    
+    return YES;
+}
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
