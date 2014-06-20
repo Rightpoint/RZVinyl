@@ -20,7 +20,6 @@
 @property (nonatomic, strong) NSPredicate *predicate;
 
 - (instancetype)initWithTableView:(UITableView *)tableView;
-
 - (RZPerson *)personAtIndexPath:(NSIndexPath *)indexPath;
 
 @end

@@ -13,7 +13,7 @@
 + (void)load
 {
     NSDictionary *navbarTitleAttributes = @{
-        NSFontAttributeName : [self boldFontWithSize:20]
+        NSFontAttributeName : [self defaultFontWithSize:20]
     };
     [[UINavigationBar appearance] setTitleTextAttributes:navbarTitleAttributes];
 }

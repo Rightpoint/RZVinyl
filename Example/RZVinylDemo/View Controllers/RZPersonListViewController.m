@@ -24,7 +24,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         _personLoader = [[RZPersonLoader alloc] init];
-        self.title = @"People";
+        self.title = @"RZVinyl Demo";
     }
     return self;
 }

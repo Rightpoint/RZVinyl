@@ -7,6 +7,7 @@
 //
 
 #import "RZPerson+RZVinyl.h"
+#import "RZInterest.h"
 
 @implementation RZPerson (RZVinyl)
 
@@ -22,11 +23,22 @@
 
 - (BOOL)rzi_shouldImportValue:(id)value forKey:(NSString *)key inContext:(NSManagedObjectContext *)context
 {
-    #warning - Fix this
     if ( [key isEqualToString:@"interests"] ) {
+        if ( [value isKindOfClass:[NSArray class]] ) {
+            
+            NSMutableSet *interests = [NSMutableSet set];
+            [(NSArray *)value enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+                if ( [obj isKindOfClass:[NSString class]] ) {
+                    RZInterest *interest = [RZInterest rzv_objectWithAttributes:@{ @"name" : obj } createNew:YES inContext:context];
+                    if ( interest ) {
+                        [interests addObject:interest];
+                    }
+                }
+            }];
+            self.interests = [NSSet setWithSet:interests];
+        }
         return NO;
     }
-    
     return [super rzi_shouldImportValue:value forKey:key inContext:context];
 }
 
