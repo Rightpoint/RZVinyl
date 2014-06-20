@@ -16,6 +16,6 @@
 @property (nonatomic, retain) NSString * street;
 @property (nonatomic, retain) NSString * city;
 @property (nonatomic, retain) NSString * state;
-@property (nonatomic, retain) RZPerson *person;
+@property (nonatomic, retain) RZPerson * person;
 
 @end
