@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 /**
- *  Imports person objects asynchronously from a static JSON file in batches.
+ *  Imports person objects asynchronously from a static JSON file in batches using RZImport
  */
 @interface RZPersonLoader : NSObject
 

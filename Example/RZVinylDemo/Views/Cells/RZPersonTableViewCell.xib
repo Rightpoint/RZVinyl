@@ -14,16 +14,16 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="John Doe" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FUK-44-Uux">
-                        <rect key="frame" x="20" y="20" width="74" height="21"/>
+                        <rect key="frame" x="20" y="14" width="74" height="21"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Bio" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="247" translatesAutoresizingMaskIntoConstraints="NO" id="fPy-cG-BhY">
-                        <rect key="frame" x="20" y="49" width="247" height="21"/>
+                        <rect key="frame" x="20" y="43" width="247" height="24"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="17"/>
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
@@ -31,7 +31,7 @@
                     <constraint firstItem="fPy-cG-BhY" firstAttribute="top" secondItem="FUK-44-Uux" secondAttribute="bottom" constant="8" id="31Y-9m-cfL"/>
                     <constraint firstItem="FUK-44-Uux" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="FJx-hC-3HK"/>
                     <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="FUK-44-Uux" secondAttribute="trailing" constant="20" id="JCl-Cb-R6V"/>
-                    <constraint firstItem="FUK-44-Uux" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="20" id="S5A-LU-9WN"/>
+                    <constraint firstItem="FUK-44-Uux" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="14" id="S5A-LU-9WN"/>
                     <constraint firstItem="fPy-cG-BhY" firstAttribute="leading" secondItem="FUK-44-Uux" secondAttribute="leading" id="VVf-t0-rxL"/>
                     <constraint firstAttribute="trailing" secondItem="fPy-cG-BhY" secondAttribute="trailing" constant="20" id="hY2-Si-6To"/>
                 </constraints>

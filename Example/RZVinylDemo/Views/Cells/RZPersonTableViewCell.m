@@ -19,6 +19,10 @@
 {
     [super awakeFromNib];
     [self clearLabels];
+    
+    self.nameLabel.font     = [RZAppStylesheet boldFontWithSize:18.0];
+    self.bioLabel.font      = [RZAppStylesheet defaultFontWithSize:14.0];
+    self.bioLabel.textColor = [UIColor lightGrayColor];
 }
 
 - (void)prepareForReuse
@@ -30,7 +34,7 @@
 - (void)clearLabels
 {
     self.nameLabel.text = nil;
-    self.bioLabel.text = nil;
+    self.bioLabel.text  = nil;
 }
 
 @end

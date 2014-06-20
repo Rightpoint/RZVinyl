@@ -36,6 +36,8 @@
     UILabel *refreshPrompt = [[UILabel alloc] init];
     refreshPrompt.textAlignment = NSTextAlignmentCenter;
     refreshPrompt.text = @"Pull to import more people";
+    refreshPrompt.font = [RZAppStylesheet defaultFontWithSize:18];
+    refreshPrompt.backgroundColor = [UIColor colorWithWhite:0.9 alpha:1.0];
     [refreshPrompt sizeToFit];
     CGRect promptFrame = refreshPrompt.frame;
     promptFrame.size.height += 20.0;

@@ -97,7 +97,7 @@ static NSString* const kRZPeronDataSourcePersonCellIdentifier = @"PersonCell";
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     RZPerson *person = [self personAtIndexPath:indexPath];
-    RZPersonTableViewCell *personCell = [tableView dequeueReusableCellWithIdentifier:kRZPeronDataSourcePersonCellIdentifier];
+    RZPersonTableViewCell *personCell = [tableView dequeueReusableCellWithIdentifier:kRZPeronDataSourcePersonCellIdentifier forIndexPath:indexPath];
     [self populateCell:personCell forPerson:person];
     return personCell;
 }
@@ -117,12 +117,12 @@ static NSString* const kRZPeronDataSourcePersonCellIdentifier = @"PersonCell";
     switch ( type ) {
         case NSFetchedResultsChangeInsert:
             [self.tableView insertSections:[NSIndexSet indexSetWithIndex:sectionIndex]
-                          withRowAnimation:UITableViewRowAnimationFade];
+                          withRowAnimation:UITableViewRowAnimationAutomatic];
             break;
             
         case NSFetchedResultsChangeDelete:
             [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:sectionIndex]
-                          withRowAnimation:UITableViewRowAnimationFade];
+                          withRowAnimation:UITableViewRowAnimationAutomatic];
             break;
             
         default:
@@ -140,12 +140,12 @@ static NSString* const kRZPeronDataSourcePersonCellIdentifier = @"PersonCell";
             
         case NSFetchedResultsChangeInsert:
             [self.tableView insertRowsAtIndexPaths:@[newIndexPath]
-                                  withRowAnimation:UITableViewRowAnimationFade];
+                                  withRowAnimation:UITableViewRowAnimationAutomatic];
             break;
             
         case NSFetchedResultsChangeDelete:
             [self.tableView deleteRowsAtIndexPaths:@[indexPath]
-                                  withRowAnimation:UITableViewRowAnimationFade];
+                                  withRowAnimation:UITableViewRowAnimationAutomatic];
             break;
             
         case NSFetchedResultsChangeUpdate: {
