@@ -50,6 +50,9 @@
 //!!!: Overridden to support default context
 + (instancetype)rzi_objectFromDictionary:(NSDictionary *)dict withMappings:(NSDictionary *)mappings
 {
+    if ( !RZVAssertMainThread() ) {
+        return nil;
+    }
     NSManagedObjectContext *context = [[self rzv_validCoreDataStack] mainManagedObjectContext];
     return [self rzi_objectFromDictionary:dict inContext:context];
 }
@@ -57,6 +60,9 @@
 //!!!: Overridden to support default context
 + (NSArray *)rzi_objectsFromArray:(NSArray *)array withMappings:(NSDictionary *)mappings
 {
+    if ( !RZVAssertMainThread() ) {
+        return nil;
+    }
     NSManagedObjectContext *context = [[self rzv_validCoreDataStack] mainManagedObjectContext];
     return [self rzi_objectsFromArray:array inContext:context];
 }

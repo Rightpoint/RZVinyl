@@ -20,7 +20,7 @@
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Address" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="247" translatesAutoresizingMaskIntoConstraints="NO" id="fPy-cG-BhY">
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Bio" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="247" translatesAutoresizingMaskIntoConstraints="NO" id="fPy-cG-BhY">
                         <rect key="frame" x="20" y="49" width="247" height="21"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -37,7 +37,7 @@
                 </constraints>
             </tableViewCellContentView>
             <connections>
-                <outlet property="addressLabel" destination="fPy-cG-BhY" id="Wgo-Rd-TgO"/>
+                <outlet property="bioLabel" destination="fPy-cG-BhY" id="exh-nB-k4Q"/>
                 <outlet property="nameLabel" destination="FUK-44-Uux" id="Uh1-qD-hPH"/>
             </connections>
         </tableViewCell>

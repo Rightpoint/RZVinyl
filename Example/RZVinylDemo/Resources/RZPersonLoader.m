@@ -35,7 +35,7 @@ static NSString* kRZPersonDataFileName = @"person_data.json";
         NSRange importRange = NSMakeRange(self.offset, MIN(batchSize, self.rawPeople.count - self.offset) );
         NSArray *peopleInRange = [self.rawPeople subarrayWithRange:importRange];
         
-        NSArray *importedPeople = [RZPerson rzi_objectsFromArray:peopleInRange];
+        NSArray *importedPeople = [RZPerson rzi_objectsFromArray:peopleInRange inContext:context];
         [importedPeople enumerateObjectsUsingBlock:^(RZPerson *person, NSUInteger idx, BOOL *stop) {
             person.sortIndex = @(importRange.location + idx);
         }];

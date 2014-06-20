@@ -32,6 +32,15 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    UILabel *refreshPrompt = [[UILabel alloc] init];
+    refreshPrompt.textAlignment = NSTextAlignmentCenter;
+    refreshPrompt.text = @"Pull to import more people";
+    [refreshPrompt sizeToFit];
+    CGRect promptFrame = refreshPrompt.frame;
+    promptFrame.size.height += 20.0;
+    refreshPrompt.frame = promptFrame;
+    self.tableView.tableHeaderView = refreshPrompt;
         
     UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
     [refreshControl addTarget:self action:@selector(refreshControlChangedState:) forControlEvents:UIControlEventValueChanged];

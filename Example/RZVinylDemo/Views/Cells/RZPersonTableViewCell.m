@@ -30,7 +30,7 @@
 - (void)clearLabels
 {
     self.nameLabel.text = nil;
-    self.addressLabel.text = nil;
+    self.bioLabel.text = nil;
 }
 
 @end
