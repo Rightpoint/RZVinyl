@@ -7,12 +7,15 @@
 //
 
 #import "RZPersonDataSource.h"
+#import "RZPersonTableViewCell.h"
 
+static NSString* const kRZPeronDataSourcePersonCellIdentifier = @"PersonCell";
 static NSString* const kRZPersonDataSourceRefreshPromptCellIdentifier = @"RefreshPromptCell";
 
 @interface RZPersonDataSource ()
 
 @property (nonatomic, weak) UITableView *tableView;
+@property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
 
 @end
 
@@ -23,9 +26,19 @@ static NSString* const kRZPersonDataSourceRefreshPromptCellIdentifier = @"Refres
     self = [super init];
     if ( self ) {
         _tableView = tableView;
-        [_tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:kRZPersonDataSourceRefreshPromptCellIdentifier];
+        
+        [_tableView registerClass:[RZPersonTableViewCell class]
+           forCellReuseIdentifier:kRZPeronDataSourcePersonCellIdentifier];
+        
+        [_tableView registerClass:[UITableViewCell class]
+           forCellReuseIdentifier:kRZPersonDataSourceRefreshPromptCellIdentifier];
     }
     return self;
+}
+
+- (RZPerson *)personAtIndexPath:(NSIndexPath *)indexPath
+{
+    return nil;
 }
 
 #pragma mark - TableView Data Source
@@ -42,6 +55,13 @@ static NSString* const kRZPersonDataSourceRefreshPromptCellIdentifier = @"Refres
         cell = [tableView dequeueReusableCellWithIdentifier:kRZPersonDataSourceRefreshPromptCellIdentifier];
         cell.textLabel.textAlignment = NSTextAlignmentCenter;
         cell.textLabel.text = @"Pull to load more people";
+    }
+    else {
+        RZPerson *person = [self personAtIndexPath:indexPath];
+        RZPersonTableViewCell *personCell = [tableView dequeueReusableCellWithIdentifier:kRZPeronDataSourcePersonCellIdentifier];
+        personCell.nameLabel.text = person.name;
+        personCell.addressLabel.text = nil; // TODO
+        cell = personCell;
     }
     return cell;
 }

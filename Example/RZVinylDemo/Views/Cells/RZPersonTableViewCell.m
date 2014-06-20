@@ -10,4 +10,27 @@
 
 @implementation RZPersonTableViewCell
 
++ (CGFloat)nominalHeight
+{
+    return 96.0;
+}
+
+- (void)awakeFromNib
+{
+    [super awakeFromNib];
+    [self clearLabels];
+}
+
+- (void)prepareForReuse
+{
+    [super prepareForReuse];
+    [self clearLabels];
+}
+
+- (void)clearLabels
+{
+    self.nameLabel.text = nil;
+    self.addressLabel.text = nil;
+}
+
 @end

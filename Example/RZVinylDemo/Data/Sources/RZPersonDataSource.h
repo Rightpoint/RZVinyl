@@ -6,10 +6,12 @@
 //  Copyright (c) 2014 Raizlabs. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import "RZPerson.h"
 
 @interface RZPersonDataSource : NSObject <UITableViewDataSource>
 
 - (instancetype)initWithTableView:(UITableView *)tableView;
+
+- (RZPerson *)personAtIndexPath:(NSIndexPath *)indexPath;
 
 @end

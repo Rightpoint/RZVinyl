@@ -22,7 +22,7 @@
 
 - (BOOL)rzi_shouldImportValue:(id)value forKey:(NSString *)key inContext:(NSManagedObjectContext *)context
 {
-#warning Fix this
+    #warning - Fix this
     if ( [key isEqualToString:@"interests"] ) {
         return NO;
     }

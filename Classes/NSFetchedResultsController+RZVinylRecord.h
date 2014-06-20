@@ -31,6 +31,7 @@
 
 @interface NSFetchedResultsController (RZVinylRecord)
 
+
 /**
  *  Returns a configured fetched results controller based on the provided arguments.
  *
