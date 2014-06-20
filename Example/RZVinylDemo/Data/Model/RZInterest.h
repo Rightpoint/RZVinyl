@@ -2,7 +2,7 @@
 //  RZInterest.h
 //  RZVinylDemo
 //
-//  Created by Nick Donaldson on 6/19/14.
+//  Created by Nick Donaldson on 6/20/14.
 //  Copyright (c) 2014 Raizlabs. All rights reserved.
 //
 
@@ -15,7 +15,6 @@
 
 @property (nonatomic, retain) NSString * name;
 @property (nonatomic, retain) NSSet *people;
-
 @end
 
 @interface RZInterest (CoreDataGeneratedAccessors)

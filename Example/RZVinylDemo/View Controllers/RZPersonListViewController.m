@@ -7,10 +7,12 @@
 //
 
 #import "RZPersonListViewController.h"
+#import "RZPersonLoader.h"
 #import "RZPersonDataSource.h"
 
 @interface RZPersonListViewController ()
 
+@property (nonatomic, strong) RZPersonLoader *personLoader;
 @property (nonatomic, strong) RZPersonDataSource *dataSource;
 
 @end
@@ -21,6 +23,7 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
+        _personLoader = [[RZPersonLoader alloc] init];
         self.title = @"People";
     }
     return self;
@@ -47,7 +50,14 @@
 
 - (void)refreshControlChangedState:(UIRefreshControl *)refreshControl
 {
-    [refreshControl endRefreshing];
+    if ( refreshControl.refreshing ) {
+        [self.personLoader loadPeopleWithBatchSize:10 completion:^(NSError *err) {
+            if ( err ) {
+                NSLog(@"Error loading people: %@", err);
+            }
+            [refreshControl endRefreshing];
+        }];
+    }
 }
 
 @end

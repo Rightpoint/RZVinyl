@@ -1,18 +1,13 @@
 //
-//  RZInterest.m
+//  RZPerson+RZVinyl.h
 //  RZVinylDemo
 //
 //  Created by Nick Donaldson on 6/20/14.
 //  Copyright (c) 2014 Raizlabs. All rights reserved.
 //
 
-#import "RZInterest.h"
 #import "RZPerson.h"
 
-
-@implementation RZInterest
-
-@dynamic name;
-@dynamic people;
+@interface RZPerson (RZVinyl) <RZImportable>
 
 @end

@@ -1,18 +1,20 @@
 //
-//  RZInterest.m
+//  Address.m
 //  RZVinylDemo
 //
 //  Created by Nick Donaldson on 6/20/14.
 //  Copyright (c) 2014 Raizlabs. All rights reserved.
 //
 
-#import "RZInterest.h"
+#import "Address.h"
 #import "RZPerson.h"
 
 
-@implementation RZInterest
+@implementation Address
 
-@dynamic name;
-@dynamic people;
+@dynamic street;
+@dynamic city;
+@dynamic state;
+@dynamic person;
 
 @end
