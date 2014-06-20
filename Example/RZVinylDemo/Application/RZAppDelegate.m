@@ -18,7 +18,7 @@ static NSString* const kRZManagedObjectModelName = @"RZVinylDemo";
     RZCoreDataStackOptions options = RZCoreDataStackOptionDeleteDatabaseIfUnreadable | RZCoreDataStackOptionsEnableAutoStalePurge;
     [RZCoreDataStack setDefaultStack:[[RZCoreDataStack alloc] initWithModelName:kRZManagedObjectModelName
                                                                   configuration:nil
-                                                                      storeType:NSSQLiteStoreType
+                                                                      storeType:NSInMemoryStoreType
                                                                        storeURL:nil
                                                                         options:options]];
     
@@ -36,6 +36,5 @@ static NSString* const kRZManagedObjectModelName = @"RZVinylDemo";
     [self.window makeKeyAndVisible];
     return YES;
 }
-
 
 @end

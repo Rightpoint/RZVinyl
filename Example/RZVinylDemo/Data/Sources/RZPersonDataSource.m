@@ -40,7 +40,8 @@ static NSString* const kRZPersonDataSourceRefreshPromptCellIdentifier = @"Refres
     UITableViewCell *cell = nil;
     if ( indexPath.section == tableView.numberOfSections - 1 ) {
         cell = [tableView dequeueReusableCellWithIdentifier:kRZPersonDataSourceRefreshPromptCellIdentifier];
-        cell.textLabel.text = @"Pull to get people";
+        cell.textLabel.textAlignment = NSTextAlignmentCenter;
+        cell.textLabel.text = @"Pull to load more people";
     }
     return cell;
 }
