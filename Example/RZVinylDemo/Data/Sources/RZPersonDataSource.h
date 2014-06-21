@@ -8,10 +8,14 @@
 
 #import "RZPerson.h"
 
+@class  RZPersonDataSource;
+
+typedef void (^RZPersonDataSourceDidSelectRowBlock)(RZPersonDataSource *dataSource, UITableView *tableView, NSIndexPath *indexPath);
+
 /**
  *  Data source for person objects.
  */
-@interface RZPersonDataSource : NSObject <UITableViewDataSource>
+@interface RZPersonDataSource : NSObject <UITableViewDataSource, UITableViewDelegate>
 
 /**
  *  The predicate for the internal fetched results controller.
@@ -21,5 +25,8 @@
 
 - (instancetype)initWithTableView:(UITableView *)tableView;
 - (RZPerson *)personAtIndexPath:(NSIndexPath *)indexPath;
+- (NSArray *)allObjects;
+
+- (void)setDidSelectRowBlock:(RZPersonDataSourceDidSelectRowBlock)block;
 
 @end

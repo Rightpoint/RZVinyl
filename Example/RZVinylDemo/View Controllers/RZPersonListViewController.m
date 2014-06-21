@@ -33,23 +33,16 @@
 {
     [super viewDidLoad];
     
-    UILabel *refreshPrompt = [[UILabel alloc] init];
-    refreshPrompt.textAlignment = NSTextAlignmentCenter;
-    refreshPrompt.text = @"Pull to import more people";
-    refreshPrompt.font = [RZAppStylesheet defaultFontWithSize:18];
-    refreshPrompt.backgroundColor = [UIColor colorWithWhite:0.9 alpha:1.0];
-    [refreshPrompt sizeToFit];
-    CGRect promptFrame = refreshPrompt.frame;
-    promptFrame.size.height += 20.0;
-    refreshPrompt.frame = promptFrame;
-    self.tableView.tableHeaderView = refreshPrompt;
+    self.tableView.backgroundColor = [UIColor rz_lightRed];
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    [self.tableView rz_addTableHeaderLabelWithText:@"pull to load people"];
         
     UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
+    refreshControl.tintColor = [UIColor whiteColor];
     [refreshControl addTarget:self action:@selector(refreshControlChangedState:) forControlEvents:UIControlEventValueChanged];
     self.refreshControl = refreshControl;
-    
-    self.dataSource = [[RZPersonDataSource alloc] initWithTableView:self.tableView];
-    self.tableView.dataSource = self.dataSource;
+
+    [self setupDataSource];
 }
 
 - (void)setEditing:(BOOL)editing
@@ -59,12 +52,27 @@
 
 #pragma mark - Private
 
+- (void)setupDataSource
+{
+    self.dataSource = [[RZPersonDataSource alloc] initWithTableView:self.tableView];
+    [self.dataSource setDidSelectRowBlock:^(RZPersonDataSource *dataSource, UITableView *tableView, NSIndexPath *indexPath) {
+        [tableView deselectRowAtIndexPath:indexPath animated:YES];
+        // TODO: Push view controller for the person details
+//        RZPerson *person = [dataSource personAtIndexPath:indexPath];
+    }];
+    self.tableView.delegate     = self.dataSource;
+    self.tableView.dataSource   = self.dataSource;
+}
+
 - (void)refreshControlChangedState:(UIRefreshControl *)refreshControl
 {
     if ( refreshControl.refreshing ) {
         [self.personLoader loadPeopleWithBatchSize:10 completion:^(NSError *err) {
             if ( err ) {
                 NSLog(@"Error loading people: %@", err);
+            }
+            else if ( self.tableView.tableHeaderView != nil ) {
+                self.tableView.tableHeaderView = nil;
             }
             [refreshControl endRefreshing];
         }];

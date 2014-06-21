@@ -6,12 +6,22 @@
 //  Copyright (c) 2014 Raizlabs. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+@interface UIColor (RZAppStylesheet)
 
-@interface RZAppStylesheet : NSObject
++ (UIColor *)rz_lightRed;
 
-+ (UIFont *)defaultFontWithSize:(CGFloat)size;
-+ (UIFont *)boldFontWithSize:(CGFloat)size;
-+ (UIFont *)lightFontWithSize:(CGFloat)size;
+@end
+
+@interface UIFont (RZAppStylesheet)
+
++ (UIFont *)rz_defaultFontWithSize:(CGFloat)size;
++ (UIFont *)rz_boldFontWithSize:(CGFloat)size;
++ (UIFont *)rz_lightFontWithSize:(CGFloat)size;
+
+@end
+
+@interface UITableView (RZAppStylesheet)
+
+- (void)rz_addTableHeaderLabelWithText:(NSString *)text;
 
 @end

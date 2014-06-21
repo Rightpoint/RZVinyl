@@ -8,6 +8,7 @@
 
 #import "RZPersonDataSource.h"
 #import "RZPersonTableViewCell.h"
+#import "RZAddress.h"
 
 static NSString* const kRZPeronDataSourcePersonCellIdentifier = @"PersonCell";
 
@@ -15,6 +16,8 @@ static NSString* const kRZPeronDataSourcePersonCellIdentifier = @"PersonCell";
 
 @property (nonatomic, weak) UITableView *tableView;
 @property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
+
+@property (nonatomic, copy) RZPersonDataSourceDidSelectRowBlock didSelectRowBlock;
 
 @end
 
@@ -54,6 +57,11 @@ static NSString* const kRZPeronDataSourcePersonCellIdentifier = @"PersonCell";
     return sectionObjects[indexPath.row];
 }
 
+- (NSArray *)allObjects
+{
+    return [self.fetchedResultsController fetchedObjects];
+}
+
 - (void)setPredicate:(NSPredicate *)predicate
 {
     _predicate = predicate;
@@ -79,6 +87,7 @@ static NSString* const kRZPeronDataSourcePersonCellIdentifier = @"PersonCell";
     }
     
     cell.nameLabel.text = person.name;
+    cell.addressLabel.text = [NSString stringWithFormat:@"%@, %@", person.address.city, person.address.state];
     cell.bioLabel.text = person.bio;
 }
 
@@ -100,6 +109,29 @@ static NSString* const kRZPeronDataSourcePersonCellIdentifier = @"PersonCell";
     RZPersonTableViewCell *personCell = [tableView dequeueReusableCellWithIdentifier:kRZPeronDataSourcePersonCellIdentifier forIndexPath:indexPath];
     [self populateCell:personCell forPerson:person];
     return personCell;
+}
+
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return YES;
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if ( editingStyle == UITableViewCellEditingStyleDelete ) {
+        RZPerson *person = [self personAtIndexPath:indexPath];
+        [person rzv_delete];
+        [[RZCoreDataStack defaultStack] save:NO];
+    }
+}
+
+#pragma mark - Table View Delegate
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if ( self.didSelectRowBlock ) {
+        self.didSelectRowBlock(self, tableView, indexPath);
+    }
 }
 
 #pragma mark - NSFetchedResultsControllerDelegate
