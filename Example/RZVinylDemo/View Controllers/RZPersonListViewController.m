@@ -45,11 +45,6 @@
     [self setupDataSource];
 }
 
-- (void)setEditing:(BOOL)editing
-{
-    [super setEditing:editing];
-}
-
 #pragma mark - Private
 
 - (void)setupDataSource
