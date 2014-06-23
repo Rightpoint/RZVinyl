@@ -10,13 +10,6 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="290"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="John Doe" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pog-OJ-MUL" userLabel="Name Label">
-                    <rect key="frame" x="20" y="20" width="74" height="21"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                    <nil key="highlightedColor"/>
-                </label>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Address 2 Lines" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="XNo-oB-US6" userLabel="Address Label">
                     <rect key="frame" x="20" y="43" width="280" height="36"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -34,7 +27,7 @@
                         <constraint firstAttribute="height" constant="100" id="AE8-hI-f44"/>
                     </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences" returnKeyType="done"/>
                 </textView>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yI7-9e-kFc" userLabel="Delete Button">
                     <rect key="frame" x="111" y="240" width="99" height="30"/>
@@ -62,22 +55,28 @@
                         <constraint firstAttribute="bottom" secondItem="TgT-L9-9T5" secondAttribute="bottom" constant="9" id="r62-4n-kVE"/>
                     </constraints>
                 </view>
+                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Joe Bob" placeholder="Name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="upp-qw-P8D">
+                    <rect key="frame" x="20" y="18" width="280" height="24"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                    <textInputTraits key="textInputTraits" autocapitalizationType="words" returnKeyType="next"/>
+                </textField>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstAttribute="bottom" secondItem="yI7-9e-kFc" secondAttribute="bottom" constant="20" id="2Ki-2J-iPy"/>
                 <constraint firstItem="2XF-fe-cEM" firstAttribute="trailing" secondItem="XNo-oB-US6" secondAttribute="trailing" constant="5" id="2p0-Br-Hu6"/>
                 <constraint firstItem="yI7-9e-kFc" firstAttribute="top" secondItem="Lko-UW-5rH" secondAttribute="bottom" constant="17" id="8wF-Qi-YPf"/>
+                <constraint firstAttribute="trailing" secondItem="upp-qw-P8D" secondAttribute="trailing" constant="20" id="AwR-Ar-OyM"/>
                 <constraint firstItem="TgT-L9-9T5" firstAttribute="leading" secondItem="XNo-oB-US6" secondAttribute="leading" id="C7l-D2-RUq"/>
-                <constraint firstItem="XNo-oB-US6" firstAttribute="leading" secondItem="Pog-OJ-MUL" secondAttribute="leading" id="RUX-U5-Y8W"/>
+                <constraint firstItem="upp-qw-P8D" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="18" id="Lie-LH-TRy"/>
+                <constraint firstItem="upp-qw-P8D" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="20" id="OK3-7f-wSc"/>
+                <constraint firstItem="XNo-oB-US6" firstAttribute="top" secondItem="upp-qw-P8D" secondAttribute="bottom" constant="1" id="PFM-ud-84Z"/>
                 <constraint firstItem="2XF-fe-cEM" firstAttribute="leading" secondItem="XNo-oB-US6" secondAttribute="leading" constant="-5" id="RYs-jb-SKU"/>
                 <constraint firstItem="Lko-UW-5rH" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="bZ4-5X-ULf"/>
                 <constraint firstAttribute="trailing" secondItem="XNo-oB-US6" secondAttribute="trailing" constant="20" id="dgZ-MU-0ih"/>
                 <constraint firstItem="2XF-fe-cEM" firstAttribute="top" secondItem="XNo-oB-US6" secondAttribute="bottom" constant="3" id="e7Q-pv-4ys"/>
-                <constraint firstItem="Pog-OJ-MUL" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="20" id="nRY-Yd-9sM"/>
                 <constraint firstItem="Lko-UW-5rH" firstAttribute="top" secondItem="2XF-fe-cEM" secondAttribute="bottom" constant="6" id="oYX-da-fE0"/>
-                <constraint firstItem="XNo-oB-US6" firstAttribute="top" secondItem="Pog-OJ-MUL" secondAttribute="bottom" constant="2" id="rwO-a2-HpK"/>
-                <constraint firstItem="Pog-OJ-MUL" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="20" id="sAM-Sa-OtX"/>
                 <constraint firstAttribute="centerX" secondItem="yI7-9e-kFc" secondAttribute="centerX" id="vU0-CB-QcR"/>
                 <constraint firstAttribute="trailing" secondItem="Lko-UW-5rH" secondAttribute="trailing" id="zUE-EO-jQ5"/>
             </constraints>
@@ -87,7 +86,7 @@
                 <outlet property="bioTextView" destination="2XF-fe-cEM" id="Jgj-JA-L7y"/>
                 <outlet property="deletePersonButton" destination="yI7-9e-kFc" id="ebW-Gh-XVA"/>
                 <outlet property="interestsLabel" destination="TgT-L9-9T5" id="psq-u2-q9l"/>
-                <outlet property="nameLabel" destination="Pog-OJ-MUL" id="6R9-0T-UmW"/>
+                <outlet property="nameTextField" destination="upp-qw-P8D" id="QMt-ED-gq8"/>
             </connections>
         </view>
     </objects>

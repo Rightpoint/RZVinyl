@@ -38,7 +38,7 @@
 
 - (void)updateFromPerson:(RZPerson *)person
 {
-    self.nameLabel.text = person.name;
+    self.nameTextField.text = person.name;
     self.addressLabel.text = [NSString stringWithFormat:@"%@\n%@, %@",
                               person.address.street,
                               person.address.city,
@@ -59,7 +59,7 @@
 
 - (void)clearLabels
 {
-    self.nameLabel.text = nil;
+    self.nameTextField.text = nil;
     self.addressLabel.text = nil;
     self.bioTextView.text = nil;
     self.interestsLabel.text = nil;
@@ -67,7 +67,7 @@
 
 - (void)configureStyling
 {
-    self.nameLabel.font         = [UIFont rz_defaultFontWithSize:24.0];
+    self.nameTextField.font     = [UIFont rz_defaultFontWithSize:24.0];
     self.addressLabel.font      = [UIFont rz_defaultFontWithSize:14.0];
     self.addressLabel.textColor = [UIColor rz_lightRed];
     self.bioTextView.font       = [UIFont rz_defaultFontWithSize:14.0];

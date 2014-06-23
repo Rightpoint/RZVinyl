@@ -12,11 +12,11 @@
 
 + (instancetype)loadFromNib;
 
-@property (weak, nonatomic) IBOutlet UILabel    *nameLabel;
-@property (weak, nonatomic) IBOutlet UILabel    *addressLabel;
-@property (weak, nonatomic) IBOutlet UITextView *bioTextView;
-@property (weak, nonatomic) IBOutlet UILabel    *interestsLabel;
-@property (weak, nonatomic) IBOutlet UIButton   *deletePersonButton;
+@property (weak, nonatomic) IBOutlet UITextField *nameTextField;
+@property (weak, nonatomic) IBOutlet UILabel     *addressLabel;
+@property (weak, nonatomic) IBOutlet UITextView  *bioTextView;
+@property (weak, nonatomic) IBOutlet UILabel     *interestsLabel;
+@property (weak, nonatomic) IBOutlet UIButton    *deletePersonButton;
 
 - (void)updateFromPerson:(RZPerson *)person;
 

@@ -10,7 +10,7 @@
 #import "RZPersonDetailView.h"
 #import "RZPerson.h"
 
-@interface RZPersonDetailViewController () <UIAlertViewDelegate>
+@interface RZPersonDetailViewController () <UIAlertViewDelegate, UITextViewDelegate, UITextFieldDelegate>
 
 @property (nonatomic, strong) RZPerson *person;
 @property (nonatomic, strong) RZPerson *editingPerson;
@@ -64,6 +64,10 @@
     [super viewDidLoad];
     
     self.navigationItem.rightBarButtonItem = [self editButtonItem];
+    
+    self.personView.nameTextField.delegate = self;
+    self.personView.bioTextView.delegate = self;
+    
     [self.personView updateFromPerson:self.person];
     [self.personView.deletePersonButton addTarget:self
                                            action:@selector(deletePersonPressed)
@@ -74,6 +78,7 @@
 {
     [super setEditing:editing animated:animated];
     
+    self.personView.nameTextField.enabled = editing;
     self.personView.bioTextView.editable = editing;
     self.personView.deletePersonButton.enabled = !editing;
     
@@ -92,6 +97,7 @@
                                                                         action:@selector(cancelEdits)];
         
         [self.navigationItem setLeftBarButtonItem:cancelButton animated:animated];
+        [self.personView.nameTextField becomeFirstResponder];
     }
     else {
         
@@ -140,7 +146,44 @@
                       otherButtonTitles:@"Yes", nil] show];
 }
 
-#pragma mark - Alert View
+#pragma mark - Text Field Delegate
+
+- (void)textFieldDidEndEditing:(UITextField *)textField
+{
+    if ( self.editingPerson != nil && textField == self.personView.nameTextField ) {
+        self.editingPerson.name = textField.text;
+    }
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    if ( textField == self.personView.nameTextField ) {
+        [self.personView.bioTextView becomeFirstResponder];
+        return NO;
+    }
+    return YES;
+}
+
+#pragma mark - Text View Delegate
+
+- (void)textViewDidEndEditing:(UITextView *)textView
+{
+    if ( self.editingPerson != nil && textView == self.personView.bioTextView ) {
+        self.editingPerson.bio = textView.text;
+    }
+}
+
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
+{
+    if ( self.isEditing && textView == self.personView.bioTextView && [text isEqualToString:@"\n"] ) {
+        [self setEditing:NO animated:YES];
+        return NO;
+    }
+    return YES;
+}
+
+
+#pragma mark - Alert View Delegate
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
