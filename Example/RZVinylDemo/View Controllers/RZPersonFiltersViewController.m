@@ -46,9 +46,19 @@
                                                                              target:self
                                                                              action:@selector(dismiss)];
     
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Clear"
+                                                                             style:UIBarButtonItemStylePlain
+                                                                            target:self
+                                                                            action:@selector(clearSelection)];
+    
     self.dataSource = [[RZPersonFiltersDataSource alloc] initWithTableView:self.tableView];
     self.tableView.dataSource = self.dataSource;
     self.tableView.delegate = self.dataSource;
+}
+
+- (void)clearSelection
+{
+    [self.tableView reloadData];
 }
 
 - (void)dismiss
