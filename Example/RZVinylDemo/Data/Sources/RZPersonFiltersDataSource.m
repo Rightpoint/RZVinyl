@@ -170,7 +170,7 @@ typedef NS_ENUM(NSInteger, RZPersonFilterGenderRow)
                                                                           forIndexPath:indexPath];
     if ( indexPath.section == RZPersonFiltersSectionGender ) {
         
-        // NOTE: In a real app, should cache this so we don't have to query over and over,
+        // NOTE: In a real app, should cache this to avoid querying over and over,
         //       and this might be wrapped by a category method on the managed object class.
         NSString *gender = indexPath.row == RZPersonFilterGenderRowFemale ? @"female" : @"male";
         NSUInteger count = [RZPerson rzv_countWhere:[self filterPredicateForIndexPath:indexPath]];
@@ -182,9 +182,8 @@ typedef NS_ENUM(NSInteger, RZPersonFilterGenderRow)
         RZInterest *interest = [[self interestObjects] objectAtIndex:indexPath.row];
         
         // Get the count of people with that particular interest
-        // NOTE: In a real app, should cache this so we don't have to query over and over,
+        // NOTE: In a real app, should cache this to avoid querying over and over.
         //       and this might be wrapped by a category method on the managed object class.
-        
         NSUInteger count = [RZPerson rzv_countWhere:[self filterPredicateForIndexPath:indexPath]];
         [interestCell updateForFilterName:interest.name count:count];
     }
@@ -195,6 +194,11 @@ typedef NS_ENUM(NSInteger, RZPersonFilterGenderRow)
 }
 
 #pragma mark - TableView Delegate
+
+- (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return [self isFilterValidForIndexPath:indexPath];
+}
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
