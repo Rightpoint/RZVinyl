@@ -11,10 +11,12 @@
 #import "RZPersonLoader.h"
 #import "RZFetchedPersonDataSource.h"
 
-@interface RZPersonListViewController ()
+@interface RZPersonListViewController () <RZPersonFiltersViewControllerDelegate>
 
 @property (nonatomic, strong) RZPersonLoader *personLoader;
 @property (nonatomic, strong) RZFetchedPersonDataSource *dataSource;
+
+@property (nonatomic, strong) RZPersonFiltersViewController *filtersVC;
 
 @end
 
@@ -49,6 +51,10 @@
                                                                      action:@selector(showFilters)];
     filtersButton.enabled = NO;
     self.navigationItem.rightBarButtonItem = filtersButton;
+    
+    // Keeping this around to persist the selected filters.
+    self.filtersVC = [[RZPersonFiltersViewController alloc] initWithNibName:nil bundle:nil];
+    self.filtersVC.delegate = self;
 
     [self setupDataSource];
 }
@@ -68,8 +74,7 @@
 
 - (void)showFilters
 {
-    RZPersonFiltersViewController *statsVC = [[RZPersonFiltersViewController alloc] initWithNibName:nil bundle:nil];
-    UINavigationController *modalNav = [[UINavigationController alloc] initWithRootViewController:statsVC];
+    UINavigationController *modalNav = [[UINavigationController alloc] initWithRootViewController:self.filtersVC];
     [self presentViewController:modalNav animated:YES completion:nil];
 }
 
@@ -86,6 +91,18 @@
             }
             [refreshControl endRefreshing];
         }];
+    }
+}
+
+#pragma mark - Filters Delegate
+
+- (void)filtersViewController:(RZPersonFiltersViewController *)viewController dismissedWithPredicate:(NSPredicate *)filterPredicate filterCount:(NSUInteger)filterCount
+{
+    if ( filterPredicate == nil ) {
+        
+    }
+    else {
+        
     }
 }
 

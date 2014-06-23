@@ -63,6 +63,10 @@
 
 - (void)dismiss
 {
+    [self.delegate filtersViewController:self
+                  dismissedWithPredicate:[self.dataSource filterPredicate]
+                             filterCount:[self.dataSource activeFilterCount]];
+    
     [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
