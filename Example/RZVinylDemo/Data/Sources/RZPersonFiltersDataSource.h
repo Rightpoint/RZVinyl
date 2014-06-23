@@ -1,5 +1,5 @@
 //
-//  RZPersonStatsDataSource.h
+//  RZPersonFiltersDataSource.h
 //  RZVinylDemo
 //
 //  Created by Nick Donaldson on 6/23/14.
@@ -10,7 +10,7 @@
 #import "RZAddress.h"
 #import "RZInterest.h"
 
-@interface RZPersonStatsDataSource : NSObject <UITableViewDataSource>
+@interface RZPersonFiltersDataSource : NSObject <UITableViewDataSource>
 
 - (instancetype)initWithTableView:(UITableView *)tableView;
 

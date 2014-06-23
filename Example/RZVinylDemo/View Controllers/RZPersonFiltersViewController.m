@@ -1,23 +1,23 @@
 //
-//  RZStatsViewController.m
+//  RZPersonFiltersViewController.m
 //  RZVinylDemo
 //
 //  Created by Nick Donaldson on 6/23/14.
 //  Copyright (c) 2014 Raizlabs. All rights reserved.
 //
 
-#import "RZStatsViewController.h"
-#import "RZPersonStatsDataSource.h"
+#import "RZPersonFiltersViewController.h"
+#import "RZPersonFiltersDataSource.h"
 
-@interface RZStatsViewController ()
+@interface RZPersonFiltersViewController ()
 
 @property (nonatomic, weak) UITableView *tableView;
 
-@property (nonatomic, strong) RZPersonStatsDataSource *dataSource;
+@property (nonatomic, strong) RZPersonFiltersDataSource *dataSource;
 
 @end
 
-@implementation RZStatsViewController
+@implementation RZPersonFiltersViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -45,7 +45,7 @@
                                                                              target:self
                                                                              action:@selector(dismiss)];
     
-    self.dataSource = [[RZPersonStatsDataSource alloc] initWithTableView:self.tableView];
+    self.dataSource = [[RZPersonFiltersDataSource alloc] initWithTableView:self.tableView];
     self.tableView.dataSource = self.dataSource;
 }
 

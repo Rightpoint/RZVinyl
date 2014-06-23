@@ -7,7 +7,7 @@
 //
 
 #import "RZPersonListViewController.h"
-#import "RZStatsViewController.h"
+#import "RZPersonFiltersViewController.h"
 #import "RZPersonLoader.h"
 #import "RZFetchedPersonDataSource.h"
 
@@ -43,12 +43,12 @@
     [refreshControl addTarget:self action:@selector(refreshControlChangedState:) forControlEvents:UIControlEventValueChanged];
     self.refreshControl = refreshControl;
     
-    UIBarButtonItem *statsButton = [[UIBarButtonItem alloc] initWithTitle:@"Stats"
-                                                                    style:UIBarButtonItemStylePlain
-                                                                   target:self
-                                                                   action:@selector(showStats)];
-    statsButton.enabled = NO;
-    self.navigationItem.rightBarButtonItem = statsButton;
+    UIBarButtonItem *filtersButton = [[UIBarButtonItem alloc] initWithTitle:@"Filters"
+                                                                      style:UIBarButtonItemStylePlain
+                                                                     target:self
+                                                                     action:@selector(showFilters)];
+    filtersButton.enabled = NO;
+    self.navigationItem.rightBarButtonItem = filtersButton;
 
     [self setupDataSource];
 }
@@ -66,9 +66,9 @@
     self.tableView.dataSource   = self.dataSource;
 }
 
-- (void)showStats
+- (void)showFilters
 {
-    RZStatsViewController *statsVC = [[RZStatsViewController alloc] initWithNibName:nil bundle:nil];
+    RZPersonFiltersViewController *statsVC = [[RZPersonFiltersViewController alloc] initWithNibName:nil bundle:nil];
     UINavigationController *modalNav = [[UINavigationController alloc] initWithRootViewController:statsVC];
     [self presentViewController:modalNav animated:YES completion:nil];
 }

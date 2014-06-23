@@ -1,23 +1,23 @@
 //
-//  RZPersonStatsDataSource.m
+//  RZPersonFiltersDataSource.m
 //  RZVinylDemo
 //
 //  Created by Nick Donaldson on 6/23/14.
 //  Copyright (c) 2014 Raizlabs. All rights reserved.
 //
 
-#import "RZPersonStatsDataSource.h"
-#import "RZInterestTableViewCell.h"
+#import "RZPersonFiltersDataSource.h"
+#import "RZFilterTableViewCell.h"
 
-static NSString* const kRZPersonDataSourceInterestCell = @"InterestCell";
+static NSString* const kRZPersonFiltersDataSourceFilterCellIdentifier = @"FilterCell";
 
-typedef NS_ENUM(NSInteger, RZPersonStatsSectionType)
+typedef NS_ENUM(NSInteger, RZPersonFiltersSectionType)
 {
-    RZPersonStatsSectionGender = 0,
-    RZPersonStatsSectionInterests
+    RZPersonFiltersSectionGender = 0,
+    RZPersonFiltersSectionInterests
 };
 
-@interface RZPersonStatsDataSource ()
+@interface RZPersonFiltersDataSource ()
 
 @property (nonatomic, weak) UITableView *tableView;
 
@@ -25,14 +25,14 @@ typedef NS_ENUM(NSInteger, RZPersonStatsSectionType)
 
 @end
 
-@implementation RZPersonStatsDataSource
+@implementation RZPersonFiltersDataSource
 
 - (instancetype)initWithTableView:(UITableView *)tableView
 {
     self = [super init];
     if ( self ) {
         _tableView = tableView;
-        [_tableView registerClass:[RZInterestTableViewCell class] forCellReuseIdentifier:kRZPersonDataSourceInterestCell];
+        [_tableView registerClass:[RZFilterTableViewCell class] forCellReuseIdentifier:kRZPersonFiltersDataSourceFilterCellIdentifier];
         [self configureStaticData];
     }
     return self;
@@ -55,11 +55,11 @@ typedef NS_ENUM(NSInteger, RZPersonStatsSectionType)
     NSInteger count = 0;
     switch (section) {
             
-        case RZPersonStatsSectionGender:
+        case RZPersonFiltersSectionGender:
             count = 0;
             break;
             
-        case RZPersonStatsSectionInterests:
+        case RZPersonFiltersSectionInterests:
             count = self.interestObjects.count;
             break;
             
@@ -74,11 +74,11 @@ typedef NS_ENUM(NSInteger, RZPersonStatsSectionType)
     NSString *titleString = nil;
     switch (section) {
             
-        case RZPersonStatsSectionGender:
+        case RZPersonFiltersSectionGender:
             titleString = @"Gender";
             break;
             
-        case RZPersonStatsSectionInterests:
+        case RZPersonFiltersSectionInterests:
             titleString = @"Interests";
             break;
             
@@ -90,8 +90,9 @@ typedef NS_ENUM(NSInteger, RZPersonStatsSectionType)
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = nil;
-    if ( indexPath.section == RZPersonStatsSectionInterests ) {
+    RZFilterTableViewCell *interestCell = [tableView dequeueReusableCellWithIdentifier:kRZPersonFiltersDataSourceFilterCellIdentifier
+                                                                          forIndexPath:indexPath];
+    if ( indexPath.section == RZPersonFiltersSectionInterests ) {
         
         // Get the interest object
         RZInterest *interest = [[self interestObjects] objectAtIndex:indexPath.row];
@@ -99,12 +100,10 @@ typedef NS_ENUM(NSInteger, RZPersonStatsSectionType)
         // Get the count of people with that particular interest
         // NOTE: In a real app, should cache this so we don't have to query over and over
         NSUInteger count = [RZPerson rzv_countWhere:[NSPredicate predicateWithFormat:@"%@ IN interests", interest]];
-        
-        RZInterestTableViewCell *interestCell = [tableView dequeueReusableCellWithIdentifier:kRZPersonDataSourceInterestCell forIndexPath:indexPath];
-        [interestCell updateForInterestName:interest.name count:count];
-        cell = interestCell;
+
+        [interestCell updateForFilterName:interest.name count:count];
     }
-    return cell;
+    return interestCell;
 }
 
 #pragma mark - TableView Delegate
