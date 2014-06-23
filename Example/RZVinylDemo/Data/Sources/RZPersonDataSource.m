@@ -72,17 +72,6 @@ static NSString* const kRZPeronDataSourcePersonCellIdentifier = @"PersonCell";
     }
 }
 
-- (void)populateCell:(RZPersonTableViewCell *)cell forPerson:(RZPerson *)person
-{
-    if ( cell == nil || person == nil ) {
-        return;
-    }
-    
-    cell.nameLabel.text = person.name;
-    cell.addressLabel.text = [NSString stringWithFormat:@"%@, %@", person.address.city, person.address.state];
-    cell.bioLabel.text = person.bio;
-}
-
 #pragma mark - TableView Data Source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -99,7 +88,7 @@ static NSString* const kRZPeronDataSourcePersonCellIdentifier = @"PersonCell";
 {
     RZPerson *person = [self personAtIndexPath:indexPath];
     RZPersonTableViewCell *personCell = [tableView dequeueReusableCellWithIdentifier:kRZPeronDataSourcePersonCellIdentifier forIndexPath:indexPath];
-    [self populateCell:personCell forPerson:person];
+    [personCell updateForPerson:person];
     return personCell;
 }
 
@@ -174,7 +163,7 @@ static NSString* const kRZPeronDataSourcePersonCellIdentifier = @"PersonCell";
             
         case NSFetchedResultsChangeUpdate: {
             RZPersonTableViewCell *cell = (RZPersonTableViewCell *)[self.tableView cellForRowAtIndexPath:indexPath];
-            [self populateCell:cell forPerson:[self personAtIndexPath:indexPath]];
+            [cell updateForPerson:[self personAtIndexPath:indexPath]];
         }
             break;
             

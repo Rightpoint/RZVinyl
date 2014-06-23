@@ -6,14 +6,12 @@
 //  Copyright (c) 2014 Raizlabs. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+@class RZPerson;
 
 @interface RZPersonTableViewCell : UITableViewCell
 
 + (CGFloat)nominalHeight;
 
-@property (weak, nonatomic) IBOutlet UILabel *nameLabel;
-@property (weak, nonatomic) IBOutlet UILabel *bioLabel;
-@property (weak, nonatomic) IBOutlet UILabel *addressLabel;
+- (void)updateForPerson:(RZPerson *)person;
 
 @end
