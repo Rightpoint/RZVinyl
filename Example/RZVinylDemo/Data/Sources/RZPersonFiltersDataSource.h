@@ -10,8 +10,11 @@
 #import "RZAddress.h"
 #import "RZInterest.h"
 
-@interface RZPersonFiltersDataSource : NSObject <UITableViewDataSource>
+@interface RZPersonFiltersDataSource : NSObject <UITableViewDataSource, UITableViewDelegate>
 
 - (instancetype)initWithTableView:(UITableView *)tableView;
+
+@property (nonatomic, readonly) NSUInteger activeFilterCount;
+@property (nonatomic, readonly) NSPredicate *filterPredicate;
 
 @end

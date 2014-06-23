@@ -23,7 +23,7 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if ( self ) {
-        self.title = @"Statistics";
+        self.title = @"Filters";
     }
     return self;
 }
@@ -32,6 +32,7 @@
 {
     UITableView *tableView = [[UITableView alloc] initWithFrame:[[UIScreen mainScreen] bounds]
                                                           style:UITableViewStylePlain];
+    tableView.allowsMultipleSelection = YES;
     self.view = tableView;
     self.tableView = tableView;
 }
@@ -47,6 +48,7 @@
     
     self.dataSource = [[RZPersonFiltersDataSource alloc] initWithTableView:self.tableView];
     self.tableView.dataSource = self.dataSource;
+    self.tableView.delegate = self.dataSource;
 }
 
 - (void)dismiss
