@@ -34,6 +34,9 @@
 		9A75DBC41954DAB400173911 /* RZAppStylesheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A75DBC31954DAB400173911 /* RZAppStylesheet.m */; };
 		9A75DBC71954E02B00173911 /* RZInterest+RZVinyl.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A75DBC61954E02B00173911 /* RZInterest+RZVinyl.m */; };
 		9A75DBCA1954E0C600173911 /* RZAddress+RZVinyl.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A75DBC91954E0C600173911 /* RZAddress+RZVinyl.m */; };
+		9A839F9D1958B0D900450792 /* RZPersonDetailView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A839F9C1958B0D900450792 /* RZPersonDetailView.m */; };
+		9A839FA01958B0FE00450792 /* RZPersonDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A839F9F1958B0FE00450792 /* RZPersonDetailViewController.m */; };
+		9A839FA21958B32200450792 /* RZPersonDetailView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9A839FA11958B32200450792 /* RZPersonDetailView.xib */; };
 		9A95F0F51948DC8B00139457 /* RZCoreDataStack+TestUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A95F0F41948DC8B00139457 /* RZCoreDataStack+TestUtils.m */; };
 		9AB90809193FD7F70063445A /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A536146193F90E000E87F4F /* XCTest.framework */; };
 		9AB9080A193FD7F70063445A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A536128193F90E000E87F4F /* Foundation.framework */; };
@@ -109,6 +112,11 @@
 		9A75DBC61954E02B00173911 /* RZInterest+RZVinyl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "RZInterest+RZVinyl.m"; sourceTree = "<group>"; };
 		9A75DBC81954E0C600173911 /* RZAddress+RZVinyl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RZAddress+RZVinyl.h"; sourceTree = "<group>"; };
 		9A75DBC91954E0C600173911 /* RZAddress+RZVinyl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "RZAddress+RZVinyl.m"; sourceTree = "<group>"; };
+		9A839F9B1958B0D900450792 /* RZPersonDetailView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RZPersonDetailView.h; sourceTree = "<group>"; };
+		9A839F9C1958B0D900450792 /* RZPersonDetailView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RZPersonDetailView.m; sourceTree = "<group>"; };
+		9A839F9E1958B0FE00450792 /* RZPersonDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RZPersonDetailViewController.h; sourceTree = "<group>"; };
+		9A839F9F1958B0FE00450792 /* RZPersonDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RZPersonDetailViewController.m; sourceTree = "<group>"; };
+		9A839FA11958B32200450792 /* RZPersonDetailView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RZPersonDetailView.xib; sourceTree = "<group>"; };
 		9A95F0F31948DC8B00139457 /* RZCoreDataStack+TestUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RZCoreDataStack+TestUtils.h"; sourceTree = "<group>"; };
 		9A95F0F41948DC8B00139457 /* RZCoreDataStack+TestUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "RZCoreDataStack+TestUtils.m"; sourceTree = "<group>"; };
 		9AB90808193FD7F70063445A /* RZVinylTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RZVinylTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -259,6 +267,8 @@
 				9A75DB8E19538D3200173911 /* RZPersonListViewController.m */,
 				9A0133F219586E2B00FED6DC /* RZPersonFiltersViewController.h */,
 				9A0133F319586E2B00FED6DC /* RZPersonFiltersViewController.m */,
+				9A839F9E1958B0FE00450792 /* RZPersonDetailViewController.h */,
+				9A839F9F1958B0FE00450792 /* RZPersonDetailViewController.m */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -307,6 +317,9 @@
 			isa = PBXGroup;
 			children = (
 				9A75DBA31954A7EE00173911 /* Cells */,
+				9A839F9B1958B0D900450792 /* RZPersonDetailView.h */,
+				9A839F9C1958B0D900450792 /* RZPersonDetailView.m */,
+				9A839FA11958B32200450792 /* RZPersonDetailView.xib */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -485,6 +498,7 @@
 			files = (
 				9A75DBA81954A7EE00173911 /* RZPersonTableViewCell.xib in Resources */,
 				9A536135193F90E000E87F4F /* InfoPlist.strings in Resources */,
+				9A839FA21958B32200450792 /* RZPersonDetailView.xib in Resources */,
 				9A75DB8C195388D700173911 /* person_data.json in Resources */,
 				9A536140193F90E000E87F4F /* Images.xcassets in Resources */,
 			);
@@ -577,7 +591,9 @@
 				9A75DBC41954DAB400173911 /* RZAppStylesheet.m in Sources */,
 				9A75DBBB1954AD7900173911 /* RZAddress.m in Sources */,
 				9A75DBC11954ADA200173911 /* RZPerson+RZVinyl.m in Sources */,
+				9A839F9D1958B0D900450792 /* RZPersonDetailView.m in Sources */,
 				9A75DBC71954E02B00173911 /* RZInterest+RZVinyl.m in Sources */,
+				9A839FA01958B0FE00450792 /* RZPersonDetailViewController.m in Sources */,
 				9A75DBCA1954E0C600173911 /* RZAddress+RZVinyl.m in Sources */,
 				9A75DBAC1954AA0B00173911 /* RZPersonLoader.m in Sources */,
 				9A0133F419586E2B00FED6DC /* RZPersonFiltersViewController.m in Sources */,

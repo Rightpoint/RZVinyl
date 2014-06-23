@@ -8,6 +8,7 @@
 
 #import "RZPersonListViewController.h"
 #import "RZPersonFiltersViewController.h"
+#import "RZPersonDetailViewController.h"
 #import "RZPersonLoader.h"
 #import "RZFetchedPersonDataSource.h"
 
@@ -28,6 +29,10 @@
     if (self) {
         _personLoader = [[RZPersonLoader alloc] init];
         self.title = @"RZVinyl Demo";
+        self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"List"
+                                                                                 style:UIBarButtonItemStylePlain
+                                                                                target:nil
+                                                                                action:nil];
     }
     return self;
 }
@@ -64,9 +69,12 @@
 - (void)setupDataSource
 {
     self.dataSource = [[RZFetchedPersonDataSource alloc] initWithTableView:self.tableView];
+    
+    __weak typeof(self) wself = self;
     [self.dataSource setDidSelectRowBlock:^(UITableView *tableView, RZPerson *person, NSIndexPath *indexPath) {
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
-        // TODO: Push view controller for the person details
+        RZPersonDetailViewController *personVC = [[RZPersonDetailViewController alloc] initWithPerson:person];
+        [wself.navigationController pushViewController:personVC animated:YES];
     }];
     self.tableView.delegate     = self.dataSource;
     self.tableView.dataSource   = self.dataSource;
