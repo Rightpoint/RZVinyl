@@ -79,6 +79,7 @@
                 NSLog(@"Error loading people: %@", err);
             }
             else if ( self.tableView.tableHeaderView != nil ) {
+                self.navigationItem.rightBarButtonItem.enabled = YES;
                 self.tableView.tableHeaderView = nil;
             }
             [refreshControl endRefreshing];

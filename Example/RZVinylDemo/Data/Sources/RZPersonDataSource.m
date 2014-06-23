@@ -62,21 +62,13 @@ static NSString* const kRZPeronDataSourcePersonCellIdentifier = @"PersonCell";
     return [self.fetchedResultsController fetchedObjects];
 }
 
-- (void)setPredicate:(NSPredicate *)predicate
-{
-    _predicate = predicate;
-    [self updateFetch];
-}
-
 #pragma mark - Private
 
 - (void)updateFetch
 {
-    [self.fetchedResultsController.fetchRequest setPredicate:self.predicate];
-    
     NSError *fetchError = nil;
     if ( ![self.fetchedResultsController performFetch:&fetchError] ) {
-        NSLog(@"Error fetching people with predicate: %@", self.predicate);
+        NSLog(@"Error fetching people: %@", fetchError);
     }
 }
 

@@ -17,12 +17,6 @@ typedef void (^RZPersonDataSourceDidSelectRowBlock)(RZPersonDataSource *dataSour
  */
 @interface RZPersonDataSource : NSObject <UITableViewDataSource, UITableViewDelegate>
 
-/**
- *  The predicate for the internal fetched results controller.
- *  Set to nil to fetch all objects.
- */
-@property (nonatomic, strong) NSPredicate *predicate;
-
 - (instancetype)initWithTableView:(UITableView *)tableView;
 - (RZPerson *)personAtIndexPath:(NSIndexPath *)indexPath;
 - (NSArray *)allObjects;
