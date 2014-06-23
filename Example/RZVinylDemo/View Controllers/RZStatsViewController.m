@@ -7,8 +7,13 @@
 //
 
 #import "RZStatsViewController.h"
+#import "RZPersonStatsDataSource.h"
 
 @interface RZStatsViewController ()
+
+@property (nonatomic, weak) UITableView *tableView;
+
+@property (nonatomic, strong) RZPersonStatsDataSource *dataSource;
 
 @end
 
@@ -18,14 +23,35 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if ( self ) {
-        
+        self.title = @"Statistics";
     }
     return self;
+}
+
+- (void)loadView
+{
+    UITableView *tableView = [[UITableView alloc] initWithFrame:[[UIScreen mainScreen] bounds]
+                                                          style:UITableViewStylePlain];
+    self.view = tableView;
+    self.tableView = tableView;
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Done"
+                                                                              style:UIBarButtonItemStyleDone
+                                                                             target:self
+                                                                             action:@selector(dismiss)];
+    
+    self.dataSource = [[RZPersonStatsDataSource alloc] initWithTableView:self.tableView];
+    self.tableView.dataSource = self.dataSource;
+}
+
+- (void)dismiss
+{
+    [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
 @end

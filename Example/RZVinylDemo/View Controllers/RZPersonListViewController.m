@@ -7,6 +7,7 @@
 //
 
 #import "RZPersonListViewController.h"
+#import "RZStatsViewController.h"
 #import "RZPersonLoader.h"
 #import "RZFetchedPersonDataSource.h"
 
@@ -67,7 +68,9 @@
 
 - (void)showStats
 {
-    
+    RZStatsViewController *statsVC = [[RZStatsViewController alloc] initWithNibName:nil bundle:nil];
+    UINavigationController *modalNav = [[UINavigationController alloc] initWithRootViewController:statsVC];
+    [self presentViewController:modalNav animated:YES completion:nil];
 }
 
 - (void)refreshControlChangedState:(UIRefreshControl *)refreshControl

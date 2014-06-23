@@ -19,6 +19,7 @@
 		9A53613B193F90E000E87F4F /* RZAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A53613A193F90E000E87F4F /* RZAppDelegate.m */; };
 		9A53613E193F90E000E87F4F /* RZVinylDemo.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9A53613C193F90E000E87F4F /* RZVinylDemo.xcdatamodeld */; };
 		9A536140193F90E000E87F4F /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9A53613F193F90E000E87F4F /* Images.xcassets */; };
+		9A60C6A819588C27006E976A /* RZInterestTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A60C6A719588C27006E976A /* RZInterestTableViewCell.m */; };
 		9A74A5C81946488100A06937 /* Artist+RZVinyl.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A74A5C71946488100A06937 /* Artist+RZVinyl.m */; };
 		9A75DB8C195388D700173911 /* person_data.json in Resources */ = {isa = PBXBuildFile; fileRef = 9A75DB8B195388D700173911 /* person_data.json */; };
 		9A75DB8F19538D3200173911 /* RZPersonListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A75DB8E19538D3200173911 /* RZPersonListViewController.m */; };
@@ -47,6 +48,7 @@
 		9AB90883194107C30063445A /* BaseObject+RZVinyl.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AB90882194107C30063445A /* BaseObject+RZVinyl.m */; };
 		9AB9088619410A2D0063445A /* RZWaiter.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AB9088519410A2D0063445A /* RZWaiter.m */; };
 		9AB9088A194113D60063445A /* record_tests.json in Resources */ = {isa = PBXBuildFile; fileRef = 9AB90889194113D60063445A /* record_tests.json */; };
+		9AD76DBA195886B8003B62D2 /* RZPersonStatsDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AD76DB9195886B8003B62D2 /* RZPersonStatsDataSource.m */; };
 		9AD8B1CE1944BBD8009C7823 /* RZVinylImportTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AD8B1CD1944BBD8009C7823 /* RZVinylImportTests.m */; };
 		9AD8B1D01944BCE8009C7823 /* RZVinylBaseTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AD8B1CF1944BCE8009C7823 /* RZVinylBaseTestCase.m */; };
 /* End PBXBuildFile section */
@@ -79,6 +81,8 @@
 		9A53613D193F90E000E87F4F /* RZVinylDemo.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = RZVinylDemo.xcdatamodel; sourceTree = "<group>"; };
 		9A53613F193F90E000E87F4F /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		9A536146193F90E000E87F4F /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		9A60C6A619588C27006E976A /* RZInterestTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RZInterestTableViewCell.h; sourceTree = "<group>"; };
+		9A60C6A719588C27006E976A /* RZInterestTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RZInterestTableViewCell.m; sourceTree = "<group>"; };
 		9A74A5C61946488100A06937 /* Artist+RZVinyl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Artist+RZVinyl.h"; sourceTree = "<group>"; };
 		9A74A5C71946488100A06937 /* Artist+RZVinyl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Artist+RZVinyl.m"; sourceTree = "<group>"; };
 		9A75DB8B195388D700173911 /* person_data.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = person_data.json; sourceTree = "<group>"; };
@@ -125,6 +129,8 @@
 		9AB9088419410A2D0063445A /* RZWaiter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RZWaiter.h; sourceTree = "<group>"; };
 		9AB9088519410A2D0063445A /* RZWaiter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RZWaiter.m; sourceTree = "<group>"; };
 		9AB90889194113D60063445A /* record_tests.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = record_tests.json; sourceTree = "<group>"; };
+		9AD76DB8195886B8003B62D2 /* RZPersonStatsDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RZPersonStatsDataSource.h; sourceTree = "<group>"; };
+		9AD76DB9195886B8003B62D2 /* RZPersonStatsDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RZPersonStatsDataSource.m; sourceTree = "<group>"; };
 		9AD8B1CD1944BBD8009C7823 /* RZVinylImportTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RZVinylImportTests.m; sourceTree = "<group>"; };
 		9AD8B1CF1944BCE8009C7823 /* RZVinylBaseTestCase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RZVinylBaseTestCase.m; sourceTree = "<group>"; };
 		9AD8B1D11944BD0C009C7823 /* RZVinylBaseTestCase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RZVinylBaseTestCase.h; sourceTree = "<group>"; };
@@ -278,6 +284,8 @@
 				9A0133F51958768000FED6DC /* RZTableViewDataSourceBlocks.h */,
 				9A75DB9219538E1E00173911 /* RZFetchedPersonDataSource.h */,
 				9A75DB9319538E1E00173911 /* RZFetchedPersonDataSource.m */,
+				9AD76DB8195886B8003B62D2 /* RZPersonStatsDataSource.h */,
+				9AD76DB9195886B8003B62D2 /* RZPersonStatsDataSource.m */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -309,6 +317,8 @@
 				9A75DBA41954A7EE00173911 /* RZPersonTableViewCell.h */,
 				9A75DBA51954A7EE00173911 /* RZPersonTableViewCell.m */,
 				9A75DBA61954A7EE00173911 /* RZPersonTableViewCell.xib */,
+				9A60C6A619588C27006E976A /* RZInterestTableViewCell.h */,
+				9A60C6A719588C27006E976A /* RZInterestTableViewCell.m */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -560,7 +570,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				9A75DBB81954AD7800173911 /* RZPerson.m in Sources */,
+				9AD76DBA195886B8003B62D2 /* RZPersonStatsDataSource.m in Sources */,
 				9A75DBBE1954AD7900173911 /* RZInterest.m in Sources */,
+				9A60C6A819588C27006E976A /* RZInterestTableViewCell.m in Sources */,
 				9A75DBA71954A7EE00173911 /* RZPersonTableViewCell.m in Sources */,
 				9A75DBC41954DAB400173911 /* RZAppStylesheet.m in Sources */,
 				9A75DBBB1954AD7900173911 /* RZAddress.m in Sources */,
