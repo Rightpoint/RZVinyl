@@ -10,7 +10,7 @@
 #import "RZPersonDetailView.h"
 #import "RZPerson.h"
 
-@interface RZPersonDetailViewController ()
+@interface RZPersonDetailViewController () <UIAlertViewDelegate>
 
 @property (nonatomic, strong) RZPerson *person;
 
@@ -59,7 +59,30 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
     [self.personView updateFromPerson:self.person];
+    [self.personView.deletePersonButton addTarget:self action:@selector(deletePersonPressed) forControlEvents:UIControlEventTouchUpInside];
+}
+
+#pragma mark - Actions
+
+- (void)deletePersonPressed
+{
+    [[[UIAlertView alloc] initWithTitle:@"Delete Person"
+                                message:@"Are you sure?"
+                               delegate:self
+                      cancelButtonTitle:@"No"
+                      otherButtonTitles:@"Yes", nil] show];
+}
+
+#pragma mark - Alert View
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if ( buttonIndex != [alertView cancelButtonIndex] ) {
+        [self.person rzv_delete];
+        [self.navigationController popViewControllerAnimated:YES];
+    }
 }
 
 @end
