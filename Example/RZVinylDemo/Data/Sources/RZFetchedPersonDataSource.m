@@ -62,14 +62,24 @@ static NSString* const kRZPeronDataSourcePersonCellIdentifier = @"PersonCell";
     return [self.fetchedResultsController fetchedObjects];
 }
 
+- (void)setFilterPredicate:(NSPredicate *)filterPredicate
+{
+    _filterPredicate = filterPredicate;
+    [self updateFetch];
+}
+
 #pragma mark - Private
 
 - (void)updateFetch
 {
+    [self.fetchedResultsController.fetchRequest setPredicate:self.filterPredicate];
+    
     NSError *fetchError = nil;
     if ( ![self.fetchedResultsController performFetch:&fetchError] ) {
         NSLog(@"Error fetching people: %@", fetchError);
     }
+    
+    [self.tableView reloadData];
 }
 
 #pragma mark - TableView Data Source

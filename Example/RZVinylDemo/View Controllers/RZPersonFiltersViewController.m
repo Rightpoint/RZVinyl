@@ -56,6 +56,12 @@
     self.tableView.delegate = self.dataSource;
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self.dataSource updateVisibleFilterCounts];
+}
+
 - (void)clearSelection
 {
     [self.tableView reloadData];

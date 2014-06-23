@@ -98,12 +98,8 @@
 
 - (void)filtersViewController:(RZPersonFiltersViewController *)viewController dismissedWithPredicate:(NSPredicate *)filterPredicate filterCount:(NSUInteger)filterCount
 {
-    if ( filterPredicate == nil ) {
-        
-    }
-    else {
-        
-    }
+    self.navigationItem.rightBarButtonItem.title = ( filterCount == 0 ) ? @"Filters" : [NSString stringWithFormat:@"Filters (%lu)", (unsigned long)filterCount];
+    self.dataSource.filterPredicate = filterPredicate;
 }
 
 @end

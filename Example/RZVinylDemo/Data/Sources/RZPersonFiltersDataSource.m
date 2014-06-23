@@ -65,6 +65,14 @@ typedef NS_ENUM(NSInteger, RZPersonFilterGenderRow)
     return [NSCompoundPredicate andPredicateWithSubpredicates:subPredicates];
 }
 
+- (void)updateVisibleFilterCounts
+{
+    [[self.tableView indexPathsForVisibleRows] enumerateObjectsUsingBlock:^(NSIndexPath *indexPath, NSUInteger idx, BOOL *stop) {
+        RZFilterTableViewCell *cell = (RZFilterTableViewCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+        [self updateCell:cell atIndexPath:indexPath];
+    }];
+}
+
 #pragma mark - Private
 
 - (void)configureStaticData
@@ -92,11 +100,37 @@ typedef NS_ENUM(NSInteger, RZPersonFilterGenderRow)
 - (void)updateValidFilters
 {
     [[self.tableView indexPathsForVisibleRows] enumerateObjectsUsingBlock:^(NSIndexPath *indexPath, NSUInteger idx, BOOL *stop) {
-        [self updateCellForFilterValidity:[self.tableView cellForRowAtIndexPath:indexPath] atIndexPath:indexPath];
+        RZFilterTableViewCell *cell = (RZFilterTableViewCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+        [self updateCellForFilterValidity:cell atIndexPath:indexPath];
     }];
 }
 
-- (void)updateCellForFilterValidity:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath
+- (void)updateCell:(RZFilterTableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath
+{
+    if ( indexPath.section == RZPersonFiltersSectionGender ) {
+        
+        // NOTE: In a real app, should cache this to avoid querying over and over,
+        //       and this might be wrapped by a category method on the managed object class.
+        NSString *gender = indexPath.row == RZPersonFilterGenderRowFemale ? @"female" : @"male";
+        NSUInteger count = [RZPerson rzv_countWhere:[self filterPredicateForIndexPath:indexPath]];
+        [cell updateForFilterName:gender count:count];
+    }
+    else if ( indexPath.section == RZPersonFiltersSectionInterests ) {
+        
+        // Get the interest object
+        RZInterest *interest = [[self interestObjects] objectAtIndex:indexPath.row];
+        
+        // Get the count of people with that particular interest
+        // NOTE: In a real app, should cache this to avoid querying over and over.
+        //       and this might be wrapped by a category method on the managed object class.
+        NSUInteger count = [RZPerson rzv_countWhere:[self filterPredicateForIndexPath:indexPath]];
+        [cell updateForFilterName:interest.name count:count];
+    }
+    
+    [self updateCellForFilterValidity:cell atIndexPath:indexPath];
+}
+
+- (void)updateCellForFilterValidity:(RZFilterTableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath
 {
     BOOL selectedRow = [[self.tableView indexPathsForSelectedRows] containsObject:indexPath];
     cell.contentView.alpha = ( selectedRow || [self isFilterValidForIndexPath:indexPath] ) ? 1.0 : 0.3;
@@ -168,28 +202,7 @@ typedef NS_ENUM(NSInteger, RZPersonFilterGenderRow)
 {
     RZFilterTableViewCell *interestCell = [tableView dequeueReusableCellWithIdentifier:kRZPersonFiltersDataSourceFilterCellIdentifier
                                                                           forIndexPath:indexPath];
-    if ( indexPath.section == RZPersonFiltersSectionGender ) {
-        
-        // NOTE: In a real app, should cache this to avoid querying over and over,
-        //       and this might be wrapped by a category method on the managed object class.
-        NSString *gender = indexPath.row == RZPersonFilterGenderRowFemale ? @"female" : @"male";
-        NSUInteger count = [RZPerson rzv_countWhere:[self filterPredicateForIndexPath:indexPath]];
-        [interestCell updateForFilterName:gender count:count];
-    }
-    else if ( indexPath.section == RZPersonFiltersSectionInterests ) {
-        
-        // Get the interest object
-        RZInterest *interest = [[self interestObjects] objectAtIndex:indexPath.row];
-        
-        // Get the count of people with that particular interest
-        // NOTE: In a real app, should cache this to avoid querying over and over.
-        //       and this might be wrapped by a category method on the managed object class.
-        NSUInteger count = [RZPerson rzv_countWhere:[self filterPredicateForIndexPath:indexPath]];
-        [interestCell updateForFilterName:interest.name count:count];
-    }
-    
-    [self updateCellForFilterValidity:interestCell atIndexPath:indexPath];
-    
+    [self updateCell:interestCell atIndexPath:indexPath];
     return interestCell;
 }
 

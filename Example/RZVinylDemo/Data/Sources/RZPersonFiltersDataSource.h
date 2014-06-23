@@ -14,6 +14,8 @@
 
 - (instancetype)initWithTableView:(UITableView *)tableView;
 
+- (void)updateVisibleFilterCounts;
+
 @property (nonatomic, readonly) NSUInteger activeFilterCount;
 @property (nonatomic, readonly) NSPredicate *filterPredicate;
 

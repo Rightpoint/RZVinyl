@@ -16,6 +16,11 @@
  */
 @interface RZFetchedPersonDataSource : NSObject <UITableViewDataSource, UITableViewDelegate>
 
+/**
+ *  Set this predicate to something other to nil to apply a filter to the fetched results controller.
+ */
+@property (nonatomic, strong) NSPredicate *filterPredicate;
+
 - (instancetype)initWithTableView:(UITableView *)tableView;
 - (RZPerson *)personAtIndexPath:(NSIndexPath *)indexPath;
 - (NSArray *)allObjects;
