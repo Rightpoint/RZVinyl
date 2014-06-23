@@ -22,7 +22,7 @@
 		9A74A5C81946488100A06937 /* Artist+RZVinyl.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A74A5C71946488100A06937 /* Artist+RZVinyl.m */; };
 		9A75DB8C195388D700173911 /* person_data.json in Resources */ = {isa = PBXBuildFile; fileRef = 9A75DB8B195388D700173911 /* person_data.json */; };
 		9A75DB8F19538D3200173911 /* RZPersonListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A75DB8E19538D3200173911 /* RZPersonListViewController.m */; };
-		9A75DB9419538E1E00173911 /* RZPersonDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A75DB9319538E1E00173911 /* RZPersonDataSource.m */; };
+		9A75DB9419538E1E00173911 /* RZFetchedPersonDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A75DB9319538E1E00173911 /* RZFetchedPersonDataSource.m */; };
 		9A75DBA71954A7EE00173911 /* RZPersonTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A75DBA51954A7EE00173911 /* RZPersonTableViewCell.m */; };
 		9A75DBA81954A7EE00173911 /* RZPersonTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9A75DBA61954A7EE00173911 /* RZPersonTableViewCell.xib */; };
 		9A75DBAC1954AA0B00173911 /* RZPersonLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A75DBAB1954AA0B00173911 /* RZPersonLoader.m */; };
@@ -64,6 +64,7 @@
 /* Begin PBXFileReference section */
 		9A0133F219586E2B00FED6DC /* RZStatsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RZStatsViewController.h; sourceTree = "<group>"; };
 		9A0133F319586E2B00FED6DC /* RZStatsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RZStatsViewController.m; sourceTree = "<group>"; };
+		9A0133F51958768000FED6DC /* RZTableViewDataSourceBlocks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RZTableViewDataSourceBlocks.h; sourceTree = "<group>"; };
 		9A536125193F90E000E87F4F /* RZVinylDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RZVinylDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9A536128193F90E000E87F4F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		9A53612A193F90E000E87F4F /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -83,8 +84,8 @@
 		9A75DB8B195388D700173911 /* person_data.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = person_data.json; sourceTree = "<group>"; };
 		9A75DB8D19538D3200173911 /* RZPersonListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RZPersonListViewController.h; sourceTree = "<group>"; };
 		9A75DB8E19538D3200173911 /* RZPersonListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RZPersonListViewController.m; sourceTree = "<group>"; };
-		9A75DB9219538E1E00173911 /* RZPersonDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RZPersonDataSource.h; sourceTree = "<group>"; };
-		9A75DB9319538E1E00173911 /* RZPersonDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RZPersonDataSource.m; sourceTree = "<group>"; };
+		9A75DB9219538E1E00173911 /* RZFetchedPersonDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RZFetchedPersonDataSource.h; sourceTree = "<group>"; };
+		9A75DB9319538E1E00173911 /* RZFetchedPersonDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RZFetchedPersonDataSource.m; sourceTree = "<group>"; };
 		9A75DBA41954A7EE00173911 /* RZPersonTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RZPersonTableViewCell.h; sourceTree = "<group>"; };
 		9A75DBA51954A7EE00173911 /* RZPersonTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RZPersonTableViewCell.m; sourceTree = "<group>"; };
 		9A75DBA61954A7EE00173911 /* RZPersonTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RZPersonTableViewCell.xib; sourceTree = "<group>"; };
@@ -274,8 +275,9 @@
 		9A75DB9119538E0C00173911 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				9A75DB9219538E1E00173911 /* RZPersonDataSource.h */,
-				9A75DB9319538E1E00173911 /* RZPersonDataSource.m */,
+				9A0133F51958768000FED6DC /* RZTableViewDataSourceBlocks.h */,
+				9A75DB9219538E1E00173911 /* RZFetchedPersonDataSource.h */,
+				9A75DB9319538E1E00173911 /* RZFetchedPersonDataSource.m */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -571,7 +573,7 @@
 				9A75DB8F19538D3200173911 /* RZPersonListViewController.m in Sources */,
 				9A53613B193F90E000E87F4F /* RZAppDelegate.m in Sources */,
 				9A536137193F90E000E87F4F /* main.m in Sources */,
-				9A75DB9419538E1E00173911 /* RZPersonDataSource.m in Sources */,
+				9A75DB9419538E1E00173911 /* RZFetchedPersonDataSource.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

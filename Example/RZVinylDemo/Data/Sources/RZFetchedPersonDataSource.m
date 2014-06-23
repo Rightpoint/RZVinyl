@@ -1,27 +1,27 @@
 //
-//  RZPersonDataSource.m
+//  RZFetchedPersonDataSource.m
 //  RZVinylDemo
 //
 //  Created by Nick Donaldson on 6/19/14.
 //  Copyright (c) 2014 Raizlabs. All rights reserved.
 //
 
-#import "RZPersonDataSource.h"
+#import "RZFetchedPersonDataSource.h"
 #import "RZPersonTableViewCell.h"
 #import "RZAddress.h"
 
 static NSString* const kRZPeronDataSourcePersonCellIdentifier = @"PersonCell";
 
-@interface RZPersonDataSource () <NSFetchedResultsControllerDelegate>
+@interface RZFetchedPersonDataSource () <NSFetchedResultsControllerDelegate>
 
 @property (nonatomic, weak) UITableView *tableView;
 @property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
 
-@property (nonatomic, copy) RZPersonDataSourceDidSelectRowBlock didSelectRowBlock;
+@property (nonatomic, copy) RZTableViewDataSourceDidSelectRowBlock didSelectRowBlock;
 
 @end
 
-@implementation RZPersonDataSource
+@implementation RZFetchedPersonDataSource
 
 - (instancetype)initWithTableView:(UITableView *)tableView
 {
@@ -111,7 +111,7 @@ static NSString* const kRZPeronDataSourcePersonCellIdentifier = @"PersonCell";
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if ( self.didSelectRowBlock ) {
-        self.didSelectRowBlock(self, tableView, indexPath);
+        self.didSelectRowBlock(tableView, [self personAtIndexPath:indexPath], indexPath);
     }
 }
 

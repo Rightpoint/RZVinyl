@@ -8,12 +8,12 @@
 
 #import "RZPersonListViewController.h"
 #import "RZPersonLoader.h"
-#import "RZPersonDataSource.h"
+#import "RZFetchedPersonDataSource.h"
 
 @interface RZPersonListViewController ()
 
 @property (nonatomic, strong) RZPersonLoader *personLoader;
-@property (nonatomic, strong) RZPersonDataSource *dataSource;
+@property (nonatomic, strong) RZFetchedPersonDataSource *dataSource;
 
 @end
 
@@ -56,11 +56,10 @@
 
 - (void)setupDataSource
 {
-    self.dataSource = [[RZPersonDataSource alloc] initWithTableView:self.tableView];
-    [self.dataSource setDidSelectRowBlock:^(RZPersonDataSource *dataSource, UITableView *tableView, NSIndexPath *indexPath) {
+    self.dataSource = [[RZFetchedPersonDataSource alloc] initWithTableView:self.tableView];
+    [self.dataSource setDidSelectRowBlock:^(UITableView *tableView, RZPerson *person, NSIndexPath *indexPath) {
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
         // TODO: Push view controller for the person details
-//        RZPerson *person = [dataSource personAtIndexPath:indexPath];
     }];
     self.tableView.delegate     = self.dataSource;
     self.tableView.dataSource   = self.dataSource;
