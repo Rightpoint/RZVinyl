@@ -6,8 +6,6 @@
 //  Copyright (c) 2014 Raizlabs. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-
 /**
  *  Imports person objects asynchronously from a static JSON file in batches using RZImport
  */

@@ -6,8 +6,7 @@
 //  Copyright (c) 2014 Raizlabs. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-#import <CoreData/CoreData.h>
+@import CoreData;
 
 @class RZAddress, RZInterest;
 

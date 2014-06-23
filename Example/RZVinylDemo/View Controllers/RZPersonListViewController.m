@@ -41,6 +41,13 @@
     refreshControl.tintColor = [UIColor whiteColor];
     [refreshControl addTarget:self action:@selector(refreshControlChangedState:) forControlEvents:UIControlEventValueChanged];
     self.refreshControl = refreshControl;
+    
+    UIBarButtonItem *statsButton = [[UIBarButtonItem alloc] initWithTitle:@"Stats"
+                                                                    style:UIBarButtonItemStylePlain
+                                                                   target:self
+                                                                   action:@selector(showStats)];
+    statsButton.enabled = NO;
+    self.navigationItem.rightBarButtonItem = statsButton;
 
     [self setupDataSource];
 }
@@ -57,6 +64,11 @@
     }];
     self.tableView.delegate     = self.dataSource;
     self.tableView.dataSource   = self.dataSource;
+}
+
+- (void)showStats
+{
+    
 }
 
 - (void)refreshControlChangedState:(UIRefreshControl *)refreshControl
