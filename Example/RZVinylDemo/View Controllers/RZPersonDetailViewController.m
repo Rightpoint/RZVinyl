@@ -37,17 +37,23 @@
     self.view.backgroundColor = [UIColor whiteColor];
     
     UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
-    scrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    scrollView.translatesAutoresizingMaskIntoConstraints = NO;
     scrollView.bounces = YES;
     scrollView.alwaysBounceVertical = YES;
     [self.view addSubview:scrollView];
     self.scrollView = scrollView;
     
     RZPersonDetailView *personView = [RZPersonDetailView loadFromNib];
-    personView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleBottomMargin;
-    personView.frame = CGRectMake(0, 0, CGRectGetWidth(scrollView.frame), CGRectGetHeight(personView.frame));
+    personView.translatesAutoresizingMaskIntoConstraints = NO;
     [scrollView addSubview:personView];
     self.personView = personView;
+    
+    NSDictionary *viewBindings = NSDictionaryOfVariableBindings(scrollView, personView);
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[scrollView]|" options:kNilOptions metrics:nil views:viewBindings]];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[scrollView]|" options:kNilOptions metrics:nil views:viewBindings]];
+    [self.scrollView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[personView(==scrollView)]|" options:kNilOptions metrics:nil views:viewBindings]];
+    [self.scrollView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[personView]|" options:kNilOptions metrics:nil views:viewBindings]];
+    
 }
 
 - (void)viewDidLoad
