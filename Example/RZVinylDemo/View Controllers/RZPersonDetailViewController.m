@@ -13,9 +13,12 @@
 @interface RZPersonDetailViewController () <UIAlertViewDelegate>
 
 @property (nonatomic, strong) RZPerson *person;
+@property (nonatomic, strong) RZPerson *editingPerson;
 
 @property (nonatomic, weak) UIScrollView *scrollView;
 @property (nonatomic, weak) RZPersonDetailView *personView;
+
+@property (nonatomic, strong) NSManagedObjectContext *scratchContext;
 
 @end
 
@@ -60,11 +63,73 @@
 {
     [super viewDidLoad];
     
+    self.navigationItem.rightBarButtonItem = [self editButtonItem];
     [self.personView updateFromPerson:self.person];
-    [self.personView.deletePersonButton addTarget:self action:@selector(deletePersonPressed) forControlEvents:UIControlEventTouchUpInside];
+    [self.personView.deletePersonButton addTarget:self
+                                           action:@selector(deletePersonPressed)
+                                 forControlEvents:UIControlEventTouchUpInside];
+}
+
+- (void)setEditing:(BOOL)editing animated:(BOOL)animated
+{
+    [super setEditing:editing animated:animated];
+    
+    self.personView.bioTextView.editable = editing;
+    self.personView.deletePersonButton.enabled = !editing;
+    
+    if ( editing ) {
+        
+        // Create a "scratch" context for editing
+        self.scratchContext = [[RZCoreDataStack defaultStack] temporaryManagedObjectContext];
+        
+        // Get a copy of this person from the scratch context
+        self.editingPerson = [RZPerson rzv_objectWithPrimaryKeyValue:self.person.remoteId createNew:NO];
+        NSAssert(self.editingPerson != nil, @"Should be able to find matching person in scratch context");
+        
+        UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel"
+                                                                         style:UIBarButtonItemStylePlain
+                                                                        target:self
+                                                                        action:@selector(cancelEdits)];
+        
+        [self.navigationItem setLeftBarButtonItem:cancelButton animated:animated];
+    }
+    else {
+        
+        [self.navigationItem setLeftBarButtonItem:nil animated:animated];
+        
+        // If there is a valid scratch context, save it.
+        if ( self.scratchContext != nil ) {
+
+            NSError *err = nil;
+            
+            if ( [self.scratchContext save:&err] ) {
+                [[RZCoreDataStack defaultStack] save:YES];
+            }
+            
+            self.scratchContext = nil;
+            self.editingPerson = nil;
+            
+            if ( err ) {
+                NSLog(@"Error saving person: %@", err);
+            }
+        }
+        
+        [self.personView endEditing:YES];
+        
+        // Our person should have automatically been udpated by saving the scratch context.
+        // If the edits were cancelled, this will revert back to the original values.
+        [self.personView updateFromPerson:self.person];
+    }
 }
 
 #pragma mark - Actions
+
+- (void)cancelEdits
+{
+    self.editingPerson = nil;
+    self.scratchContext = nil;
+    [self setEditing:NO animated:YES];
+}
 
 - (void)deletePersonPressed
 {

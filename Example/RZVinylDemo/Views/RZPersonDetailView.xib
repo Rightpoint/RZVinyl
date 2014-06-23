@@ -37,7 +37,7 @@
                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                 </textView>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yI7-9e-kFc" userLabel="Delete Button">
-                    <rect key="frame" x="111" y="234" width="99" height="36"/>
+                    <rect key="frame" x="111" y="240" width="99" height="30"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                     <state key="normal" title="Delete Person">
@@ -45,28 +45,41 @@
                         <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </state>
                 </button>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Interests:" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="56" translatesAutoresizingMaskIntoConstraints="NO" id="TgT-L9-9T5">
-                    <rect key="frame" x="20" y="190" width="56" height="16"/>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Lko-UW-5rH">
+                    <rect key="frame" x="0.0" y="188" width="320" height="35"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                    <nil key="highlightedColor"/>
-                </label>
+                    <subviews>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="1000" text="Interests:" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="56" translatesAutoresizingMaskIntoConstraints="NO" id="TgT-L9-9T5">
+                            <rect key="frame" x="20" y="10" width="56" height="16"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" red="0.89013671875" green="0.89013671875" blue="0.89013671875" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstItem="TgT-L9-9T5" firstAttribute="top" secondItem="Lko-UW-5rH" secondAttribute="top" constant="10" id="EBW-Z0-1ZW"/>
+                        <constraint firstAttribute="bottom" secondItem="TgT-L9-9T5" secondAttribute="bottom" constant="9" id="r62-4n-kVE"/>
+                    </constraints>
+                </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstItem="TgT-L9-9T5" firstAttribute="top" secondItem="2XF-fe-cEM" secondAttribute="bottom" constant="8" id="1aq-Am-OGF"/>
                 <constraint firstAttribute="bottom" secondItem="yI7-9e-kFc" secondAttribute="bottom" constant="20" id="2Ki-2J-iPy"/>
                 <constraint firstItem="2XF-fe-cEM" firstAttribute="trailing" secondItem="XNo-oB-US6" secondAttribute="trailing" constant="5" id="2p0-Br-Hu6"/>
-                <constraint firstItem="yI7-9e-kFc" firstAttribute="top" secondItem="TgT-L9-9T5" secondAttribute="bottom" constant="28" id="K1I-VB-Dm5"/>
+                <constraint firstItem="yI7-9e-kFc" firstAttribute="top" secondItem="Lko-UW-5rH" secondAttribute="bottom" constant="17" id="8wF-Qi-YPf"/>
+                <constraint firstItem="TgT-L9-9T5" firstAttribute="leading" secondItem="XNo-oB-US6" secondAttribute="leading" id="C7l-D2-RUq"/>
                 <constraint firstItem="XNo-oB-US6" firstAttribute="leading" secondItem="Pog-OJ-MUL" secondAttribute="leading" id="RUX-U5-Y8W"/>
                 <constraint firstItem="2XF-fe-cEM" firstAttribute="leading" secondItem="XNo-oB-US6" secondAttribute="leading" constant="-5" id="RYs-jb-SKU"/>
-                <constraint firstItem="2XF-fe-cEM" firstAttribute="leading" secondItem="TgT-L9-9T5" secondAttribute="leading" constant="-5" id="UuU-6C-OWx"/>
+                <constraint firstItem="Lko-UW-5rH" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="bZ4-5X-ULf"/>
                 <constraint firstAttribute="trailing" secondItem="XNo-oB-US6" secondAttribute="trailing" constant="20" id="dgZ-MU-0ih"/>
                 <constraint firstItem="2XF-fe-cEM" firstAttribute="top" secondItem="XNo-oB-US6" secondAttribute="bottom" constant="3" id="e7Q-pv-4ys"/>
                 <constraint firstItem="Pog-OJ-MUL" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="20" id="nRY-Yd-9sM"/>
+                <constraint firstItem="Lko-UW-5rH" firstAttribute="top" secondItem="2XF-fe-cEM" secondAttribute="bottom" constant="6" id="oYX-da-fE0"/>
                 <constraint firstItem="XNo-oB-US6" firstAttribute="top" secondItem="Pog-OJ-MUL" secondAttribute="bottom" constant="2" id="rwO-a2-HpK"/>
                 <constraint firstItem="Pog-OJ-MUL" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="20" id="sAM-Sa-OtX"/>
                 <constraint firstAttribute="centerX" secondItem="yI7-9e-kFc" secondAttribute="centerX" id="vU0-CB-QcR"/>
+                <constraint firstAttribute="trailing" secondItem="Lko-UW-5rH" secondAttribute="trailing" id="zUE-EO-jQ5"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
