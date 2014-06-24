@@ -125,6 +125,7 @@
         // Our person should have automatically been udpated by saving the scratch context.
         // If the edits were cancelled, this will revert back to the original values.
         [self.personView updateFromPerson:self.person];
+        self.title = self.person.name;
     }
 }
 
