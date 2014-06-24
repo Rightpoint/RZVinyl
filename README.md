@@ -337,6 +337,21 @@ NSDictionary *artistDict = @{
 
 ```
 
+# Demo Project
+
+A demo project is available in the `Example` directory. The demo project uses CocoaPods, and can be configured by running the following commands from the root project directory.
+
+```
+cd Example
+pod install
+```
+
+Then, open `RZVinylDemo.xcworkspace` and check out the demo!
+
+**Note: The above steps assume that the CocoaPods gem is installed.**
+
+If you do not have CocoaPods installed, follow the instructions [here](http://cocoapods.org/).
+
 # Full Documentation
 
 For more comprehensive documentation, see the (TODO) generated from the AppleDoc header comments.
