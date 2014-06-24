@@ -57,7 +57,7 @@ To use RZVinyl, first add `#import "RZVinyl.h"` to any classes that will need to
 
 ##### Create a new stack
 
-```
+```objective-c
 // Default configuration, default store URL (in Library directory), no extra options
 RZCoreDataStack *myStack = [[RZCoreDataStack alloc] initWithModelName:@"MyModel"
                                                         configuration:nil
@@ -68,7 +68,7 @@ RZCoreDataStack *myStack = [[RZCoreDataStack alloc] initWithModelName:@"MyModel"
 
 ##### Perform a concurrent operation
 
-```
+```objective-c
 [myStack performBlockUsingBackgroundContext:^(NSManagedObjectContext *context) {
 	// do some stuff with the context
 	// this block is on a background thread and the context has private-queue confinement
@@ -83,7 +83,7 @@ RZCoreDataStack *myStack = [[RZCoreDataStack alloc] initWithModelName:@"MyModel"
 
 ##### Purge stale objects from the store
 
-```
+```objective-c
 // Each managed object subclass can provide a "stale" predicate that will be used here
 // to delete all objects which pass the predicate. Useful for cleaning up orphans, etc.
 // This can also be invoked every time the app enters the background if you initialize the stack
@@ -99,7 +99,7 @@ RZCoreDataStack *myStack = [[RZCoreDataStack alloc] initWithModelName:@"MyModel"
 
 `RZVinylRecord` is a category on `NSManagedObject` which provides a partial implementation of the Active Record pattern. Each method in `NSManagedObject+RZVinylRecord` has two signatures - one which accepts a managed object context parameter, and one which uses the main managed object context from the default `RZCoreDataStack`. 
 
-```
+```objective-c
 // Delete all objects of receiver's type in default stack's main context
 + (void)rzv_deleteAll;
 
@@ -113,7 +113,7 @@ The no-context versions may only be used from the main thread, or an exception w
 
 ##### Create a new empty instance
 
-```
+```objective-c
 // Inserted into the default main context
 MyManagedObject *newObject = [MyManagedObject rzv_newObject];
 
@@ -125,7 +125,7 @@ MyManagedObject *newObject = [MyManagedObject rzv_newObjectInContext:context];
 
 These methods use the attribute provided by overriding `+ (NSString *)rzv_primaryKey;` in the managed object subclass to search for an existing object with the provided value for that attribute, optionally creating a new object and initializing it with the primary key value if one was not found.
 
-```
+```objective-c
 // In the default main context
 MyManagedObject *existingObjectOrNil = [MyManagedObject rzv_objectWithPrimaryKeyValue:@(12345) createNew:NO];
 
@@ -136,7 +136,7 @@ MyManagedObject *existingObjectOrNil = [MyManagedObject rzv_objectWithPrimaryKey
 
 You can also find/create objects based on a set of other attributes. If `createNew` is YES and a match isn't found, a new instance will be created and initialized with the provided attribute dictionary.
 
-```
+```objective-c
 // In the default main context
 MyManagedObject *existingObjectOrNil = [MyManagedObject rzv_objectWithAttributes:@{ @"name" : @"Bob Marley" } 
                                                                        createNew:NO];
@@ -152,7 +152,7 @@ MyManagedObject *existingObjectOrNil = [MyManagedObject rzv_objectWithAttributes
 
 ##### Fetch all objects
 
-```
+```objective-c
 // In the default main context
 NSArray *allMyObjects = [MyManagedObject rzv_all];
 
@@ -163,7 +163,7 @@ NSArray *allMyObjects = [MyManagedObject rzv_allInContext:context];
 
 ##### Fetch objects matching a predicate
 
-```
+```objective-c
 // In the default main context
 NSArray *matchingObjects = [MyManagedObject rzv_where:RZVPred(@"someAttribute >= 18")];
 
@@ -175,7 +175,7 @@ The "where" methods also have versions that take sort descriptors to sort the re
 
 ##### Get the count of objects
 
-```
+```objective-c
 // In the default main context
 NSUInteger theCount = [MyManagedObject rzv_count];
 
@@ -187,13 +187,15 @@ NSUInteger theCount = [MyManagedObject rzv_countWhere:RZVPred(@"someAttribute >=
 ### Deleting
 
 ##### Delete a single object
-```
+
+```objective-c
 // Uses the object's context
 [myObjectInstance rzv_delete];
 ```
 
 ##### Delete all objects of receiver's type
-```
+
+```objective-c
 // In the default main context
 [MyManagedObject rzv_deleteAll];
 
@@ -231,7 +233,7 @@ You can also implement the methods of `RZImportable` in your managed object clas
 
 This is implemented by the `NSManagedObject+RZImport` to handle CoreData concurrency, and internally calls the extended version:
 
-```
+```objective-c
 + (id)rzi_existingObjectForDict:(NSDictionary *)dict inContext:(NSManagedObjectContext *)context;
 ```
 
@@ -241,7 +243,7 @@ This method is safe to override as long as you always return the value provided 
 
 This is for the same reasons as mentioned above. You can override the extended version as long as you return the value returned by `super` in cases that your override does not handle:
 
-```
+```objective-c
 - (BOOL)rzi_shouldImportValue:(id)value forKey:(NSString *)key inContext:(NSManagedObjectContext *)context;
 ```
 
@@ -249,7 +251,7 @@ This is for the same reasons as mentioned above. You can override the extended v
 
 Here is an example of a managed object subclass that is configured for usage with `RZImport`.
 
-```
+```objective-c
 // RZArtist.h
 @interface RZArtist : NSManagedObject
 
@@ -300,7 +302,7 @@ Here is an example of a managed object subclass that is configured for usage wit
 
 Using this basic implementation and assuming `RZSong` is also configured correctly, you can do the following:
 
-```
+```objective-c
 // This could just as easily be deserialized JSON
 NSDictionary *artistDict = @{
 	@"id" : @100,
