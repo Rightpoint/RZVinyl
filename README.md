@@ -304,7 +304,7 @@ Using this basic implementation and assuming `RZSong` is also configured correct
 // This could just as easily be deserialized JSON
 NSDictionary *artistDict = @{
 	@"id" : @100,
-	@"dob" : @"11-27-1942", 	// string -> date via provided format
+	@"dob" : @"1942-11-27", 	// string -> date via provided format
 	@"rating" : @"4.7", 		// string -> number automatically
 	@"name" : @"Jimi Hendrix",
 	@"songs" : @[				// will recursively be imported and relationship updated
