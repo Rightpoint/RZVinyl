@@ -83,11 +83,9 @@ RZCoreDataStack *myStack = [[RZCoreDataStack alloc] initWithModelName:@"MyModel"
 
 ##### Purge stale objects from the store
 
+Each managed object subclass can provide a "stale" predicate that will be used here to delete all objects which pass the predicate. This is useful for cleaning up stale or orphaned objects. This can also be invoked every time the app enters the background if you initialize the stack with the RZCoreDataStackOptionsEnableAutoStalePurge option.
+
 ```objective-c
-// Each managed object subclass can provide a "stale" predicate that will be used here
-// to delete all objects which pass the predicate. Useful for cleaning up orphans, etc.
-// This can also be invoked every time the app enters the background if you initialize the stack
-// with the RZCoreDataStackOptionsEnableAutoStalePurge option.
 [myStack purgeStaleObjectsWithCompletion:^(NSError *err){
 	// This is on the main thread
 	if ( !err ) {
