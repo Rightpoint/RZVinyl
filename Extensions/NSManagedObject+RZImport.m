@@ -42,9 +42,17 @@
 
 @implementation NSManagedObject (RZImport)
 
++ (void)load
+{
+    // TODO: Prevent override of non-overrideable methods in RZImport protocol
+}
+
 //!!!: Overridden to support default context
 + (instancetype)rzi_objectFromDictionary:(NSDictionary *)dict withMappings:(NSDictionary *)mappings
 {
+    if ( !RZVAssertMainThread() ) {
+        return nil;
+    }
     NSManagedObjectContext *context = [[self rzv_validCoreDataStack] mainManagedObjectContext];
     return [self rzi_objectFromDictionary:dict inContext:context];
 }
@@ -52,6 +60,9 @@
 //!!!: Overridden to support default context
 + (NSArray *)rzi_objectsFromArray:(NSArray *)array withMappings:(NSDictionary *)mappings
 {
+    if ( !RZVAssertMainThread() ) {
+        return nil;
+    }
     NSManagedObjectContext *context = [[self rzv_validCoreDataStack] mainManagedObjectContext];
     return [self rzi_objectsFromArray:array inContext:context];
 }
@@ -178,6 +189,7 @@
         object = [self rzv_objectWithPrimaryKeyValue:primaryValue createNew:YES inContext:context];
     }
     else {
+        // TODO: log this only once per class
         RZVLogInfo(@"Class %@ for entity %@ does not provide a primary key and cannot be uniqued. Creating new instance...", NSStringFromClass(self), [self rzv_entityName] );
         object = [self rzv_newObjectInContext:context];
     }

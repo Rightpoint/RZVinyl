@@ -32,16 +32,13 @@
 #import "NSFetchRequest+RZVinylRecord.h"
 #import "RZVinylDefines.h"
 
-static NSString* const kRZVinylRecordMainContextErrorFormat = @"%@ uses the main managed object context by default and must be called on the main thread. \
-                                                                To use another managed object context, use the version which takes a context argument.";
-
 @implementation NSManagedObject (RZVinylRecord)
 
 #pragma mark - Creation
 
 + (instancetype)rzv_newObject
 {
-    if ( !RZVAssertMainThread(kRZVinylRecordMainContextErrorFormat, NSStringFromSelector(_cmd)) ) {
+    if ( !RZVAssertMainThread() ) {
         return nil;
     }
     RZCoreDataStack *stack = [self rzv_validCoreDataStack];
@@ -61,7 +58,7 @@ static NSString* const kRZVinylRecordMainContextErrorFormat = @"%@ uses the main
 
 + (instancetype)rzv_objectWithPrimaryKeyValue:(id)primaryValue createNew:(BOOL)createNew
 {
-    if ( !RZVAssertMainThread(kRZVinylRecordMainContextErrorFormat, NSStringFromSelector(_cmd)) ) {
+    if ( !RZVAssertMainThread() ) {
         return nil;
     }
     RZCoreDataStack *stack = [self rzv_validCoreDataStack];
@@ -93,7 +90,7 @@ static NSString* const kRZVinylRecordMainContextErrorFormat = @"%@ uses the main
 
 + (instancetype)rzv_objectWithAttributes:(NSDictionary *)attributes createNew:(BOOL)createNew
 {
-    if ( !RZVAssertMainThread(kRZVinylRecordMainContextErrorFormat, NSStringFromSelector(_cmd)) ) {
+    if ( !RZVAssertMainThread() ) {
         return nil;
     }
     RZCoreDataStack *stack = [self rzv_validCoreDataStack];
@@ -134,7 +131,7 @@ static NSString* const kRZVinylRecordMainContextErrorFormat = @"%@ uses the main
 
 + (NSArray *)rzv_all
 {
-    if ( !RZVAssertMainThread(kRZVinylRecordMainContextErrorFormat, NSStringFromSelector(_cmd)) ) {
+    if ( !RZVAssertMainThread() ) {
         return nil;
     }
     return [self rzv_where:nil];
@@ -147,7 +144,7 @@ static NSString* const kRZVinylRecordMainContextErrorFormat = @"%@ uses the main
 
 + (NSArray *)rzv_allSorted:(NSArray *)sortDescriptors
 {
-    if ( !RZVAssertMainThread(kRZVinylRecordMainContextErrorFormat, NSStringFromSelector(_cmd)) ) {
+    if ( !RZVAssertMainThread() ) {
         return nil;
     }
     return [self rzv_where:nil sort:sortDescriptors];
@@ -160,7 +157,7 @@ static NSString* const kRZVinylRecordMainContextErrorFormat = @"%@ uses the main
 
 + (NSArray *)rzv_where:(id)query
 {
-    if ( !RZVAssertMainThread(kRZVinylRecordMainContextErrorFormat, NSStringFromSelector(_cmd)) ) {
+    if ( !RZVAssertMainThread() ) {
         return nil;
     }
     return [self rzv_where:query sort:nil];
@@ -173,7 +170,7 @@ static NSString* const kRZVinylRecordMainContextErrorFormat = @"%@ uses the main
 
 + (NSArray *)rzv_where:(id)query sort:(NSArray *)sortDescriptors
 {
-    if ( !RZVAssertMainThread(kRZVinylRecordMainContextErrorFormat, NSStringFromSelector(_cmd)) ) {
+    if ( !RZVAssertMainThread() ) {
         return nil;
     }
     RZCoreDataStack *stack = [self rzv_validCoreDataStack];
@@ -209,7 +206,7 @@ static NSString* const kRZVinylRecordMainContextErrorFormat = @"%@ uses the main
 
 + (NSUInteger)rzv_count
 {
-    if ( !RZVAssertMainThread(kRZVinylRecordMainContextErrorFormat, NSStringFromSelector(_cmd)) ) {
+    if ( !RZVAssertMainThread() ) {
         return 0;
     }
     return [self rzv_countWhere:nil];
@@ -222,7 +219,7 @@ static NSString* const kRZVinylRecordMainContextErrorFormat = @"%@ uses the main
 
 + (NSUInteger)rzv_countWhere:(id)query
 {
-    if ( !RZVAssertMainThread(kRZVinylRecordMainContextErrorFormat, NSStringFromSelector(_cmd)) ) {
+    if ( !RZVAssertMainThread() ) {
         return 0;
     }
     RZCoreDataStack *stack = [self rzv_validCoreDataStack];
@@ -268,7 +265,7 @@ static NSString* const kRZVinylRecordMainContextErrorFormat = @"%@ uses the main
 
 + (void)rzv_deleteAll
 {
-    if ( !RZVAssertMainThread(kRZVinylRecordMainContextErrorFormat, NSStringFromSelector(_cmd)) ) {
+    if ( !RZVAssertMainThread() ) {
         return;
     }
     [self rzv_deleteAllWhere:nil];
@@ -281,7 +278,7 @@ static NSString* const kRZVinylRecordMainContextErrorFormat = @"%@ uses the main
 
 + (void)rzv_deleteAllWhere:(id)query
 {
-    if ( !RZVAssertMainThread(kRZVinylRecordMainContextErrorFormat, NSStringFromSelector(_cmd)) ) {
+    if ( !RZVAssertMainThread() ) {
         return;
     }
     RZCoreDataStack *stack = [self rzv_validCoreDataStack];

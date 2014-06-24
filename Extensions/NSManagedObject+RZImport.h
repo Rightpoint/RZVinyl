@@ -120,7 +120,7 @@
 + (NSArray *)rzi_objectsFromArray:(NSArray *)array inContext:(NSManagedObjectContext *)context withMappings:(NSDictionary *)mappings;
 
 //
-//  RZAutoImportable Protocol
+//  RZImportable Protocol
 //
 
 /**
@@ -160,6 +160,6 @@
  *
  *  @return YES if @p RZImport should perform automatic value import, NO to prevent it from doing so.
  */
-- (BOOL)rzi_shouldImportValue:(id)value forKey:(NSString *)key inContext:(NSManagedObjectContext *)context;
+- (BOOL)rzi_shouldImportValue:(id)value forKey:(NSString *)key inContext:(NSManagedObjectContext *)context NS_REQUIRES_SUPER;
 
 @end
