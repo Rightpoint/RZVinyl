@@ -35,8 +35,9 @@ static NSString* const kRZPeronDataSourcePersonCellIdentifier = @"PersonCell";
 
         _fetchedResultsController = [NSFetchedResultsController rzv_forEntity:[RZPerson rzv_entityName]
                                                                     inContext:[[RZCoreDataStack defaultStack] mainManagedObjectContext]
-                                                                withPredicate:nil
-                                                              sortDescriptors:@[ RZVKeySort(NSStringFromSelector(@selector(sortIndex)), NO) ]];
+                                                                        where:nil
+                                                                         sort:@[ RZVKeySort(NSStringFromSelector(@
+                                                                                 selector(sortIndex)), NO) ]];
         _fetchedResultsController.delegate = self;
         [self updateFetch];
     }
