@@ -209,8 +209,131 @@ To persist changes to objects in the main context, simply call `save:` on the `R
 
 ## RZImport Extensions
 
+[RZImport](https://github.com/Raizlabs/RZImport) can be combined with RZVinyl for powerful automatic importing of managed objects from deserialized JSON or any other plain-ol-data `NSDictionary` or `NSArray` source.
+
+`NSManagedObject+RZImport` provides a partial implementation of the `RZImportable` protocol that automatically handles object uniquing and relationship imports. For a working demo, see the example project.
+
+### Usage
+
+To enable RZImport for your managed object subclasses, create a category and override the following methods from `NSManagedObject+RZVinyl` and `NSManagedObject+RZImportableSubclass`:
+
+##### `+ (NSString *)rzv_primaryKey;`
+
+Override to return the name of the property attributes representing the "unique ID" of this object type
+
+##### `+ (NSString *)rzv_externalPrimaryKey;`
+
+If the key in the dictionary representations of this object is different from the primary key property name, override this method to return that key here. If not overridden, the same value returned by `rzv_primaryKey` will be used to find unique instances of the object.
+
+You can also implement the methods of `RZImportable` in your managed object classes to handle validation, provide further custom key/property mappings, etc, with two important caveats:
+
+##### **DO NOT** override `+ (id)rzi_existingObjectForDict:(NSDictionary *)dict`
+
+This is implemented by the `NSManagedObject+RZImport` to handle CoreData concurrency, and internally calls the extended version:
+
+```
++ (id)rzi_existingObjectForDict:(NSDictionary *)dict inContext:(NSManagedObjectContext *)context;
+```
+
+This method is safe to override as long as you always return the value provided by `super` in the cases that your override does not handle. See below for an example.
+
+##### **DO NOT** override `- (BOOL)rzi_shouldImportValue:(id)value forKey:(NSString *)key`
+
+This is for the same reasons as mentioned above. You can override the extended version as long as you return the value returned by `super` in cases that your override does not handle:
+
+```
+- (BOOL)rzi_shouldImportValue:(id)value forKey:(NSString *)key inContext:(NSManagedObjectContext *)context;
+```
+
+### Example
+
+Here is an example of a managed object subclass that is configured for usage with `RZImport`.
+
+```
+// RZArtist.h
+@interface RZArtist : NSManagedObject
+
+@property (nonatomic, retain) NSNumber *remoteID;
+@property (nonatomic, retain) NSDate *birthdate;
+@property (nonatomic, retain) NSString *name;
+@property (nonatomic, retain) NSNumber *rating;
+
+@property (nonatomic, retain) NSSet *songs; // one-to-many relationship of 'RZSong' objects
+
+@end
 
 
+// RZArtist+RZImport.h
+@interface RZArtist (RZImport) <RZImportable>
+
+@end
+
+
+// RZArtist+RZImport.m
+@implementation RZArtist (RZImport)
+
++ (NSString *)rzv_primaryKey
+{
+    return @"remoteID";
+}
+
++ (NSString *)rzv_externalPrimaryKey
+{
+	return @"id";
+}
+
++ (NSDictionary *)rzi_customMappings
+{
+	return @{ @"dob" : @"birthdate" };
+}
+
++ (NSString *)rzi_dateFormatForKey:(NSString *)key
+{
+	if ( [key isEqualToString:@"dob"] ) {
+		return @"yyyy-MM-dd";
+	}
+	return nil;
+}
+
+@end
+```
+
+Using this basic implementation and assuming `RZSong` is also configured correctly, you can do the following:
+
+```
+// This could just as easily be deserialized JSON
+NSDictionary *artistDict = @{
+	@"id" : @100,
+	@"dob" : @"11-27-1942", 	// string -> date via provided format
+	@"rating" : @"4.7", 		// string -> number automatically
+	@"name" : @"Jimi Hendrix",
+	@"songs" : @[				// will recursively be imported and relationship updated
+		@{
+			@"id" : @1000,
+			@"title" : @"Hey Joe"
+	   	},
+	   	@{
+	   		@"id" : @1001,
+	   		@"title" : @"Spanish Castle Magic"
+	   	}
+	]
+};
+
+[[RZCoreDataStack defaultStack] performBlockUsingBackgroundContext:^(NSManagedObjectContext *context) {
+	
+	// Import jimi and his nested songs from the dictionary
+	RZArtist *jimi = [RZArtist rzi_objectFromDictionary:artistDict inContext:context];
+
+} completion:^(NSError *err) {
+	if ( !err ) {
+		[myStack save:YES];
+	}
+	
+	// Fetch the record from the main thread
+	RZArtist *mainThreadJimi = [RZArtist rzv_objectWithPrimaryKeyValue:@100];
+}];
+
+```
 
 # Full Documentation
 

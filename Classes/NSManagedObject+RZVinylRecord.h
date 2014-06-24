@@ -42,9 +42,9 @@
  */
 @interface NSManagedObject (RZVinylRecord)
 
-//
-//  Creation
-//
+
+/** @name Creating/Finding objects */
+
 
 /**
  *  Create and return a new instance in the main context.
@@ -112,9 +112,8 @@
 + (instancetype)rzv_objectWithAttributes:(NSDictionary *)attributes createNew:(BOOL)createNew inContext:(NSManagedObjectContext *)context;
 
 
-//
-//  Query/Fetch
-//
+/** @name Querying/Fetching Objects */
+
 
 /**
  *  Return an array of all objects of the receiver's type in the main context.
@@ -193,9 +192,9 @@
  */
 + (NSArray *)rzv_where:(id)query sort:(NSArray *)sortDescriptors inContext:(NSManagedObjectContext *)context;
 
-//
-//  Count
-//
+
+/** @name Counting Objects */
+
 
 /**
  *  Return the count of objects of the receiver's type in the main context.
@@ -232,9 +231,9 @@
  */
 + (NSUInteger)rzv_countWhere:(id)query inContext:(NSManagedObjectContext *)context;
 
-//
-//  Delete
-//
+
+/**  @name Deleting Objects */
+
 
 /**
  *  Delete this object from its managed object context. If this object is not inserted, no action is taken.
@@ -279,9 +278,8 @@
 + (void)rzv_deleteAllWhere:(id)query inContext:(NSManagedObjectContext *)context;
 
 
-//
-//  Metadata
-//
+/** @name Utilities */
+
 
 /**
  *  The entity name of the CoreData entity represented by this class.
@@ -290,9 +288,7 @@
  */
 + (NSString *)rzv_entityName;
 
-//
-//  Subclassable
-//
+/** @name Subclassing */
 
 /**
  *  Override in subclasses to provide a different data stack for use with this
