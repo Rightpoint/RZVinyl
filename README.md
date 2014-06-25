@@ -247,21 +247,21 @@ To facilitate this, `NSManagedObjectContext+RZVinylSave` provides two methods fo
 ##### Synchronous Save
 
 ```objective-c
+NSError *saveError = nil;
+if ( ![context rzv_saveToStoreAndWait:&saveError] ) {
+	NSLog(@"Error saving context: %@", saveError);
+}
+```
+
+##### Asynchronous Save
+
+```objective-c
 [context rzv_saveToStoreWithCompletion:^(NSError *error){
 	// Called on main thread
 	if ( error ) {
 		NSLog(@"Error saving context: %@", saveError);
 	}
 }];
-```
-
-##### Asynchronous Save
-
-```objective-c
-NSError *saveError = nil;
-if ( ![context rzv_saveToStoreAndWait:&saveError] ) {
-	NSLog(@"Error saving context: %@", saveError);
-}
 ```
 
 ## RZImport Extensions
