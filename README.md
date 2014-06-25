@@ -249,23 +249,25 @@ If the key in the dictionary representations of this object is different from th
 
 You can also implement the methods of `RZImportable` in your managed object classes to handle validation, provide further custom key/property mappings, etc, with two important caveats:
 
-##### **DO NOT** override `+ (id)rzi_existingObjectForDict:(NSDictionary *)dict`
+##### Do not override `+ (id)rzi_existingObjectForDict:(NSDictionary *)dict`
 
-This is implemented by the `NSManagedObject+RZImport` to handle CoreData concurrency, and internally calls the extended version:
+This is implemented by the `NSManagedObject+RZImport` category to handle CoreData concurrency, and internally calls the extended version with a context parameter:
 
 ```objective-c
 + (id)rzi_existingObjectForDict:(NSDictionary *)dict inContext:(NSManagedObjectContext *)context;
 ```
 
-This method is safe to override as long as you always return the value provided by `super` in the cases that your override does not handle. See below for an example.
+The implementation provided by the category automatically manages unique objects during an import by finding an existing object matching the dictionary being imported. This default implementation is safe to override as long as you always return the value provided by `super` in the cases that your override does not handle. See below for an example.
 
-##### **DO NOT** override `- (BOOL)rzi_shouldImportValue:(id)value forKey:(NSString *)key`
+##### Do not override `- (BOOL)rzi_shouldImportValue:(id)value forKey:(NSString *)key`
 
-This is for the same reasons as mentioned above. You can override the extended version as long as you return the value returned by `super` in cases that your override does not handle:
+This is for similar reasons as above - the category implements the protocol method and internally calls the extended version with a context parameter:
 
 ```objective-c
 - (BOOL)rzi_shouldImportValue:(id)value forKey:(NSString *)key inContext:(NSManagedObjectContext *)context;
 ```
+
+The category implementation handles recursive imports for keys representing relationships. You can override the extended method in a subclass as well, as long as you return the result of invoking the `super` implementation for keys that your override does not handle.
 
 ### Example
 
@@ -280,7 +282,8 @@ Here is an example of a managed object subclass that is configured for usage wit
 @property (nonatomic, retain) NSString *name;
 @property (nonatomic, retain) NSNumber *rating;
 
-@property (nonatomic, retain) NSSet *songs; // one-to-many relationship of 'RZSong' objects
+@property (nonatomic, retain) RZGenre *genre; 	// one-to-one relationship
+@property (nonatomic, retain) NSSet *songs; 	// one-to-many relationship of 'RZSong' objects
 
 @end
 
@@ -317,10 +320,25 @@ Here is an example of a managed object subclass that is configured for usage wit
 	return nil;
 }
 
+- (BOOL)rzi_shouldImportValue:(id)value forKey:(NSString *)key inContext:(NSManagedObjectContext *)context
+{
+	// Genre string will be imported as a managed object (RZGenre)
+	if ( [key isEqualToString:@"genre"] ) {
+		// Could also use an NSValueTransformer if this will be done in multiple classes
+		if ( [value isKindOfClass:[NSString class]] ) {
+			self.genre = [RZGenre rzv_objectWithAttributes:@{ @"name" : value }
+							     createNew:YES
+							     inContext:context];
+		}
+		return NO;
+	}
+	return [super rzi_shouldImportValue:value forKey:key inContext:context];
+}
+
 @end
 ```
 
-Using this basic implementation and assuming `RZSong` is also configured correctly, you can do the following:
+Using this basic implementation and assuming `RZSong` and `RZGenre` are also configured correctly, you can do the following:
 
 ```objective-c
 // This could just as easily be deserialized JSON
@@ -329,7 +347,8 @@ NSDictionary *artistDict = @{
 	@"dob" : @"1942-11-27", 	// string -> date via provided format
 	@"rating" : @"4.7", 		// string -> number automatically
 	@"name" : @"Jimi Hendrix",
-	@"songs" : @[				// will recursively be imported and relationship updated
+	@"genre" : @"Psychedelic Rock", // string -> RZGenre via protocol implementation
+	@"songs" : @[			// array -> RZSong to-many relationship automatically 
 		@{
 			@"id" : @1000,
 			@"title" : @"Hey Joe"
