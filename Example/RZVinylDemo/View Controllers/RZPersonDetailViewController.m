@@ -84,7 +84,7 @@
     
     if ( editing ) {
         
-        // Create a "scratch" context for editing
+        // Create a "scratch" context for editing the person. This is a main-thread context.
         self.scratchContext = [[RZCoreDataStack defaultStack] temporaryManagedObjectContext];
         
         // Get a copy of this person from the scratch context
