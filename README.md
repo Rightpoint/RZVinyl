@@ -95,11 +95,7 @@ RZCoreDataStack *myStack = [[RZCoreDataStack alloc] initWithModelName:@"MyModel"
 	// do some stuff with the context
 	// this block is on a background thread and the context has private-queue confinement
 } completion:^(NSError *err) {
-	// save to the persistent store
 	// this block is on the main thread
-	if ( !err ) {
-		[myStack save:YES];
-	}
 }];
 ```
 
@@ -244,9 +240,13 @@ NSUInteger theCount = [MyManagedObject rzv_countWhere:RZVPred(@"someAttribute >=
 
 ### Saving
 
-The semantics of saving an object in CoreData are rather different from what might be expected when using the Active Record pattern, particularly when dealing with a more complex context hierarchy, as in `RZCoreDataStack`. In order to persist changes to the persistent store, it is necessary to save the entire context tree all the way to its root, which also saves any other changes in any of the contexts along the way. To avoid unintended, non-obvious consequences, no "save" methods are provided for managed object classes via `RZVinylRecord`, and saving must be handled via managed object contexts and/or the CoreData stack.
+The semantics of saving an object in CoreData are rather different from what might be expected when using the Active Record pattern, particularly when dealing with a more complex context hierarchy, as in `RZCoreDataStack`. In order to persist changes to the persistent store, it is necessary to save the entire context tree all the way to its root, which also saves any other changes in any of the contexts along the way. To avoid unintended, non-obvious consequences, no "save" methods are provided for managed object classes via `RZVinylRecord`, and saving must be handled via managed object contexts themselves.
 
-To persist changes to objects in the main context, simply call `save:` on the `RZCoreDataStack`. This will save both the main context as well as the disk write context. If you are using a background or temporary context, you must save that context first before calling `save:` on the stack. Saving either of these separate contexts will automatically merge changes into the main context.
+To facilitate this, `NSManagedObjectContext+RZVinylSave` provides two methods for saving up the context tree all the way to the persistent store, in synchronous and asynchronous flavors.
+
+##### Synchronous Save
+
+##### Asynchronous Save
 
 ## RZImport Extensions
 

@@ -33,8 +33,22 @@
  */
 @interface NSManagedObjectContext (RZVinylSave)
 
+/**
+ *  Asynchronously save this context and all parent contexts all the way up to the persistent store.
+ *  This method returns immediately.
+ *
+ *  @param completion An optional completion block that will be called when the saves are all finished,
+ *                    or as soon as there is a saving error.
+ */
 - (void)rzv_saveToStoreWithCompletion:(void(^)(NSError *error))completion;
 
+/**
+ *  Synchronously save this context and all parent contexts all the way up to the persistent store.
+ *
+ *  @param error Optional NSError pointer that will be filled in if there is an error.
+ *
+ *  @return YES if the save succeeded, NO otherwise.
+ */
 - (BOOL)rzv_saveToStoreAndWait:(out NSError *__autoreleasing *)error;
 
 @end
