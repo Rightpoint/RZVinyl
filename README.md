@@ -246,6 +246,12 @@ To facilitate this, `NSManagedObjectContext+RZVinylSave` provides two methods fo
 
 ##### Synchronous Save
 
+```
+[context rzv_saveToStoreWithCompletion:^(NSError *){
+	// Called on main thread
+}];
+```
+
 ##### Asynchronous Save
 
 ## RZImport Extensions

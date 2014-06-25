@@ -37,8 +37,13 @@
  *  Asynchronously save this context and all parent contexts all the way up to the persistent store.
  *  This method returns immediately.
  *
- *  @param completion An optional completion block that will be called when the saves are all finished,
+ *  @param completion An optional completion block that will be called on the main thread when the saves are all finished,
  *                    or as soon as there is a saving error.
+ *
+ *  @note This is safe to call from any thread.
+ *
+ *  @warning None of the contexts in the parent context hierarchy can have confinement concurrency type.
+ *           If you try to call this method with a confined context in the hierarchy, an exception will be thrown.
  */
 - (void)rzv_saveToStoreWithCompletion:(void(^)(NSError *error))completion;
 
@@ -46,6 +51,11 @@
  *  Synchronously save this context and all parent contexts all the way up to the persistent store.
  *
  *  @param error Optional NSError pointer that will be filled in if there is an error.
+ *
+ *  @note This is safe to call from any thread.
+ *
+ *  @warning None of the contexts in the parent context hierarchy can have confinement concurrency type.
+ *           If you try to call this method with a confined context in the hierarchy, an exception will be thrown.
  *
  *  @return YES if the save succeeded, NO otherwise.
  */
