@@ -88,7 +88,10 @@
         self.scratchContext = [[RZCoreDataStack defaultStack] temporaryManagedObjectContext];
         
         // Get a copy of this person from the scratch context
-        self.editingPerson = [RZPerson rzv_objectWithPrimaryKeyValue:self.person.remoteId createNew:NO];
+        self.editingPerson = [RZPerson rzv_objectWithPrimaryKeyValue:self.person.remoteId
+                                                           createNew:NO
+                                                           inContext:self.scratchContext];
+        
         NSAssert(self.editingPerson != nil, @"Should be able to find matching person in scratch context");
         
         UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel"
