@@ -327,8 +327,8 @@ Here is an example of a managed object subclass that is configured for usage wit
 		// Could also use an NSValueTransformer if this will be done in multiple classes
 		if ( [value isKindOfClass:[NSString class]] ) {
 			self.genre = [RZGenre rzv_objectWithAttributes:@{ @"name" : value }
-							     createNew:YES
-							     inContext:context];
+							                     createNew:YES
+							                     inContext:context];
 		}
 		return NO;
 	}
@@ -344,11 +344,11 @@ Using this basic implementation and assuming `RZSong` and `RZGenre` are also con
 // This could just as easily be deserialized JSON
 NSDictionary *artistDict = @{
 	@"id" : @100,
-	@"dob" : @"1942-11-27", 	// string -> date via provided format
-	@"rating" : @"4.7", 		// string -> number automatically
+	@"dob" : @"1942-11-27", 	    // string -> date, via provided format
+	@"rating" : @"4.7", 		    // string -> number, automatically
 	@"name" : @"Jimi Hendrix",
-	@"genre" : @"Psychedelic Rock", // string -> RZGenre via protocol implementation
-	@"songs" : @[			// array -> RZSong to-many relationship automatically 
+	@"genre" : @"Psychedelic Rock", // string -> RZGenre, via protocol method
+	@"songs" : @[			        // array -> RZSong to-many relationship, automatically 
 		@{
 			@"id" : @1000,
 			@"title" : @"Hey Joe"
