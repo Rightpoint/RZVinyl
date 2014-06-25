@@ -197,7 +197,7 @@ typedef NS_OPTIONS(NSUInteger, RZCoreDataStackOptions)
  *        concurrent imports on different contexts. To prevent longer-lasting background tasks from holding up the queue, 
  *        use @p -backgroundManagedObjectContext, but be mindful of potential duplicate objects or merge issues.
  *
- *  @note The full stack is not saved in this method. To persist data to to the persistent store, call @p -save: on the stack.
+ *  @note When the block completes, the context hierarchy will be saved from the background context all the way up to the PSC.
  *
  *  @warning When using this method, you must pass the context given to the block to to the methods in
  *           @p NSManagedObject+VinylRecord.h. Failure to do so will cause all transactions to happen on the main context.
@@ -215,7 +215,6 @@ typedef NS_OPTIONS(NSUInteger, RZCoreDataStackOptions)
  *  @note You must use @p performBlock: to manipulate the returned context.
  *
  *  @warning Since this context is a sibling of the main context, be mindful of the merge policy when saving it.
- *           Also, you must call @p save: after saving this context or changes are not persisted to disk.
  *
  *  @return A new background managed object context with private queue confinement.
  */
@@ -227,8 +226,6 @@ typedef NS_OPTIONS(NSUInteger, RZCoreDataStackOptions)
  *  for making changes to objects on the main queue with the option of later discarding the changes.
  *
  *  @note You must manipulate the returned context and its objects on the main thread.
- *
- *  @warning You must call @p +save: after saving this context or changes are not persisted to disk.
  *
  *  @return A new temporary managed object context with private queue confinement.
  */
