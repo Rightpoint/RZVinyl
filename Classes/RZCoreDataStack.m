@@ -178,7 +178,7 @@ static NSString* const kRZCoreDataStackParentStackKey = @"RZCoreDataStackParentS
     
     dispatch_async(self.backgroundContextQueue, ^{
         NSManagedObjectContext *context = [self backgroundManagedObjectContext];
-        [context performBlock:^{
+        [context performBlockAndWait:^{
             block(context);
             NSError *err = nil;
             [context save:&err];
@@ -370,7 +370,7 @@ static NSString* const kRZCoreDataStackParentStackKey = @"RZCoreDataStackParentS
         
         RZVLogError(@"Error creating/reading persistent store: %@", error);
         
-        if ([self hasOptionsSet:RZCoreDataStackOptionDeleteDatabaseIfUnreadable] && self.storeURL ) {
+        if ( [self hasOptionsSet:RZCoreDataStackOptionDeleteDatabaseIfUnreadable] && self.storeURL ) {
             NSError *removeFileError = nil;
             if ( [[NSFileManager defaultManager] removeItemAtURL:self.storeURL error:&removeFileError] ) {
                 [self.persistentStoreCoordinator addPersistentStoreWithType:self.storeType
@@ -441,7 +441,9 @@ static NSString* const kRZCoreDataStackParentStackKey = @"RZCoreDataStackParentS
 {
     NSManagedObjectContext *context = [notification object];
     if ( [[context userInfo] objectForKey:kRZCoreDataStackParentStackKey] == self ) {
-        [self.mainManagedObjectContext mergeChangesFromContextDidSaveNotification:notification];
+        [self.mainManagedObjectContext performBlock:^{
+            [self.mainManagedObjectContext mergeChangesFromContextDidSaveNotification:notification];
+        }];
     }
 }
 

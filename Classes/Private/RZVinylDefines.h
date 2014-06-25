@@ -34,6 +34,13 @@
  */
 
 //
+//  String Constants
+//
+
+OBJC_EXTERN NSString* const kRZVinylRecordMainContextErrorFormat;
+
+
+//
 //  Assertion
 //
 /**
@@ -47,7 +54,7 @@
     ({ NSAssert(cond, msg, ##__VA_ARGS__); cond; })
 
 #define RZVAssertMainThread(msg, ...) \
-    RZVAssert([NSThread isMainThread], msg, ##__VA_ARGS__)
+    RZVAssert([NSThread isMainThread], kRZVinylRecordMainContextErrorFormat, NSStringFromSelector(_cmd))
 
 #define RZVAssertSubclassOverride() \
     @throw [NSException exceptionWithName:NSInternalInconsistencyException \

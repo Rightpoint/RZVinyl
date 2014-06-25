@@ -28,6 +28,9 @@
 
 #import "RZVinylDefines.h"
 
+NSString* const kRZVinylRecordMainContextErrorFormat = @"%@ uses the main managed object context by default and must be called on the main thread. \
+                                                        To use another managed object context, use the version which takes a context argument.";
+
 void rzv_performBlockAtomically(void(^block)()) {
     
     static dispatch_queue_t s_syncQueue = nil;

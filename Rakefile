@@ -32,7 +32,16 @@ end
 #
 
 task :test do
-  sh("xctool -workspace '#{WORKSPACE_PATH}' -scheme '#{TEST_SCHEME}' -sdk iphonesimulator clean build test -freshInstall") rescue nil
+  sh("xctool -workspace '#{WORKSPACE_PATH}' -scheme '#{TEST_SCHEME}' -sdk iphonesimulator build test -freshInstall") rescue nil
+  exit $?.exitstatus
+end
+
+#
+# Analyze
+#
+
+task :analyze do
+  sh("xctool -workspace '#{WORKSPACE_PATH}' -scheme '#{TEST_SCHEME}' -sdk iphonesimulator analyze -failOnWarnings") rescue nil
   exit $?.exitstatus
 end
 
@@ -78,7 +87,7 @@ task :usage do
 end
 
 task :sync do
-  sync_project(PROJ_PATH, '--exclusion /Classes')
+  sync_project(PROJ_PATH, "")
 end
 
 #
