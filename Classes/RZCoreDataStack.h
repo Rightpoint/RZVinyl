@@ -73,9 +73,9 @@ typedef NS_OPTIONS(NSUInteger, RZCoreDataStackOptions)
  *            |
  *  [ Temporary MOC(s) ]@endcode
  *
- *  @warning To save to the persistent store coordinator, you must use the @p save: method
- *  provided by this class. Saving the main thread's managed object context will not propagate
- *  changes all the way to the psc, which will result in data not being saved to disk.
+ *  @warning To save to the persistent store coordinator, you must use one of the category methods in
+ *  @p NSManagedObjectContext+RZVinylSave. Saving the main thread's managed object context will not propagate
+ *  changes all the way to the psc, which, when using a disk-backed store, will result in data not being saved to disk.
  */
 @interface RZCoreDataStack : NSObject
 

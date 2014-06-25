@@ -33,8 +33,9 @@
 /**
  *  ActiveRecord-style extensions for NSManagedObject.
  *
- *  @note Because @p RZCoreDataStack uses a parent/child relationship between the PSC context and the main context,
- *        no "save" method is provided here. You must call @p -save: on the stack itself to persist data to the store.
+ *  @note Because of the semantics of saving NSManagedObjectContext in a parent/child configuration, no "save" method 
+ *        is provided for managed object instances themselves. You must call one of the methods in @p NSManagedObjectContext+RZVinylSave
+ *        to persist objects to the store.
  *
  *  @warning This category requires the use of @p RZCoreDataStack to access the default managed object context,
  *           as well as valid overrides for the methods in @p NSManagedObject+NSVinylSubclass.h on managed object subclasses.
