@@ -223,10 +223,10 @@ typedef NS_OPTIONS(NSUInteger, RZCoreDataStackOptions)
 
 /**
  *  Creates initializes, and returns a new managed object context with main queue confinement,
- *  which is a child of the main managed object context. This can be used as a "scratchpad" of sorts,
+ *  which is a child of the main managed object context. This can be used as a "sandbox" of sorts,
  *  for making changes to objects on the main queue with the option of later discarding the changes.
  *
- *  @note You must manipulate the returned context on the main thread.
+ *  @note You must manipulate the returned context and its objects on the main thread.
  *
  *  @warning You must call @p +save: after saving this context or changes are not persisted to disk.
  *

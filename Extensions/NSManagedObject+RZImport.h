@@ -119,9 +119,9 @@
  */
 + (NSArray *)rzi_objectsFromArray:(NSArray *)array inContext:(NSManagedObjectContext *)context withMappings:(NSDictionary *)mappings;
 
-//
-//  RZImportable Protocol
-//
+
+/** @name RZImportable Protocol */
+
 
 /**
  *  Extended implementation of the method from @p RZAutoImportable.
@@ -134,7 +134,7 @@
  *  @param context The managed object context in which to find/insert the object.
  *
  *  @warning Do not implement the @p RZAutoImportable protocol method @p +rzi_existingObjectForDict: in subclasses.
- *           This methid is called by an internal implementation of @p +rzi_existingObjectForDict: which will pass along the correct
+ *           This method is called by an internal implementation of @p +rzi_existingObjectForDict: which will pass along the correct
  *           context based on a bit of internal state.
  *
  *  @return A valid NSManagedObject initialized with the provided dictionary, or nil
