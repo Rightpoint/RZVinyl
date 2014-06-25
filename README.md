@@ -47,6 +47,28 @@ To install manually with RZAutoImport extensions:
 
 If all went well, your project should build cleanly and the methods from `NSManagedObject+RZAutoImport.h` should be available.
 
+# Demo Project
+
+A demo project is available in the `Example` directory. The demo project uses CocoaPods, and can be opened from a temporary directory by running 
+
+```
+pod try RZVinyl
+```
+
+Alternatively, the demo can be configured by running the following commands from the root project directory.
+
+```
+cd Example
+pod install
+```
+
+Then, open `RZVinylDemo.xcworkspace` and check out the demo!
+
+
+**Note: The above steps assume that the CocoaPods gem is installed.**
+
+If you do not have CocoaPods installed, follow the instructions [here](http://cocoapods.org/).
+
 # Overview
 
 To use RZVinyl, first add `#import "RZVinyl.h"` to any classes that will need to use it, or to your app's `.pch` file. RZVinyl can be broken down into three basic areas of functionality, as follows.
@@ -334,28 +356,6 @@ NSDictionary *artistDict = @{
 }];
 
 ```
-
-# Demo Project
-
-A demo project is available in the `Example` directory. The demo project uses CocoaPods, and can be opened from a temporary directory by running 
-
-```
-pod try RZVinyl
-```
-
-Alternatively, the demo can be configured by running the following commands from the root project directory.
-
-```
-cd Example
-pod install
-```
-
-Then, open `RZVinylDemo.xcworkspace` and check out the demo!
-
-
-**Note: The above steps assume that the CocoaPods gem is installed.**
-
-If you do not have CocoaPods installed, follow the instructions [here](http://cocoapods.org/).
 
 # Full Documentation
 
