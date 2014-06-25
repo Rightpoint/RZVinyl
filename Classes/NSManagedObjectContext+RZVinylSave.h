@@ -1,8 +1,8 @@
 //
-//  RZVinyl.h
+//  NSManagedObjectContext+RZVinylSave.h
 //  RZVinyl
 //
-//  Created by Nick Donaldson on 6/4/14.
+//  Created by Nick Donaldson on 6/25/14.
 //
 //  Copyright 2014 Raizlabs and other contributors
 //  http://raizlabs.com/
@@ -26,24 +26,15 @@
 //  OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 //  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-#import "RZCoreDataStack.h"
-#import "NSManagedObject+RZVinylRecord.h"
-#import "NSFetchRequest+RZVinylRecord.h"
-#import "NSFetchedResultsController+RZVinylRecord.h"
-#import "NSManagedObjectContext+RZVinylSave.h"
-
-#if (RZV_IMPORT_AVAILABLE)
-    #import "NSManagedObject+RZImport.h"
-    #import "NSManagedObject+RZImportableSubclass.h"
-#endif
-
+@import CoreData;
 
 /**
- *  Public Macros
+ *  Extensions to NSManagedObjectContext to support full-stack saving.
  */
+@interface NSManagedObjectContext (RZVinylSave)
 
-/**
- *  Shorthand for creating an NSSortDescriptor
- */
-#define RZVKeySort(keyPath, isAscending) \
-    [NSSortDescriptor sortDescriptorWithKey:keyPath ascending:isAscending]
+- (void)rzv_saveToStoreWithCompletion:(void(^)(NSError *error))completion;
+
+- (BOOL)rzv_saveToStoreAndWait:(out NSError *__autoreleasing *)error;
+
+@end

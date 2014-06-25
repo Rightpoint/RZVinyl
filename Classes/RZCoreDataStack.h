@@ -235,13 +235,6 @@ typedef NS_OPTIONS(NSUInteger, RZCoreDataStackOptions)
 - (NSManagedObjectContext *)temporaryManagedObjectContext;
 
 /**
- *  Save the data stack and optionally wait for save to finish.
- *
- *  @param wait If YES, this method will not return until the save is finished.
- */
-- (void)save:(BOOL)wait;
-
-/**
  *  Performs a serialzed background purge of all stale objects in the persistent store.
  *  Staleness for each entity type is determined by the predicate returned by 
  *  @p rzv_stalenessPredicate in an @p NSManagedObject subclass.
