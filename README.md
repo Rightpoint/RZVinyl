@@ -257,7 +257,7 @@ This is implemented by the `NSManagedObject+RZImport` category to handle CoreDat
 + (id)rzi_existingObjectForDict:(NSDictionary *)dict inContext:(NSManagedObjectContext *)context;
 ```
 
-The implementation provided by the category automatically manages unique objects during an import by finding an existing object matching the dictionary being imported. This default implementation is safe to override as long as you always return the value provided by `super` in the cases that your override does not handle. See below for an example.
+The implementation provided by the category automatically manages unique objects during an import by finding an existing object matching the dictionary being imported. This default implementation is safe to override as long as you always return the value provided by `super` in the cases that your override does not handle.
 
 ##### Do not override `- (BOOL)rzi_shouldImportValue:(id)value forKey:(NSString *)key`
 
@@ -267,7 +267,7 @@ This is for similar reasons as above - the category implements the protocol meth
 - (BOOL)rzi_shouldImportValue:(id)value forKey:(NSString *)key inContext:(NSManagedObjectContext *)context;
 ```
 
-The category implementation handles recursive imports for keys representing relationships. You can override the extended method in a subclass as well, as long as you return the result of invoking the `super` implementation for keys that your override does not handle.
+The category implementation handles recursive imports for keys representing relationships. You can override the extended method in a subclass as well, as long as you return the result of invoking the `super` implementation for keys that your override does not handle. See below for an example.
 
 ### Example
 
