@@ -115,6 +115,25 @@ Each managed object subclass can provide a "stale" predicate that will be used h
 	}
 }];
 ```
+
+##### Create a background (private queue) context
+
+```objective-c
+// This context is a child of the disk writer context and a sibling of the main thread context. 
+// Saving it will automatically merge changes into the main context.
+NSManagedObjectContext *backgroundContext = [myStack backgroundManagedObjectContext];
+```
+
+##### Create a temporary main-thread context
+
+```objective-c
+// This context is a child of the primary main thread context. 
+// It is useful for creating a "sandbox" for temporary edits that may or may not be saved.
+// Its objects can safely be used on the main thread (e.g. with UI elements).
+// Saving it will automatically push changes up to the primary main thread context.
+NSManagedObjectContext *scratchContext = [myStack temporaryManagedObjectContext];
+```
+
 ## RZVinylRecord
 
 `RZVinylRecord` is a category on `NSManagedObject` which provides a partial implementation of the Active Record pattern. Each method in `NSManagedObject+RZVinylRecord` has two signatures - one which accepts a managed object context parameter, and one which uses the main managed object context from the default `RZCoreDataStack`. 
