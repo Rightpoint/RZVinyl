@@ -113,8 +113,8 @@
     
     NSFetchRequest *fetch = [NSFetchRequest rzv_forEntity:[self rzv_entityName]
                                                 inContext:context
-                                            withPredicate:[NSCompoundPredicate andPredicateWithSubpredicates:predicates]
-                                          sortDescriptors:nil];
+                                                    where:[NSCompoundPredicate andPredicateWithSubpredicates:predicates]
+                                                     sort:nil];
     NSError *error = nil;
     id result = [[context executeFetchRequest:fetch error:&error] lastObject];
     if ( error ) {
@@ -155,20 +155,20 @@
     return [self rzv_where:nil sort:sortDescriptors inContext:context];
 }
 
-+ (NSArray *)rzv_where:(id)query
++ (NSArray *)rzv_where:(NSPredicate *)predicate
 {
     if ( !RZVAssertMainThread() ) {
         return nil;
     }
-    return [self rzv_where:query sort:nil];
+    return [self rzv_where:predicate sort:nil];
 }
 
-+ (NSArray *)rzv_where:(id)query inContext:(NSManagedObjectContext *)context
++ (NSArray *)rzv_where:(NSPredicate *)predicate inContext:(NSManagedObjectContext *)context
 {
-    return [self rzv_where:query sort:nil inContext:context];
+    return [self rzv_where:predicate sort:nil inContext:context];
 }
 
-+ (NSArray *)rzv_where:(id)query sort:(NSArray *)sortDescriptors
++ (NSArray *)rzv_where:(NSPredicate *)predicate sort:(NSArray *)sortDescriptors
 {
     if ( !RZVAssertMainThread() ) {
         return nil;
@@ -177,23 +177,16 @@
     if ( stack == nil ){
         return nil;
     }
-    return [self rzv_where:query sort:sortDescriptors inContext:[stack mainManagedObjectContext]];
+    return [self rzv_where:predicate sort:sortDescriptors inContext:[stack mainManagedObjectContext]];
 }
 
-+ (NSArray *)rzv_where:(id)query sort:(NSArray *)sortDescriptors inContext:(NSManagedObjectContext *)context
++ (NSArray *)rzv_where:(NSPredicate *)predicate sort:(NSArray *)sortDescriptors inContext:(NSManagedObjectContext *)context
 {
-    if ( !RZVAssert(query == nil || [query isKindOfClass:[NSString class]] || [query isKindOfClass:[NSPredicate class]],
-                    @"Parameter \"query\" must be predicate, predicate format string, or nil")) {
-        return nil;
-    }
-    
-    NSPredicate *predicate = [self rzv_predicateForQuery:query];
-    
     NSError *error = nil;
     NSFetchRequest *fetch = [NSFetchRequest rzv_forEntity:[self rzv_entityName]
                                                 inContext:context
-                                            withPredicate:predicate
-                                          sortDescriptors:sortDescriptors];
+                                                    where:predicate
+                                                     sort:sortDescriptors];
     
     NSArray *fetchedObjects = [context executeFetchRequest:fetch error:&error];
     if ( error ) {
@@ -217,7 +210,7 @@
     return [self rzv_countWhere:nil inContext:context];
 }
 
-+ (NSUInteger)rzv_countWhere:(id)query
++ (NSUInteger)rzv_countWhere:(NSPredicate *)predicate
 {
     if ( !RZVAssertMainThread() ) {
         return 0;
@@ -226,21 +219,16 @@
     if ( stack == nil ){
         return 0;
     }
-    return [self rzv_countWhere:query inContext:[stack mainManagedObjectContext]];
+    return [self rzv_countWhere:predicate inContext:[stack mainManagedObjectContext]];
 }
 
-+ (NSUInteger)rzv_countWhere:(id)query inContext:(NSManagedObjectContext *)context
++ (NSUInteger)rzv_countWhere:(NSPredicate *)predicate inContext:(NSManagedObjectContext *)context
 {
-    if ( !RZVAssert(query == nil || [query isKindOfClass:[NSString class]] || [query isKindOfClass:[NSPredicate class]],
-                    @"Parameter \"query\" must be predicate, predicate format string, or nil")) {
-        return 0;
-    }
-    
-    
     NSFetchRequest *fetch = [NSFetchRequest rzv_forEntity:[self rzv_entityName]
                                                 inContext:context
-                                            withPredicate:[self rzv_predicateForQuery:query]
-                                          sortDescriptors:nil];
+                                                    where:predicate
+                                                     sort:nil];
+    
     [fetch setResultType:NSCountResultType];
     
     NSError *err = nil;
@@ -276,7 +264,7 @@
     [self rzv_deleteAllWhere:nil inContext:context];
 }
 
-+ (void)rzv_deleteAllWhere:(id)query
++ (void)rzv_deleteAllWhere:(NSPredicate *)predicate
 {
     if ( !RZVAssertMainThread() ) {
         return;
@@ -285,16 +273,16 @@
     if ( stack == nil ) {
         return;
     }
-    [self rzv_deleteAllWhere:query inContext:[stack mainManagedObjectContext]];
+    [self rzv_deleteAllWhere:predicate inContext:[stack mainManagedObjectContext]];
 }
 
-+ (void)rzv_deleteAllWhere:(id)query inContext:(NSManagedObjectContext *)context
++ (void)rzv_deleteAllWhere:(NSPredicate *)predicate inContext:(NSManagedObjectContext *)context
 {
-    if ( !RZVParameterAssert(context ) ) {
+    if ( !RZVParameterAssert(context) ) {
         return;
     }
     
-    [[self rzv_where:query sort:nil inContext:context] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+    [[self rzv_where:predicate sort:nil inContext:context] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         [context deleteObject:obj];
     }];
 }
@@ -376,23 +364,6 @@
         return nil;
     }
     return stack;
-}
-
-+ (NSPredicate *)rzv_predicateForQuery:(id)query
-{
-    NSPredicate *predicate = nil;
-    if ( query ) {
-        if ( [query isKindOfClass:[NSString class]] ) {
-            predicate = [NSPredicate predicateWithFormat:query];
-            if ( !RZVAssert(predicate, @"Malformed predicate string: %@", query) ) {
-                return nil;
-            }
-        }
-        else if ( [query isKindOfClass:[NSPredicate class]] ) {
-            predicate = query;
-        }
-    }
-    return predicate;
 }
 
 @end

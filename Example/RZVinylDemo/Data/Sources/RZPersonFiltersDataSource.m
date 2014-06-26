@@ -85,12 +85,12 @@ typedef NS_ENUM(NSInteger, RZPersonFilterGenderRow)
     NSPredicate *predicate = nil;
     if ( indexPath.section == RZPersonFiltersSectionGender ) {
         NSString *gender = indexPath.row == RZPersonFilterGenderRowFemale ? @"female" : @"male";
-        predicate = [NSPredicate predicateWithFormat:@"gender == %@", gender];
+        predicate = RZVPred(@"gender == %@", gender);
     }
     else if ( indexPath.section == RZPersonFiltersSectionInterests ) {
         RZInterest *interest = [self.interestObjects objectAtIndex:indexPath.row];
         if ( interest ) {
-            predicate = [NSPredicate predicateWithFormat:@"%@ IN interests", interest];
+            predicate = RZVPred(@"%@ IN interests", interest);
         }
     }
     
