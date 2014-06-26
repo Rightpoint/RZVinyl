@@ -49,8 +49,9 @@ static void rzv_performSaveCompletionAsync(RZVinylSaveCompletion completion, NSE
     
     [self performBlock:^{
         if ( ![self hasChanges] ) {
-            RZVLogInfo(@"Managed ojbect context %@ does not have changes, not saving", self);
+            RZVLogInfo(@"Managed object context %@ does not have changes, not saving", self);
             rzv_performSaveCompletionAsync(completion, nil);
+            return;
         }
         
         NSError *saveErr = nil;
@@ -68,7 +69,7 @@ static void rzv_performSaveCompletionAsync(RZVinylSaveCompletion completion, NSE
     }];
 }
 
-- (BOOL)rzv_saveToStoreAndWait:(out NSError *__autoreleasing *)error
+- (BOOL)rzv_saveToStoreAndWait:(NSError *__autoreleasing *)error
 {
     __block NSError *saveErr = nil;
     __block BOOL hasChanges = NO;
@@ -82,7 +83,7 @@ static void rzv_performSaveCompletionAsync(RZVinylSaveCompletion completion, NSE
         [currentContext performBlockAndWait:^{
             hasChanges = [currentContext hasChanges];
             if ( !hasChanges ) {
-                RZVLogInfo(@"Managed ojbect context %@ does not have changes, not saving", self);
+                RZVLogInfo(@"Managed object context %@ does not have changes, not saving", self);
             }
             else if ( ![currentContext save:&saveErr] ) {
                 RZVLogError(@"Error saving managed object context context %@: %@", self, saveErr);
