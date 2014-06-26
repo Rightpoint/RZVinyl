@@ -32,7 +32,7 @@ end
 #
 
 task :test do
-  sh("xctool -workspace '#{WORKSPACE_PATH}' -scheme '#{TEST_SCHEME}' -sdk iphonesimulator build test -resetSimulator -freshInstall") rescue nil
+  sh("xctool -workspace '#{WORKSPACE_PATH}' -scheme '#{TEST_SCHEME}' -sdk iphonesimulator build test") rescue nil
   exit $?.exitstatus
 end
 
