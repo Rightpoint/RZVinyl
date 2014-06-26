@@ -146,8 +146,8 @@ typedef NS_OPTIONS(NSUInteger, RZCoreDataStackOptions)
                           options:(RZCoreDataStackOptions)options;
 
 /**
- *  Return a new data stack initialized with a preexisting data model and psc.
- *  The managed object context(s) will be created automatically and a new store will be
+ *  Return a new data stack initialized with a preexisting data model and persistent store coordinator.
+ *  The managed object context(s) will be created automatically and a new store will be added to the PSC.
  *
  *  @param model        A configured data model. Must not be nil.
  *  @param storeType    The type of persistent store to use. Pass nil to default to sqlite store.
