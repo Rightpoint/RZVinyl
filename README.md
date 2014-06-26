@@ -3,7 +3,7 @@ RZVinyl
 
 [![Build Status](https://travis-ci.org/Raizlabs/RZVinyl.svg)](https://travis-ci.org/Raizlabs/RZVinyl)
 
-Stack management, ActiveRecord utilities, and seamless importing for CoreData.
+Stack management, ActiveRecord utilities, and seamless importing for Core Data.
 
 # Installation
 
@@ -27,7 +27,7 @@ RZVinyl follows semantic versioning conventions. As newer versions are released,
 
 ##### Without Import Extensions
 
-Simply copy/add the contents of `Classes/` into your project and ensure that you are linking with CoreData. **Do not** copy the contents of `Extensions/`.
+Simply copy/add the contents of `Classes/` into your project and ensure that you are linking with Core Data. **Do not** copy the contents of `Extensions/`.
 
 ##### With Import Extensions
 
@@ -73,7 +73,7 @@ To use RZVinyl, first add `#import "RZVinyl.h"` to any classes that will need to
 
 ## RZCoreDataStack
 
-`RZCoreDataStack` is a class for building and managing CoreData stacks, including the model, managed object context, and persistent store coordinator. It has convenience methods for performing concurrent background operations with a separate managed object context, as well as a set of class methods for making a default stack available via the singleton pattern.
+`RZCoreDataStack` is a class for building and managing Core Data stacks, including the model, managed object context, and persistent store coordinator. It has convenience methods for performing concurrent background operations with a separate managed object context, as well as a set of class methods for making a default stack available via the singleton pattern.
 
 ##### Create a new stack
 
@@ -242,7 +242,7 @@ NSUInteger theCount = [MyManagedObject rzv_countWhere:RZVPred(@"someAttribute >=
 
 ### Saving
 
-The semantics of saving an object in CoreData are rather different from what might be expected when using the Active Record pattern, particularly when dealing with a more complex context hierarchy, as in `RZCoreDataStack`. In order to persist changes to the persistent store, it is necessary to save the entire context tree all the way to its root, which also saves any other changes in any of the contexts along the way. To avoid unintended, non-obvious consequences, no "save" methods are provided for managed object classes via `RZVinylRecord`, and saving must be handled via managed object contexts and/or the CoreData stack.
+The semantics of saving an object in Core Data are rather different from what might be expected when using the Active Record pattern, particularly when dealing with a more complex context hierarchy, as in `RZCoreDataStack`. In order to persist changes to the persistent store, it is necessary to save the entire context tree all the way to its root, which also saves any other changes in any of the contexts along the way. To avoid unintended, non-obvious consequences, no "save" methods are provided for managed object classes via `RZVinylRecord`, and saving must be handled via managed object contexts and/or the Core Data stack.
 
 To persist changes to objects in the main context, simply call `save:` on the `RZCoreDataStack`. This will save both the main context as well as the disk write context. If you are using a background or temporary context, you must save that context first before calling `save:` on the stack. Saving either of these separate contexts will automatically merge changes into the main context.
 
@@ -268,7 +268,7 @@ You can also implement the methods of `RZImportable` in your managed object clas
 
 ##### Do not override `+ (id)rzi_existingObjectForDict:(NSDictionary *)dict`
 
-This is implemented by the `NSManagedObject+RZImport` category to handle CoreData concurrency, and internally calls the extended version with a context parameter:
+This is implemented by the `NSManagedObject+RZImport` category to handle Core Data concurrency, and internally calls the extended version with a context parameter:
 
 ```objective-c
 + (id)rzi_existingObjectForDict:(NSDictionary *)dict inContext:(NSManagedObjectContext *)context;
