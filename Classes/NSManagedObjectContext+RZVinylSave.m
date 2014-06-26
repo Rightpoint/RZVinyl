@@ -30,6 +30,15 @@
 #import "NSManagedObjectContext+RZVinylSave.h"
 #import "RZVinylDefines.h"
 
+static void rzv_performSaveCompletionAsync(RZVinylSaveCompletion completion, NSError *error)
+{
+    if ( completion ) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            completion(error);
+        });
+    }
+}
+
 @implementation NSManagedObjectContext (RZVinylSave)
 
 - (void)rzv_saveToStoreWithCompletion:(void (^)(NSError *))completion
@@ -39,22 +48,22 @@
     }
     
     [self performBlock:^{
-        NSError *err = nil;
-        if ( ![self save:&err] ) {
-            RZVLogError(@"Error saving context: %@", err);
-            if ( completion ) {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    completion(err);
-                });
-            }
+        if ( ![self hasChanges] ) {
+            RZVLogInfo(@"Managed ojbect context %@ does not have changes, not saving", self);
+            rzv_performSaveCompletionAsync(completion, nil);
+        }
+        
+        NSError *saveErr = nil;
+        if ( ![self save:&saveErr] ) {
+            RZVLogError(@"Error saving managed object context context %@: %@", self, saveErr);
+            rzv_performSaveCompletionAsync(completion, saveErr);
+
         }
         else if ( self.parentContext != nil ) {
             [self.parentContext rzv_saveToStoreWithCompletion:completion];
         }
         else if ( completion ) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                completion(nil);
-            });
+            rzv_performSaveCompletionAsync(completion, nil);
         }
     }];
 }
@@ -62,6 +71,7 @@
 - (BOOL)rzv_saveToStoreAndWait:(out NSError *__autoreleasing *)error
 {
     __block NSError *saveErr = nil;
+    __block BOOL hasChanges = NO;
     NSManagedObjectContext *currentContext = self;
     
     do {
@@ -70,14 +80,18 @@
         }
 
         [currentContext performBlockAndWait:^{
-            if ( ![currentContext save:&saveErr] ) {
-                RZVLogError(@"Error saving context: %@", saveErr);
+            hasChanges = [currentContext hasChanges];
+            if ( !hasChanges ) {
+                RZVLogInfo(@"Managed ojbect context %@ does not have changes, not saving", self);
+            }
+            else if ( ![currentContext save:&saveErr] ) {
+                RZVLogError(@"Error saving managed object context context %@: %@", self, saveErr);
             }
         }];
         
         currentContext = currentContext.parentContext;
         
-    } while ( saveErr == nil && currentContext != nil );
+    } while ( hasChanges && saveErr == nil && currentContext != nil );
     
     if ( error != nil && saveErr != nil ) {
         *error = saveErr;

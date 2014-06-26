@@ -28,6 +28,8 @@
 
 @import CoreData;
 
+typedef void (^RZVinylSaveCompletion)(NSError *error);
+
 /**
  *  Extensions to NSManagedObjectContext to support full-stack saving.
  */
@@ -45,7 +47,7 @@
  *  @warning None of the contexts in the parent context hierarchy can have confinement concurrency type.
  *           If you try to call this method with a confined context in the hierarchy, an exception will be thrown.
  */
-- (void)rzv_saveToStoreWithCompletion:(void(^)(NSError *error))completion;
+- (void)rzv_saveToStoreWithCompletion:(RZVinylSaveCompletion)completion;
 
 /**
  *  Synchronously save this context and all parent contexts all the way up to the persistent store.
