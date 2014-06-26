@@ -21,7 +21,6 @@ static NSString* const kRZManagedObjectModelName = @"RZVinylDemo";
                                                                       storeType:NSInMemoryStoreType
                                                                        storeURL:nil
                                                                         options:options]];
-    
     return YES;
 }
 

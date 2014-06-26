@@ -73,9 +73,9 @@ typedef NS_OPTIONS(NSUInteger, RZCoreDataStackOptions)
  *            |
  *  [ Temporary MOC(s) ]@endcode
  *
- *  @warning To save to the persistent store coordinator, you must use the @p save: method
- *  provided by this class. Saving the main thread's managed object context will not propagate
- *  changes all the way to the psc, which will result in data not being saved to disk.
+ *  @warning To save to the persistent store coordinator, you must use one of the category methods in
+ *  @p NSManagedObjectContext+RZVinylSave. Saving the main thread's managed object context will not propagate
+ *  changes all the way to the psc, which, when using a disk-backed store, will result in data not being saved to disk.
  */
 @interface RZCoreDataStack : NSObject
 
@@ -146,8 +146,8 @@ typedef NS_OPTIONS(NSUInteger, RZCoreDataStackOptions)
                           options:(RZCoreDataStackOptions)options;
 
 /**
- *  Return a new data stack initialized with a preexisting data model and psc.
- *  The managed object context(s) will be created automatically and a new store will be
+ *  Return a new data stack initialized with a preexisting data model and persistent store coordinator.
+ *  The managed object context(s) will be created automatically and a new store will be added to the PSC.
  *
  *  @param model        A configured data model. Must not be nil.
  *  @param storeType    The type of persistent store to use. Pass nil to default to sqlite store.
@@ -197,7 +197,7 @@ typedef NS_OPTIONS(NSUInteger, RZCoreDataStackOptions)
  *        concurrent imports on different contexts. To prevent longer-lasting background tasks from holding up the queue, 
  *        use @p -backgroundManagedObjectContext, but be mindful of potential duplicate objects or merge issues.
  *
- *  @note The full stack is not saved in this method. To persist data to to the persistent store, call @p -save: on the stack.
+ *  @note When the block completes, the context hierarchy will be saved from the background context all the way up to the PSC.
  *
  *  @warning When using this method, you must pass the context given to the block to to the methods in
  *           @p NSManagedObject+VinylRecord.h. Failure to do so will cause all transactions to happen on the main context.
@@ -215,7 +215,6 @@ typedef NS_OPTIONS(NSUInteger, RZCoreDataStackOptions)
  *  @note You must use @p performBlock: to manipulate the returned context.
  *
  *  @warning Since this context is a sibling of the main context, be mindful of the merge policy when saving it.
- *           Also, you must call @p save: after saving this context or changes are not persisted to disk.
  *
  *  @return A new background managed object context with private queue confinement.
  */
@@ -228,18 +227,9 @@ typedef NS_OPTIONS(NSUInteger, RZCoreDataStackOptions)
  *
  *  @note You must manipulate the returned context and its objects on the main thread.
  *
- *  @warning You must call @p +save: after saving this context or changes are not persisted to disk.
- *
  *  @return A new temporary managed object context with private queue confinement.
  */
 - (NSManagedObjectContext *)temporaryManagedObjectContext;
-
-/**
- *  Save the data stack and optionally wait for save to finish.
- *
- *  @param wait If YES, this method will not return until the save is finished.
- */
-- (void)save:(BOOL)wait;
 
 /**
  *  Performs a serialzed background purge of all stale objects in the persistent store.

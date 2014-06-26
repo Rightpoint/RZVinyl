@@ -46,7 +46,7 @@
         artist.songs = songs;
     }];
     
-    [self.stack save:YES];
+    [self.stack.mainManagedObjectContext rzv_saveToStoreAndWait:NULL];
 }
 
 #pragma mark - Tests
@@ -133,7 +133,9 @@
     NSError *err = nil;
     [self.stack.mainManagedObjectContext obtainPermanentIDsForObjects:@[snoop] error:&err];
     XCTAssertNil(err, @"Error obtaining permanent object ID's: %@", err);
-    [self.stack save:YES];
+
+    [self.stack.mainManagedObjectContext rzv_saveToStoreAndWait:&err];
+    XCTAssertNil(err, @"Error saving context: %@", err);
 
     [self.stack performBlockUsingBackgroundContext:^(NSManagedObjectContext *context) {
         Artist *bgSnoop = nil;
@@ -332,7 +334,10 @@
     dusky = [Artist rzv_objectWithPrimaryKeyValue:@1000 createNew:NO];
     XCTAssertNil(dusky, @"Fetching again should not return deleted object");
     
-    [self.stack save:YES];
+    NSError *saveErr = nil;
+    [self.stack.mainManagedObjectContext rzv_saveToStoreAndWait:&saveErr];
+    XCTAssertNil(saveErr, @"Error saving context: %@", saveErr);
+    
     [self.stack.mainManagedObjectContext reset];
     
     dusky = [Artist rzv_objectWithPrimaryKeyValue:@1000 createNew:NO];

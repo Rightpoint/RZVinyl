@@ -112,7 +112,13 @@ static NSString* const kRZPeronDataSourcePersonCellIdentifier = @"PersonCell";
     if ( editingStyle == UITableViewCellEditingStyleDelete ) {
         RZPerson *person = [self personAtIndexPath:indexPath];
         [person rzv_delete];
-        [[RZCoreDataStack defaultStack] save:NO];
+        
+        [person.managedObjectContext rzv_saveToStoreWithCompletion:^(NSError *error) {
+            if ( error ) {
+                NSLog(@"Error saving delete of person: %@", error);
+            }
+        }];
+        
     }
 }
 

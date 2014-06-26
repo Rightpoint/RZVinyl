@@ -110,9 +110,8 @@
         if ( self.scratchContext != nil ) {
 
             NSError *err = nil;
-            
-            if ( [self.scratchContext save:&err] ) {
-                [[RZCoreDataStack defaultStack] save:YES];
+            if ( ![self.scratchContext rzv_saveToStoreAndWait:&err] ) {
+                NSLog(@"Error saving edited person: %@", err);
             }
             
             self.scratchContext = nil;

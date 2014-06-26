@@ -29,6 +29,7 @@
 
 #import "RZCoreDataStack.h"
 #import "NSManagedObject+RZVinylRecord.h"
+#import "NSManagedObjectContext+RZVinylSave.h"
 #import "RZVinylDefines.h"
 #import <libkern/OSAtomic.h>
 
@@ -181,7 +182,7 @@ static NSString* const kRZCoreDataStackParentStackKey = @"RZCoreDataStackParentS
         [context performBlockAndWait:^{
             block(context);
             NSError *err = nil;
-            [context save:&err];
+            [context rzv_saveToStoreAndWait:&err];
             if ( completion ) {
                 dispatch_async(dispatch_get_main_queue(), ^{
                     completion(err);
@@ -207,35 +208,6 @@ static NSString* const kRZCoreDataStackParentStackKey = @"RZCoreDataStackParentS
     return tempContext;
 }
 
-- (void)save:(BOOL)wait
-{
-    __block NSError *bgSaveErr = nil;
-    void (^diskSave)() = ^{
-        if ( ![self.topLevelBackgroundContext save:&bgSaveErr] ) {
-            RZVLogError(@"Error saving to persistent store: %@", bgSaveErr);
-        }
-    };
-    
-    __block NSError *err = nil;
-    if ( [self.mainManagedObjectContext hasChanges] ) {
-        [self.mainManagedObjectContext performBlockAndWait:^{
-            if ( ![self.mainManagedObjectContext save:&err] ) {
-                RZVLogError(@"Error saving main managed object context: %@", bgSaveErr);
-            }
-        }];
-    }
-    
-    if ( [self.topLevelBackgroundContext hasChanges] ) {
-        if ( wait ) {
-            [self.topLevelBackgroundContext performBlockAndWait:diskSave];
-        }
-        else {
-            [self.topLevelBackgroundContext performBlock:diskSave];
-        }
-    }
-    
-}
-
 - (void)purgeStaleObjectsWithCompletion:(void (^)(NSError *))completion
 {
     [self performBlockUsingBackgroundContext:^(NSManagedObjectContext *context) {
@@ -250,13 +222,6 @@ static NSString* const kRZCoreDataStackParentStackKey = @"RZCoreDataStackParentS
         }];
         
     } completion:^(NSError *err) {
-
-        if ( err == nil ) {
-            [self save:YES];
-        }
-        else {
-            RZVLogError(@"Error saving after stale objects purge: %@", err);
-        }
         
         if (completion) {
             completion(err);

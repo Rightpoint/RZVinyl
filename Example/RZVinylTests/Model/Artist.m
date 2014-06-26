@@ -9,7 +9,6 @@
 #import "Artist.h"
 #import "Song.h"
 
-
 @implementation Artist
 
 @dynamic name;
