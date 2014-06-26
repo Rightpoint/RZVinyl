@@ -37,7 +37,7 @@
  *
  *  @warning Do not override the extended methods or their equivalents from @p RZAutoImportable without reading 
  *           the method documentation. This category provides a crucial implementation of these methods that enables 
- *           automatic CoreData importing.
+ *           automatic Core Data importing.
  */
 @interface NSManagedObject (RZImport) <RZImportable>
 

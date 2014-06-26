@@ -284,7 +284,7 @@
 
 
 /**
- *  The entity name of the CoreData entity represented by this class.
+ *  The entity name of the Core Data entity represented by this class.
  *
  *  @return The entity name.
  */
