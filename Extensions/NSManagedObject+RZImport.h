@@ -35,9 +35,9 @@
  *  of an object to CoreData, using RZVinyl and RZImport. Provides a partial implementation
  *  of @RZImportable.
  *
- *  @warning Do not override the extended methods or their equivalents from @p RZAutoImportable without reading 
+ *  @warning Do not override the extended methods or their equivalents from @p RZImportable without reading 
  *           the method documentation. This category provides a crucial implementation of these methods that enables 
- *           automatic CoreData importing.
+ *           automatic Core Data importing.
  */
 @interface NSManagedObject (RZImport) <RZImportable>
 
@@ -69,7 +69,7 @@
  *  @param context The context in which to find/insert the object. Must not be nil.
  *  @param mappings An optional dictionary of extra mappings from keys to property names to
  *                  use in the import. These will override/supplement implicit mappings and mappings
- *                  provided by @p RZAutoImportable.
+ *                  provided by @p RZImportable.
  *
  *  @note Calling @p rzi_objectFromDictionary: without the context parameter will use the default context provided by
  *        calling @p +rzv_coreDataStack on the managed object subclass.
@@ -108,7 +108,7 @@
  *  @param context The context in which to find/insert the object. Must not be nil.
  *  @param mappings An optional dictionary of extra mappings from keys to property names to
  *                  use in the import. These will override/supplement implicit mappings and mappings
- *                  provided by @p RZAutoImportable.
+ *                  provided by @p RZImportable.
  *
  *  @note Calling @p rzi_objectsFromArray: without the context parameter will use the default context provided by
  *        calling @p +rzv_coreDataStack on the managed object subclass.
@@ -124,7 +124,7 @@
 
 
 /**
- *  Extended implementation of the method from @p RZAutoImportable.
+ *  Extended implementation of the method from @p RZImportable.
  *  Do not call directly; this is exposed for reasons of documentation only.
  *
  *  If you override this method in an @p NSManagedObject subclass, it must always return a valid instance
@@ -133,7 +133,7 @@
  *  @param dict The dictionary representing an instance of the receiver's class.
  *  @param context The managed object context in which to find/insert the object.
  *
- *  @warning Do not implement the @p RZAutoImportable protocol method @p +rzi_existingObjectForDict: in subclasses.
+ *  @warning Do not implement the @p RZImportable protocol method @p +rzi_existingObjectForDict: in subclasses.
  *           This method is called by an internal implementation of @p +rzi_existingObjectForDict: which will pass along the correct
  *           context based on a bit of internal state.
  *
@@ -143,7 +143,7 @@
 + (id)rzi_existingObjectForDict:(NSDictionary *)dict inContext:(NSManagedObjectContext *)context;
 
 /**
- *  Extended implementation of the method from @p RZAutoImportable.
+ *  Extended implementation of the method from @p RZImportable.
  *  Do not call directly; this is exposed for reasons of documentation only.
  *
  *  If you override this method in an @p NSManagedObject subclass for purposes of validation, you must only prevent 
@@ -154,7 +154,7 @@
  *  @param key     The key being imported.
  *  @param context The context in which the import is taking place.
  *
- *  @warning Do not implement the @p RZAutoImportable protocol method @p +rzi_shouldImportValue:forKey: in subclasses.
+ *  @warning Do not implement the @p RZImportable protocol method @p +rzi_shouldImportValue:forKey: in subclasses.
  *           This method is called by an internal implementation of @p +rzi_shouldImportValue:forKey: which will pass along the correct
  *           context based on a bit of internal state.
  *

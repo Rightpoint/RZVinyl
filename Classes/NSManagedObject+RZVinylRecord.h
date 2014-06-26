@@ -154,44 +154,46 @@
 /**
  *  Return the results of a fetch on the main context using a predicate or format string.
  *
- *  @param query An @p NSPredicate or predicate format string. Passing nil will return all objects.
+ *  @param predicate    An @p NSPredicate to filter the query. Passing nil will return all objects.
  *
  *  @return The results of the fetch.
  */
-+ (NSArray *)rzv_where:(id)query;
++ (NSArray *)rzv_where:(NSPredicate *)predicate;
 
 /**
  *  Return the results of a fetch on the provided context using a predicate or format string.
  *
- *  @param query An @p NSPredicate or predicate format string. Passing nil will return all objects.
+ *  @param predicate        An @p NSPredicate to filter the query. Passing nil will return all objects.
  *  @param context          The managed object context on which to perform the fetch. Must not be nil.
  *
  *  @return The results of the fetch.
  */
-+ (NSArray *)rzv_where:(id)query inContext:(NSManagedObjectContext *)context;
++ (NSArray *)rzv_where:(NSPredicate *)predicate inContext:(NSManagedObjectContext *)context;
 
 /**
  *  Return the results of a fetch on the main context using a predicate or format string
  *  with optional sorting.
  *
- *  @param query            An @p NSPredicate or predicate format string. Passing nil will return all objects.
+ *  @param predicate        An @p NSPredicate to filter the query. Passing nil will return all objects.
  *  @param sortDescriptors  An optional array of sort descriptors.
  *
  *  @return The results of the fetch.
  */
-+ (NSArray *)rzv_where:(id)query sort:(NSArray *)sortDescriptors;
++ (NSArray *)rzv_where:(NSPredicate *)predicate sort:(NSArray *)sortDescriptors;
 
 /**
  *  Return the results of a fetch on the provided context using a predicate or format string
  *  with optional sorting.
  *
- *  @param query            An @p NSPredicate or predicate format string. Passing nil will return all objects.
+ *  @param predicate        An @p NSPredicate to filter the query. Passing nil will return all objects.
  *  @param sortDescriptors  An optional array of sort descriptors.
  *  @param context          The managed object context on which to perform the fetch. Must not be nil.
  *
  *  @return The results of the fetch.
  */
-+ (NSArray *)rzv_where:(id)query sort:(NSArray *)sortDescriptors inContext:(NSManagedObjectContext *)context;
++ (NSArray *)rzv_where:(NSPredicate *)predicate
+                  sort:(NSArray *)sortDescriptors
+             inContext:(NSManagedObjectContext *)context;
 
 
 /** @name Counting Objects */
@@ -216,21 +218,21 @@
 /**
  *  Return the count of objects of the receiver's type matching the query in the main context.
  *
- *  @param query An @p NSPredicate or predicate format string. Passing nil will return the count of all objects.
+ *  @param predicate An @p NSPredicate to filter the count. Passing nil will return the count of all objects.
  *
  *  @return The number of objects matching the query.
  */
-+ (NSUInteger)rzv_countWhere:(id)query;
++ (NSUInteger)rzv_countWhere:(NSPredicate *)predicate;
 
 /**
  *  Return the count of objects of the receiver's type matching the query in the provided context.
  *
- *  @param query An @p NSPredicate or predicate format string. Passing nil will return the count of all objects.
- *  @param context The context in which to look for the objects. Must not be nil.
+ *  @param predicate    An @p NSPredicate to filter the count. Passing nil will return the count of all objects.
+ *  @param context      The context in which to look for the objects. Must not be nil.
  *
  *  @return The number of objects matching the query.
  */
-+ (NSUInteger)rzv_countWhere:(id)query inContext:(NSManagedObjectContext *)context;
++ (NSUInteger)rzv_countWhere:(NSPredicate *)predicate inContext:(NSManagedObjectContext *)context;
 
 
 /**  @name Deleting Objects */
@@ -262,28 +264,28 @@
 /**
  *  Delete all objects of the receiver's type matching the query from the main context.
  *
- *  @param query An @p NSPredicate or predicate format string. Passing nil will delete all objects.
+ *  @param predicate An @p NSPredicate to filter which objects to delete. Passing nil will delete all objects.
  *
  *  @note You must save the @p RZCoreDataStack to persist the deletion to the store.
  */
-+ (void)rzv_deleteAllWhere:(id)query;
++ (void)rzv_deleteAllWhere:(NSPredicate *)predicate;
 
 /**
  *  Delete all objects of the receiver's type matching the query from the provided context.
  *
- *  @param query An @p NSPredicate or predicate format string. Passing nil will delete all objects.
- *  @param context The context from which to delete the objects.
+ *  @param predicate An @p NSPredicate to filter which objects to delete. Passing nil will delete all objects.
+ *  @param context   The context from which to delete the objects.
  *
  *  @note You must save the @p RZCoreDataStack to persist the deletion to the store.
  */
-+ (void)rzv_deleteAllWhere:(id)query inContext:(NSManagedObjectContext *)context;
++ (void)rzv_deleteAllWhere:(NSPredicate *)predicate inContext:(NSManagedObjectContext *)context;
 
 
 /** @name Utilities */
 
 
 /**
- *  The entity name of the CoreData entity represented by this class.
+ *  The entity name of the Core Data entity represented by this class.
  *
  *  @return The entity name.
  */

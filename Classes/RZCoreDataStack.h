@@ -61,7 +61,7 @@ typedef NS_OPTIONS(NSUInteger, RZCoreDataStackOptions)
 };
 
 /**
- *  An efficient wrapper for a basic application-level CoreData stack.
+ *  An efficient wrapper for a basic application-level Core Data stack.
  *  Makes use of M. Zarra's private writer pattern for efficient disk writes.
  *  
  *  @code
@@ -80,7 +80,7 @@ typedef NS_OPTIONS(NSUInteger, RZCoreDataStackOptions)
 @interface RZCoreDataStack : NSObject
 
 /**
- *  The default CoreData stack for this application.
+ *  The default Core Data stack for this application.
  *  An application can have more than one isntance of @p RZCoreDataStack,
  *  but the instance returned here will be used by default for all of the methods 
  *  in @p NSManagedObject+RZVinylRecord that don't take a context argument.
@@ -95,7 +95,7 @@ typedef NS_OPTIONS(NSUInteger, RZCoreDataStackOptions)
 + (RZCoreDataStack *)defaultStack;
 
 /**
- *  Set the default CoreData stack for this application.
+ *  Set the default Core Data stack for this application.
  *  It is recommended to call this method as early as possible in the application lifecycle.
  *
  *  @warning Once the default stack has been set, it cannot be changed. Attempting to set it again
@@ -166,7 +166,7 @@ typedef NS_OPTIONS(NSUInteger, RZCoreDataStackOptions)
 
 
 /**
- *  The main queue's managed object context for this CoreData stack.
+ *  The main queue's managed object context for this Core Data stack.
  *  All classes observing context notifications or managed objects driving UI should use this context.
  *
  *  @warning Obviously, you must manipulate this context and its objects from the main thread,
@@ -175,12 +175,12 @@ typedef NS_OPTIONS(NSUInteger, RZCoreDataStackOptions)
 @property (nonatomic, strong, readonly) NSManagedObjectContext          *mainManagedObjectContext;
 
 /**
- *  The managed object model used in this CoreData stack.
+ *  The managed object model used in this Core Data stack.
  */
 @property (nonatomic, strong, readonly) NSManagedObjectModel            *managedObjectModel;
 
 /**
- *  The persistent store coordinator used in this CoreData stack.
+ *  The persistent store coordinator used in this Core Data stack.
  */
 @property (nonatomic, strong, readonly) NSPersistentStoreCoordinator    *persistentStoreCoordinator;
 

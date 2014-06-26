@@ -1,11 +1,19 @@
 Pod::Spec.new do |s|
   s.name                = "RZVinyl"
   s.version             = "0.1.0"
-  s.summary             = "Stack management, ActiveRecord utilities, and seamless importing for CoreData."
+  s.summary             = "Stack management, ActiveRecord utilities, and seamless importing for Core Data."
 
   s.description         = <<-DESC
-                         Stack management, ActiveRecord utilities, and seamless importing for CoreData
-                        DESC
+                          Stack management, ActiveRecord utilities, and seamless importing for Core Data.
+                          RZVinyl makes it easy to manage Core Data stacks, multiple contexts, concurrency,
+                          and more.
+                          
+                          ActiveRecord-style extensions for NSManagedObject let you easily create, find, filter,
+                          sort, and enumerate objects in your database.
+                          
+                          With the RZImport extension, importing objects into Core Data from external sources
+                          is simple and intuitive.
+                          DESC
 
   s.homepage            = "https://github.com/Raizlabs/RZVinyl"
   s.license             = { :type => "MIT", :file => "LICENSE" }

@@ -258,23 +258,23 @@
 - (void)test_QueryString
 {
     // Get all artists who have songs
-    NSArray *artists = [Artist rzv_where:@"songs.@count > 0"];
+    NSArray *artists = [Artist rzv_where:RZVPred(@"songs.@count > 0")];
     XCTAssertEqual(artists.count, 2, @"Should be two artists with songs");
     
     // Get all artists who have songs sorted by name
     NSArray *expectedNames = @[@"Dusky", @"Tool"];
 
-    artists = [Artist rzv_where:@"songs.@count > 0" sort:@[RZVKeySort(@"name", YES)]];
+    artists = [Artist rzv_where:RZVPred(@"songs.@count > 0") sort:@[RZVKeySort(@"name", YES)]];
     XCTAssertEqual(artists.count, 2, @"Should be two artists with songs");
     XCTAssertEqualObjects(expectedNames, [artists valueForKey:@"name"], @"Not in correct order");
     
     // Try on child context
     NSManagedObjectContext *scratchContext = [self.stack backgroundManagedObjectContext];
-    artists = [Artist rzv_where:@"songs.@count > 0" inContext:scratchContext];
+    artists = [Artist rzv_where:RZVPred(@"songs.@count > 0") inContext:scratchContext];
     XCTAssertEqual(artists.count, 2, @"Should be two artists with songs");
     XCTAssertEqual([[artists lastObject] managedObjectContext], scratchContext, @"Wrong Context");
     
-    artists = [Artist rzv_where:@"songs.@count > 0" sort:@[RZVKeySort(@"name", YES)] inContext:scratchContext];
+    artists = [Artist rzv_where:RZVPred(@"songs.@count > 0") sort:@[RZVKeySort(@"name", YES)] inContext:scratchContext];
     XCTAssertEqual(artists.count, 2, @"Should be two artists with songs");
     XCTAssertEqualObjects(expectedNames, [artists valueForKey:@"name"], @"Not in correct order");
     XCTAssertEqual([[artists lastObject] managedObjectContext], scratchContext, @"Wrong Context");
@@ -310,7 +310,7 @@
     NSUInteger artistCount = [Artist rzv_count];
     XCTAssertEqual(artistCount, 3, @"Should be three artists");
     
-    NSUInteger artistsWithSongsCount = [Artist rzv_countWhere:@"songs.@count != 0"];
+    NSUInteger artistsWithSongsCount = [Artist rzv_countWhere:[NSPredicate predicateWithFormat:@"songs.@count != 0"]];
     XCTAssertEqual(artistsWithSongsCount, 2, @"Should be two artists with songs");
 }
 
@@ -421,7 +421,7 @@
     artists = [Artist rzv_all];
     XCTAssertEqual(artists.count, 3, @"Should be three artists to start");
     
-    [Artist rzv_deleteAllWhere:@"songs.@count == 0"];
+    [Artist rzv_deleteAllWhere:RZVPred(@"songs.@count == 0")];
     artists = [Artist rzv_all];
     XCTAssertEqual(artists.count, 2, @"Should be 2 artists after delete all with predicate");
     
@@ -443,7 +443,7 @@
         artists = [Artist rzv_allInContext:context];
         XCTAssertEqual(artists.count, 3, @"Should be three artists to start");
         
-        [Artist rzv_deleteAllWhere:@"songs.@count == 0" inContext:context];
+        [Artist rzv_deleteAllWhere:RZVPred(@"songs.@count == 0") inContext:context];
         artists = [Artist rzv_allInContext:context];
         XCTAssertEqual(artists.count, 2, @"Should be 2 artists after delete all with predicate");
         

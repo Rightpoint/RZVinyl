@@ -3,9 +3,7 @@ RZVinyl
 
 [![Build Status](https://travis-ci.org/Raizlabs/RZVinyl.svg)](https://travis-ci.org/Raizlabs/RZVinyl)
 
-Stack management, ActiveRecord utilities, and seamless importing for CoreData.
-
-===
+Stack management, ActiveRecord utilities, and seamless importing for Core Data.
 
 # Installation
 
@@ -17,7 +15,7 @@ Add the following to your Podfile:
 pod RZVinyl, '~> 0.1'
 ```
 
-To exclude RZAutoImport extensions, use the `Core` subspec: 
+To exclude RZImport extensions, use the `Core` subspec: 
 
 ```
 pod RZVinyl/Core, '~> 0.1'
@@ -29,23 +27,23 @@ RZVinyl follows semantic versioning conventions. As newer versions are released,
 
 ##### Without Import Extensions
 
-Simply copy/add the contents of `Classes/` into your project and ensure that you are linking with CoreData. **Do not** copy the contents of `Extensions/`.
+Simply copy/add the contents of `Classes/` into your project and ensure that you are linking with Core Data. **Do not** copy the contents of `Extensions/`.
 
 ##### With Import Extensions
 
-Because of the optional RZAutoImport extensions, which depend on the RZAutoImport library, manual installation is a bit more difficult. Hence why CocoaPods is the recommended installation method.
+Because of the optional RZImport extensions, which depend on the RZImport library, manual installation is a bit more difficult. Hence why CocoaPods is the recommended installation method.
 
-To install manually with RZAutoImport extensions:
+To install manually with RZImport extensions:
 
 1. Follow the steps for installing without import extensions.
 2. Also copy the contents of `Extensions/` into your project.
-3. Install [RZAutoImport](https://github.com/Raizlabs/RZAutoImport) in your project.
+3. Install [RZImport](https://github.com/Raizlabs/RZImport) in your project.
 4. Add the following to your build configuration's compiler flags:
 ```
 -DRZV_IMPORT_AVAILABLE=1
 ```
 
-If all went well, your project should build cleanly and the methods from `NSManagedObject+RZAutoImport.h` should be available.
+If all went well, your project should build cleanly and the methods from `NSManagedObject+RZImport.h` should be available.
 
 # Demo Project
 
@@ -75,7 +73,7 @@ To use RZVinyl, first add `#import "RZVinyl.h"` to any classes that will need to
 
 ## RZCoreDataStack
 
-`RZCoreDataStack` is a class for building and managing CoreData stacks, including the model, managed object context, and persistent store coordinator. It has convenience methods for performing concurrent background operations with a separate managed object context, as well as a set of class methods for making a default stack available via the singleton pattern.
+`RZCoreDataStack` is a class for building and managing Core Data stacks, including the model, managed object context, and persistent store coordinator. It has convenience methods for performing concurrent background operations with a separate managed object context, as well as a set of class methods for making a default stack available via the singleton pattern.
 
 ##### Create a new stack
 
@@ -286,7 +284,7 @@ You can also implement the methods of `RZImportable` in your managed object clas
 
 ##### Do not override `+ (id)rzi_existingObjectForDict:(NSDictionary *)dict`
 
-This is implemented by the `NSManagedObject+RZImport` category to handle CoreData concurrency, and internally calls the extended version with a context parameter:
+This is implemented by the `NSManagedObject+RZImport` category to handle Core Data concurrency, and internally calls the extended version with a context parameter:
 
 ```objective-c
 + (id)rzi_existingObjectForDict:(NSDictionary *)dict inContext:(NSManagedObjectContext *)context;

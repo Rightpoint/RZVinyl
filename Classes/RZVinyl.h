@@ -38,9 +38,15 @@
 #endif
 
 
+//
+// Public Macros
+//
+
 /**
- *  Public Macros
+ *  Shorthand for creating an NSPredicate
  */
+#define RZVPred(format, ...) \
+    [NSPredicate predicateWithFormat:format, ##__VA_ARGS__]
 
 /**
  *  Shorthand for creating an NSSortDescriptor
