@@ -35,7 +35,7 @@
  *  of an object to CoreData, using RZVinyl and RZImport. Provides a partial implementation
  *  of @RZImportable.
  *
- *  @warning Do not override the extended methods or their equivalents from @p RZAutoImportable without reading 
+ *  @warning Do not override the extended methods or their equivalents from @p RZImportable without reading 
  *           the method documentation. This category provides a crucial implementation of these methods that enables 
  *           automatic Core Data importing.
  */
@@ -69,7 +69,7 @@
  *  @param context The context in which to find/insert the object. Must not be nil.
  *  @param mappings An optional dictionary of extra mappings from keys to property names to
  *                  use in the import. These will override/supplement implicit mappings and mappings
- *                  provided by @p RZAutoImportable.
+ *                  provided by @p RZImportable.
  *
  *  @note Calling @p rzi_objectFromDictionary: without the context parameter will use the default context provided by
  *        calling @p +rzv_coreDataStack on the managed object subclass.
