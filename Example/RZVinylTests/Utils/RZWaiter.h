@@ -6,8 +6,6 @@
 //  Copyright (c) 2014 RaizLabs. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-
 typedef BOOL(^RZWaiterPollBlock)(void);
 typedef void(^RZWaiterTimeout)(void);
 

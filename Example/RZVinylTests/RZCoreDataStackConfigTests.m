@@ -6,8 +6,6 @@
 //  Copyright (c) 2014 Raizlabs. All rights reserved.
 //
 
-#import <XCTest/XCTest.h>
-#import "RZVinyl.h"
 #import "RZCoreDataStack+TestUtils.h"
 
 static NSString* const kRZCoreDataStackCustomFilePath = @"test_tmp/RZCoreDataStackConfigTest.sqlite";

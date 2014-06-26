@@ -7,7 +7,6 @@
 //
 
 #import "Artist.h"
-#import "RZVinyl.h"
 
 @interface Artist (RZVinyl)
 
