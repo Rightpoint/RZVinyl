@@ -5,8 +5,6 @@ RZVinyl
 
 Stack management, ActiveRecord utilities, and seamless importing for CoreData.
 
-===
-
 # Installation
 
 ### CocoaPods (Recommended)
