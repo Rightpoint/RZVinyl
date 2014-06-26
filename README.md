@@ -15,7 +15,7 @@ Add the following to your Podfile:
 pod RZVinyl, '~> 0.1'
 ```
 
-To exclude RZAutoImport extensions, use the `Core` subspec: 
+To exclude RZImport extensions, use the `Core` subspec: 
 
 ```
 pod RZVinyl/Core, '~> 0.1'
@@ -31,19 +31,19 @@ Simply copy/add the contents of `Classes/` into your project and ensure that you
 
 ##### With Import Extensions
 
-Because of the optional RZAutoImport extensions, which depend on the RZAutoImport library, manual installation is a bit more difficult. Hence why CocoaPods is the recommended installation method.
+Because of the optional RZImport extensions, which depend on the RZImport library, manual installation is a bit more difficult. Hence why CocoaPods is the recommended installation method.
 
-To install manually with RZAutoImport extensions:
+To install manually with RZImport extensions:
 
 1. Follow the steps for installing without import extensions.
 2. Also copy the contents of `Extensions/` into your project.
-3. Install [RZAutoImport](https://github.com/Raizlabs/RZAutoImport) in your project.
+3. Install [RZImport](https://github.com/Raizlabs/RZImport) in your project.
 4. Add the following to your build configuration's compiler flags:
 ```
 -DRZV_IMPORT_AVAILABLE=1
 ```
 
-If all went well, your project should build cleanly and the methods from `NSManagedObject+RZAutoImport.h` should be available.
+If all went well, your project should build cleanly and the methods from `NSManagedObject+RZImport.h` should be available.
 
 # Demo Project
 
