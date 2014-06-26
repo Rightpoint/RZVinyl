@@ -303,14 +303,16 @@ Here is an example of a managed object subclass that is configured for usage wit
 @property (nonatomic, retain) NSSet *songs; 	// one-to-many relationship of 'RZSong' objects
 
 @end
+```
 
-
+```objective-c
 // RZArtist+RZImport.h
 @interface RZArtist (RZImport) <RZImportable>
 
 @end
+```
 
-
+```objective-c
 // RZArtist+RZImport.m
 @implementation RZArtist (RZImport)
 
