@@ -290,8 +290,8 @@ The category implementation handles recursive imports for keys representing rela
 
 Here is an example of a managed object subclass that is configured for usage with `RZImport`.
 
+**`RZArtist.h`**
 ```objective-c
-// RZArtist.h
 @interface RZArtist : NSManagedObject
 
 @property (nonatomic, retain) NSNumber *remoteID;
@@ -305,15 +305,15 @@ Here is an example of a managed object subclass that is configured for usage wit
 @end
 ```
 
+**`RZArtist+RZImport.h`**
 ```objective-c
-// RZArtist+RZImport.h
 @interface RZArtist (RZImport) <RZImportable>
 
 @end
 ```
 
+**`RZArtist+RZImport.m`**
 ```objective-c
-// RZArtist+RZImport.m
 @implementation RZArtist (RZImport)
 
 + (NSString *)rzv_primaryKey
