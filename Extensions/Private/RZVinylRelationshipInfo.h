@@ -1,15 +1,15 @@
 //
-//  RZVinyl.h
+//  RZVinylRelationshipInfo.h
 //  RZVinyl
 //
-//  Created by Nick Donaldson on 6/4/14.
+//  Created by Nick Donaldson on 6/5/14.
 //
 //  Copyright 2014 Raizlabs and other contributors
 //  http://raizlabs.com/
 //
 //  Permission is hereby granted, free of charge, to any person obtaining
 //  a copy of this software and associated documentation files (the
-//                                                                "Software"), to deal in the Software without restriction, including
+//  Software"), to deal in the Software without restriction, including
 //  without limitation the rights to use, copy, modify, merge, publish,
 //  distribute, sublicense, and/or sell copies of the Software, and to
 //  permit persons to whom the Software is furnished to do so, subject to
@@ -26,30 +26,22 @@
 //  OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 //  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-#import "RZCoreDataStack.h"
-#import "NSManagedObject+RZVinylRecord.h"
-#import "NSFetchRequest+RZVinylRecord.h"
-#import "NSFetchedResultsController+RZVinylRecord.h"
-#import "NSManagedObjectContext+RZVinylSave.h"
-
-#if (RZV_IMPORT_AVAILABLE)
-    #import "NSManagedObject+RZImport.h"
-    #import "NSManagedObject+RZImportableSubclass.h"
-#endif
-
-
-//
-// Public Macros
-//
+@import CoreData;
 
 /**
- *  Shorthand for creating an NSPredicate
+ *  More convenient model for NSRelationshipDescription and its inverse.
+ *  FOR INTERNAL LIBRARY USE ONLY
  */
-#define RZVPred(format, ...) \
-    [NSPredicate predicateWithFormat:format, ##__VA_ARGS__]
+@interface RZVinylRelationshipInfo : NSObject
 
-/**
- *  Shorthand for creating an NSSortDescriptor
- */
-#define RZVKeySort(keyPath, isAscending) \
-    [NSSortDescriptor sortDescriptorWithKey:keyPath ascending:isAscending]
+@property (nonatomic, readonly, copy)   NSString *sourcePropertyName;
+@property (nonatomic, readonly, copy)   NSString *sourceEntityName;
+@property (nonatomic, readonly, assign) Class    sourceClass;
+@property (nonatomic, readonly, copy)   NSString *destinationPropertyName;
+@property (nonatomic, readonly, copy)   NSString *destinationEntityName;
+@property (nonatomic, readonly, assign) Class    destinationClass;
+@property (nonatomic, readonly, assign) BOOL     isToMany;
+
++ (RZVinylRelationshipInfo *)relationshipInfoFromDescription:(NSRelationshipDescription *)description;
+
+@end

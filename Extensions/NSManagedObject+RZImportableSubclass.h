@@ -1,8 +1,8 @@
 //
-//  RZVinyl.h
+//  NSManagedObject+RZImportableSubclass.h
 //  RZVinyl
 //
-//  Created by Nick Donaldson on 6/4/14.
+//  Created by Nick Donaldson on 6/6/14.
 //
 //  Copyright 2014 Raizlabs and other contributors
 //  http://raizlabs.com/
@@ -20,36 +20,32 @@
 //
 //  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 //  EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-//  MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+//  MERCHANTABILITY, F  ITNESS FOR A PARTICULAR PURPOSE AND
 //  NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
 //  LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 //  OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 //  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #import "RZCoreDataStack.h"
-#import "NSManagedObject+RZVinylRecord.h"
-#import "NSFetchRequest+RZVinylRecord.h"
-#import "NSFetchedResultsController+RZVinylRecord.h"
-#import "NSManagedObjectContext+RZVinylSave.h"
-
-#if (RZV_IMPORT_AVAILABLE)
-    #import "NSManagedObject+RZImport.h"
-    #import "NSManagedObject+RZImportableSubclass.h"
-#endif
-
-
-//
-// Public Macros
-//
 
 /**
- *  Shorthand for creating an NSPredicate
+ *  Methods to optionally override in @p NSManagedObject subclasses to support @p RZImport extensions.
  */
-#define RZVPred(format, ...) \
-    [NSPredicate predicateWithFormat:format, ##__VA_ARGS__]
+@interface NSManagedObject (RZImportableSubclass)
 
 /**
- *  Shorthand for creating an NSSortDescriptor
+ *  Override in subclasses to provide a key to use for the primary key when importing
+ *  values or updating/creating a new instance from an NSDictionary using NSManagedObject+RZImport.
+ *
+ *  For example, a JSON response might contain key/value pair "ID" : 1000 for the object's primary key,
+ *  but your managed object subclass might store this value as an attribute named "remoteID", hence it is 
+ *  necessary to provide both keys separately to enforce unique instances in the database.
+ *
+ *  @note Failure to override (or returning nil, the default) will cause the value of @p +rzv_primaryKey
+ *  to be used for the external key as well.
+ *
+ *  @return The key in dictionary representations whose value uniquely identifies this object.
  */
-#define RZVKeySort(keyPath, isAscending) \
-    [NSSortDescriptor sortDescriptorWithKey:keyPath ascending:isAscending]
++ (NSString *)rzv_externalPrimaryKey;
+
+@end

@@ -1,8 +1,8 @@
 //
-//  RZVinyl.h
+//  NSManagedobject+RZvinylRecord_private.h
 //  RZVinyl
 //
-//  Created by Nick Donaldson on 6/4/14.
+//  Created by Nick Donaldson on 6/5/14.
 //
 //  Copyright 2014 Raizlabs and other contributors
 //  http://raizlabs.com/
@@ -26,30 +26,17 @@
 //  OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 //  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-#import "RZCoreDataStack.h"
-#import "NSManagedObject+RZVinylRecord.h"
-#import "NSFetchRequest+RZVinylRecord.h"
-#import "NSFetchedResultsController+RZVinylRecord.h"
-#import "NSManagedObjectContext+RZVinylSave.h"
+/**
+ *  This header contains private method prototypes for NSManagedObject+RZVinylRecord
+ *  These are NOT intended for public usage.
+ */
+@import CoreData;
 
-#if (RZV_IMPORT_AVAILABLE)
-    #import "NSManagedObject+RZImport.h"
-    #import "NSManagedObject+RZImportableSubclass.h"
-#endif
-
-
-//
-// Public Macros
-//
+@interface NSManagedObject ()
 
 /**
- *  Shorthand for creating an NSPredicate
+ *  Asserts that a subclass implements +rzv_coreDataStack and returns the value.
  */
-#define RZVPred(format, ...) \
-    [NSPredicate predicateWithFormat:format, ##__VA_ARGS__]
++ (RZCoreDataStack *)rzv_validCoreDataStack;
 
-/**
- *  Shorthand for creating an NSSortDescriptor
- */
-#define RZVKeySort(keyPath, isAscending) \
-    [NSSortDescriptor sortDescriptorWithKey:keyPath ascending:isAscending]
+@end

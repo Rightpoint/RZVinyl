@@ -1,8 +1,8 @@
 //
-//  RZVinyl.h
+//  NSFetchRequest+RZVinylRecord.h
 //  RZVinyl
 //
-//  Created by Nick Donaldson on 6/4/14.
+//  Created by Nick Donaldson on 6/5/14.
 //
 //  Copyright 2014 Raizlabs and other contributors
 //  http://raizlabs.com/
@@ -26,30 +26,24 @@
 //  OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 //  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-#import "RZCoreDataStack.h"
-#import "NSManagedObject+RZVinylRecord.h"
-#import "NSFetchRequest+RZVinylRecord.h"
-#import "NSFetchedResultsController+RZVinylRecord.h"
-#import "NSManagedObjectContext+RZVinylSave.h"
 
-#if (RZV_IMPORT_AVAILABLE)
-    #import "NSManagedObject+RZImport.h"
-    #import "NSManagedObject+RZImportableSubclass.h"
-#endif
+@import CoreData;
 
-
-//
-// Public Macros
-//
+@interface NSFetchRequest (RZVinylRecord)
 
 /**
- *  Shorthand for creating an NSPredicate
+ *  Returns a configured fetch request based on the provided arguments.
+ *
+ *  @param entityName      The name of the entity to fetch. Must not be nil.
+ *  @param context         The context in which to fetch. Must not be nil.
+ *  @param predicate       An optional predicate for the fetch.
+ *  @param sortDescriptors An optional array of sort descriptors to sort the result.
+ *
+ *  @return A configured fetch request.
  */
-#define RZVPred(format, ...) \
-    [NSPredicate predicateWithFormat:format, ##__VA_ARGS__]
++ (instancetype)rzv_forEntity:(NSString *)entityName
+                    inContext:(NSManagedObjectContext *)context
+                        where:(NSPredicate *)predicate
+                         sort:(NSArray *)sortDescriptors;
 
-/**
- *  Shorthand for creating an NSSortDescriptor
- */
-#define RZVKeySort(keyPath, isAscending) \
-    [NSSortDescriptor sortDescriptorWithKey:keyPath ascending:isAscending]
+@end

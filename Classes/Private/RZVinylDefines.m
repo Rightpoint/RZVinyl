@@ -1,8 +1,8 @@
 //
-//  RZVinyl.h
+//  RZVinylDefines.m
 //  RZVinyl
 //
-//  Created by Nick Donaldson on 6/4/14.
+//  Created by Nick Donaldson on 6/5/14.
 //
 //  Copyright 2014 Raizlabs and other contributors
 //  http://raizlabs.com/
@@ -26,30 +26,20 @@
 //  OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 //  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-#import "RZCoreDataStack.h"
-#import "NSManagedObject+RZVinylRecord.h"
-#import "NSFetchRequest+RZVinylRecord.h"
-#import "NSFetchedResultsController+RZVinylRecord.h"
-#import "NSManagedObjectContext+RZVinylSave.h"
+#import "RZVinylDefines.h"
 
-#if (RZV_IMPORT_AVAILABLE)
-    #import "NSManagedObject+RZImport.h"
-    #import "NSManagedObject+RZImportableSubclass.h"
-#endif
+NSString* const kRZVinylRecordMainContextErrorFormat = @"%@ uses the main managed object context by default and must be called on the main thread. \
+                                                        To use another managed object context, use the version which takes a context argument.";
 
-
-//
-// Public Macros
-//
-
-/**
- *  Shorthand for creating an NSPredicate
- */
-#define RZVPred(format, ...) \
-    [NSPredicate predicateWithFormat:format, ##__VA_ARGS__]
-
-/**
- *  Shorthand for creating an NSSortDescriptor
- */
-#define RZVKeySort(keyPath, isAscending) \
-    [NSSortDescriptor sortDescriptorWithKey:keyPath ascending:isAscending]
+void rzv_performBlockAtomically(void(^block)()) {
+    
+    static dispatch_queue_t s_syncQueue = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        s_syncQueue = dispatch_queue_create("com.rzvinyl.syncQueue", DISPATCH_QUEUE_SERIAL);
+    });
+    
+    if ( block != nil ) {
+        dispatch_sync(s_syncQueue, block);
+    }
+}

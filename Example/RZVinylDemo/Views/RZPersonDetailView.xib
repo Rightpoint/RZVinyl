@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5056" systemVersion="13D65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <deployment defaultVersion="1792" identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="RZPersonDetailView">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="290"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Address 2 Lines" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="XNo-oB-US6" userLabel="Address Label">
+                    <rect key="frame" x="20" y="43" width="280" height="36"/>
+                    <constraints>
+                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="280" id="Pjs-FB-fNp"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="13"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <textView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="The Bio" translatesAutoresizingMaskIntoConstraints="NO" id="2XF-fe-cEM" userLabel="Bio Text">
+                    <rect key="frame" x="15" y="82" width="290" height="100"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="100" id="AE8-hI-f44"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences" returnKeyType="done"/>
+                </textView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yI7-9e-kFc" userLabel="Delete Button">
+                    <rect key="frame" x="111" y="240" width="99" height="30"/>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                    <state key="normal" title="Delete Person">
+                        <color key="titleColor" red="0.97437584919999998" green="0.011486581839999999" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </state>
+                </button>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Lko-UW-5rH">
+                    <rect key="frame" x="0.0" y="188" width="320" height="35"/>
+                    <subviews>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="1000" text="Interests:" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="56" translatesAutoresizingMaskIntoConstraints="NO" id="TgT-L9-9T5">
+                            <rect key="frame" x="20" y="10" width="56" height="16"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" red="0.89013671875" green="0.89013671875" blue="0.89013671875" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstItem="TgT-L9-9T5" firstAttribute="top" secondItem="Lko-UW-5rH" secondAttribute="top" constant="10" id="EBW-Z0-1ZW"/>
+                        <constraint firstAttribute="bottom" secondItem="TgT-L9-9T5" secondAttribute="bottom" constant="9" id="r62-4n-kVE"/>
+                    </constraints>
+                </view>
+                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Joe Bob" placeholder="Name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="upp-qw-P8D">
+                    <rect key="frame" x="20" y="18" width="280" height="24"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                    <textInputTraits key="textInputTraits" autocapitalizationType="words" returnKeyType="next"/>
+                </textField>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="yI7-9e-kFc" secondAttribute="bottom" constant="20" id="2Ki-2J-iPy"/>
+                <constraint firstItem="2XF-fe-cEM" firstAttribute="trailing" secondItem="XNo-oB-US6" secondAttribute="trailing" constant="5" id="2p0-Br-Hu6"/>
+                <constraint firstItem="yI7-9e-kFc" firstAttribute="top" secondItem="Lko-UW-5rH" secondAttribute="bottom" constant="17" id="8wF-Qi-YPf"/>
+                <constraint firstAttribute="trailing" secondItem="upp-qw-P8D" secondAttribute="trailing" constant="20" id="AwR-Ar-OyM"/>
+                <constraint firstItem="TgT-L9-9T5" firstAttribute="leading" secondItem="XNo-oB-US6" secondAttribute="leading" id="C7l-D2-RUq"/>
+                <constraint firstItem="XNo-oB-US6" firstAttribute="leading" secondItem="upp-qw-P8D" secondAttribute="leading" id="Gwb-zi-jTV"/>
+                <constraint firstItem="upp-qw-P8D" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="18" id="Lie-LH-TRy"/>
+                <constraint firstItem="upp-qw-P8D" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="20" id="OK3-7f-wSc"/>
+                <constraint firstItem="XNo-oB-US6" firstAttribute="top" secondItem="upp-qw-P8D" secondAttribute="bottom" constant="1" id="PFM-ud-84Z"/>
+                <constraint firstItem="2XF-fe-cEM" firstAttribute="leading" secondItem="XNo-oB-US6" secondAttribute="leading" constant="-5" id="RYs-jb-SKU"/>
+                <constraint firstItem="Lko-UW-5rH" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="bZ4-5X-ULf"/>
+                <constraint firstAttribute="trailing" secondItem="XNo-oB-US6" secondAttribute="trailing" constant="20" id="dgZ-MU-0ih"/>
+                <constraint firstItem="2XF-fe-cEM" firstAttribute="top" secondItem="XNo-oB-US6" secondAttribute="bottom" constant="3" id="e7Q-pv-4ys"/>
+                <constraint firstItem="Lko-UW-5rH" firstAttribute="top" secondItem="2XF-fe-cEM" secondAttribute="bottom" constant="6" id="oYX-da-fE0"/>
+                <constraint firstAttribute="centerX" secondItem="yI7-9e-kFc" secondAttribute="centerX" id="vU0-CB-QcR"/>
+                <constraint firstAttribute="trailing" secondItem="Lko-UW-5rH" secondAttribute="trailing" id="zUE-EO-jQ5"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="addressLabel" destination="XNo-oB-US6" id="k5G-JM-6jm"/>
+                <outlet property="bioTextView" destination="2XF-fe-cEM" id="Jgj-JA-L7y"/>
+                <outlet property="deletePersonButton" destination="yI7-9e-kFc" id="ebW-Gh-XVA"/>
+                <outlet property="interestsLabel" destination="TgT-L9-9T5" id="psq-u2-q9l"/>
+                <outlet property="nameTextField" destination="upp-qw-P8D" id="QMt-ED-gq8"/>
+            </connections>
+        </view>
+    </objects>
+</document>

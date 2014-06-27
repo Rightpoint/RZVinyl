@@ -1,8 +1,8 @@
 //
-//  RZVinyl.h
+//  NSFetchRequest+RZVinylRecord.m
 //  RZVinyl
 //
-//  Created by Nick Donaldson on 6/4/14.
+//  Created by Nick Donaldson on 6/5/14.
 //
 //  Copyright 2014 Raizlabs and other contributors
 //  http://raizlabs.com/
@@ -26,30 +26,39 @@
 //  OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 //  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-#import "RZCoreDataStack.h"
-#import "NSManagedObject+RZVinylRecord.h"
+
 #import "NSFetchRequest+RZVinylRecord.h"
-#import "NSFetchedResultsController+RZVinylRecord.h"
-#import "NSManagedObjectContext+RZVinylSave.h"
+#import "RZVinylDefines.h"
 
-#if (RZV_IMPORT_AVAILABLE)
-    #import "NSManagedObject+RZImport.h"
-    #import "NSManagedObject+RZImportableSubclass.h"
-#endif
+@implementation NSFetchRequest (RZVinylRecord)
 
++ (instancetype)rzv_forEntity:(NSString *)entityName
+                    inContext:(NSManagedObjectContext *)context
+                        where:(NSPredicate *)predicate
+                         sort:(NSArray *)sortDescriptors
+{
+    if ( !RZVParameterAssert(entityName) || !RZVParameterAssert(context) ) {
+        return nil;
+    }
+    
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:entityName inManagedObjectContext:context];
+    
+    if ( !RZVAssert(entity != nil, @"Cannot find entity named %@ in context", entityName)) {
+        return nil;
+    }
+    
+    [fetchRequest setEntity:entity];
+    
+    if ( predicate ) {
+        [fetchRequest setPredicate:predicate];
+    }
+    
+    if ( sortDescriptors ) {
+        [fetchRequest setSortDescriptors:sortDescriptors];
+    }
+    
+    return fetchRequest;
+}
 
-//
-// Public Macros
-//
-
-/**
- *  Shorthand for creating an NSPredicate
- */
-#define RZVPred(format, ...) \
-    [NSPredicate predicateWithFormat:format, ##__VA_ARGS__]
-
-/**
- *  Shorthand for creating an NSSortDescriptor
- */
-#define RZVKeySort(keyPath, isAscending) \
-    [NSSortDescriptor sortDescriptorWithKey:keyPath ascending:isAscending]
+@end
