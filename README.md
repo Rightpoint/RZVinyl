@@ -413,7 +413,7 @@ NSDictionary *artistDict = @{
 
 # Full Documentation
 
-For more comprehensive documentation, see the (TODO) generated from the AppleDoc header comments.
+For more comprehensive documentation, see the [CococaDocs](http://cocoadocs.org/docsets/RZVinyl) page.
 
 # License
 
