@@ -67,13 +67,13 @@ OBJC_EXTERN NSString* const kRZVinylRecordMainContextErrorFormat;
 
 #if ( DEBUG )
     #define RZVLogInfo(msg, ...) \
-        NSLog((@"[RZDataStack]: INFO -- " msg), ##__VA_ARGS__);
+        NSLog((@"[RZVinyl]: INFO -- " msg), ##__VA_ARGS__);
 #else
     #define RZVLogInfo(msg, ...)
 #endif
 
 #define RZVLogError(msg, ...) \
-    NSLog((@"[RZDataStack]: ERROR -- " msg), ##__VA_ARGS__);
+    NSLog((@"[RZVinyl]: ERROR -- " msg), ##__VA_ARGS__);
 
 //
 //  Thread Synchronization
