@@ -336,16 +336,17 @@ static NSString* const kRZCoreDataStackParentStackKey = @"RZCoreDataStackParentS
         RZVLogError(@"Error creating/reading persistent store: %@", error);
         
         if ( [self hasOptionsSet:RZCoreDataStackOptionDeleteDatabaseIfUnreadable] && self.storeURL ) {
-            NSError *removeFileError = nil;
-            if ( [[NSFileManager defaultManager] removeItemAtURL:self.storeURL error:&removeFileError] ) {
+            
+            // Reset the error before we reuse it
+            error = nil;
+            
+            if ( [[NSFileManager defaultManager] removeItemAtURL:self.storeURL error:&error] ) {
+                
                 [self.persistentStoreCoordinator addPersistentStoreWithType:self.storeType
                                                               configuration:self.modelConfiguration
                                                                         URL:self.storeURL
                                                                     options:options
                                                                       error:&error];
-            }
-            else {
-                error = removeFileError;
             }
         }
         
