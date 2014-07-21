@@ -141,7 +141,7 @@
                 importedObject = [self rzv_newObjectInContext:context];
             }
             
-            [importedObject rzi_importValuesFromDict:rawDict withMappings:mappings];
+            [importedObject rzi_importValuesFromDict:rawDict inContext:context withMappings:mappings];
             
             if ( importedObject != nil ) {
                 [updatedObjects addObject:importedObject];
@@ -158,6 +158,22 @@
     RZVEndThreadContext();
     
     return objects;
+}
+
+
+//!!!: Overridden to support default context
+- (void)rzi_importValuesFromDict:(NSDictionary *)dict withMappings:(NSDictionary *)mappings
+{
+    // !!!: This is also called internally by the original RZImport methods Need to check if this is part of an ongoing import.
+    //      Otherwise, assert that this is called on the main thread and use the default context.
+    NSManagedObjectContext *context = [[self class] rzv_currentThreadImportContext];
+    if ( context == nil ) {
+        if ( !RZVAssertMainThread() ) {
+            return;
+        }
+        context = [[[self class] rzv_validCoreDataStack] mainManagedObjectContext];
+    }
+    [self rzi_importValuesFromDict:dict inContext:context withMappings:mappings];
 }
 
 - (void)rzi_importValuesFromDict:(NSDictionary *)dict inContext:(NSManagedObjectContext *)context
@@ -398,9 +414,5 @@ static NSString * const kRZVinylImportThreadContextKey = @"RZVinylImportThreadCo
         }
     }
 }
-
-@end
-
-@implementation NSManagedObject (RZImportUnavailable)
 
 @end

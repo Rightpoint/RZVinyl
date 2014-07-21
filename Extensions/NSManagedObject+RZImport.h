@@ -125,8 +125,10 @@
  *  @param dict    The dictionary representing the object to be inserted/updated.
  *  @param context The context in which to find/insert the object. Must not be nil.
  *
- *  @note This method does not manage object uniqueness as it is an instance method and will act on whatever instance it is called on.
- *  @warning This is an extension of the RZImport method. Using the original method will NOT work for managed objects. You must supply a context argument.
+ *  @note Calling @p rzi_importValuesFromDict: without the context parameter will use the default context provided by
+ *        calling @p +rzv_coreDataStack on the managed object subclass.
+ *
+ *  @warning This method does not manage object uniqueness as it is an instance method and will act on whatever instance it is called on.
  *
  */
 - (void)rzi_importValuesFromDict:(NSDictionary *)dict inContext:(NSManagedObjectContext *)context;
@@ -140,9 +142,10 @@
  *                  use in the import. These will override/supplement implicit mappings and mappings
  *                  provided by @p RZImportable.
  *
- *  @note This method does not manage object uniqueness as it is an instance method and will act on whatever instance it is called on.
- *  @warning This is an extension of the RZImport method. Using the original method will NOT work for managed objects. You must supply a context argument.
- *fro
+ *  @note Calling @p rzi_importValuesFromDict: without the context parameter will use the default context provided by
+ *        calling @p +rzv_coreDataStack on the managed object subclass.
+ *
+ *  @warning This method does not manage object uniqueness as it is an instance method and will act on whatever instance it is called on.
  */
 - (void)rzi_importValuesFromDict:(NSDictionary *)dict inContext:(NSManagedObjectContext *)context withMappings:(NSDictionary *)mappings;
 
@@ -188,12 +191,5 @@
  *  @return YES if @p RZImport should perform automatic value import, NO to prevent it from doing so.
  */
 - (BOOL)rzi_shouldImportValue:(id)value forKey:(NSString *)key inContext:(NSManagedObjectContext *)context NS_REQUIRES_SUPER;
-
-@end
-
-@interface NSManagedObject (RZImportUnavailable)
-
-- (void)rzi_importValuesFromDict:(NSDictionary *)dict __attribute__((unavailable("Use -rzi_importValuesFromDict:inContext:")));
-- (void)rzi_importValuesFromDict:(NSDictionary *)dict withMappings:(NSDictionary *)mappings __attribute__((unavailable("Use -rzi_importValuesFromDict:inContext:withMappings:")));
 
 @end
