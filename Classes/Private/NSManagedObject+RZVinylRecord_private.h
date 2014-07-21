@@ -32,6 +32,8 @@
  */
 @import CoreData;
 
+@class RZCoreDataStack;
+
 @interface NSManagedObject ()
 
 /**

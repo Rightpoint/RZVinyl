@@ -281,16 +281,6 @@
 + (void)rzv_deleteAllWhere:(NSPredicate *)predicate inContext:(NSManagedObjectContext *)context;
 
 
-/** @name Utilities */
-
-
-/**
- *  The entity name of the Core Data entity represented by this class.
- *
- *  @return The entity name.
- */
-+ (NSString *)rzv_entityName;
-
 /** @name Subclassing */
 
 /**

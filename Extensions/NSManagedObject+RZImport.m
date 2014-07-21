@@ -30,6 +30,7 @@
 #import "NSManagedObject+RZImport.h"
 #import "NSObject+RZImport_private.h"
 #import "NSManagedObject+RZVinylRecord.h"
+#import "NSManagedObject+RZVinylUtils.h"
 #import "NSManagedObject+RZImportableSubclass.h"
 #import "NSManagedObject+RZVinylRecord_private.h"
 #import "NSFetchRequest+RZVinylRecord.h"
