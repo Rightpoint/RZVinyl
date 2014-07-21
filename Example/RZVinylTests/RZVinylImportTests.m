@@ -152,7 +152,11 @@
                 @{
                     @"id" : @909,
                     @"title" : @"Tendered Mess"
-                 }
+                 },
+                @{
+                    @"id" : @910,
+                    @"title" : @"Callin"
+                }
             ]
         };
         
@@ -160,9 +164,11 @@
         XCTAssertEqualObjects(huxley.managedObjectContext, context, @"Wrong context");
         XCTAssertNoThrow([huxley rzi_importValuesFromDict:artistDict inContext:context], @"Direct import should not throw exception");
         XCTAssertEqualObjects(huxley.name, @"Huxley", @"Name import failed");
+
+        XCTAssertTrue(huxley.songs.count == 2, @"Song import failed");
         
-        Song *tendered = [[huxley songs] anyObject];
-        XCTAssertNotNil(tendered, @"Song import failed");
+        Song *tendered = [[[huxley songs] filteredSetUsingPredicate:[NSPredicate predicateWithFormat:@"remoteID == 909"]] anyObject];
+        XCTAssertNotNil(tendered, @"Could not find imported song");
         XCTAssertEqualObjects(tendered.managedObjectContext, context, @"Wrong context");
         XCTAssertEqualObjects(tendered.title, @"Tendered Mess", @"Wrong song title");
         
