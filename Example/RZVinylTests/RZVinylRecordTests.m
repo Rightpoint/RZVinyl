@@ -61,10 +61,10 @@
 
 - (void)test_BackgroundContext
 {
+    __block Artist *newArtist = nil;
     NSManagedObjectContext *bgContext = [self.stack backgroundManagedObjectContext];
     [bgContext performBlockAndWait:^{
         
-        Artist *newArtist = nil;
         XCTAssertNoThrow(newArtist = [Artist rzv_newObjectInContext:bgContext], @"Creation with explicit context should not throw exception");
         XCTAssertNotNil(newArtist, @"Failed to create new object");
         XCTAssertTrue([newArtist isKindOfClass:[Artist class]], @"New object is not of correct class");
@@ -75,13 +75,18 @@
         newArtist.genre = @"Sax";
         
         NSError *err = nil;
-        [bgContext save:&err];
+        [bgContext rzv_saveToStoreAndWait:&err];
         XCTAssertNil(err, @"Saving background context failed: %@", err);
     }];
     
     Artist *matchingArtist = [Artist rzv_objectWithPrimaryKeyValue:@100 createNew:NO];
     XCTAssertNotNil(matchingArtist, @"Could not find object from main context");
     XCTAssertEqualObjects(matchingArtist.name, @"Sergio", @"Fetched artist has wrong name");
+    
+    // test object in other context as well
+    Artist *importedArtist = [newArtist rzv_objectInContext:self.stack.mainManagedObjectContext];
+    XCTAssertNotNil(importedArtist, @"Could not get artist in main context using util method");
+    XCTAssertEqualObjects(matchingArtist, importedArtist, @"Artist from main context does not match");
 }
 
 - (void)test_BackgroundBlock
