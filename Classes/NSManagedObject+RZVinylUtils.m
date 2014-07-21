@@ -13,6 +13,39 @@
 
 @implementation NSManagedObject (RZVinylUtils)
 
+- (instancetype)rzv_objectInContext:(NSManagedObjectContext *)context
+{
+    if ( !RZVParameterAssert(context) ) {
+        return nil;
+    }
+    
+    if ( self.managedObjectContext == nil ) {
+        RZVLogError(@"Cannot get object %@ from other context if it has not been inserted yet.", self);
+        return nil;
+    }
+    
+    if ( context == self.managedObjectContext ) {
+        return nil;
+    }
+    
+    if ( [self.objectID isTemporaryID] ) {
+        NSError *permanentObjErr = nil;
+        if ( ![self.managedObjectContext obtainPermanentIDsForObjects:@[self] error:&permanentObjErr] ) {
+            RZVLogError(@"Error getting permanent object ID: %@", permanentObjErr);
+            return nil;
+        }
+    }
+    
+    NSError *fetchErr = nil;
+    NSManagedObject *other = [context existingObjectWithID:self.objectID error:&fetchErr];
+    if ( fetchErr != nil ) {
+        RZVLogError(@"Error getting object from other context: %@", fetchErr);
+        return nil;
+    }
+    
+    return other;
+}
+
 + (NSString *)rzv_entityName
 {
     __block NSString *entityName = nil;
