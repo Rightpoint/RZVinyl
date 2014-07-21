@@ -36,6 +36,17 @@
 #import "RZVinylRelationshipInfo.h"
 #import "RZVinylDefines.h"
 
+#define RZVBeginThreadContext() \
+    BOOL nestedCall = ([[self class] rzv_currentThreadImportContext] != nil); \
+    if ( !nestedCall ) { \
+        [[self class] rzi_setCurrentThreadImportContext:context]; \
+    }
+
+#define RZVEndThreadContext() \
+    if ( !nestedCall ) { \
+        [[self class] rzi_setCurrentThreadImportContext:nil]; \
+    }
+
 //
 // Implementation
 //
@@ -77,22 +88,13 @@
     if ( !RZVParameterAssert(context) ) {
         return nil;
     }
+
+    mappings = [self rzi_primaryKeyMappingsDictWithMappings:mappings];
     
-    NSMutableDictionary *extraMappings = (mappings != nil) ? [mappings mutableCopy] : [NSMutableDictionary dictionary];
-    if ( [self rzi_primaryKeyMapping] ) {
-        [extraMappings addEntriesFromDictionary:[self rzi_primaryKeyMapping]];
-    }
+    RZVBeginThreadContext();
+    id object = [super rzi_objectFromDictionary:dict withMappings:mappings];
+    RZVEndThreadContext();
     
-    //!!!: If there is a context in the current thread dictionary, then this is a nested call to this method.
-    //     In that case, do not modify the thread dictionary.
-    BOOL nestedCall = ([self rzv_currentThreadImportContext] != nil);
-    if ( !nestedCall ){
-        [self rzi_setCurrentThreadImportContext:context];
-    }
-    id object = [super rzi_objectFromDictionary:dict withMappings:extraMappings];
-    if ( !nestedCall ) {
-        [self rzi_setCurrentThreadImportContext:nil];
-    }
     return object;
 }
 
@@ -107,22 +109,14 @@
         return nil;
     }
     
-    NSMutableDictionary *extraMappings = (mappings != nil) ? [mappings mutableCopy] : [NSMutableDictionary dictionary];
-    if ( [self rzi_primaryKeyMapping] ) {
-        [extraMappings addEntriesFromDictionary:[self rzi_primaryKeyMapping]];
-    }
-    
-    //!!!: If there is a context in the current thread dictionary, then this is a nested call to this method.
-    //     In that case, do not modify the thread dictionary.
-    BOOL nestedCall = ( [self rzv_currentThreadImportContext] != nil );
-    if ( !nestedCall ){
-        [self rzi_setCurrentThreadImportContext:context];
-    }
+    mappings = [self rzi_primaryKeyMappingsDictWithMappings:mappings];
+
+    RZVBeginThreadContext();
 
     NSArray *objects = nil;
 
     if ( array.count == 1 ) {
-        id importedObject = [super rzi_objectFromDictionary:array[0] withMappings:extraMappings];
+        id importedObject = [super rzi_objectFromDictionary:array[0] withMappings:mappings];
         if ( importedObject ) {
             objects = @[importedObject];
         }
@@ -147,7 +141,7 @@
                 importedObject = [self rzv_newObjectInContext:context];
             }
             
-            [importedObject rzi_importValuesFromDict:rawDict withMappings:extraMappings];
+            [importedObject rzi_importValuesFromDict:rawDict withMappings:mappings];
             
             if ( importedObject != nil ) {
                 [updatedObjects addObject:importedObject];
@@ -161,10 +155,23 @@
         objects = [super rzi_objectsFromArray:array];
     }
     
-    if ( !nestedCall ) {
-        [self rzi_setCurrentThreadImportContext:nil];
-    }
+    RZVEndThreadContext();
+    
     return objects;
+}
+
+- (void)rzi_importValuesFromDict:(NSDictionary *)dict inContext:(NSManagedObjectContext *)context
+{
+    [self rzi_importValuesFromDict:dict inContext:context withMappings:nil];
+}
+
+- (void)rzi_importValuesFromDict:(NSDictionary *)dict inContext:(NSManagedObjectContext *)context withMappings:(NSDictionary *)mappings
+{
+    NSParameterAssert(context);
+    RZVBeginThreadContext();
+    mappings = [[self class] rzi_primaryKeyMappingsDictWithMappings:mappings];
+    [super rzi_importValuesFromDict:dict withMappings:mappings];
+    RZVEndThreadContext();
 }
 
 #pragma mark - RZImportable
@@ -248,6 +255,15 @@ static NSString * const kRZVinylImportThreadContextKey = @"RZVinylImportThreadCo
     else {
         [[[NSThread currentThread] threadDictionary] removeObjectForKey:kRZVinylImportThreadContextKey];
     }
+}
+
++ (NSDictionary *)rzi_primaryKeyMappingsDictWithMappings:(NSDictionary *)mappings
+{
+    NSMutableDictionary *extraMappings = (mappings != nil) ? [mappings mutableCopy] : [NSMutableDictionary dictionary];
+    if ( [self rzi_primaryKeyMapping] ) {
+        [extraMappings addEntriesFromDictionary:[self rzi_primaryKeyMapping]];
+    }
+    return [NSDictionary dictionaryWithDictionary:extraMappings];
 }
 
 + (NSDictionary *)rzi_primaryKeyMapping
@@ -382,5 +398,9 @@ static NSString * const kRZVinylImportThreadContextKey = @"RZVinylImportThreadCo
         }
     }
 }
+
+@end
+
+@implementation NSManagedObject (RZImportUnavailable)
 
 @end

@@ -119,6 +119,24 @@
  */
 + (NSArray *)rzi_objectsFromArray:(NSArray *)array inContext:(NSManagedObjectContext *)context withMappings:(NSDictionary *)mappings;
 
+/**
+ *  Import the values from the provided dictionary into the receiver using the provided context to manage relationships.
+ *
+ *  @warning This is an extension of the RZImport method. Using the original method will NOT work for managed objects. You must supply a context argument.
+ *
+ *  @param dict Dictionary of values to import.
+ */
+- (void)rzi_importValuesFromDict:(NSDictionary *)dict inContext:(NSManagedObjectContext *)context;
+
+/**
+ *  Import the values from the provided dictionary into the receiver using the provided context to manage relationships, with optional extra property mappings.
+ *
+ *  @warning This is an extension of the RZImport method. Using the original method will NOT work for managed objects. You must supply a context argument.
+ *
+ *  @param dict Dictionary of values to import.
+ */
+- (void)rzi_importValuesFromDict:(NSDictionary *)dict inContext:(NSManagedObjectContext *)context withMappings:(NSDictionary *)mappings;
+
 
 /** @name RZImportable Protocol */
 
@@ -161,5 +179,12 @@
  *  @return YES if @p RZImport should perform automatic value import, NO to prevent it from doing so.
  */
 - (BOOL)rzi_shouldImportValue:(id)value forKey:(NSString *)key inContext:(NSManagedObjectContext *)context NS_REQUIRES_SUPER;
+
+@end
+
+@interface NSManagedObject (RZImportUnavailable)
+
+- (void)rzi_importValuesFromDict:(NSDictionary *)dict __attribute__((unavailable("Use -rzi_importValuesFromDict:inContext:")));
+- (void)rzi_importValuesFromDict:(NSDictionary *)dict withMappings:(NSDictionary *)mappings __attribute__((unavailable("Use -rzi_importValuesFromDict:inContext:withMappings:")));
 
 @end
