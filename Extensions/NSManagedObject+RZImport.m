@@ -162,7 +162,7 @@
     }
     else {
         // Default to creating new object instances.
-        objects = [super rzi_objectsFromArray:array];
+        objects = [super rzi_objectsFromArray:array withMappings:nil];
     }
     
     RZVEndThreadContext();
