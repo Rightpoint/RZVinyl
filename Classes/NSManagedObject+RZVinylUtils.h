@@ -16,6 +16,8 @@
  *
  *  @param context The context from which to get the object. Must not be nil.
  *
+ *  @warning If the receiver has not been saved yet, this will fail and return nil.
+ *
  *  @return The same object as the receiver from a different context, or nil if not found.
  */
 - (instancetype)rzv_objectInContext:(NSManagedObjectContext *)context;
