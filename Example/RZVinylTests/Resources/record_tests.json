@@ -10,6 +10,23 @@
         "title" : "What I Never Knew",
         "length" : 203
       }
+    ],
+    "orderedSongs" : [
+      {
+        "id" : 10001,
+        "title" : "Rise for love",
+        "length" : 420
+      },
+      {
+        "id" : 10009,
+        "title" : "Dummy",
+        "length" : 388
+      },
+      {
+        "id" : 10003,
+        "title" : "Atone",
+        "length" : 501
+      }
     ]
   },
   {

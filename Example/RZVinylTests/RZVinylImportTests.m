@@ -53,6 +53,14 @@
         XCTAssertEqualObjects(anySong.remoteID, rawSong[@"id"], @"Song ID import failed");
         XCTAssertEqualObjects(anySong.title, rawSong[@"title"], @"Song title import failed");
     }
+    XCTAssertEqual(dusky.orderedSongs.count, 3, @"Ordered song relationship import failed");
+    if ( dusky.songs.count == 3 ){
+        NSArray *rawOrderedSongs = duskyRaw[@"orderedSongs"];
+        [rawOrderedSongs enumerateObjectsUsingBlock:^(NSDictionary *rawOrderedSong, NSUInteger idx, BOOL *stop) {
+            Song *orderedSongObj = [dusky.orderedSongs objectAtIndex:idx];
+            XCTAssertEqualObjects(orderedSongObj.title, rawOrderedSong[@"title"], @"Wrong order of songs in ordered import");
+        }];
+    }
     
     [self.stack.mainManagedObjectContext reset];
     

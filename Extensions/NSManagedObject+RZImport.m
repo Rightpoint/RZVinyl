@@ -394,7 +394,13 @@ static NSString * const kRZVinylImportThreadContextKey = @"RZVinylImportThreadCo
         NSArray *rawObjects = value;
         NSArray *importedObjects = [relationshipInfo.destinationClass rzi_objectsFromArray:rawObjects inContext:context];
         if ( importedObjects != nil ) {
-            [self setValue:[NSSet setWithArray:importedObjects] forKey:relationshipInfo.sourcePropertyName];
+            if ( relationshipInfo.isOrdered ) {
+                [self setValue:[[NSOrderedSet alloc] initWithArray:importedObjects] forKey:relationshipInfo.sourcePropertyName];
+            }
+            else {
+                [self setValue:[NSSet setWithArray:importedObjects] forKey:relationshipInfo.sourcePropertyName];
+            }
+
         }
         else {
             RZVLogError(@"Unable to import objects for relationship \"%@\" on entity \"%@\" from value:\n%@",
