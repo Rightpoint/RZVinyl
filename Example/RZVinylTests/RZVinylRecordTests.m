@@ -86,7 +86,7 @@
     // test object in other context as well
     Artist *importedArtist = [newArtist rzv_objectInContext:self.stack.mainManagedObjectContext];
     XCTAssertNotNil(importedArtist, @"Could not get artist in main context using util method");
-    XCTAssertEqualObjects(matchingArtist, importedArtist, @"Artist from main context does not match");
+    XCTAssertEqualObjects(matchingArtist.name, @"Sergio", @"Artist retrieved from permanent ID has wrong name");
 }
 
 - (void)test_BackgroundBlock

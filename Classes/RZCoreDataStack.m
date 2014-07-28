@@ -407,7 +407,7 @@ static NSString* const kRZCoreDataStackParentStackKey = @"RZCoreDataStackParentS
 {
     NSManagedObjectContext *context = [notification object];
     if ( [[context userInfo] objectForKey:kRZCoreDataStackParentStackKey] == self ) {
-        [self.mainManagedObjectContext performBlock:^{
+        [self.mainManagedObjectContext performBlockAndWait:^{
             [self.mainManagedObjectContext mergeChangesFromContextDidSaveNotification:notification];
         }];
     }
