@@ -129,11 +129,7 @@
     
     Artist *snoop = [Artist rzv_objectWithAttributes:@{ @"remoteID" : @101, @"name" : @"Snoop Dogg" } createNew:YES];
     
-    // Must obtain permanent ID for newly created object
     NSError *err = nil;
-    [self.stack.mainManagedObjectContext obtainPermanentIDsForObjects:@[snoop] error:&err];
-    XCTAssertNil(err, @"Error obtaining permanent object ID's: %@", err);
-
     [self.stack.mainManagedObjectContext rzv_saveToStoreAndWait:&err];
     XCTAssertNil(err, @"Error saving context: %@", err);
 
