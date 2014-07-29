@@ -88,5 +88,5 @@ OBJC_EXTERN NSString* const kRZVinylRecordMainContextErrorFormat;
  *
  *  @param block Block to perform synchronously on private serial queue.
  */
-OBJC_EXTERN void rzv_performBlockAtomically(void(^block)());
+OBJC_EXTERN void rzv_performBlockAtomically(BOOL wait, void(^block)());
 

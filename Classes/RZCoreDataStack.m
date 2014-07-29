@@ -262,7 +262,7 @@ static NSString* const kRZCoreDataStackParentStackKey = @"RZCoreDataStackParentS
     __block NSDictionary *result = nil;
     
     //!!!: Must be a thread-safe lazy load
-    rzv_performBlockAtomically(^{
+    rzv_performBlockAtomically(YES, ^{
         if ( _entityClassNamesToStalenessPredicates == nil ) {
             // Enumerate the model and discover stale predicates for each entity class
             NSMutableDictionary *classNamesToStalePredicates = [NSMutableDictionary dictionary];

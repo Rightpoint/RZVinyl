@@ -227,8 +227,7 @@
         object = [self rzv_objectWithPrimaryKeyValue:primaryValue createNew:YES inContext:context];
     }
     else {
-        // TODO: log this only once per class
-        RZVLogInfo(@"Class %@ for entity %@ does not provide a primary key, so it is not possible to find an existing instance to update. A new instance is being created in the database. If new instances of this entity should be created for every import, override +rzv_shouldAlwaysCreateNewObjectOnImport to return YES in order to suppress this message.", NSStringFromClass(self), [self rzv_entityName] );
+        [self rzv_logUniqueObjectsWarning];
         object = [self rzv_newObjectInContext:context];
     }
     
@@ -256,7 +255,7 @@
         __block RZVinylRelationshipInfo *relationshipInfo = nil;
         
         // !!!: This needs to be done in a thread-safe way - the cache is mutable state
-        rzv_performBlockAtomically(^{
+        rzv_performBlockAtomically(YES, ^{
             relationshipInfo = [[self class] rzi_relationshipInfoForKey:key];
         });
         
@@ -434,6 +433,23 @@ static NSString * const kRZVinylImportThreadContextKey = @"RZVinylImportThreadCo
                         value);
         }
     }
+}
+
++ (void)rzv_logUniqueObjectsWarning
+{
+    rzv_performBlockAtomically(NO, ^{
+        
+        static NSMutableSet *s_cachedNonUniqueableClasses = nil;
+        static dispatch_once_t onceToken;
+        dispatch_once(&onceToken, ^{
+            s_cachedNonUniqueableClasses = [NSMutableSet set];
+        });
+        
+        if ( ![s_cachedNonUniqueableClasses containsObject:NSStringFromClass(self)] ) {
+            [s_cachedNonUniqueableClasses addObject:NSStringFromClass(self)];
+            RZVLogInfo(@"Class %@ for entity %@ does not provide a primary key, so it is not possible to find an existing instance to update. A new instance is being created in the database. If new instances of this entity should be created for every import, override +rzv_shouldAlwaysCreateNewObjectOnImport to return YES in order to suppress this message.", NSStringFromClass(self), [self rzv_entityName] );
+        }
+    });
 }
 
 @end
