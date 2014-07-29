@@ -216,6 +216,10 @@
         return nil;
     }
     
+    if ( [self rzv_shouldAlwaysCreateNewObjectOnImport] ) {
+        return [self rzv_newObjectInContext:context];
+    }
+    
     id object = nil;
     NSString *externalPrimaryKey = [self rzv_externalPrimaryKey] ?: [self rzv_primaryKey];
     id primaryValue = externalPrimaryKey ? [dict objectForKey:externalPrimaryKey] : nil;
@@ -224,7 +228,7 @@
     }
     else {
         // TODO: log this only once per class
-        RZVLogInfo(@"Class %@ for entity %@ does not provide a primary key and cannot be uniqued. Creating new instance...", NSStringFromClass(self), [self rzv_entityName] );
+        RZVLogInfo(@"Class %@ for entity %@ does not provide a primary key, so it is not possible to find an existing instance to update. A new instance is being created in the database. If new instances of this entity should be created for every import, override +rzv_shouldAlwaysCreateNewObjectOnImport to return YES in order to suppress this message.", NSStringFromClass(self), [self rzv_entityName] );
         object = [self rzv_newObjectInContext:context];
     }
     
