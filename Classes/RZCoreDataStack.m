@@ -189,6 +189,7 @@ static NSString* const kRZCoreDataStackParentStackKey = @"RZCoreDataStackParentS
                 });
             }
         }];
+        [self unregisterSaveNotificationsForContext:context];
     });
 }
 
@@ -197,6 +198,7 @@ static NSString* const kRZCoreDataStackParentStackKey = @"RZCoreDataStackParentS
     NSManagedObjectContext *bgContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
     [[bgContext userInfo] setObject:self forKey:kRZCoreDataStackParentStackKey];
     bgContext.parentContext = self.topLevelBackgroundContext;
+    [self registerSaveNotificationsForContext:bgContext];
     return bgContext;
 }
 
@@ -322,7 +324,7 @@ static NSString* const kRZCoreDataStackParentStackKey = @"RZCoreDataStackParentS
         NSString *journalMode = [self hasOptionsSet:RZCoreDataStackOptionsDisableWriteAheadLog] ? @"DELETE" : @"WAL";
         options[NSSQLitePragmasOption] = @{@"journal_mode" : journalMode};
     }
-
+    
     if ( ![self hasOptionsSet:RZCoreDataStackOptionDisableAutoLightweightMigration] && self.storeURL ){
         options[NSMigratePersistentStoresAutomaticallyOption] = @(YES);
         options[NSInferMappingModelAutomaticallyOption] = @(YES);
@@ -363,7 +365,7 @@ static NSString* const kRZCoreDataStackParentStackKey = @"RZCoreDataStackParentS
     //
     self.topLevelBackgroundContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
     self.topLevelBackgroundContext.persistentStoreCoordinator = self.persistentStoreCoordinator;
-
+    
     self.mainManagedObjectContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
     self.mainManagedObjectContext.parentContext = self.topLevelBackgroundContext;
     
@@ -375,14 +377,25 @@ static NSString* const kRZCoreDataStackParentStackKey = @"RZCoreDataStackParentS
 - (void)registerForNotifications
 {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleAppDidEnterBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleContextDidSave:) name:NSManagedObjectContextDidSaveNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleContextWillSave:) name:NSManagedObjectContextWillSaveNotification object:self.mainManagedObjectContext];
 }
 
 - (void)unregisterForNotifications
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidEnterBackgroundNotification object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:NSManagedObjectContextDidSaveNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:NSManagedObjectContextWillSaveNotification object:self.mainManagedObjectContext];
+}
 
+- (void)registerSaveNotificationsForContext:(NSManagedObjectContext *)context
+{
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleContextWillSave:) name:NSManagedObjectContextWillSaveNotification object:context];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleContextDidSave:) name:NSManagedObjectContextDidSaveNotification object:context];
+}
+
+- (void)unregisterSaveNotificationsForContext:(NSManagedObjectContext *)context
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:NSManagedObjectContextWillSaveNotification object:context];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:NSManagedObjectContextDidSaveNotification object:context];
 }
 
 - (void)handleAppDidEnterBackground:(NSNotification *)notification
@@ -403,14 +416,23 @@ static NSString* const kRZCoreDataStackParentStackKey = @"RZCoreDataStackParentS
     }
 }
 
-- (void)handleContextDidSave:(NSNotification *)notification
+- (void)handleContextWillSave:(NSNotification *)notification
 {
     NSManagedObjectContext *context = [notification object];
-    if ( [[context userInfo] objectForKey:kRZCoreDataStackParentStackKey] == self ) {
-        [self.mainManagedObjectContext performBlockAndWait:^{
-            [self.mainManagedObjectContext mergeChangesFromContextDidSaveNotification:notification];
-        }];
+    NSArray *insertedObjects = [[context insertedObjects] allObjects];
+    if ( insertedObjects.count > 0 ) {
+        NSError *err = nil;
+        if ( ![context obtainPermanentIDsForObjects:insertedObjects error:&err] ) {
+            RZVLogError(@"Error obtaining permanent ID's for inserted objects before save: %@", err);
+        }
     }
+}
+
+- (void)handleContextDidSave:(NSNotification *)notification
+{
+    [self.mainManagedObjectContext performBlockAndWait:^{
+        [self.mainManagedObjectContext mergeChangesFromContextDidSaveNotification:notification];
+    }];
 }
 
 @end
