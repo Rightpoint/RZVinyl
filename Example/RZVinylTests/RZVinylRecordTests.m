@@ -82,11 +82,6 @@
     Artist *matchingArtist = [Artist rzv_objectWithPrimaryKeyValue:@100 createNew:NO];
     XCTAssertNotNil(matchingArtist, @"Could not find object from main context");
     XCTAssertEqualObjects(matchingArtist.name, @"Sergio", @"Fetched artist has wrong name");
-    
-    // test object in other context as well
-    Artist *importedArtist = [newArtist rzv_objectInContext:self.stack.mainManagedObjectContext];
-    XCTAssertNotNil(importedArtist, @"Could not get artist in main context using util method");
-    XCTAssertEqualObjects(matchingArtist, importedArtist, @"Artist retrieved from permanent ID has wrong name");
 }
 
 - (void)test_BackgroundBlock
@@ -478,6 +473,29 @@
         NSArray *artists = [Artist rzv_all];
         XCTAssertNotNil(artists, @"Should not return nil");
         XCTAssertEqual(artists.count, 2, @"Should only be two artists after purge");
+        finished = YES;
+    }];
+    
+    [RZWaiter waitWithTimeout:3 pollInterval:0.1 checkCondition:^BOOL{
+        return finished;
+    } onTimeout:^{
+        XCTFail(@"Operation timed out");
+    }];
+}
+
+- (void)test_getObjectInOtherContext
+{
+    __block BOOL finished = NO;
+    __block Artist *dusky = nil;
+    [self.stack performBlockUsingBackgroundContext:^(NSManagedObjectContext *context) {
+        dusky = [Artist rzv_objectWithPrimaryKeyValue:@1000 createNew:NO inContext:context];
+        XCTAssertNotNil(dusky, @"Should be a matching object");
+        XCTAssertEqualObjects(dusky.name, @"Dusky", @"Wrong object");
+    } completion:^(NSError *err) {
+        Artist *duskyInMainContext = [dusky rzv_objectInContext:self.stack.mainManagedObjectContext];
+        XCTAssertNotNil(duskyInMainContext, @"Could not get object in main context from bg context object");
+        XCTAssertEqualObjects(duskyInMainContext.managedObjectContext, self.stack.mainManagedObjectContext, @"Retrieved object has wrong context");
+        XCTAssertEqualObjects(duskyInMainContext.name, @"Dusky", @"Retrieved object has wrong name");
         finished = YES;
     }];
     
