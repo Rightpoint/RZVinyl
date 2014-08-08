@@ -119,6 +119,36 @@
  */
 + (NSArray *)rzi_objectsFromArray:(NSArray *)array inContext:(NSManagedObjectContext *)context withMappings:(NSDictionary *)mappings;
 
+/**
+ *  Import the values from the provided dictionary into the receiver using the provided context to manage relationships.
+ * 
+ *  @param dict    The dictionary representing the object to be inserted/updated.
+ *  @param context The context in which to find/insert the object. Must not be nil.
+ *
+ *  @note Calling @p rzi_importValuesFromDict: without the context parameter will use the default context provided by
+ *        calling @p +rzv_coreDataStack on the managed object subclass.
+ *
+ *  @warning This method does not manage object uniqueness as it is an instance method and will act on whatever instance it is called on.
+ *
+ */
+- (void)rzi_importValuesFromDict:(NSDictionary *)dict inContext:(NSManagedObjectContext *)context;
+
+/**
+ *  Import the values from the provided dictionary into the receiver using the provided context to manage relationships, with optional extra property mappings.
+ *
+ *  @param dict    The dictionary representing the object to be inserted/updated.
+ *  @param context The context in which to find/insert the object. Must not be nil.
+ *  @param mappings An optional dictionary of extra mappings from keys to property names to
+ *                  use in the import. These will override/supplement implicit mappings and mappings
+ *                  provided by @p RZImportable.
+ *
+ *  @note Calling @p rzi_importValuesFromDict: without the context parameter will use the default context provided by
+ *        calling @p +rzv_coreDataStack on the managed object subclass.
+ *
+ *  @warning This method does not manage object uniqueness as it is an instance method and will act on whatever instance it is called on.
+ */
+- (void)rzi_importValuesFromDict:(NSDictionary *)dict inContext:(NSManagedObjectContext *)context withMappings:(NSDictionary *)mappings;
+
 
 /** @name RZImportable Protocol */
 

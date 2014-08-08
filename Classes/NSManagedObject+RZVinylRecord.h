@@ -281,16 +281,6 @@
 + (void)rzv_deleteAllWhere:(NSPredicate *)predicate inContext:(NSManagedObjectContext *)context;
 
 
-/** @name Utilities */
-
-
-/**
- *  The entity name of the Core Data entity represented by this class.
- *
- *  @return The entity name.
- */
-+ (NSString *)rzv_entityName;
-
 /** @name Subclassing */
 
 /**
@@ -305,9 +295,8 @@
  *  Override in subclasses to provide the key name of the property uniquely
  *  identifying this object
  *
- *  @warning It is @b mandatory to return a non-nil value from each @p NSManagedObject subclass
- *           in order to use RZVinyl. Failure to do so will throw a runtime exception when using
- *           the methods in the @p NSManagedObject categories.
+ *  @warning If you do not override this method to return a valid key, attempting to use @c +rzv_objectWithPrimaryKeyValue:
+ *           will throw a runtime exception.
  *
  *  @return The key name of the property uniquely identifying this object.
  */

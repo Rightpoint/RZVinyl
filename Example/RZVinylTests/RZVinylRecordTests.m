@@ -61,10 +61,10 @@
 
 - (void)test_BackgroundContext
 {
+    __block Artist *newArtist = nil;
     NSManagedObjectContext *bgContext = [self.stack backgroundManagedObjectContext];
     [bgContext performBlockAndWait:^{
         
-        Artist *newArtist = nil;
         XCTAssertNoThrow(newArtist = [Artist rzv_newObjectInContext:bgContext], @"Creation with explicit context should not throw exception");
         XCTAssertNotNil(newArtist, @"Failed to create new object");
         XCTAssertTrue([newArtist isKindOfClass:[Artist class]], @"New object is not of correct class");
@@ -75,7 +75,7 @@
         newArtist.genre = @"Sax";
         
         NSError *err = nil;
-        [bgContext save:&err];
+        [bgContext rzv_saveToStoreAndWait:&err];
         XCTAssertNil(err, @"Saving background context failed: %@", err);
     }];
     
@@ -129,11 +129,7 @@
     
     Artist *snoop = [Artist rzv_objectWithAttributes:@{ @"remoteID" : @101, @"name" : @"Snoop Dogg" } createNew:YES];
     
-    // Must obtain permanent ID for newly created object
     NSError *err = nil;
-    [self.stack.mainManagedObjectContext obtainPermanentIDsForObjects:@[snoop] error:&err];
-    XCTAssertNil(err, @"Error obtaining permanent object ID's: %@", err);
-
     [self.stack.mainManagedObjectContext rzv_saveToStoreAndWait:&err];
     XCTAssertNil(err, @"Error saving context: %@", err);
 
@@ -473,6 +469,29 @@
         NSArray *artists = [Artist rzv_all];
         XCTAssertNotNil(artists, @"Should not return nil");
         XCTAssertEqual(artists.count, 2, @"Should only be two artists after purge");
+        finished = YES;
+    }];
+    
+    [RZWaiter waitWithTimeout:3 pollInterval:0.1 checkCondition:^BOOL{
+        return finished;
+    } onTimeout:^{
+        XCTFail(@"Operation timed out");
+    }];
+}
+
+- (void)test_getObjectInOtherContext
+{
+    __block BOOL finished = NO;
+    __block Artist *dusky = nil;
+    [self.stack performBlockUsingBackgroundContext:^(NSManagedObjectContext *context) {
+        dusky = [Artist rzv_objectWithPrimaryKeyValue:@1000 createNew:NO inContext:context];
+        XCTAssertNotNil(dusky, @"Should be a matching object");
+        XCTAssertEqualObjects(dusky.name, @"Dusky", @"Wrong object");
+    } completion:^(NSError *err) {
+        Artist *duskyInMainContext = [dusky rzv_objectInContext:self.stack.mainManagedObjectContext];
+        XCTAssertNotNil(duskyInMainContext, @"Could not get object in main context from bg context object");
+        XCTAssertEqualObjects(duskyInMainContext.managedObjectContext, self.stack.mainManagedObjectContext, @"Retrieved object has wrong context");
+        XCTAssertEqualObjects(duskyInMainContext.name, @"Dusky", @"Retrieved object has wrong name");
         finished = YES;
     }];
     

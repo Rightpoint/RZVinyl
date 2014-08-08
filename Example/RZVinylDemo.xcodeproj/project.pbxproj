@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		267E92CF2352486981965091 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BFA85CBDC67442B2A5052135 /* libPods.a */; };
 		9A0133F419586E2B00FED6DC /* RZPersonFiltersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A0133F319586E2B00FED6DC /* RZPersonFiltersViewController.m */; };
+		9A3DB11C1986F01600E973F0 /* Artist.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A3DB11B1986F01600E973F0 /* Artist.m */; };
+		9A3DB11F1986F01700E973F0 /* Song.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A3DB11E1986F01700E973F0 /* Song.m */; };
+		9A3DB1221986F01700E973F0 /* BaseObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A3DB1211986F01700E973F0 /* BaseObject.m */; };
 		9A536129193F90E000E87F4F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A536128193F90E000E87F4F /* Foundation.framework */; };
 		9A53612B193F90E000E87F4F /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A53612A193F90E000E87F4F /* CoreGraphics.framework */; };
 		9A53612D193F90E000E87F4F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A53612C193F90E000E87F4F /* UIKit.framework */; };
@@ -45,9 +48,6 @@
 		9AB9081B193FD8330063445A /* RZCoreDataStackConfigTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AB9081A193FD8330063445A /* RZCoreDataStackConfigTests.m */; };
 		9AB908261940D7BC0063445A /* TestModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9AB908241940D7BC0063445A /* TestModel.xcdatamodeld */; };
 		9AB90876194104860063445A /* RZVinylRecordTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AB90875194104860063445A /* RZVinylRecordTests.m */; };
-		9AB908791941065F0063445A /* Song.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AB908781941065F0063445A /* Song.m */; };
-		9AB9087C1941065F0063445A /* Artist.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AB9087B1941065F0063445A /* Artist.m */; };
-		9AB9087F1941065F0063445A /* BaseObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AB9087E1941065F0063445A /* BaseObject.m */; };
 		9AB90883194107C30063445A /* BaseObject+RZVinyl.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AB90882194107C30063445A /* BaseObject+RZVinyl.m */; };
 		9AB9088619410A2D0063445A /* RZWaiter.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AB9088519410A2D0063445A /* RZWaiter.m */; };
 		9AB9088A194113D60063445A /* record_tests.json in Resources */ = {isa = PBXBuildFile; fileRef = 9AB90889194113D60063445A /* record_tests.json */; };
@@ -70,6 +70,12 @@
 		9A0133F219586E2B00FED6DC /* RZPersonFiltersViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RZPersonFiltersViewController.h; sourceTree = "<group>"; };
 		9A0133F319586E2B00FED6DC /* RZPersonFiltersViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RZPersonFiltersViewController.m; sourceTree = "<group>"; };
 		9A0133F51958768000FED6DC /* RZTableViewDataSourceBlocks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RZTableViewDataSourceBlocks.h; sourceTree = "<group>"; };
+		9A3DB11A1986F01600E973F0 /* Artist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Artist.h; sourceTree = "<group>"; };
+		9A3DB11B1986F01600E973F0 /* Artist.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Artist.m; sourceTree = "<group>"; };
+		9A3DB11D1986F01700E973F0 /* Song.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Song.h; sourceTree = "<group>"; };
+		9A3DB11E1986F01700E973F0 /* Song.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Song.m; sourceTree = "<group>"; };
+		9A3DB1201986F01700E973F0 /* BaseObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseObject.h; sourceTree = "<group>"; };
+		9A3DB1211986F01700E973F0 /* BaseObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseObject.m; sourceTree = "<group>"; };
 		9A536125193F90E000E87F4F /* RZVinylDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RZVinylDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9A536128193F90E000E87F4F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		9A53612A193F90E000E87F4F /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -127,12 +133,6 @@
 		9AB9081A193FD8330063445A /* RZCoreDataStackConfigTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RZCoreDataStackConfigTests.m; sourceTree = "<group>"; };
 		9AB908251940D7BC0063445A /* TestModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TestModel.xcdatamodel; sourceTree = "<group>"; };
 		9AB90875194104860063445A /* RZVinylRecordTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RZVinylRecordTests.m; sourceTree = "<group>"; };
-		9AB908771941065F0063445A /* Song.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Song.h; sourceTree = "<group>"; };
-		9AB908781941065F0063445A /* Song.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Song.m; sourceTree = "<group>"; };
-		9AB9087A1941065F0063445A /* Artist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Artist.h; sourceTree = "<group>"; };
-		9AB9087B1941065F0063445A /* Artist.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Artist.m; sourceTree = "<group>"; };
-		9AB9087D1941065F0063445A /* BaseObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseObject.h; sourceTree = "<group>"; };
-		9AB9087E1941065F0063445A /* BaseObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseObject.m; sourceTree = "<group>"; };
 		9AB90881194107C30063445A /* BaseObject+RZVinyl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "BaseObject+RZVinyl.h"; sourceTree = "<group>"; };
 		9AB90882194107C30063445A /* BaseObject+RZVinyl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "BaseObject+RZVinyl.m"; sourceTree = "<group>"; };
 		9AB9088419410A2D0063445A /* RZWaiter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RZWaiter.h; sourceTree = "<group>"; };
@@ -377,12 +377,12 @@
 			children = (
 				9AB90880194107AA0063445A /* RZVinylExtensions */,
 				9AB908241940D7BC0063445A /* TestModel.xcdatamodeld */,
-				9AB9087D1941065F0063445A /* BaseObject.h */,
-				9AB9087E1941065F0063445A /* BaseObject.m */,
-				9AB9087A1941065F0063445A /* Artist.h */,
-				9AB9087B1941065F0063445A /* Artist.m */,
-				9AB908771941065F0063445A /* Song.h */,
-				9AB908781941065F0063445A /* Song.m */,
+				9A3DB1201986F01700E973F0 /* BaseObject.h */,
+				9A3DB1211986F01700E973F0 /* BaseObject.m */,
+				9A3DB11D1986F01700E973F0 /* Song.h */,
+				9A3DB11E1986F01700E973F0 /* Song.m */,
+				9A3DB11A1986F01600E973F0 /* Artist.h */,
+				9A3DB11B1986F01600E973F0 /* Artist.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -578,18 +578,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9AB908791941065F0063445A /* Song.m in Sources */,
+				9A3DB11F1986F01700E973F0 /* Song.m in Sources */,
 				9AB90883194107C30063445A /* BaseObject+RZVinyl.m in Sources */,
 				9AD8B1CE1944BBD8009C7823 /* RZVinylImportTests.m in Sources */,
-				9AB9087F1941065F0063445A /* BaseObject.m in Sources */,
+				9A3DB1221986F01700E973F0 /* BaseObject.m in Sources */,
 				9AB9081B193FD8330063445A /* RZCoreDataStackConfigTests.m in Sources */,
 				9AB908261940D7BC0063445A /* TestModel.xcdatamodeld in Sources */,
 				9AB9088619410A2D0063445A /* RZWaiter.m in Sources */,
 				9AB3ABF3195BAFD40014D5FF /* RZVinylSaveTests.m in Sources */,
 				9A95F0F51948DC8B00139457 /* RZCoreDataStack+TestUtils.m in Sources */,
 				9A74A5C81946488100A06937 /* Artist+RZVinyl.m in Sources */,
+				9A3DB11C1986F01600E973F0 /* Artist.m in Sources */,
 				9AB90876194104860063445A /* RZVinylRecordTests.m in Sources */,
-				9AB9087C1941065F0063445A /* Artist.m in Sources */,
 				9AD8B1D01944BCE8009C7823 /* RZVinylBaseTestCase.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

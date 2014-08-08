@@ -21,6 +21,8 @@
 {
     [super setUp];
     
+    [RZCoreDataStack resetDefaultStack];
+    
     NSURL *modelURL = [[NSBundle bundleForClass:[self class]] URLForResource:@"TestModel" withExtension:@"momd"];
     NSManagedObjectModel *model = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
     self.stack = [[RZCoreDataStack alloc] initWithModel:model
@@ -34,7 +36,6 @@
 - (void)tearDown
 {
     [super tearDown];
-    [RZCoreDataStack resetDefaultStack];
     self.stack = nil;
 }
 

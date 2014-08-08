@@ -37,6 +37,7 @@
 @property (nonatomic, readwrite, copy)   NSString *destinationEntityName;
 @property (nonatomic, readwrite, assign) Class    destinationClass;
 @property (nonatomic, readwrite, assign) BOOL     isToMany;
+@property (nonatomic, readwrite, assign) BOOL     isOrdered;
 
 @end
 
@@ -52,6 +53,7 @@
     info.destinationEntityName      = description.destinationEntity.name;
     info.destinationClass           = NSClassFromString(description.destinationEntity.managedObjectClassName);
     info.isToMany                   = description.isToMany;
+    info.isOrdered                  = description.isOrdered;
     return info;
 }
 

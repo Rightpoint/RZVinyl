@@ -36,4 +36,9 @@
     return nil;
 }
 
++ (BOOL)rzv_shouldAlwaysCreateNewObjectOnImport
+{
+    return NO;
+}
+
 @end

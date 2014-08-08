@@ -53,6 +53,14 @@
         XCTAssertEqualObjects(anySong.remoteID, rawSong[@"id"], @"Song ID import failed");
         XCTAssertEqualObjects(anySong.title, rawSong[@"title"], @"Song title import failed");
     }
+    XCTAssertEqual(dusky.orderedSongs.count, 3, @"Ordered song relationship import failed");
+    if ( dusky.songs.count == 3 ){
+        NSArray *rawOrderedSongs = duskyRaw[@"orderedSongs"];
+        [rawOrderedSongs enumerateObjectsUsingBlock:^(NSDictionary *rawOrderedSong, NSUInteger idx, BOOL *stop) {
+            Song *orderedSongObj = [dusky.orderedSongs objectAtIndex:idx];
+            XCTAssertEqualObjects(orderedSongObj.title, rawOrderedSong[@"title"], @"Wrong order of songs in ordered import");
+        }];
+    }
     
     [self.stack.mainManagedObjectContext reset];
     
@@ -139,6 +147,52 @@
     }];
 }
 
+- (void)test_DirectImport
+{
+    __block BOOL finished = NO;
+    [self.stack performBlockUsingBackgroundContext:^(NSManagedObjectContext *context) {
+        
+        NSDictionary *artistDict = @{
+            @"id"   : @808,
+            @"name" : @"Huxley",
+            @"genre" : @"Deep House",
+            @"songs" : @[
+                @{
+                    @"id" : @909,
+                    @"title" : @"Tendered Mess"
+                 },
+                @{
+                    @"id" : @910,
+                    @"title" : @"Callin"
+                }
+            ]
+        };
+        
+        Artist *huxley = [Artist rzv_newObjectInContext:context];
+        XCTAssertEqualObjects(huxley.managedObjectContext, context, @"Wrong context");
+        XCTAssertNoThrow([huxley rzi_importValuesFromDict:artistDict inContext:context], @"Direct import should not throw exception");
+        XCTAssertEqualObjects(huxley.name, @"Huxley", @"Name import failed");
+
+        XCTAssertTrue(huxley.songs.count == 2, @"Song import failed");
+        
+        Song *tendered = [[[huxley songs] filteredSetUsingPredicate:[NSPredicate predicateWithFormat:@"remoteID == 909"]] anyObject];
+        XCTAssertNotNil(tendered, @"Could not find imported song");
+        XCTAssertEqualObjects(tendered.managedObjectContext, context, @"Wrong context");
+        XCTAssertEqualObjects(tendered.title, @"Tendered Mess", @"Wrong song title");
+        
+        
+    } completion:^(NSError *err) {
+        XCTAssertNil(err, @"Error during background context save: %@", err);
+        finished = YES;
+    }];
+    
+    [RZWaiter waitWithTimeout:3 pollInterval:0.1 checkCondition:^BOOL{
+        return finished;
+    } onTimeout:^{
+        XCTFail(@"Operation timed out");
+    }];
+}
+
 - (void)test_BigImport_1000
 {
     const NSUInteger count = 1000;
@@ -178,5 +232,6 @@
     Artist *aRick = [artists lastObject];
     XCTAssertEqual(aRick.songs.count, 1, @"Failed to import song");
 }
+
 
 @end

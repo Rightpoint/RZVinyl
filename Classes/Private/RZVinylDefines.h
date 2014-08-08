@@ -80,13 +80,14 @@ OBJC_EXTERN NSString* const kRZVinylRecordMainContextErrorFormat;
 //
 
 /**
- *  Perform the submitted block synchronously on a private serial queue.
- *  Does not support reentrancy. 
+ *  Perform the submitted block on a private serial queue.
+ *  Does not support reentrancy.
  *
  *  @warning    Do not do anything in the block that would result
  *              in this method being called from within the block.
  *
- *  @param block Block to perform synchronously on private serial queue.
+ *  @param wait  YES to perform synchronously, NO to perform asynchronously
+ *  @param block Block to perform on private serial queue.
  */
-OBJC_EXTERN void rzv_performBlockAtomically(void(^block)());
+OBJC_EXTERN void rzv_performBlockAtomically(BOOL wait, void(^block)());
 

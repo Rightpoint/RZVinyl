@@ -41,6 +41,7 @@
 @property (nonatomic, readonly, copy)   NSString *destinationEntityName;
 @property (nonatomic, readonly, assign) Class    destinationClass;
 @property (nonatomic, readonly, assign) BOOL     isToMany;
+@property (nonatomic, readonly, assign) BOOL     isOrdered;
 
 + (RZVinylRelationshipInfo *)relationshipInfoFromDescription:(NSRelationshipDescription *)description;
 

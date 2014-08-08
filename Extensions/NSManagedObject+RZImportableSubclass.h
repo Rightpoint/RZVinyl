@@ -48,4 +48,14 @@
  */
 + (NSString *)rzv_externalPrimaryKey;
 
+
+/**
+ *  Override and return @c YES to always create new instances of this object's entity type upon import.
+ *  If @c YES is returned, @c +rzv_primaryKey and @c +rzv_externalPrimaryKey will be completely ignored and no
+ *  attempt will be made to find and update existing objects matching the dictionary being imported.
+ *
+ *  @return @c YES to always create new instances on import. Default is @c NO.
+ */
++ (BOOL)rzv_shouldAlwaysCreateNewObjectOnImport;
+
 @end

@@ -31,7 +31,7 @@
 NSString* const kRZVinylRecordMainContextErrorFormat = @"%@ uses the main managed object context by default and must be called on the main thread. \
                                                         To use another managed object context, use the version which takes a context argument.";
 
-void rzv_performBlockAtomically(void(^block)()) {
+void rzv_performBlockAtomically(BOOL wait, void(^block)()) {
     
     static dispatch_queue_t s_syncQueue = nil;
     static dispatch_once_t onceToken;
@@ -40,6 +40,11 @@ void rzv_performBlockAtomically(void(^block)()) {
     });
     
     if ( block != nil ) {
-        dispatch_sync(s_syncQueue, block);
+        if ( wait ) {
+            dispatch_sync(s_syncQueue, block);
+        }
+        else {
+            dispatch_async(s_syncQueue, block);
+        }
     }
 }

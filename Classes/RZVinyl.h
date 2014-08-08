@@ -28,6 +28,7 @@
 
 #import "RZCoreDataStack.h"
 #import "NSManagedObject+RZVinylRecord.h"
+#import "NSManagedObject+RZVinylUtils.h"
 #import "NSFetchRequest+RZVinylRecord.h"
 #import "NSFetchedResultsController+RZVinylRecord.h"
 #import "NSManagedObjectContext+RZVinylSave.h"

@@ -30,11 +30,23 @@
 #import "NSManagedObject+RZImport.h"
 #import "NSObject+RZImport_private.h"
 #import "NSManagedObject+RZVinylRecord.h"
+#import "NSManagedObject+RZVinylUtils.h"
 #import "NSManagedObject+RZImportableSubclass.h"
 #import "NSManagedObject+RZVinylRecord_private.h"
 #import "NSFetchRequest+RZVinylRecord.h"
 #import "RZVinylRelationshipInfo.h"
 #import "RZVinylDefines.h"
+
+#define RZVBeginThreadContext() \
+    BOOL nestedCall = ([[self class] rzv_currentThreadImportContext] != nil); \
+    if ( !nestedCall ) { \
+        [[self class] rzi_setCurrentThreadImportContext:context]; \
+    }
+
+#define RZVEndThreadContext() \
+    if ( !nestedCall ) { \
+        [[self class] rzi_setCurrentThreadImportContext:nil]; \
+    }
 
 //
 // Implementation
@@ -42,28 +54,33 @@
 
 @implementation NSManagedObject (RZImport)
 
-+ (void)load
-{
-    // TODO: Prevent override of non-overrideable methods in RZImport protocol
-}
-
 //!!!: Overridden to support default context
 + (instancetype)rzi_objectFromDictionary:(NSDictionary *)dict withMappings:(NSDictionary *)mappings
 {
-    if ( !RZVAssertMainThread() ) {
-        return nil;
+    // !!!: This is also called internally by the original RZImport methods Need to check if this is part of an ongoing import.
+    //      Otherwise, assert that this is called on the main thread and use the default context.
+    NSManagedObjectContext *context = [self rzv_currentThreadImportContext];
+    if ( context == nil ) {
+        if ( !RZVAssertMainThread() ) {
+            return nil;
+        }
+        context = [[self rzv_validCoreDataStack] mainManagedObjectContext];
     }
-    NSManagedObjectContext *context = [[self rzv_validCoreDataStack] mainManagedObjectContext];
     return [self rzi_objectFromDictionary:dict inContext:context];
 }
 
 //!!!: Overridden to support default context
 + (NSArray *)rzi_objectsFromArray:(NSArray *)array withMappings:(NSDictionary *)mappings
 {
-    if ( !RZVAssertMainThread() ) {
-        return nil;
+    // !!!: This is also called internally by the original RZImport methods Need to check if this is part of an ongoing import.
+    //      Otherwise, assert that this is called on the main thread and use the default context.
+    NSManagedObjectContext *context = [self rzv_currentThreadImportContext];
+    if ( context == nil ) {
+        if ( !RZVAssertMainThread() ) {
+            return nil;
+        }
+        context = [[self rzv_validCoreDataStack] mainManagedObjectContext];
     }
-    NSManagedObjectContext *context = [[self rzv_validCoreDataStack] mainManagedObjectContext];
     return [self rzi_objectsFromArray:array inContext:context];
 }
 
@@ -77,22 +94,13 @@
     if ( !RZVParameterAssert(context) ) {
         return nil;
     }
+
+    mappings = [self rzi_primaryKeyMappingsDictWithMappings:mappings];
     
-    NSMutableDictionary *extraMappings = (mappings != nil) ? [mappings mutableCopy] : [NSMutableDictionary dictionary];
-    if ( [self rzi_primaryKeyMapping] ) {
-        [extraMappings addEntriesFromDictionary:[self rzi_primaryKeyMapping]];
-    }
+    RZVBeginThreadContext();
+    id object = [super rzi_objectFromDictionary:dict withMappings:mappings];
+    RZVEndThreadContext();
     
-    //!!!: If there is a context in the current thread dictionary, then this is a nested call to this method.
-    //     In that case, do not modify the thread dictionary.
-    BOOL nestedCall = ([self rzv_currentThreadImportContext] != nil);
-    if ( !nestedCall ){
-        [self rzi_setCurrentThreadImportContext:context];
-    }
-    id object = [super rzi_objectFromDictionary:dict withMappings:extraMappings];
-    if ( !nestedCall ) {
-        [self rzi_setCurrentThreadImportContext:nil];
-    }
     return object;
 }
 
@@ -107,22 +115,14 @@
         return nil;
     }
     
-    NSMutableDictionary *extraMappings = (mappings != nil) ? [mappings mutableCopy] : [NSMutableDictionary dictionary];
-    if ( [self rzi_primaryKeyMapping] ) {
-        [extraMappings addEntriesFromDictionary:[self rzi_primaryKeyMapping]];
-    }
-    
-    //!!!: If there is a context in the current thread dictionary, then this is a nested call to this method.
-    //     In that case, do not modify the thread dictionary.
-    BOOL nestedCall = ( [self rzv_currentThreadImportContext] != nil );
-    if ( !nestedCall ){
-        [self rzi_setCurrentThreadImportContext:context];
-    }
+    mappings = [self rzi_primaryKeyMappingsDictWithMappings:mappings];
+
+    RZVBeginThreadContext();
 
     NSArray *objects = nil;
 
     if ( array.count == 1 ) {
-        id importedObject = [super rzi_objectFromDictionary:array[0] withMappings:extraMappings];
+        id importedObject = [super rzi_objectFromDictionary:array[0] withMappings:mappings];
         if ( importedObject ) {
             objects = @[importedObject];
         }
@@ -147,7 +147,7 @@
                 importedObject = [self rzv_newObjectInContext:context];
             }
             
-            [importedObject rzi_importValuesFromDict:rawDict withMappings:extraMappings];
+            [importedObject rzi_importValuesFromDict:rawDict inContext:context withMappings:mappings];
             
             if ( importedObject != nil ) {
                 [updatedObjects addObject:importedObject];
@@ -158,13 +158,42 @@
     }
     else {
         // Default to creating new object instances.
-        objects = [super rzi_objectsFromArray:array];
+        objects = [super rzi_objectsFromArray:array withMappings:nil];
     }
     
-    if ( !nestedCall ) {
-        [self rzi_setCurrentThreadImportContext:nil];
-    }
+    RZVEndThreadContext();
+    
     return objects;
+}
+
+
+//!!!: Overridden to support default context
+- (void)rzi_importValuesFromDict:(NSDictionary *)dict withMappings:(NSDictionary *)mappings
+{
+    // !!!: This is also called internally by the original RZImport methods Need to check if this is part of an ongoing import.
+    //      Otherwise, assert that this is called on the main thread and use the default context.
+    NSManagedObjectContext *context = [[self class] rzv_currentThreadImportContext];
+    if ( context == nil ) {
+        if ( !RZVAssertMainThread() ) {
+            return;
+        }
+        context = [[[self class] rzv_validCoreDataStack] mainManagedObjectContext];
+    }
+    [self rzi_importValuesFromDict:dict inContext:context withMappings:mappings];
+}
+
+- (void)rzi_importValuesFromDict:(NSDictionary *)dict inContext:(NSManagedObjectContext *)context
+{
+    [self rzi_importValuesFromDict:dict inContext:context withMappings:nil];
+}
+
+- (void)rzi_importValuesFromDict:(NSDictionary *)dict inContext:(NSManagedObjectContext *)context withMappings:(NSDictionary *)mappings
+{
+    NSParameterAssert(context);
+    RZVBeginThreadContext();
+    mappings = [[self class] rzi_primaryKeyMappingsDictWithMappings:mappings];
+    [super rzi_importValuesFromDict:dict withMappings:mappings];
+    RZVEndThreadContext();
 }
 
 #pragma mark - RZImportable
@@ -182,6 +211,10 @@
         return nil;
     }
     
+    if ( [self rzv_shouldAlwaysCreateNewObjectOnImport] ) {
+        return [self rzv_newObjectInContext:context];
+    }
+    
     id object = nil;
     NSString *externalPrimaryKey = [self rzv_externalPrimaryKey] ?: [self rzv_primaryKey];
     id primaryValue = externalPrimaryKey ? [dict objectForKey:externalPrimaryKey] : nil;
@@ -189,8 +222,7 @@
         object = [self rzv_objectWithPrimaryKeyValue:primaryValue createNew:YES inContext:context];
     }
     else {
-        // TODO: log this only once per class
-        RZVLogInfo(@"Class %@ for entity %@ does not provide a primary key and cannot be uniqued. Creating new instance...", NSStringFromClass(self), [self rzv_entityName] );
+        [self rzv_logUniqueObjectsWarning];
         object = [self rzv_newObjectInContext:context];
     }
     
@@ -218,7 +250,7 @@
         __block RZVinylRelationshipInfo *relationshipInfo = nil;
         
         // !!!: This needs to be done in a thread-safe way - the cache is mutable state
-        rzv_performBlockAtomically(^{
+        rzv_performBlockAtomically(YES, ^{
             relationshipInfo = [[self class] rzi_relationshipInfoForKey:key];
         });
         
@@ -248,6 +280,15 @@ static NSString * const kRZVinylImportThreadContextKey = @"RZVinylImportThreadCo
     else {
         [[[NSThread currentThread] threadDictionary] removeObjectForKey:kRZVinylImportThreadContextKey];
     }
+}
+
++ (NSDictionary *)rzi_primaryKeyMappingsDictWithMappings:(NSDictionary *)mappings
+{
+    NSMutableDictionary *extraMappings = (mappings != nil) ? [mappings mutableCopy] : [NSMutableDictionary dictionary];
+    if ( [self rzi_primaryKeyMapping] ) {
+        [extraMappings addEntriesFromDictionary:[self rzi_primaryKeyMapping]];
+    }
+    return [NSDictionary dictionaryWithDictionary:extraMappings];
 }
 
 + (NSDictionary *)rzi_primaryKeyMapping
@@ -351,7 +392,13 @@ static NSString * const kRZVinylImportThreadContextKey = @"RZVinylImportThreadCo
         NSArray *rawObjects = value;
         NSArray *importedObjects = [relationshipInfo.destinationClass rzi_objectsFromArray:rawObjects inContext:context];
         if ( importedObjects != nil ) {
-            [self setValue:[NSSet setWithArray:importedObjects] forKey:relationshipInfo.sourcePropertyName];
+            if ( relationshipInfo.isOrdered ) {
+                [self setValue:[[NSOrderedSet alloc] initWithArray:importedObjects] forKey:relationshipInfo.sourcePropertyName];
+            }
+            else {
+                [self setValue:[NSSet setWithArray:importedObjects] forKey:relationshipInfo.sourcePropertyName];
+            }
+
         }
         else {
             RZVLogError(@"Unable to import objects for relationship \"%@\" on entity \"%@\" from value:\n%@",
@@ -381,6 +428,23 @@ static NSString * const kRZVinylImportThreadContextKey = @"RZVinylImportThreadCo
                         value);
         }
     }
+}
+
++ (void)rzv_logUniqueObjectsWarning
+{
+    rzv_performBlockAtomically(NO, ^{
+        
+        static NSMutableSet *s_cachedNonUniqueableClasses = nil;
+        static dispatch_once_t onceToken;
+        dispatch_once(&onceToken, ^{
+            s_cachedNonUniqueableClasses = [NSMutableSet set];
+        });
+        
+        if ( ![s_cachedNonUniqueableClasses containsObject:NSStringFromClass(self)] ) {
+            [s_cachedNonUniqueableClasses addObject:NSStringFromClass(self)];
+            RZVLogInfo(@"Class %@ for entity %@ does not provide a primary key, so it is not possible to find an existing instance to update. A new instance is being created in the database. If new instances of this entity should be created for every import, override +rzv_shouldAlwaysCreateNewObjectOnImport to return YES in order to suppress this message.", NSStringFromClass(self), [self rzv_entityName] );
+        }
+    });
 }
 
 @end
