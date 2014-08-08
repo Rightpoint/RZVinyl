@@ -1,9 +1,8 @@
 //
 //  NSManagedObject+RZVinylUtils.m
-//  Pods
+//  RZVinyl
 //
 //  Created by Nick Donaldson on 7/21/14.
-//
 //
 
 #import "NSManagedObject+RZVinylUtils.h"
@@ -50,7 +49,8 @@
 {
     __block NSString *entityName = nil;
     
-    // synchronize mutable dict access by dispatching to main thread
+    // Synchronize mutable dict access by dispatching to main thread
+    // Do NOT use rzv_performBlockAtomically: because it does not support reentrancy
     if ( [NSThread isMainThread] ) {
         entityName = [self rzv_cachedEntityName];
     }

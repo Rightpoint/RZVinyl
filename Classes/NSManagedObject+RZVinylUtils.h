@@ -1,9 +1,8 @@
 //
 //  NSManagedObject+RZVinylUtils.h
-//  Pods
+//  RZVinyl
 //
 //  Created by Nick Donaldson on 7/21/14.
-//
 //
 
 @import CoreData;
