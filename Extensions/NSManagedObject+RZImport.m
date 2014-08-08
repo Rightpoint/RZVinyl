@@ -54,22 +54,17 @@
 
 @implementation NSManagedObject (RZImport)
 
-+ (void)load
-{
-    // TODO: Prevent override of non-overrideable methods in RZImport protocol
-}
-
 //!!!: Overridden to support default context
 + (instancetype)rzi_objectFromDictionary:(NSDictionary *)dict withMappings:(NSDictionary *)mappings
 {
     // !!!: This is also called internally by the original RZImport methods Need to check if this is part of an ongoing import.
     //      Otherwise, assert that this is called on the main thread and use the default context.
-    NSManagedObjectContext *context = [[self class] rzv_currentThreadImportContext];
+    NSManagedObjectContext *context = [self rzv_currentThreadImportContext];
     if ( context == nil ) {
         if ( !RZVAssertMainThread() ) {
             return nil;
         }
-        context = [[[self class] rzv_validCoreDataStack] mainManagedObjectContext];
+        context = [[self rzv_validCoreDataStack] mainManagedObjectContext];
     }
     return [self rzi_objectFromDictionary:dict inContext:context];
 }
@@ -84,7 +79,7 @@
         if ( !RZVAssertMainThread() ) {
             return nil;
         }
-        context = [[[self class] rzv_validCoreDataStack] mainManagedObjectContext];
+        context = [[self rzv_validCoreDataStack] mainManagedObjectContext];
     }
     return [self rzi_objectsFromArray:array inContext:context];
 }
