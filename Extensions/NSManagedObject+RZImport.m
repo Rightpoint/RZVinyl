@@ -74,7 +74,7 @@
 {
     // !!!: This is also called internally by the original RZImport methods Need to check if this is part of an ongoing import.
     //      Otherwise, assert that this is called on the main thread and use the default context.
-    NSManagedObjectContext *context = [[self class] rzv_currentThreadImportContext];
+    NSManagedObjectContext *context = [self rzv_currentThreadImportContext];
     if ( context == nil ) {
         if ( !RZVAssertMainThread() ) {
             return nil;
