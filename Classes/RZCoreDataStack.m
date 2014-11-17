@@ -404,7 +404,7 @@ static NSString* const kRZCoreDataStackParentStackKey = @"RZCoreDataStackParentS
         
         __block UIBackgroundTaskIdentifier backgroundPurgeTaskID = UIBackgroundTaskInvalid;
         
-        [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
+        backgroundPurgeTaskID = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
             [[UIApplication sharedApplication] endBackgroundTask:backgroundPurgeTaskID];
             backgroundPurgeTaskID = UIBackgroundTaskInvalid;
         }];
