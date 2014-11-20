@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name                = "RZVinyl"
-  s.version             = "1.1.0"
+  s.version             = "1.1.1"
   s.summary             = "Stack management, ActiveRecord utilities, and seamless importing for Core Data."
 
   s.description         = <<-DESC
@@ -22,7 +22,7 @@ Pod::Spec.new do |s|
   s.social_media_url    = "http://twitter.com/raizlabs"
 
   s.platform            = :ios, "7.0"
-  s.source              = { :git => "https://github.com/Raizlabs/RZVinyl.git", :tag => "1.1.0" }
+  s.source              = { :git => "https://github.com/Raizlabs/RZVinyl.git", :tag => "1.1.1" }
 
   s.frameworks          = "Foundation", "CoreData"
   s.requires_arc        = true
