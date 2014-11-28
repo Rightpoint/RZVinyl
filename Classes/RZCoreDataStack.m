@@ -446,3 +446,7 @@ void __rzv_resetDefaultStack()
     s_defaultStack = nil;
 }
 
+void __rzv_blockUntilBackgroundQueueCompletes()
+{
+    dispatch_sync(s_defaultStack.backgroundContextQueue, ^{});
+}
