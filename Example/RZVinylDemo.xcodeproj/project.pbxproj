@@ -67,6 +67,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		321C2A0D52411C920F1C0329 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		9A0133F219586E2B00FED6DC /* RZPersonFiltersViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RZPersonFiltersViewController.h; sourceTree = "<group>"; };
 		9A0133F319586E2B00FED6DC /* RZPersonFiltersViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RZPersonFiltersViewController.m; sourceTree = "<group>"; };
 		9A0133F51958768000FED6DC /* RZTableViewDataSourceBlocks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RZTableViewDataSourceBlocks.h; sourceTree = "<group>"; };
@@ -143,7 +144,7 @@
 		9AD8B1CD1944BBD8009C7823 /* RZVinylImportTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RZVinylImportTests.m; sourceTree = "<group>"; };
 		9AD8B1CF1944BCE8009C7823 /* RZVinylBaseTestCase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RZVinylBaseTestCase.m; sourceTree = "<group>"; };
 		9AD8B1D11944BD0C009C7823 /* RZVinylBaseTestCase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RZVinylBaseTestCase.h; sourceTree = "<group>"; };
-		A1D95C7607F3459FBDDA50C6 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
+		BF9D39F06DB534652E101AEE /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		BFA85CBDC67442B2A5052135 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -180,7 +181,7 @@
 				9AB9080C193FD7F70063445A /* RZVinylTests */,
 				9A536127193F90E000E87F4F /* Frameworks */,
 				9A536126193F90E000E87F4F /* Products */,
-				A1D95C7607F3459FBDDA50C6 /* Pods.xcconfig */,
+				E27915038CB108E7F2C093D4 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -417,6 +418,15 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
+		E27915038CB108E7F2C093D4 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				BF9D39F06DB534652E101AEE /* Pods.debug.xcconfig */,
+				321C2A0D52411C920F1C0329 /* Pods.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -542,7 +552,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Pods-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -696,7 +706,7 @@
 		};
 		9A536158193F90E000E87F4F /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A1D95C7607F3459FBDDA50C6 /* Pods.xcconfig */;
+			baseConfigurationReference = BF9D39F06DB534652E101AEE /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -711,7 +721,7 @@
 		};
 		9A536159193F90E000E87F4F /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A1D95C7607F3459FBDDA50C6 /* Pods.xcconfig */;
+			baseConfigurationReference = 321C2A0D52411C920F1C0329 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -726,20 +736,11 @@
 		};
 		9AB90817193FD7F70063445A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A1D95C7607F3459FBDDA50C6 /* Pods.xcconfig */;
+			baseConfigurationReference = BF9D39F06DB534652E101AEE /* Pods.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/RZVinylDemo.app/RZVinylDemo";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
-				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "RZVinylTests/Supporting Files/RZVinylTests-Prefix.pch";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
 				INFOPLIST_FILE = "RZVinylTests/Supporting Files/RZVinylTests-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -750,14 +751,9 @@
 		};
 		9AB90818193FD7F70063445A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A1D95C7607F3459FBDDA50C6 /* Pods.xcconfig */;
+			baseConfigurationReference = 321C2A0D52411C920F1C0329 /* Pods.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/RZVinylDemo.app/RZVinylDemo";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
-				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "RZVinylTests/Supporting Files/RZVinylTests-Prefix.pch";
 				INFOPLIST_FILE = "RZVinylTests/Supporting Files/RZVinylTests-Info.plist";

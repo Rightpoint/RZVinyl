@@ -24,7 +24,7 @@
     }
     
     if ( context == self.managedObjectContext ) {
-        return nil;
+        return self;
     }
     
     if ( [self.objectID isTemporaryID] ) {
