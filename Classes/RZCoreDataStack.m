@@ -74,14 +74,7 @@ static NSString* const kRZCoreDataStackParentStackKey = @"RZCoreDataStackParentS
 
 + (void)setDefaultStack:(RZCoreDataStack *)stack
 {
-    if ( s_defaultStack == nil ) {
-        s_defaultStack = stack;
-    }
-    else {
-        @throw [NSException exceptionWithName:NSInternalInconsistencyException
-                                       reason:@"The default stack has already been set and cannot be changed."
-                                     userInfo:nil];
-    }
+    s_defaultStack = stack;
 }
 
 - (id)init
@@ -435,18 +428,19 @@ static NSString* const kRZCoreDataStackParentStackKey = @"RZCoreDataStackParentS
     }];
 }
 
+- (void)blockUntilBackgroundQueueCompletes
+{
+    dispatch_sync(self.backgroundContextQueue, ^{});
+}
+
 @end
 
 //=====================
 //  FOR TESTING ONLY
 //=====================
 
+// This is reserved for background compatibility.   You can just call [RZCoreDataStack setDefaultStack:nil].
 void __rzv_resetDefaultStack()
 {
     s_defaultStack = nil;
-}
-
-void __rzv_blockUntilBackgroundQueueCompletes()
-{
-    dispatch_sync(s_defaultStack.backgroundContextQueue, ^{});
 }
