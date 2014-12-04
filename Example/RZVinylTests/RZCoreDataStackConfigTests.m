@@ -38,14 +38,6 @@ static NSString* const kRZCoreDataStackCustomFilePath = @"test_tmp/RZCoreDataSta
     }
 }
 
-- (void)test_DefaultStack
-{
-    RZCoreDataStack *stack = [RZCoreDataStack defaultStack];
-    XCTAssertNotNil(stack, @"Default stack should be created if it doesn't exist");
-    XCTAssertThrows([RZCoreDataStack setDefaultStack:[[RZCoreDataStack alloc] init]], @"Should not be able to set another default stack.");
-    [RZCoreDataStack resetDefaultStack];
-}
-
 - (void)test_DefaultOptions
 {
     XCTAssertFalse([[NSFileManager defaultManager] fileExistsAtPath:[self.customFileURL path]], @"sqlite file should not exist yet");
