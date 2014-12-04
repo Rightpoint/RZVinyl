@@ -18,19 +18,20 @@
         return nil;
     }
     
-    if ( self.managedObjectContext == nil ) {
-        RZVLogError(@"Cannot get object %@ from other context if it has not been inserted yet.", self);
-        return nil;
-    }
-    
     if ( context == self.managedObjectContext ) {
         return self;
     }
     
     if ( [self.objectID isTemporaryID] ) {
-        NSError *permanentObjErr = nil;
-        if ( ![self.managedObjectContext obtainPermanentIDsForObjects:@[self] error:&permanentObjErr] ) {
-            RZVLogError(@"Error getting permanent object ID: %@", permanentObjErr);
+        if ( self.managedObjectContext ) {
+            NSError *permanentObjErr = nil;
+            if ( ![self.managedObjectContext obtainPermanentIDsForObjects:@[self] error:&permanentObjErr] ) {
+                RZVLogError(@"Error getting permanent object ID: %@", permanentObjErr);
+                return nil;
+            }
+        }
+        else {
+            RZVLogError(@"Cannot get object %@ from other context if it has not been inserted yet.", self);
             return nil;
         }
     }
