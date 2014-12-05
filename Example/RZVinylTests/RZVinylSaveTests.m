@@ -148,5 +148,17 @@
                }];
 }
 
+- (void)testBlocking
+{
+    __block NSUInteger i = 0;
+    [self.coreDataStack performBlockUsingBackgroundContext:^(NSManagedObjectContext *context) {
+        [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
+        i += 1;
+    } completion:^(NSError *err) {
+    }];
+    [self.coreDataStack blockThreadUntilBackgroundQueueCompletes];
+    XCTAssertTrue(i == 1, @"The background thread has not completed");
+}
+
 
 @end
