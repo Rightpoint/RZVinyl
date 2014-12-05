@@ -428,11 +428,6 @@ static NSString* const kRZCoreDataStackParentStackKey = @"RZCoreDataStackParentS
     }];
 }
 
-- (void)blockThreadUntilBackgroundQueueCompletes
-{
-    dispatch_sync(self.backgroundContextQueue, ^{});
-}
-
 @end
 
 //=====================
