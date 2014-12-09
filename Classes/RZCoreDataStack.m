@@ -33,6 +33,18 @@
 #import "RZVinylDefines.h"
 #import <libkern/OSAtomic.h>
 
+/**
+ * By default, core data will not update objects that are not registered in the context.
+ * This is very confusing behavior, as an object update will not be observable, if the
+ * update occurs in a background context.   This flag will refresh all updated objects
+ * in the main context, which will make the behavior much more consistent.  It may
+ * also however have un-intended side effects, so it's wrapped in a define so the intent
+ * is clear and that it can be disabled.
+ */
+#ifndef RZV_REFRESH_UPDATED_OBJECTS_AFTER_MERGE
+#define RZV_REFRESH_UPDATED_OBJECTS_AFTER_MERGE 1
+#endif
+
 static RZCoreDataStack *s_defaultStack = nil;
 static NSString* const kRZCoreDataStackParentStackKey = @"RZCoreDataStackParentStack";
 
@@ -426,6 +438,7 @@ static NSString* const kRZCoreDataStackParentStackKey = @"RZCoreDataStackParentS
     [self.mainManagedObjectContext performBlockAndWait:^{
         [self.mainManagedObjectContext mergeChangesFromContextDidSaveNotification:notification];
 
+#if RZV_REFRESH_UPDATED_OBJECTS_AFTER_MERGE
         NSSet *updatedObjects = [[notification userInfo] objectForKey:NSUpdatedObjectsKey];
         for ( NSManagedObject *otherContextObj in updatedObjects ) {
             NSError *error = nil;
@@ -434,6 +447,7 @@ static NSString* const kRZCoreDataStackParentStackKey = @"RZCoreDataStackParentS
                 [self.mainManagedObjectContext refreshObject:object mergeChanges:YES];
             }
         }
+#endif
     }];
 }
 

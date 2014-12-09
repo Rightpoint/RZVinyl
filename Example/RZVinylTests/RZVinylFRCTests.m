@@ -55,10 +55,7 @@
  * thread such that it would be matched by the predicate and ensure it appears.  Note that none of the data actually
  * exists in the mainManagedObjectContext.
  *
- * This test fails, and one would expect that it would work!  Data only travels into the main context via
- * mergeChangesFromContextDidSaveNotification:.   This will only actually update data in the context that already exists
- * in the context.  Since the object does not exist in the context, it is not updated in the context, and the delegate
- * is not informed of its existance.
+ * This aggrevates a bug in mergeChangesFromContextDidSaveNotification:
  */
 - (void)test_changeObjectOutOfMainContextForInclusionInFRC
 {
