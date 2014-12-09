@@ -249,10 +249,4 @@ typedef NS_OPTIONS(NSUInteger, RZCoreDataStackOptions)
  */
 - (void)purgeStaleObjectsWithCompletion:(void(^)(NSError *err))completion;
 
-/**
- *  Block the current thread until all currently dispatched background operations complete.  This can be
- *  helpful in test code to synchronize timing, but should otherwise be avoided.
- */
-- (void)blockThreadUntilBackgroundQueueCompletes;
-
 @end
