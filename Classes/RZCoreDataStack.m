@@ -425,6 +425,15 @@ static NSString* const kRZCoreDataStackParentStackKey = @"RZCoreDataStackParentS
 {
     [self.mainManagedObjectContext performBlockAndWait:^{
         [self.mainManagedObjectContext mergeChangesFromContextDidSaveNotification:notification];
+
+        NSSet *updatedObjects = [[notification userInfo] objectForKey:NSUpdatedObjectsKey];
+        for ( NSManagedObject *otherContextObj in updatedObjects ) {
+            NSError *error = nil;
+            NSManagedObject *object = [self.mainManagedObjectContext existingObjectWithID:otherContextObj.objectID error:&error];
+            if (object) {
+                [self.mainManagedObjectContext refreshObject:object mergeChanges:YES];
+            }
+        }
     }];
 }
 
