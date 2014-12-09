@@ -70,15 +70,21 @@
     XCTestExpectation *saveDone = [self expectationWithDescription:@"Core Data Save Complete"];
 
     [[RZCoreDataStack defaultStack] performBlockUsingBackgroundContext:^(NSManagedObjectContext *context) {
-        Song *song = [[Song rzv_allInContext:context] lastObject];
-        song.title = @"This is a TEST";
+        Song *songUpdate = [[Song rzv_allInContext:context] lastObject];
+        songUpdate.title = @"This is a TEST";
+        
+        Song *songInsert = [NSEntityDescription insertNewObjectForEntityForName:@"Song" inManagedObjectContext:context];
+        songInsert.remoteID = @(2342342323);
+        songInsert.title = @"Insert TEST";
+        songInsert.length = @(232);
     } completion:^(NSError *err) {
+        XCTAssertNil(err);
         [saveDone fulfill];
     }];
     [self waitForExpectationsWithTimeout:5 handler:^(NSError *error) {
         XCTAssertNil(error);
     }];
-    XCTAssertTrue(self.objectsDelegatedToChange.count == 1);
+    XCTAssertTrue(self.objectsDelegatedToChange.count == 2);
 }
 
 @end
