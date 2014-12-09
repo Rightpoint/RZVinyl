@@ -190,7 +190,7 @@ static NSString* const kRZCoreDataStackParentStackKey = @"RZCoreDataStackParentS
 {
     NSManagedObjectContext *bgContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
     [[bgContext userInfo] setObject:self forKey:kRZCoreDataStackParentStackKey];
-    bgContext.parentContext = self.mainManagedObjectContext;
+    bgContext.parentContext = self.topLevelBackgroundContext;
     [self registerSaveNotificationsForContext:bgContext];
     return bgContext;
 }
@@ -382,11 +382,13 @@ static NSString* const kRZCoreDataStackParentStackKey = @"RZCoreDataStackParentS
 - (void)registerSaveNotificationsForContext:(NSManagedObjectContext *)context
 {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleContextWillSave:) name:NSManagedObjectContextWillSaveNotification object:context];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleContextDidSave:) name:NSManagedObjectContextDidSaveNotification object:context];
 }
 
 - (void)unregisterSaveNotificationsForContext:(NSManagedObjectContext *)context
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:NSManagedObjectContextWillSaveNotification object:context];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:NSManagedObjectContextDidSaveNotification object:context];
 }
 
 - (void)handleAppDidEnterBackground:(NSNotification *)notification
@@ -417,6 +419,13 @@ static NSString* const kRZCoreDataStackParentStackKey = @"RZCoreDataStackParentS
             RZVLogError(@"Error obtaining permanent ID's for inserted objects before save: %@", err);
         }
     }
+}
+
+- (void)handleContextDidSave:(NSNotification *)notification
+{
+    [self.mainManagedObjectContext performBlockAndWait:^{
+        [self.mainManagedObjectContext mergeChangesFromContextDidSaveNotification:notification];
+    }];
 }
 
 - (void)blockUntilBackgroundQueueCompletes
