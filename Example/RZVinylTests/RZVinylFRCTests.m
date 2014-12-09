@@ -1,0 +1,84 @@
+//
+//  RZVinylFRCTests.m
+//  RZVinylDemo
+//
+//  Created by Brian King on 12/8/14.
+//  Copyright (c) 2014 Raizlabs. All rights reserved.
+//
+
+#import <UIKit/UIKit.h>
+#import "RZVinylBaseTestCase.h"
+
+@interface RZVinylFRCTests : RZVinylBaseTestCase <NSFetchedResultsControllerDelegate>
+
+@property (strong, nonatomic) NSFetchedResultsController *frc;
+@property (strong, nonatomic) NSMutableArray *objectsDelegatedToChange;
+
+
+@end
+
+@implementation RZVinylFRCTests
+
+- (void)setUp {
+    [super setUp];
+    NSPredicate *match = RZVPred(@"title ENDSWITH %@", @"TEST");
+    self.frc = [NSFetchedResultsController rzv_forEntity:@"Song"
+                                               inContext:[[RZCoreDataStack defaultStack] mainManagedObjectContext]
+                                                   where:match
+                                                    sort:@[[NSSortDescriptor sortDescriptorWithKey:@"title" ascending:YES]]];
+    self.frc.delegate = self;
+    self.objectsDelegatedToChange = [NSMutableArray array];
+
+    // Import the seed data, and ensure that it is not created in the main context.
+    XCTestExpectation *initialSaveDone = [self expectationWithDescription:@"Initial Seeding"];
+    [[RZCoreDataStack defaultStack] performBlockUsingBackgroundContext:^(NSManagedObjectContext *context) {
+        [self seedDatabaseInContext:context];
+    } completion:^(NSError *err) {
+        [initialSaveDone fulfill];
+    }];
+}
+
+- (void)tearDown {
+    // Put teardown code here. This method is called after the invocation of each test method in the class.
+    [super tearDown];
+}
+
+- (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(NSIndexPath *)newIndexPath
+{
+    [self.objectsDelegatedToChange addObject:anObject];
+}
+
+/**
+ * This test is to aggrevate a non-straight-forward issue with the multi-context core data stack setup.
+ *
+ * Setup the main context with a NSFRC looking for a song that does not exist.   Modfiy a song on the background
+ * thread such that it would be matched by the predicate and ensure it appears.  Note that none of the data actually
+ * exists in the mainManagedObjectContext.
+ *
+ * This test fails, and one would expect that it would work!  Data only travels into the main context via
+ * mergeChangesFromContextDidSaveNotification:.   This will only actually update data in the context that already exists
+ * in the context.  Since the object does not exist in the context, it is not updated in the context, and the delegate
+ * is not informed of its existance.
+ */
+- (void)test_changeObjectOutOfMainContextForInclusionInFRC
+{
+    [self waitForExpectationsWithTimeout:5 handler:^(NSError *error) {
+        XCTAssertNil(error);
+    }];
+
+    [self.frc performFetch:nil];
+    XCTestExpectation *saveDone = [self expectationWithDescription:@"Core Data Save Complete"];
+
+    [[RZCoreDataStack defaultStack] performBlockUsingBackgroundContext:^(NSManagedObjectContext *context) {
+        Song *song = [[Song rzv_allInContext:context] lastObject];
+        song.title = @"This is a TEST";
+    } completion:^(NSError *err) {
+        [saveDone fulfill];
+    }];
+    [self waitForExpectationsWithTimeout:5 handler:^(NSError *error) {
+        XCTAssertNil(error);
+    }];
+    XCTAssertTrue(self.objectsDelegatedToChange.count == 1);
+}
+
+@end
