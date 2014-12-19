@@ -285,14 +285,14 @@ static NSString* const kRZCoreDataStackParentStackKey = @"RZCoreDataStackParentS
 
 - (BOOL)buildStack
 {
-    if ( !RZVAssert(self.modelName != nil, @"Must have a model name") ) {
-        return NO;
-    }
-    
     //
     // Create model
     //
     if ( self.managedObjectModel == nil ) {
+        if ( !RZVAssert(self.modelName != nil, @"Must have a model name") ) {
+            return NO;
+        }
+        
         self.managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:[[NSBundle mainBundle] URLForResource:self.modelName withExtension:@"momd"]];
         if ( self.managedObjectModel == nil ) {
             RZVLogError(@"Could not create managed object model for name %@", self.modelName);
