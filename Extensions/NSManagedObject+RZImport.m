@@ -31,11 +31,13 @@
 #import "NSObject+RZImport_private.h"
 #import "NSManagedObject+RZVinylRecord.h"
 #import "NSManagedObject+RZVinylUtils.h"
-#import "NSManagedObject+RZImportableSubclass.h"
+#import "NSManagedObject+RZImport_private.h"
 #import "NSManagedObject+RZVinylRecord_private.h"
 #import "NSFetchRequest+RZVinylRecord.h"
 #import "RZVinylRelationshipInfo.h"
 #import "RZVinylDefines.h"
+#import "RZVinylRecord.h"
+#import "RZCoreDataStack.h"
 
 #define RZVBeginThreadContext() \
     BOOL nestedCall = ([[self class] rzv_currentThreadImportContext] != nil); \
@@ -127,11 +129,11 @@
             objects = @[importedObject];
         }
     }
-    else if ( [self rzv_primaryKey] != nil ) {
+    else if ( [self rzv_safe_primaryKey] != nil ) {
     
         NSMutableArray *updatedObjects = [NSMutableArray array];
         
-        NSString *externalPrimaryKey = [self rzv_externalPrimaryKey] ?: [self rzv_primaryKey];
+        NSString *externalPrimaryKey = [self rzv_safe_externalPrimaryKey] ?: [self rzv_safe_primaryKey];
         
         // Pre-fetch all objects that have a primary key in the set of objects being imported
         NSDictionary *existingObjectsByID = [self rzi_existingObjectsByIDForArray:array inContext:context];
@@ -211,12 +213,12 @@
         return nil;
     }
     
-    if ( [self rzv_shouldAlwaysCreateNewObjectOnImport] ) {
+    if ( [self rzv_safe_shouldAlwaysCreateNewObjectOnImport] ) {
         return [self rzv_newObjectInContext:context];
     }
     
     id object = nil;
-    NSString *externalPrimaryKey = [self rzv_externalPrimaryKey] ?: [self rzv_primaryKey];
+    NSString *externalPrimaryKey = [self rzv_safe_externalPrimaryKey] ?: [self rzv_safe_primaryKey];
     id primaryValue = externalPrimaryKey ? [dict objectForKey:externalPrimaryKey] : nil;
     if ( primaryValue != nil ) {
         object = [self rzv_objectWithPrimaryKeyValue:primaryValue createNew:YES inContext:context];
@@ -293,8 +295,8 @@ static NSString * const kRZVinylImportThreadContextKey = @"RZVinylImportThreadCo
 
 + (NSDictionary *)rzi_primaryKeyMapping
 {
-    NSString *primaryKey = [self rzv_primaryKey];
-    NSString *externalPrimaryKey = [self rzv_externalPrimaryKey];
+    NSString *primaryKey = [self rzv_safe_primaryKey];
+    NSString *externalPrimaryKey = [self rzv_safe_externalPrimaryKey];
     if ( primaryKey != nil && externalPrimaryKey != nil ) {
         return @{ externalPrimaryKey : primaryKey };
     }
@@ -347,8 +349,8 @@ static NSString * const kRZVinylImportThreadContextKey = @"RZVinylImportThreadCo
 
 + (NSDictionary *)rzi_existingObjectsByIDForArray:(NSArray *)array inContext:(NSManagedObjectContext *)context
 {
-    NSString *primaryKey = [self rzv_primaryKey];
-    NSString *externalPrimaryKey = [self rzv_externalPrimaryKey] ?: primaryKey;
+    NSString *primaryKey = [self rzv_safe_primaryKey];
+    NSString *externalPrimaryKey = [self rzv_safe_externalPrimaryKey] ?: primaryKey;
     
     NSSet       *primaryKeySet   = [NSSet setWithArray:[array valueForKey:externalPrimaryKey]];
     NSPredicate *existingObjPred = [NSPredicate predicateWithFormat:@"%K in %@", primaryKey, primaryKeySet];

@@ -32,6 +32,11 @@
 #import "NSFetchRequest+RZVinylRecord.h"
 #import "RZCoreDataStack.h"
 #import "RZVinylDefines.h"
+#import "RZVinylRecord.h"
+
+@interface NSManagedObject () <RZVinylRecord>
+
+@end
 
 @implementation NSManagedObject (RZVinylRecord)
 
@@ -75,7 +80,7 @@
         return nil;
     }
 
-    NSString *primaryKey = [self rzv_primaryKey];
+    NSString *primaryKey = [self rzv_safe_primaryKey];
     if ( !RZVAssert(primaryKey != nil, @"No primary key provided for class %@. Ensure that +rzv_primaryKey is overridden and returning a valid key.", NSStringFromClass(self)) ) {
         return nil;
     }
@@ -290,24 +295,36 @@
 
 #pragma mark - Subclassable
 
-+ (NSPredicate *)rzv_stalenessPredicate
++ (NSPredicate *)rzv_safe_stalenessPredicate
 {
-    return nil;
+    NSPredicate *stalenessPredicate = nil;
+    if ( [self respondsToSelector:@selector(rzv_stalenessPredicate)] ) {
+        stalenessPredicate = [self rzv_stalenessPredicate];
+    }
+    return stalenessPredicate;
 }
 
-+ (NSString *)rzv_primaryKey
++ (NSString *)rzv_safe_primaryKey
 {
-    return nil;
+    NSString *primaryKey = nil;
+    if ( [self respondsToSelector:@selector(rzv_primaryKey)] ) {
+        primaryKey = [self rzv_primaryKey];
+    }
+    return primaryKey;
 }
 
-+ (RZCoreDataStack *)rzv_coreDataStack
++ (RZCoreDataStack *)rzv_safe_coreDataStack
 {
-    return [RZCoreDataStack defaultStack];
+    RZCoreDataStack *stack = [RZCoreDataStack defaultStack];
+    if ( [self respondsToSelector:@selector(rzv_coreDataStack)] ) {
+        stack = [self rzv_coreDataStack];
+    }
+    return stack;
 }
 
 + (RZCoreDataStack *)rzv_validCoreDataStack
 {
-    RZCoreDataStack *stack = [self rzv_coreDataStack];
+    RZCoreDataStack *stack = [self rzv_safe_coreDataStack];
     if ( !RZVAssert(stack != nil, @"No core data stack provided for class %@. Ensure that +rzv_coreDataStack is returning a valid instance.", NSStringFromClass(self)) ) {
         return nil;
     }
