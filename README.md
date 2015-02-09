@@ -156,7 +156,7 @@ MyManagedObject *newObject = [MyManagedObject rzv_newObjectInContext:context];
 
 ##### Retrieve or create an instance for a primary key value
 
-These methods use the attribute provided by overriding `+ (NSString *)rzv_primaryKey;` in the managed object subclass to search for an existing object with the provided value for that attribute, optionally creating a new object and initializing it with the primary key value if one was not found.
+These methods use the attribute provided by implementing `+ (NSString *)rzv_primaryKey;` in the managed object subclass to search for an existing object with the provided value for that attribute, optionally creating a new object and initializing it with the primary key value if one was not found.
 
 ```objective-c
 // In the default main context
@@ -270,15 +270,15 @@ if ( ![context rzv_saveToStoreAndWait:&saveError] ) {
 
 ### Usage
 
-To enable RZImport for your managed object subclasses, create a category and override the following methods from `NSManagedObject+RZVinyl` and `NSManagedObject+RZImportableSubclass`:
+To enable RZImport for your managed object subclasses, create a category and implement the following methods from `RZVinylRecord` and `RZVinylRip` informal protocols:
 
 ##### `+ (NSString *)rzv_primaryKey;`
 
-Override to return the name of the property attributes representing the "unique ID" of this object type
+Implement to return the name of the property attributes representing the "unique ID" of this object type
 
 ##### `+ (NSString *)rzv_externalPrimaryKey;`
 
-If the key in the dictionary representations of this object is different from the primary key property name, override this method to return that key here. If not overridden, the same value returned by `rzv_primaryKey` will be used to find unique instances of the object.
+If the key in the dictionary representations of this object is different from the primary key property name, implement this method to return that key here. If not implemented, the same value returned by `rzv_primaryKey` will be used to find unique instances of the object.
 
 You can also implement the methods of `RZImportable` in your managed object classes to handle validation, provide further custom key/property mappings, etc, with two important caveats:
 
