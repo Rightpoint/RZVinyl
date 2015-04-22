@@ -186,14 +186,14 @@ typedef NS_OPTIONS(NSUInteger, RZCoreDataStackOptions)
 
 /**
  *  Asynchronously perform a database operation on a temporary background managed object context.
- *  The context will be saved when the operation is finished, and all changes merged into to the main context.
+ *  The context will be saved when the operation is finished, and all changes merged into the main context.
  *
  *  @param block      The block to perform.
  *  @param completion An optional completion block that is called on the main thread after the operation finishes.
  *                    If there was an error saving the background context, it will be passed here.
  *
  *  @note Blocks sent to this method will be enqueued on a serial queue until other pending blocks finish, to prevent 
- *        parallell background contexts from being spawned. This is useful for preventing duplicate objects resulting from
+ *        parallel background contexts from being spawned. This is useful for preventing duplicate objects resulting from
  *        concurrent imports on different contexts. To prevent longer-lasting background tasks from holding up the queue, 
  *        use @p -backgroundManagedObjectContext, but be mindful of potential duplicate objects or merge issues.
  *
