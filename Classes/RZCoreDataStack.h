@@ -221,7 +221,7 @@ typedef NS_OPTIONS(NSUInteger, RZCoreDataStackOptions)
 - (NSManagedObjectContext *)backgroundManagedObjectContext;
 
 /**
- *  Creates initializes, and returns a new managed object context with main queue confinement,
+ *  Creates, initializes, and returns a new managed object context with main queue confinement,
  *  which is a child of the main managed object context. This can be used as a "sandbox" of sorts,
  *  for making changes to objects on the main queue with the option of later discarding the changes.
  *
