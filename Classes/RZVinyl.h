@@ -32,10 +32,11 @@
 #import "NSFetchRequest+RZVinylRecord.h"
 #import "NSFetchedResultsController+RZVinylRecord.h"
 #import "NSManagedObjectContext+RZVinylSave.h"
+#import "RZVinylRecord.h"
 
 #if (RZV_IMPORT_AVAILABLE)
     #import "NSManagedObject+RZImport.h"
-    #import "NSManagedObject+RZImportableSubclass.h"
+    #import "RZVinylRip.h"
 #endif
 
 

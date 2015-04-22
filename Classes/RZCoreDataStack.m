@@ -29,9 +29,11 @@
 
 #import "RZCoreDataStack.h"
 #import "NSManagedObject+RZVinylRecord.h"
+#import "NSManagedobject+RZvinylRecord_private.h"
 #import "NSManagedObjectContext+RZVinylSave.h"
 #import "RZVinylDefines.h"
 #import <libkern/OSAtomic.h>
+#import "RZVinylRecord.h"
 
 static RZCoreDataStack *s_defaultStack = nil;
 static NSString* const kRZCoreDataStackParentStackKey = @"RZCoreDataStackParentStack";
@@ -262,7 +264,7 @@ static NSString* const kRZCoreDataStackParentStackKey = @"RZCoreDataStackParentS
             [[self.managedObjectModel entities] enumerateObjectsUsingBlock:^(NSEntityDescription *entity, NSUInteger idx, BOOL *stop) {
                 Class moClass = NSClassFromString(entity.managedObjectClassName);
                 if ( moClass != Nil ) {
-                    NSPredicate *predicate = [moClass rzv_stalenessPredicate];
+                    NSPredicate *predicate = [moClass rzv_safe_stalenessPredicate];
                     if ( predicate != nil ) {
                         [classNamesToStalePredicates setObject:predicate forKey:entity.managedObjectClassName];
                     }
