@@ -232,7 +232,8 @@ static NSString* const kRZCoreDataStackParentStackKey = @"RZCoreDataStackParentS
 - (NSString *)modelName
 {
     if ( _modelName == nil ) {
-        NSMutableString *productName = [[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"] mutableCopy];
+        // Fall back on CFBundleName if CFBundleDisplayName is not included in info.plist
+        NSMutableString *productName = [[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"] mutableCopy] ?: [[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleName"] mutableCopy];
         [productName replaceOccurrencesOfString:@" " withString:@"_" options:0 range:NSMakeRange(0, productName.length)];
         [productName replaceOccurrencesOfString:@"-" withString:@"_" options:0 range:NSMakeRange(0, productName.length)];
         _modelName = [NSString stringWithString:productName];
