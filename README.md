@@ -415,6 +415,24 @@ NSDictionary *artistDict = @{
 
 For more comprehensive documentation, see the [CococaDocs](http://cocoadocs.org/docsets/RZVinyl) page.
 
-# License
+## Maintainers
 
-RZVinyl is licensed under the MIT license. See LICENSE for details.
+[KingOfBrian](https://github.com/KingOfBrian) ([@KingOfBrian](http://twitter.com/KingOfBrian))
+
+[mgorbach](https://github.com/mgorbach) ([@mgorbach](http://twitter.com/mgorbach))
+
+[nbonatsakis](https://github.com/nbonatsakis) ([@nickbona](http://twitter.com/nickbona))
+
+[jatraiz](https://github.com/jatraiz) ([@jAtSway](http://twitter.com/jAtSway))
+
+[SpencerP](https://github.com/SpencerP)
+
+[jwatson](https://github.com/jwatson) ([@johnnystyle](http://twitter.com/johnnystyle))
+
+## Contributors
+
+[ndonald2](https://github.com/ndonald2) ([@infrasonick](http://twitter.com/infrasonick)) 
+
+## License
+
+RZVinyl is licensed under the MIT license. See the `LICENSE` file for details.
