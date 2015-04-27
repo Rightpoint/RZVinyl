@@ -296,7 +296,17 @@ static NSString* const kRZCoreDataStackParentStackKey = @"RZCoreDataStackParentS
     // Create model
     //
     if ( self.managedObjectModel == nil ) {
-        self.managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:[[NSBundle mainBundle] URLForResource:self.modelName withExtension:@"momd"]];
+        // we look for both mom and momd versions, we could have used [NSManagedObjectModel mergedModelFromBundles:nil] but it does more than we want
+        NSURL* url = [[NSBundle mainBundle] URLForResource:self.modelName withExtension:@"momd"];
+        if ( url == nil ) {
+            url = [[NSBundle mainBundle] URLForResource:self.modelName withExtension:@"mom"];
+        }
+        if ( url == nil ) {
+            RZVLogError(@"Could find resource %@.momd OR %@.mom", self.modelName, self.modelName);
+            return NO;
+        }
+
+        self.managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:url];
         if ( self.managedObjectModel == nil ) {
             RZVLogError(@"Could not create managed object model for name %@", self.modelName);
             return NO;
