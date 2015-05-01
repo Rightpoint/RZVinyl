@@ -131,7 +131,7 @@
     }
     else if ( [self rzv_safe_primaryKey] != nil ) {
     
-        NSMutableArray *updatedObjects = [NSMutableArray array];
+        NSMutableDictionary *updatedObjects = [NSMutableDictionary dictionary];
         
         NSString *externalPrimaryKey = [self rzv_safe_externalPrimaryKey] ?: [self rzv_safe_primaryKey];
         
@@ -143,8 +143,12 @@
             
             if ( primaryValue != nil ) {
                 importedObject = [existingObjectsByID objectForKey:primaryValue];
+
+                 if (importedObject==nil) {
+                     importedObject = [updatedObjects objectForKey:primaryValue];
+                 }
             }
-            
+
             if ( importedObject == nil ) {
                 importedObject = [self rzv_newObjectInContext:context];
             }
@@ -152,11 +156,11 @@
             [importedObject rzi_importValuesFromDict:rawDict inContext:context withMappings:mappings];
             
             if ( importedObject != nil ) {
-                [updatedObjects addObject:importedObject];
+                [updatedObjects setObject:importedObject forKey:primaryValue];
             }
         }];
         
-        objects = [NSArray arrayWithArray:updatedObjects];
+        objects = [updatedObjects allValues];
     }
     else {
         // Default to creating new object instances.
