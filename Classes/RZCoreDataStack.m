@@ -33,18 +33,6 @@
 #import "RZVinylDefines.h"
 #import <libkern/OSAtomic.h>
 
-/**
- * By default, core data will not update objects that are not registered in the context.
- * This is very confusing behavior, as an object update will not be observable, if the
- * update occurs in a background context.   This flag will refresh all updated objects
- * in the main context, which will make the behavior much more consistent.  It may
- * also however have un-intended side effects, so it's wrapped in a define so the intent
- * is clear and that it can be disabled.
- */
-#ifndef RZV_REFRESH_UPDATED_OBJECTS_AFTER_MERGE
-#define RZV_REFRESH_UPDATED_OBJECTS_AFTER_MERGE 1
-#endif
-
 static RZCoreDataStack *s_defaultStack = nil;
 static NSString* const kRZCoreDataStackParentStackKey = @"RZCoreDataStackParentStack";
 
@@ -64,6 +52,8 @@ static NSString* const kRZCoreDataStackParentStackKey = @"RZCoreDataStackParentS
 @property (nonatomic, assign) RZCoreDataStackOptions options;
 
 @property (nonatomic, readonly, strong) NSDictionary *entityClassNamesToStalenessPredicates;
+
+@property (nonatomic, strong) NSPointerArray *registeredFetchedResultsControllers;
 
 @end
 
@@ -127,9 +117,11 @@ static NSString* const kRZCoreDataStackParentStackKey = @"RZCoreDataStackParentS
         _storeURL                   = storeURL;
         _persistentStoreCoordinator = psc;
         _options                    = options;
-        
+
         _backgroundContextQueue     = dispatch_queue_create("com.rzvinyl.backgroundContextQueue", DISPATCH_QUEUE_SERIAL);
-        
+
+        _registeredFetchedResultsControllers = [NSPointerArray weakObjectsPointerArray];
+
         if ( ![self buildStack] ) {
             return nil;
         }
@@ -158,7 +150,8 @@ static NSString* const kRZCoreDataStackParentStackKey = @"RZCoreDataStackParentS
         _options                    = options;
         
         _backgroundContextQueue     = dispatch_queue_create("com.rzvinyl.backgroundContextQueue", DISPATCH_QUEUE_SERIAL);
-        
+        _registeredFetchedResultsControllers = [NSPointerArray weakObjectsPointerArray];
+
         if ( ![self buildStack] ) {
             return nil;
         }
@@ -213,6 +206,14 @@ static NSString* const kRZCoreDataStackParentStackKey = @"RZCoreDataStackParentS
     [[tempContext userInfo] setObject:self forKey:kRZCoreDataStackParentStackKey];
     tempContext.parentContext = self.mainManagedObjectContext;
     return tempContext;
+}
+
+- (void)ensureContextNotificationsForFetchedResultsController:(NSFetchedResultsController *)frc
+{
+    if ( RZVAssert(frc.managedObjectContext == self.mainManagedObjectContext,
+                   @"Can only monitor FRC that attach to the main context") ) {
+        [self.registeredFetchedResultsControllers addPointer:(__bridge void *)frc];
+    }
 }
 
 - (void)purgeStaleObjectsWithCompletion:(void (^)(NSError *))completion
@@ -436,19 +437,28 @@ static NSString* const kRZCoreDataStackParentStackKey = @"RZCoreDataStackParentS
 - (void)handleContextDidSave:(NSNotification *)notification
 {
     [self.mainManagedObjectContext performBlockAndWait:^{
-        [self.mainManagedObjectContext mergeChangesFromContextDidSaveNotification:notification];
-
-#if RZV_REFRESH_UPDATED_OBJECTS_AFTER_MERGE
         NSSet *updatedObjects = [[notification userInfo] objectForKey:NSUpdatedObjectsKey];
-        for ( NSManagedObject *otherContextObj in updatedObjects ) {
-            NSError *error = nil;
-            NSManagedObject *object = [self.mainManagedObjectContext existingObjectWithID:otherContextObj.objectID error:&error];
-            if (object) {
-                [self.mainManagedObjectContext refreshObject:object mergeChanges:YES];
-            }
+        for ( NSFetchedResultsController *frc in [self.registeredFetchedResultsControllers allObjects] ) {
+            [self faultUpdatedObjects:updatedObjects matchingFetchedResultsController:frc];
         }
-#endif
+
+        [self.mainManagedObjectContext mergeChangesFromContextDidSaveNotification:notification];
     }];
+}
+
+- (void)faultUpdatedObjects:(NSSet *)updatedObjects matchingFetchedResultsController:(NSFetchedResultsController *)frc
+{
+    NSPredicate *predicate = frc.fetchRequest.predicate;
+    NSEntityDescription *entityDescription = frc.fetchRequest.entity;
+    if ( predicate ) {
+        NSSet *objectsToFault = [updatedObjects objectsPassingTest:^BOOL(NSManagedObject *mo, BOOL *stop) {
+            return ([[mo entity] isEqual:entityDescription] && [predicate evaluateWithObject:mo]);
+        }];
+        for ( NSManagedObject *mo in objectsToFault ) {
+            NSManagedObject *mainMo = [self.mainManagedObjectContext objectWithID:[mo objectID]];
+            [mainMo willAccessValueForKey:nil];
+        }
+    }
 }
 
 @end

@@ -63,6 +63,7 @@
         XCTAssertNil(error);
     }];
 
+    [[RZCoreDataStack defaultStack] ensureContextNotificationsForFetchedResultsController:self.frc];
     [self.frc performFetch:nil];
     XCTestExpectation *saveDone = [self expectationWithDescription:@"Core Data Save Complete"];
 
