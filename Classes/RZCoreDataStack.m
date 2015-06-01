@@ -53,7 +53,7 @@ static NSString* const kRZCoreDataStackParentStackKey = @"RZCoreDataStackParentS
 
 @property (nonatomic, readonly, strong) NSDictionary *entityClassNamesToStalenessPredicates;
 
-@property (nonatomic, strong) NSPointerArray *registeredFetchedResultsControllers;
+@property (nonatomic, strong) NSHashTable *registeredFetchedResultsControllers;
 
 @end
 
@@ -120,7 +120,7 @@ static NSString* const kRZCoreDataStackParentStackKey = @"RZCoreDataStackParentS
 
         _backgroundContextQueue     = dispatch_queue_create("com.rzvinyl.backgroundContextQueue", DISPATCH_QUEUE_SERIAL);
 
-        _registeredFetchedResultsControllers = [NSPointerArray weakObjectsPointerArray];
+        _registeredFetchedResultsControllers = [NSHashTable weakObjectsHashTable];
 
         if ( ![self buildStack] ) {
             return nil;
@@ -150,7 +150,7 @@ static NSString* const kRZCoreDataStackParentStackKey = @"RZCoreDataStackParentS
         _options                    = options;
         
         _backgroundContextQueue     = dispatch_queue_create("com.rzvinyl.backgroundContextQueue", DISPATCH_QUEUE_SERIAL);
-        _registeredFetchedResultsControllers = [NSPointerArray weakObjectsPointerArray];
+        _registeredFetchedResultsControllers = [NSHashTable weakObjectsHashTable];
 
         if ( ![self buildStack] ) {
             return nil;
@@ -212,7 +212,7 @@ static NSString* const kRZCoreDataStackParentStackKey = @"RZCoreDataStackParentS
 {
     if ( RZVAssert(frc.managedObjectContext == self.mainManagedObjectContext,
                    @"Can only monitor FRC that attach to the main context") ) {
-        [self.registeredFetchedResultsControllers addPointer:(__bridge void *)frc];
+        [self.registeredFetchedResultsControllers addObject:frc];
     }
 }
 
