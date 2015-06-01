@@ -164,12 +164,27 @@
     return [self rzv_where:predicate sort:nil];
 }
 
++ (NSArray *)rzv_where:(NSPredicate *)predicate limit:(NSUInteger)limit
+{
+    return [self rzv_where:predicate sort:nil limit:limit];
+}
+
 + (NSArray *)rzv_where:(NSPredicate *)predicate inContext:(NSManagedObjectContext *)context
 {
     return [self rzv_where:predicate sort:nil inContext:context];
 }
 
++ (NSArray *)rzv_where:(NSPredicate *)predicate limit:(NSUInteger)limit inContext:(NSManagedObjectContext *)context
+{
+    return [self rzv_where:predicate sort:nil limit:limit inContext:context];
+}
+
 + (NSArray *)rzv_where:(NSPredicate *)predicate sort:(NSArray *)sortDescriptors
+{
+    return [self rzv_where:predicate sort:sortDescriptors limit:0];
+}
+
++ (NSArray *)rzv_where:(NSPredicate *)predicate sort:(NSArray *)sortDescriptors limit:(NSUInteger)limit
 {
     if ( !RZVAssertMainThread() ) {
         return nil;
@@ -178,16 +193,22 @@
     if ( stack == nil ){
         return nil;
     }
-    return [self rzv_where:predicate sort:sortDescriptors inContext:[stack mainManagedObjectContext]];
+    return [self rzv_where:predicate sort:sortDescriptors limit:limit inContext:[stack mainManagedObjectContext]];
 }
 
 + (NSArray *)rzv_where:(NSPredicate *)predicate sort:(NSArray *)sortDescriptors inContext:(NSManagedObjectContext *)context
+{
+    return [self rzv_where:predicate sort:sortDescriptors limit:0 inContext:context];
+}
+
++ (NSArray *)rzv_where:(NSPredicate *)predicate sort:(NSArray *)sortDescriptors limit:(NSUInteger)limit inContext:(NSManagedObjectContext *)context
 {
     NSError *error = nil;
     NSFetchRequest *fetch = [NSFetchRequest rzv_forEntity:[self rzv_entityName]
                                                 inContext:context
                                                     where:predicate
                                                      sort:sortDescriptors];
+    fetch.fetchLimit = limit;
     
     NSArray *fetchedObjects = [context executeFetchRequest:fetch error:&error];
     if ( error ) {
