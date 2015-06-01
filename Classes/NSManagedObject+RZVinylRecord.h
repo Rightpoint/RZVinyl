@@ -161,6 +161,16 @@
 + (NSArray *)rzv_where:(NSPredicate *)predicate;
 
 /**
+ *  Return the results of a fetch on the main context using a predicate or format string.
+ *
+ *  @param predicate    An @p NSPredicate to filter the query. Passing nil will return all objects.
+ *  @param limit            The limit of the returning objects. 0 if all
+ *
+ *  @return The results of the fetch.
+ */
++ (NSArray *)rzv_where:(NSPredicate *)predicate limit:(NSUInteger)limit;
+
+/**
  *  Return the results of a fetch on the provided context using a predicate or format string.
  *
  *  @param predicate        An @p NSPredicate to filter the query. Passing nil will return all objects.
@@ -169,6 +179,17 @@
  *  @return The results of the fetch.
  */
 + (NSArray *)rzv_where:(NSPredicate *)predicate inContext:(NSManagedObjectContext *)context;
+
+/**
+ *  Return the results of a fetch on the provided context using a predicate or format string.
+ *
+ *  @param predicate        An @p NSPredicate to filter the query. Passing nil will return all objects.
+ *  @param context          The managed object context on which to perform the fetch. Must not be nil.
+ *  @param limit            The limit of the returning objects. 0 if all
+ *
+ *  @return The results of the fetch.
+ */
++ (NSArray *)rzv_where:(NSPredicate *)predicate limit:(NSUInteger)limit inContext:(NSManagedObjectContext *)context;
 
 /**
  *  Return the results of a fetch on the main context using a predicate or format string
@@ -182,6 +203,18 @@
 + (NSArray *)rzv_where:(NSPredicate *)predicate sort:(NSArray *)sortDescriptors;
 
 /**
+ *  Return the results of a fetch on the main context using a predicate or format string
+ *  with optional sorting.
+ *
+ *  @param predicate        An @p NSPredicate to filter the query. Passing nil will return all objects.
+ *  @param sortDescriptors  An optional array of sort descriptors.
+ *  @param limit            The limit of the returning objects. 0 if all
+ *
+ *  @return The results of the fetch.
+ */
++ (NSArray *)rzv_where:(NSPredicate *)predicate sort:(NSArray *)sortDescriptors limit:(NSUInteger)limit;
+
+/**
  *  Return the results of a fetch on the provided context using a predicate or format string
  *  with optional sorting.
  *
@@ -193,6 +226,22 @@
  */
 + (NSArray *)rzv_where:(NSPredicate *)predicate
                   sort:(NSArray *)sortDescriptors
+             inContext:(NSManagedObjectContext *)context;
+
+/**
+ *  Return the results of a fetch on the provided context using a predicate or format string
+ *  with optional sorting.
+ *
+ *  @param predicate        An @p NSPredicate to filter the query. Passing nil will return all objects.
+ *  @param sortDescriptors  An optional array of sort descriptors.
+ *  @param limit            The limit of the returning objects. 0 if all
+ *  @param context          The managed object context on which to perform the fetch. Must not be nil.
+ *
+ *  @return The results of the fetch.
+ */
++ (NSArray *)rzv_where:(NSPredicate *)predicate
+                  sort:(NSArray *)sortDescriptors
+                 limit:(NSUInteger)limit
              inContext:(NSManagedObjectContext *)context;
 
 

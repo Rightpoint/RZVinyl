@@ -310,6 +310,29 @@
     XCTAssertEqual(artistsWithSongsCount, 2, @"Should be two artists with songs");
 }
 
+- (void)test_LimitObjects
+{
+    NSPredicate *emptyPredicate = [NSPredicate predicateWithValue:YES];
+    // Get all artists who have songs
+    NSArray *artists = [Artist rzv_where:emptyPredicate limit:1];
+    XCTAssertEqual(artists.count, 1, @"Should be limited to 1 artist");
+
+    // Get all artists who have songs sorted by name
+    NSArray *expectedNames = @[@"BCee", @"Dusky"];
+
+    artists = [Artist rzv_where:emptyPredicate sort:@[RZVKeySort(@"name", YES)] limit:2];
+    XCTAssertEqual(artists.count, 2, @"Should be limited to 2 artists sorted");
+    XCTAssertEqualObjects(expectedNames, [artists valueForKey:@"name"], @"Not in correct order");
+
+    // Try on child context
+    NSManagedObjectContext *scratchContext = [self.stack backgroundManagedObjectContext];
+    artists = [Artist rzv_where:emptyPredicate limit:2 inContext:scratchContext];
+    XCTAssertEqual(artists.count, 2, @"Should be two artists with songs");
+
+    artists = [Artist rzv_where:emptyPredicate sort:@[RZVKeySort(@"name", YES)] limit:2 inContext:scratchContext];
+    XCTAssertEqual(artists.count, 2, @"Should be two artists with songs");
+}
+
 - (void)test_Delete
 {
     Artist *dusky = [Artist rzv_objectWithPrimaryKeyValue:@1000 createNew:NO];
@@ -429,7 +452,7 @@
         
         NSArray *artists = [Artist rzv_allInContext:context];
         XCTAssertEqual(artists.count, 3, @"Should be three artists to start");
-        
+
         [Artist rzv_deleteAllInContext:context];
         artists = [Artist rzv_allInContext:context];
         XCTAssertEqual(artists.count, 0, @"Should be no artists after delete all");
