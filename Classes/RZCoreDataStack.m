@@ -436,29 +436,40 @@ static NSString* const kRZCoreDataStackParentStackKey = @"RZCoreDataStackParentS
 
 - (void)handleContextDidSave:(NSNotification *)notification
 {
-    [self.mainManagedObjectContext performBlockAndWait:^{
-        NSSet *updatedObjects = [[notification userInfo] objectForKey:NSUpdatedObjectsKey];
-        for ( NSFetchedResultsController *frc in [self.registeredFetchedResultsControllers allObjects] ) {
-            [self faultUpdatedObjects:updatedObjects matchingFetchedResultsController:frc];
-        }
+    NSArray *objectsToFault = nil;
 
-        [self.mainManagedObjectContext mergeChangesFromContextDidSaveNotification:notification];
-    }];
-}
-
-- (void)faultUpdatedObjects:(NSSet *)updatedObjects matchingFetchedResultsController:(NSFetchedResultsController *)frc
-{
-    NSPredicate *predicate = frc.fetchRequest.predicate;
-    NSEntityDescription *entityDescription = frc.fetchRequest.entity;
-    if ( predicate ) {
-        NSSet *objectsToFault = [updatedObjects objectsPassingTest:^BOOL(NSManagedObject *mo, BOOL *stop) {
-            return ([[mo entity] isEqual:entityDescription] && [predicate evaluateWithObject:mo]);
+    if ( self.registeredFetchedResultsControllers.count > 0 ) {
+        // If we registered a FRC to fault, build the predicate on the main object context thread to
+        // ensure thread safety.
+        NSMutableArray *predicates = [NSMutableArray array];
+        [self.mainManagedObjectContext performBlockAndWait:^{
+            for ( NSFetchedResultsController *frc in [self.registeredFetchedResultsControllers allObjects] ) {
+                NSEntityDescription *entityDescription = frc.fetchRequest.entity;
+                NSPredicate *predicate = frc.fetchRequest.predicate;
+                if ( predicate ) {
+                    [predicates addObject:[NSPredicate predicateWithBlock:^BOOL(NSManagedObject *mo, NSDictionary *bindings) {
+                        return ([[mo entity] isEqual:entityDescription] && [predicate evaluateWithObject:mo]);
+                    }]];
+                }
+            }
         }];
+        // If there are any predicates, build a list of objects to fault into the main context
+        // prior to the merge.
+        if ( [predicates count] > 0 ) {
+            NSPredicate *anyMatch = [NSCompoundPredicate orPredicateWithSubpredicates:predicates];
+            NSSet *updatedObjects = [[notification userInfo] objectForKey:NSUpdatedObjectsKey];
+            objectsToFault = [[updatedObjects allObjects] filteredArrayUsingPredicate:anyMatch];
+        }
+    }
+
+    [self.mainManagedObjectContext performBlockAndWait:^{
         for ( NSManagedObject *mo in objectsToFault ) {
             NSManagedObject *mainMo = [self.mainManagedObjectContext objectWithID:[mo objectID]];
             [mainMo willAccessValueForKey:nil];
         }
-    }
+
+        [self.mainManagedObjectContext mergeChangesFromContextDidSaveNotification:notification];
+    }];
 }
 
 @end
