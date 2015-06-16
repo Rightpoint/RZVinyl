@@ -191,7 +191,9 @@ static NSString* const kRZCoreDataStackParentStackKey = @"RZCoreDataStackParentS
 - (NSManagedObjectContext *)backgroundManagedObjectContext
 {
     NSManagedObjectContext *bgContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
-    [[bgContext userInfo] setObject:self forKey:kRZCoreDataStackParentStackKey];
+    [bgContext performBlockAndWait:^{
+        [[bgContext userInfo] setObject:self forKey:kRZCoreDataStackParentStackKey];
+    }];
     bgContext.parentContext = self.topLevelBackgroundContext;
     [self registerSaveNotificationsForContext:bgContext];
     return bgContext;
