@@ -1,0 +1,1 @@
+../../../../../Classes/NSManagedObject+RZVinylUtils.h

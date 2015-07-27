@@ -1,0 +1,6 @@
+#include "Pods-RZVinyl.xcconfig"
+GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1 ${PODS_RZVINYL_GCC_PREPROCESSOR_DEFINITIONS}
+HEADER_SEARCH_PATHS = "${PODS_ROOT}/Headers/Private" "${PODS_ROOT}/Headers/Private/RZVinyl" "${PODS_ROOT}/Headers/Public" "${PODS_ROOT}/Headers/Public/RZImport" "${PODS_ROOT}/Headers/Public/RZVinyl"
+OTHER_LDFLAGS = ${PODS_RZVINYL_OTHER_LDFLAGS} -ObjC
+PODS_ROOT = ${SRCROOT}
+SKIP_INSTALL = YES

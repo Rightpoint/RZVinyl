@@ -1,0 +1,1 @@
+../../../../../Classes/NSFetchRequest+RZVinylRecord.h

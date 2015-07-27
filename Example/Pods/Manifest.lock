@@ -1,0 +1,21 @@
+PODS:
+  - RZImport (1.2.2)
+  - RZVinyl (1.1.3):
+    - RZVinyl/Extensions (= 1.1.3)
+  - RZVinyl/Core (1.1.3)
+  - RZVinyl/Extensions (1.1.3):
+    - RZImport (~> 1.1)
+    - RZVinyl/Core
+
+DEPENDENCIES:
+  - RZVinyl (from `../`)
+
+EXTERNAL SOURCES:
+  RZVinyl:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  RZImport: 49854bbe281928b71aad0d04999849690ac214e7
+  RZVinyl: 3ddb4a3e99e1f3063e06794aff124fc270fd2798
+
+COCOAPODS: 0.37.2

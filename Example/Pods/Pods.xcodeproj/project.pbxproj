@@ -1,0 +1,735 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		03E6C6136FDAB6286AE2DFAF /* NSManagedObject+RZImport.h in Headers */ = {isa = PBXBuildFile; fileRef = 1656C3DC8F621C59A2E530DC /* NSManagedObject+RZImport.h */; };
+		0AD52E15AE2B9116FC69EF31 /* Pods-RZVinyl-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = F7F05F70160C78E1C2F76325 /* Pods-RZVinyl-dummy.m */; };
+		115CA2CACE571ACF99CA9255 /* RZVinylRip.h in Headers */ = {isa = PBXBuildFile; fileRef = 57E5105CFA2EA5977F77C9C4 /* RZVinylRip.h */; };
+		11A181F3DA978F0D46688841 /* NSManagedObjectContext+RZVinylSave.h in Headers */ = {isa = PBXBuildFile; fileRef = 17647B5584C6B9D463604EA7 /* NSManagedObjectContext+RZVinylSave.h */; };
+		194BAFC74CA84FD3E8E64B06 /* Pods-RZImport-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = CECC3AAB01DA52D1FED0EC14 /* Pods-RZImport-dummy.m */; };
+		1FC76BE7ACEF676D71264673 /* RZVinylDefines.m in Sources */ = {isa = PBXBuildFile; fileRef = 25BD3B9C6C8E0A1E4E824A9D /* RZVinylDefines.m */; };
+		3B0A62D1569615C10D3ACD6E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34E68329FFFCB48770346A7A /* Foundation.framework */; };
+		41642FD314A7EE31FA99B5EC /* NSObject+RZImport.m in Sources */ = {isa = PBXBuildFile; fileRef = 23D0F8D54DD37ED7E939AB44 /* NSObject+RZImport.m */; };
+		41D3760A14957590C17F24C0 /* RZVinylRelationshipInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 0B48A3E65F1053FFDF606740 /* RZVinylRelationshipInfo.h */; };
+		471AEDF66CCE8AF461ED8DA0 /* NSManagedObject+RZVinylUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = C408259A55B628CE13BFC2E0 /* NSManagedObject+RZVinylUtils.h */; };
+		54F231895411DEB1059DD0F5 /* NSManagedObject+RZImport_private.h in Headers */ = {isa = PBXBuildFile; fileRef = 5286832081AFF55CABD337DB /* NSManagedObject+RZImport_private.h */; };
+		55328F7E2F4BC268256D4474 /* NSFetchRequest+RZVinylRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = 822398339B1459756D201260 /* NSFetchRequest+RZVinylRecord.m */; };
+		63237E5B7A471F7D9F0204FF /* NSManagedObject+RZVinylRecord.h in Headers */ = {isa = PBXBuildFile; fileRef = 779EF7C51215F7DF6FBBA4E5 /* NSManagedObject+RZVinylRecord.h */; };
+		64BB8AD3CB76EDFFBAD28E8B /* RZVinyl.h in Headers */ = {isa = PBXBuildFile; fileRef = EFE13AA88C992D73C006680B /* RZVinyl.h */; };
+		6EE1B7620307355A9325F834 /* RZVinylRelationshipInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 92ABBF7EA422033760F0FB7C /* RZVinylRelationshipInfo.m */; };
+		7D1985511916943954018DF8 /* NSManagedObject+RZVinylRecord_private.h in Headers */ = {isa = PBXBuildFile; fileRef = 0C5AE0AEABD7BA4B2EF0D013 /* NSManagedObject+RZVinylRecord_private.h */; };
+		81E7B5088DFEA035148E0D05 /* NSFetchedResultsController+RZVinylRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A281A0F1BE81E3928B6D208 /* NSFetchedResultsController+RZVinylRecord.m */; };
+		8EE282F3D0D03327FC96C608 /* NSManagedObject+RZVinylUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = F57006668B21948E9F4F909E /* NSManagedObject+RZVinylUtils.m */; };
+		93FD18F286B5CF6897C722F8 /* NSManagedObjectContext+RZVinylSave.m in Sources */ = {isa = PBXBuildFile; fileRef = 57EBCEBD347E73EC5867E09C /* NSManagedObjectContext+RZVinylSave.m */; };
+		943FD089D598822F1B991730 /* RZCoreDataStack.m in Sources */ = {isa = PBXBuildFile; fileRef = 422F315BB3091C4B44A85D3F /* RZCoreDataStack.m */; };
+		948B480A6F316E32C1132D87 /* NSManagedObject+RZImport_private.m in Sources */ = {isa = PBXBuildFile; fileRef = 6DD9FE3FAC47B6A5EC1E2D20 /* NSManagedObject+RZImport_private.m */; };
+		9D06636B4679E344A51563AD /* RZImportable.h in Headers */ = {isa = PBXBuildFile; fileRef = BA9B715DFBFEBB30F231911E /* RZImportable.h */; };
+		A532871702E08847E758F09C /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCA9ECAD67C747E28B362D48 /* CoreData.framework */; };
+		ABE0B1636EF3CDDC22FBDE03 /* NSFetchRequest+RZVinylRecord.h in Headers */ = {isa = PBXBuildFile; fileRef = 8881D8C72C7A7A702D9FAE9A /* NSFetchRequest+RZVinylRecord.h */; };
+		AE3FAD41960A1D99EA368CF5 /* NSObject+RZImport.h in Headers */ = {isa = PBXBuildFile; fileRef = 68198F772F01F62FADB9F669 /* NSObject+RZImport.h */; };
+		AE4368EC9E5C00AE220B4130 /* RZVinylDefines.h in Headers */ = {isa = PBXBuildFile; fileRef = 21A033808B23CF0C0AFAF0C2 /* RZVinylDefines.h */; };
+		B7C1EAF335E8EBBFAA6174D0 /* Pods-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 2566D446274F8520738FDBF9 /* Pods-dummy.m */; };
+		CA413D80899F1425552FF061 /* NSObject+RZImport_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = A3872600AAAFF5713405B133 /* NSObject+RZImport_Private.h */; };
+		CBED10AC45E603D91F5D2DB0 /* NSFetchedResultsController+RZVinylRecord.h in Headers */ = {isa = PBXBuildFile; fileRef = 7AAA42B73DBCEEB43A7ACF32 /* NSFetchedResultsController+RZVinylRecord.h */; };
+		E0E20319485B28FC101A2888 /* RZVinylRecord.h in Headers */ = {isa = PBXBuildFile; fileRef = 4B6850BE3986F8DE26035B17 /* RZVinylRecord.h */; };
+		EA7B038F2217F2A3EE5AE885 /* RZCoreDataStack.h in Headers */ = {isa = PBXBuildFile; fileRef = 4BE8C458D44D07204F8C3FDC /* RZCoreDataStack.h */; };
+		EBFC6C616F6EED4F54478DBD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34E68329FFFCB48770346A7A /* Foundation.framework */; };
+		F5067A24CAA75FA119156B66 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34E68329FFFCB48770346A7A /* Foundation.framework */; };
+		F673CD1EEDF4F045738CEB3E /* NSManagedObject+RZVinylRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = E6A5DAAB1E364033C0A0CDDC /* NSManagedObject+RZVinylRecord.m */; };
+		F900F3788135D061F634E78B /* NSManagedObject+RZImport.m in Sources */ = {isa = PBXBuildFile; fileRef = B468D5CE77DFC843D2D8D975 /* NSManagedObject+RZImport.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		57ADF9E9989F4280BCD3C382 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E50288769CB82E5AE0C2338E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 08430B679146065991B7F2BF;
+			remoteInfo = "Pods-RZImport";
+		};
+		A6170DBF9BC99E04EF76FF76 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E50288769CB82E5AE0C2338E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 08430B679146065991B7F2BF;
+			remoteInfo = "Pods-RZImport";
+		};
+		AD8150A4272E4A6DCA0D0FE1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E50288769CB82E5AE0C2338E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 33B50E102FC00CD12FF6F4E9;
+			remoteInfo = "Pods-RZVinyl";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		0B48A3E65F1053FFDF606740 /* RZVinylRelationshipInfo.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = RZVinylRelationshipInfo.h; sourceTree = "<group>"; };
+		0C5AE0AEABD7BA4B2EF0D013 /* NSManagedObject+RZVinylRecord_private.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "NSManagedObject+RZVinylRecord_private.h"; sourceTree = "<group>"; };
+		1656C3DC8F621C59A2E530DC /* NSManagedObject+RZImport.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "NSManagedObject+RZImport.h"; sourceTree = "<group>"; };
+		17647B5584C6B9D463604EA7 /* NSManagedObjectContext+RZVinylSave.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "NSManagedObjectContext+RZVinylSave.h"; sourceTree = "<group>"; };
+		18FE77389163C6273772F090 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Pods.release.xcconfig; sourceTree = "<group>"; };
+		1A281A0F1BE81E3928B6D208 /* NSFetchedResultsController+RZVinylRecord.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "NSFetchedResultsController+RZVinylRecord.m"; sourceTree = "<group>"; };
+		21A033808B23CF0C0AFAF0C2 /* RZVinylDefines.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = RZVinylDefines.h; sourceTree = "<group>"; };
+		23D0F8D54DD37ED7E939AB44 /* NSObject+RZImport.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "NSObject+RZImport.m"; path = "Classes/NSObject+RZImport.m"; sourceTree = "<group>"; };
+		2566D446274F8520738FDBF9 /* Pods-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-dummy.m"; sourceTree = "<group>"; };
+		257FFD61970FB84DA3ADDAF0 /* Pods-RZVinyl.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-RZVinyl.xcconfig"; sourceTree = "<group>"; };
+		25BD3B9C6C8E0A1E4E824A9D /* RZVinylDefines.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = RZVinylDefines.m; sourceTree = "<group>"; };
+		34E68329FFFCB48770346A7A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.3.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
+		4098497E8F18D2F29D99E59B /* Pods-RZImport-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-RZImport-prefix.pch"; sourceTree = "<group>"; };
+		422F315BB3091C4B44A85D3F /* RZCoreDataStack.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = RZCoreDataStack.m; sourceTree = "<group>"; };
+		47E706B72A157C6D9E88CDAE /* Pods-environment.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-environment.h"; sourceTree = "<group>"; };
+		4B6850BE3986F8DE26035B17 /* RZVinylRecord.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = RZVinylRecord.h; sourceTree = "<group>"; };
+		4BE8C458D44D07204F8C3FDC /* RZCoreDataStack.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = RZCoreDataStack.h; sourceTree = "<group>"; };
+		5286832081AFF55CABD337DB /* NSManagedObject+RZImport_private.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "NSManagedObject+RZImport_private.h"; sourceTree = "<group>"; };
+		57E5105CFA2EA5977F77C9C4 /* RZVinylRip.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = RZVinylRip.h; sourceTree = "<group>"; };
+		57EBCEBD347E73EC5867E09C /* NSManagedObjectContext+RZVinylSave.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "NSManagedObjectContext+RZVinylSave.m"; sourceTree = "<group>"; };
+		5EC244318B2406B47EDE56F9 /* libPods-RZImport.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-RZImport.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		5EC85E4C2D5A0A3D5432E26A /* Pods-RZImport-Private.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-RZImport-Private.xcconfig"; sourceTree = "<group>"; };
+		6573A238C42D294721ED2EF8 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Pods.debug.xcconfig; sourceTree = "<group>"; };
+		68198F772F01F62FADB9F669 /* NSObject+RZImport.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "NSObject+RZImport.h"; path = "Classes/NSObject+RZImport.h"; sourceTree = "<group>"; };
+		6DD9FE3FAC47B6A5EC1E2D20 /* NSManagedObject+RZImport_private.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "NSManagedObject+RZImport_private.m"; sourceTree = "<group>"; };
+		779EF7C51215F7DF6FBBA4E5 /* NSManagedObject+RZVinylRecord.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "NSManagedObject+RZVinylRecord.h"; sourceTree = "<group>"; };
+		7AAA42B73DBCEEB43A7ACF32 /* NSFetchedResultsController+RZVinylRecord.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "NSFetchedResultsController+RZVinylRecord.h"; sourceTree = "<group>"; };
+		822398339B1459756D201260 /* NSFetchRequest+RZVinylRecord.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "NSFetchRequest+RZVinylRecord.m"; sourceTree = "<group>"; };
+		88356CB248FF6984B9D96207 /* Pods-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-resources.sh"; sourceTree = "<group>"; };
+		8881D8C72C7A7A702D9FAE9A /* NSFetchRequest+RZVinylRecord.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "NSFetchRequest+RZVinylRecord.h"; sourceTree = "<group>"; };
+		92ABBF7EA422033760F0FB7C /* RZVinylRelationshipInfo.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = RZVinylRelationshipInfo.m; sourceTree = "<group>"; };
+		A3872600AAAFF5713405B133 /* NSObject+RZImport_Private.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "NSObject+RZImport_Private.h"; path = "Classes/Private/NSObject+RZImport_Private.h"; sourceTree = "<group>"; };
+		AAADC26E24D8D6858C87839D /* Pods-RZVinyl-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-RZVinyl-prefix.pch"; sourceTree = "<group>"; };
+		B15BB65305485DF5053F80F2 /* Podfile */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		B468D5CE77DFC843D2D8D975 /* NSManagedObject+RZImport.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "NSManagedObject+RZImport.m"; sourceTree = "<group>"; };
+		BA9B715DFBFEBB30F231911E /* RZImportable.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = RZImportable.h; path = Classes/RZImportable.h; sourceTree = "<group>"; };
+		BC5F7F27094686C65BF314DE /* Pods-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-acknowledgements.plist"; sourceTree = "<group>"; };
+		BF0DC0E5B2A76D1708B7CFBC /* Pods-RZVinyl-Private.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-RZVinyl-Private.xcconfig"; sourceTree = "<group>"; };
+		C408259A55B628CE13BFC2E0 /* NSManagedObject+RZVinylUtils.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "NSManagedObject+RZVinylUtils.h"; sourceTree = "<group>"; };
+		CCA9ECAD67C747E28B362D48 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.3.sdk/System/Library/Frameworks/CoreData.framework; sourceTree = DEVELOPER_DIR; };
+		CECC3AAB01DA52D1FED0EC14 /* Pods-RZImport-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-RZImport-dummy.m"; sourceTree = "<group>"; };
+		D2E4A54E7D5A108E588FBDC1 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		E6A5DAAB1E364033C0A0CDDC /* NSManagedObject+RZVinylRecord.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "NSManagedObject+RZVinylRecord.m"; sourceTree = "<group>"; };
+		E71DA9E38B45FC404F08F15C /* libPods-RZVinyl.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-RZVinyl.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E9828DAE14150C6367128B63 /* Pods-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-acknowledgements.markdown"; sourceTree = "<group>"; };
+		EFE13AA88C992D73C006680B /* RZVinyl.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = RZVinyl.h; sourceTree = "<group>"; };
+		F387F91A893A5AA31114A6FA /* Pods-RZImport.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-RZImport.xcconfig"; sourceTree = "<group>"; };
+		F57006668B21948E9F4F909E /* NSManagedObject+RZVinylUtils.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "NSManagedObject+RZVinylUtils.m"; sourceTree = "<group>"; };
+		F7F05F70160C78E1C2F76325 /* Pods-RZVinyl-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-RZVinyl-dummy.m"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		3C4491631BE7AA42D1DA443D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EBFC6C616F6EED4F54478DBD /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B207065ED192C1A9933F0356 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A532871702E08847E758F09C /* CoreData.framework in Frameworks */,
+				F5067A24CAA75FA119156B66 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C3FD6E53F09B9DC8B212F440 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3B0A62D1569615C10D3ACD6E /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		0A63E29EA2B8E4EE7D58B419 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				9FE88034CC22C712D0F0BC28 /* Classes */,
+			);
+			name = Core;
+			sourceTree = "<group>";
+		};
+		1F39D3A38BED74799CD4D065 /* Development Pods */ = {
+			isa = PBXGroup;
+			children = (
+				DDA94F1B90C24C555D454560 /* RZVinyl */,
+			);
+			name = "Development Pods";
+			sourceTree = "<group>";
+		};
+		22B63911CE06ACE121409756 /* Private */ = {
+			isa = PBXGroup;
+			children = (
+				5286832081AFF55CABD337DB /* NSManagedObject+RZImport_private.h */,
+				6DD9FE3FAC47B6A5EC1E2D20 /* NSManagedObject+RZImport_private.m */,
+				0B48A3E65F1053FFDF606740 /* RZVinylRelationshipInfo.h */,
+				92ABBF7EA422033760F0FB7C /* RZVinylRelationshipInfo.m */,
+			);
+			path = Private;
+			sourceTree = "<group>";
+		};
+		388B9D9174F5DB6871679D57 /* Private */ = {
+			isa = PBXGroup;
+			children = (
+				0C5AE0AEABD7BA4B2EF0D013 /* NSManagedObject+RZVinylRecord_private.h */,
+				21A033808B23CF0C0AFAF0C2 /* RZVinylDefines.h */,
+				25BD3B9C6C8E0A1E4E824A9D /* RZVinylDefines.m */,
+			);
+			path = Private;
+			sourceTree = "<group>";
+		};
+		4AED419F7DB5FB9EDABCB164 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D2E4A54E7D5A108E588FBDC1 /* libPods.a */,
+				5EC244318B2406B47EDE56F9 /* libPods-RZImport.a */,
+				E71DA9E38B45FC404F08F15C /* libPods-RZVinyl.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		4D2C826B89C1B9060DDA4C35 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				5D01B9B09A8E438A99D0C635 /* RZImport */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		5D01B9B09A8E438A99D0C635 /* RZImport */ = {
+			isa = PBXGroup;
+			children = (
+				68198F772F01F62FADB9F669 /* NSObject+RZImport.h */,
+				23D0F8D54DD37ED7E939AB44 /* NSObject+RZImport.m */,
+				A3872600AAAFF5713405B133 /* NSObject+RZImport_Private.h */,
+				BA9B715DFBFEBB30F231911E /* RZImportable.h */,
+				63A35543F0FA2A6A5A2C77B6 /* Support Files */,
+			);
+			path = RZImport;
+			sourceTree = "<group>";
+		};
+		63A35543F0FA2A6A5A2C77B6 /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				F387F91A893A5AA31114A6FA /* Pods-RZImport.xcconfig */,
+				5EC85E4C2D5A0A3D5432E26A /* Pods-RZImport-Private.xcconfig */,
+				CECC3AAB01DA52D1FED0EC14 /* Pods-RZImport-dummy.m */,
+				4098497E8F18D2F29D99E59B /* Pods-RZImport-prefix.pch */,
+			);
+			name = "Support Files";
+			path = "../Target Support Files/Pods-RZImport";
+			sourceTree = "<group>";
+		};
+		81A4E24F30B2B72BAFDBD298 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				DACBA7E2A5FDE516D715A634 /* iOS */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		8AC94788066AC6C78D9B9801 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				E9828DAE14150C6367128B63 /* Pods-acknowledgements.markdown */,
+				BC5F7F27094686C65BF314DE /* Pods-acknowledgements.plist */,
+				2566D446274F8520738FDBF9 /* Pods-dummy.m */,
+				47E706B72A157C6D9E88CDAE /* Pods-environment.h */,
+				88356CB248FF6984B9D96207 /* Pods-resources.sh */,
+				6573A238C42D294721ED2EF8 /* Pods.debug.xcconfig */,
+				18FE77389163C6273772F090 /* Pods.release.xcconfig */,
+			);
+			name = Pods;
+			path = "Target Support Files/Pods";
+			sourceTree = "<group>";
+		};
+		980A7014680E746ABEFD5C23 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				1656C3DC8F621C59A2E530DC /* NSManagedObject+RZImport.h */,
+				B468D5CE77DFC843D2D8D975 /* NSManagedObject+RZImport.m */,
+				57E5105CFA2EA5977F77C9C4 /* RZVinylRip.h */,
+				22B63911CE06ACE121409756 /* Private */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		9FE88034CC22C712D0F0BC28 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				8881D8C72C7A7A702D9FAE9A /* NSFetchRequest+RZVinylRecord.h */,
+				822398339B1459756D201260 /* NSFetchRequest+RZVinylRecord.m */,
+				7AAA42B73DBCEEB43A7ACF32 /* NSFetchedResultsController+RZVinylRecord.h */,
+				1A281A0F1BE81E3928B6D208 /* NSFetchedResultsController+RZVinylRecord.m */,
+				779EF7C51215F7DF6FBBA4E5 /* NSManagedObject+RZVinylRecord.h */,
+				E6A5DAAB1E364033C0A0CDDC /* NSManagedObject+RZVinylRecord.m */,
+				C408259A55B628CE13BFC2E0 /* NSManagedObject+RZVinylUtils.h */,
+				F57006668B21948E9F4F909E /* NSManagedObject+RZVinylUtils.m */,
+				17647B5584C6B9D463604EA7 /* NSManagedObjectContext+RZVinylSave.h */,
+				57EBCEBD347E73EC5867E09C /* NSManagedObjectContext+RZVinylSave.m */,
+				4BE8C458D44D07204F8C3FDC /* RZCoreDataStack.h */,
+				422F315BB3091C4B44A85D3F /* RZCoreDataStack.m */,
+				EFE13AA88C992D73C006680B /* RZVinyl.h */,
+				4B6850BE3986F8DE26035B17 /* RZVinylRecord.h */,
+				388B9D9174F5DB6871679D57 /* Private */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
+		B29D50884B40949B39E6C979 = {
+			isa = PBXGroup;
+			children = (
+				B15BB65305485DF5053F80F2 /* Podfile */,
+				1F39D3A38BED74799CD4D065 /* Development Pods */,
+				81A4E24F30B2B72BAFDBD298 /* Frameworks */,
+				4D2C826B89C1B9060DDA4C35 /* Pods */,
+				4AED419F7DB5FB9EDABCB164 /* Products */,
+				B4F228B3BCBCA39FE0DFE0C5 /* Targets Support Files */,
+			);
+			sourceTree = "<group>";
+		};
+		B4F228B3BCBCA39FE0DFE0C5 /* Targets Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				8AC94788066AC6C78D9B9801 /* Pods */,
+			);
+			name = "Targets Support Files";
+			sourceTree = "<group>";
+		};
+		CF048F1EED5FCB952515DAAC /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				980A7014680E746ABEFD5C23 /* Extensions */,
+			);
+			name = Extensions;
+			sourceTree = "<group>";
+		};
+		DACBA7E2A5FDE516D715A634 /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				CCA9ECAD67C747E28B362D48 /* CoreData.framework */,
+				34E68329FFFCB48770346A7A /* Foundation.framework */,
+			);
+			name = iOS;
+			sourceTree = "<group>";
+		};
+		DDA94F1B90C24C555D454560 /* RZVinyl */ = {
+			isa = PBXGroup;
+			children = (
+				0A63E29EA2B8E4EE7D58B419 /* Core */,
+				CF048F1EED5FCB952515DAAC /* Extensions */,
+				E84C57366A98236211DB93D3 /* Support Files */,
+			);
+			name = RZVinyl;
+			path = ../..;
+			sourceTree = "<group>";
+		};
+		E84C57366A98236211DB93D3 /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				257FFD61970FB84DA3ADDAF0 /* Pods-RZVinyl.xcconfig */,
+				BF0DC0E5B2A76D1708B7CFBC /* Pods-RZVinyl-Private.xcconfig */,
+				F7F05F70160C78E1C2F76325 /* Pods-RZVinyl-dummy.m */,
+				AAADC26E24D8D6858C87839D /* Pods-RZVinyl-prefix.pch */,
+			);
+			name = "Support Files";
+			path = "Example/Pods/Target Support Files/Pods-RZVinyl";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		2DEAA709AB7FF3ED3AC92C64 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				ABE0B1636EF3CDDC22FBDE03 /* NSFetchRequest+RZVinylRecord.h in Headers */,
+				CBED10AC45E603D91F5D2DB0 /* NSFetchedResultsController+RZVinylRecord.h in Headers */,
+				03E6C6136FDAB6286AE2DFAF /* NSManagedObject+RZImport.h in Headers */,
+				54F231895411DEB1059DD0F5 /* NSManagedObject+RZImport_private.h in Headers */,
+				63237E5B7A471F7D9F0204FF /* NSManagedObject+RZVinylRecord.h in Headers */,
+				7D1985511916943954018DF8 /* NSManagedObject+RZVinylRecord_private.h in Headers */,
+				471AEDF66CCE8AF461ED8DA0 /* NSManagedObject+RZVinylUtils.h in Headers */,
+				11A181F3DA978F0D46688841 /* NSManagedObjectContext+RZVinylSave.h in Headers */,
+				EA7B038F2217F2A3EE5AE885 /* RZCoreDataStack.h in Headers */,
+				64BB8AD3CB76EDFFBAD28E8B /* RZVinyl.h in Headers */,
+				AE4368EC9E5C00AE220B4130 /* RZVinylDefines.h in Headers */,
+				E0E20319485B28FC101A2888 /* RZVinylRecord.h in Headers */,
+				41D3760A14957590C17F24C0 /* RZVinylRelationshipInfo.h in Headers */,
+				115CA2CACE571ACF99CA9255 /* RZVinylRip.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		63B27D92E51A86BB34BA515E /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AE3FAD41960A1D99EA368CF5 /* NSObject+RZImport.h in Headers */,
+				CA413D80899F1425552FF061 /* NSObject+RZImport_Private.h in Headers */,
+				9D06636B4679E344A51563AD /* RZImportable.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		08430B679146065991B7F2BF /* Pods-RZImport */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 384C35EFDE9FD9B144AF5829 /* Build configuration list for PBXNativeTarget "Pods-RZImport" */;
+			buildPhases = (
+				FC4550BA721A4385F4A1556F /* Sources */,
+				3C4491631BE7AA42D1DA443D /* Frameworks */,
+				63B27D92E51A86BB34BA515E /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Pods-RZImport";
+			productName = "Pods-RZImport";
+			productReference = 5EC244318B2406B47EDE56F9 /* libPods-RZImport.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		33B50E102FC00CD12FF6F4E9 /* Pods-RZVinyl */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F55225A6A6BED960113F26A5 /* Build configuration list for PBXNativeTarget "Pods-RZVinyl" */;
+			buildPhases = (
+				A19720C2EE31B4F94C2E630F /* Sources */,
+				B207065ED192C1A9933F0356 /* Frameworks */,
+				2DEAA709AB7FF3ED3AC92C64 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				B47CAEE45EDB4DC1807B3B92 /* PBXTargetDependency */,
+			);
+			name = "Pods-RZVinyl";
+			productName = "Pods-RZVinyl";
+			productReference = E71DA9E38B45FC404F08F15C /* libPods-RZVinyl.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		7CBD3267C090E014C22EC4AA /* Pods */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D49E251E985251CEAC691A9E /* Build configuration list for PBXNativeTarget "Pods" */;
+			buildPhases = (
+				B95587738E4ABE5DB6F71C1B /* Sources */,
+				C3FD6E53F09B9DC8B212F440 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				B7DD4B43C796C54E354E6579 /* PBXTargetDependency */,
+				117D333A79E85B85A94B25BB /* PBXTargetDependency */,
+			);
+			name = Pods;
+			productName = Pods;
+			productReference = D2E4A54E7D5A108E588FBDC1 /* libPods.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		E50288769CB82E5AE0C2338E /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0640;
+			};
+			buildConfigurationList = 80D6E082591AF8C302355A01 /* Build configuration list for PBXProject "Pods" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = B29D50884B40949B39E6C979;
+			productRefGroup = 4AED419F7DB5FB9EDABCB164 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				7CBD3267C090E014C22EC4AA /* Pods */,
+				08430B679146065991B7F2BF /* Pods-RZImport */,
+				33B50E102FC00CD12FF6F4E9 /* Pods-RZVinyl */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		A19720C2EE31B4F94C2E630F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				55328F7E2F4BC268256D4474 /* NSFetchRequest+RZVinylRecord.m in Sources */,
+				81E7B5088DFEA035148E0D05 /* NSFetchedResultsController+RZVinylRecord.m in Sources */,
+				F900F3788135D061F634E78B /* NSManagedObject+RZImport.m in Sources */,
+				948B480A6F316E32C1132D87 /* NSManagedObject+RZImport_private.m in Sources */,
+				F673CD1EEDF4F045738CEB3E /* NSManagedObject+RZVinylRecord.m in Sources */,
+				8EE282F3D0D03327FC96C608 /* NSManagedObject+RZVinylUtils.m in Sources */,
+				93FD18F286B5CF6897C722F8 /* NSManagedObjectContext+RZVinylSave.m in Sources */,
+				0AD52E15AE2B9116FC69EF31 /* Pods-RZVinyl-dummy.m in Sources */,
+				943FD089D598822F1B991730 /* RZCoreDataStack.m in Sources */,
+				1FC76BE7ACEF676D71264673 /* RZVinylDefines.m in Sources */,
+				6EE1B7620307355A9325F834 /* RZVinylRelationshipInfo.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B95587738E4ABE5DB6F71C1B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B7C1EAF335E8EBBFAA6174D0 /* Pods-dummy.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FC4550BA721A4385F4A1556F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				41642FD314A7EE31FA99B5EC /* NSObject+RZImport.m in Sources */,
+				194BAFC74CA84FD3E8E64B06 /* Pods-RZImport-dummy.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		117D333A79E85B85A94B25BB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "Pods-RZVinyl";
+			target = 33B50E102FC00CD12FF6F4E9 /* Pods-RZVinyl */;
+			targetProxy = AD8150A4272E4A6DCA0D0FE1 /* PBXContainerItemProxy */;
+		};
+		B47CAEE45EDB4DC1807B3B92 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "Pods-RZImport";
+			target = 08430B679146065991B7F2BF /* Pods-RZImport */;
+			targetProxy = 57ADF9E9989F4280BCD3C382 /* PBXContainerItemProxy */;
+		};
+		B7DD4B43C796C54E354E6579 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "Pods-RZImport";
+			target = 08430B679146065991B7F2BF /* Pods-RZImport */;
+			targetProxy = A6170DBF9BC99E04EF76FF76 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		209A347236507CF756D94B39 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = BF0DC0E5B2A76D1708B7CFBC /* Pods-RZVinyl-Private.xcconfig */;
+			buildSettings = {
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/Pods-RZVinyl/Pods-RZVinyl-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		625C3669D6F48339BA6EBA17 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6573A238C42D294721ED2EF8 /* Pods.debug.xcconfig */;
+			buildSettings = {
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		6423E7A8193A09CFDB4AAD89 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5EC85E4C2D5A0A3D5432E26A /* Pods-RZImport-Private.xcconfig */;
+			buildSettings = {
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/Pods-RZImport/Pods-RZImport-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		6A62099D10774D97080DC176 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				ONLY_ACTIVE_ARCH = YES;
+				STRIP_INSTALLED_PRODUCT = NO;
+				SYMROOT = "${SRCROOT}/../build";
+			};
+			name = Debug;
+		};
+		8CA57C345BE2976683693A40 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 18FE77389163C6273772F090 /* Pods.release.xcconfig */;
+			buildSettings = {
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		AF69149FB99ECD366096758F /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = BF0DC0E5B2A76D1708B7CFBC /* Pods-RZVinyl-Private.xcconfig */;
+			buildSettings = {
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/Pods-RZVinyl/Pods-RZVinyl-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		B64D4C1A4CEDF1763AC99165 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5EC85E4C2D5A0A3D5432E26A /* Pods-RZImport-Private.xcconfig */;
+			buildSettings = {
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/Pods-RZImport/Pods-RZImport-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		ECB126E4000ADBC8016B5252 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_PREPROCESSOR_DEFINITIONS = "RELEASE=1";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				STRIP_INSTALLED_PRODUCT = NO;
+				SYMROOT = "${SRCROOT}/../build";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		384C35EFDE9FD9B144AF5829 /* Build configuration list for PBXNativeTarget "Pods-RZImport" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B64D4C1A4CEDF1763AC99165 /* Debug */,
+				6423E7A8193A09CFDB4AAD89 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		80D6E082591AF8C302355A01 /* Build configuration list for PBXProject "Pods" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6A62099D10774D97080DC176 /* Debug */,
+				ECB126E4000ADBC8016B5252 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D49E251E985251CEAC691A9E /* Build configuration list for PBXNativeTarget "Pods" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				625C3669D6F48339BA6EBA17 /* Debug */,
+				8CA57C345BE2976683693A40 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F55225A6A6BED960113F26A5 /* Build configuration list for PBXNativeTarget "Pods-RZVinyl" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				209A347236507CF756D94B39 /* Debug */,
+				AF69149FB99ECD366096758F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = E50288769CB82E5AE0C2338E /* Project object */;
+}
