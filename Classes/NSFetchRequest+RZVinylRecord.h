@@ -41,9 +41,9 @@
  *
  *  @return A configured fetch request.
  */
-+ (instancetype)rzv_forEntity:(NSString *)entityName
-                    inContext:(NSManagedObjectContext *)context
-                        where:(NSPredicate *)predicate
-                         sort:(NSArray *)sortDescriptors;
++ (instancetype _Nullable)rzv_forEntity:(NSString* _Nonnull)entityName
+                              inContext:(NSManagedObjectContext* _Nonnull)context
+                                  where:(NSPredicate* _Nullable)predicate
+                                   sort:(NSArray* _Nullable)sortDescriptors;
 
 @end

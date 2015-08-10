@@ -42,10 +42,10 @@
  *
  *  @return A configured fetched results controller.
  */
-+ (instancetype)rzv_forEntity:(NSString *)entityName
-                    inContext:(NSManagedObjectContext *)context
-                        where:(NSPredicate *)predicate
-                         sort:(NSArray *)sortDescriptors;
++ (instancetype _Nullable)rzv_forEntity:(NSString* _Nonnull)entityName
+                              inContext:(NSManagedObjectContext* _Nonnull)context
+                                  where:(NSPredicate* _Nullable)predicate
+                                   sort:(NSArray* _Nullable)sortDescriptors;
 
 /**
  *  Returns a configured fetched results controller based on the provided arguments.
@@ -59,11 +59,11 @@
  *
  *  @return A configured fetched results controller.
  */
-+ (instancetype)rzv_forEntity:(NSString *)entityName
-                    inContext:(NSManagedObjectContext *)context
-                        where:(NSPredicate *)predicate
-                         sort:(NSArray *)sortDescriptors
-           sectionNameKeyPath:(NSString *)sectionNameKeyPath
-                    cacheName:(NSString *)cacheName;
++ (instancetype _Nullable)rzv_forEntity:(NSString* _Nonnull)entityName
+                              inContext:(NSManagedObjectContext* _Nonnull)context
+                                  where:(NSPredicate* _Nullable)predicate
+                                   sort:(NSArray* _Nullable)sortDescriptors
+                     sectionNameKeyPath:(NSString* _Nullable)sectionNameKeyPath
+                              cacheName:(NSString* _Nullable)cacheName;
 
 @end

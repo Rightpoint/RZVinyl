@@ -39,7 +39,7 @@
  *
  *  @return The data stack to use for this model object class.
  */
-+ (RZCoreDataStack *)rzv_coreDataStack;
++ (RZCoreDataStack* _Nonnull)rzv_coreDataStack;
 
 /**
  *  Implement in @p NSManagedObject subclasses to provide the key name of the property uniquely
@@ -50,7 +50,7 @@
  *
  *  @return The key name of the property uniquely identifying this object.
  */
-+ (NSString *)rzv_primaryKey;
++ (NSString* _Nonnull)rzv_primaryKey;
 
 /**
  *  Implement in @p NSManagedObject subclasses to return a predicate to be used when purging stale objects from the persistent store.
@@ -58,6 +58,6 @@
  *
  *  @return A predicate to use with @p RZCoreDataStack's @p -purgeStaleObjects
  */
-+ (NSPredicate *)rzv_stalenessPredicate;
++ (NSPredicate* _Nullable)rzv_stalenessPredicate;
 
 @end
