@@ -125,7 +125,7 @@
  *
  *  @return All objects of this class's type.
  */
-+ (NSArray* _Nullable)rzv_all;
++ (NSArray<Class>* _Nullable)rzv_all;
 
 /**
  *  Return an array of all objects of the receiver's type in the provided context.
@@ -134,7 +134,7 @@
  *
  *  @return All objects of this class's type.
  */
-+ (NSArray* _Nullable)rzv_allInContext:(NSManagedObjectContext* _Nonnull)context;
++ (NSArray<Class>* _Nullable)rzv_allInContext:(NSManagedObjectContext* _Nonnull)context;
 
 /**
  *  Return an array of all objects of the receiver's type in the main context, optionally sorted.
@@ -143,7 +143,7 @@
  *
  *  @return All objects of this class's type.
  */
-+ (NSArray* _Nullable)rzv_allSorted:(NSArray* _Nullable)sortDescriptors;
++ (NSArray<Class>* _Nullable)rzv_allSorted:(NSArray<NSSortDescriptor *> * _Nullable)sortDescriptors;
 
 /**
  *  Return an array of all objects of the receiver's type in the provided context, optionally sorted.
@@ -153,7 +153,7 @@
  *
  *  @return All objects of this class's type.
  */
-+ (NSArray* _Nullable)rzv_allSorted:(NSArray* _Nullable)sortDescriptors inContext:(NSManagedObjectContext* _Nonnull)context;
++ (NSArray<Class>* _Nullable)rzv_allSorted:(NSArray<NSSortDescriptor *> * _Nullable)sortDescriptors inContext:(NSManagedObjectContext* _Nonnull)context;
 
 /**
  *  Return the results of a fetch on the main context using a predicate or format string.
@@ -162,7 +162,7 @@
  *
  *  @return The results of the fetch.
  */
-+ (NSArray* _Nullable)rzv_where:(NSPredicate* _Nullable)predicate;
++ (NSArray<Class>* _Nullable)rzv_where:(NSPredicate* _Nullable)predicate;
 
 /**
  *  Return the results of a fetch on the provided context using a predicate or format string.
@@ -172,7 +172,7 @@
  *
  *  @return The results of the fetch.
  */
-+ (NSArray* _Nullable)rzv_where:(NSPredicate* _Nullable)predicate inContext:(NSManagedObjectContext* _Nonnull)context;
++ (NSArray<Class>* _Nullable)rzv_where:(NSPredicate* _Nullable)predicate inContext:(NSManagedObjectContext* _Nonnull)context;
 
 /**
  *  Return the results of a fetch on the main context using a predicate or format string
@@ -183,7 +183,7 @@
  *
  *  @return The results of the fetch.
  */
-+ (NSArray* _Nullable)rzv_where:(NSPredicate* _Nullable)predicate sort:(NSArray* _Nullable)sortDescriptors;
++ (NSArray<Class>* _Nullable)rzv_where:(NSPredicate* _Nullable)predicate sort:(NSArray<NSSortDescriptor *> * _Nullable)sortDescriptors;
 
 /**
  *  Return the results of a fetch on the provided context using a predicate or format string
@@ -195,9 +195,9 @@
  *
  *  @return The results of the fetch.
  */
-+ (NSArray* _Nullable)rzv_where:(NSPredicate* _Nullable)predicate
-                           sort:(NSArray* _Nullable)sortDescriptors
-                      inContext:(NSManagedObjectContext* _Nonnull)context;
++ (NSArray<Class>* _Nullable)rzv_where:(NSPredicate* _Nullable)predicate
+                                  sort:(NSArray<NSSortDescriptor *> * _Nullable)sortDescriptors
+                             inContext:(NSManagedObjectContext* _Nonnull)context;
 
 
 /** @name Counting Objects */

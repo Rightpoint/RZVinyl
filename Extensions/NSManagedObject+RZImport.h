@@ -98,7 +98,7 @@
  *
  *  @return An array matching or newly created objects updated from the key/value pairs in the dictionaries in the array.
  */
-+ (NSArray* _Nullable)rzi_objectsFromArray:(NSArray* _Nullable)array inContext:(NSManagedObjectContext* _Nullable)context;
++ (NSArray<Class>* _Nullable)rzi_objectsFromArray:(NSArray<NSDictionary *> * _Nullable)array inContext:(NSManagedObjectContext* _Nullable)context;
 
 /**
  *  Creates or updates multiple objects in the provided managed object context using the key/value pairs in the dictionaries
@@ -119,9 +119,9 @@
  *
  *  @return An array matching or newly created objects updated from the key/value pairs in the dictionaries in the array.
  */
-+ (NSArray* _Nullable)rzi_objectsFromArray:(NSArray* _Nullable)array
-                                 inContext:(NSManagedObjectContext* _Nonnull)context
-                              withMappings:(NSDictionary* _Nullable)mappings;
++ (NSArray<Class>* _Nullable)rzi_objectsFromArray:(NSArray<NSDictionary *> * _Nullable)array
+                                        inContext:(NSManagedObjectContext* _Nonnull)context
+                                     withMappings:(NSDictionary* _Nullable)mappings;
 
 /**
  *  Import the values from the provided dictionary into the receiver using the provided context to manage relationships.
