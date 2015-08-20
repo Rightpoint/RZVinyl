@@ -45,6 +45,6 @@
 + (instancetype RZNullable)rzv_forEntity:(NSString* RZNonnull)entityName
                                inContext:(NSManagedObjectContext* RZNonnull)context
                                    where:(NSPredicate* RZNullable)predicate
-                                    sort:(NSArray<NSSortDescriptor *> * RZNullable)sortDescriptors;
+                                    sort:(RZGeneric(NSArray, NSSortDescriptor *) * RZNullable)sortDescriptors;
 
 @end

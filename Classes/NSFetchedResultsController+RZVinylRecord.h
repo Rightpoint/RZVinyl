@@ -46,7 +46,7 @@
 + (instancetype RZNullable)rzv_forEntity:(NSString* RZNonnull)entityName
                                inContext:(NSManagedObjectContext* RZNonnull)context
                                    where:(NSPredicate* RZNullable)predicate
-                                    sort:(NSArray<NSSortDescriptor *> * RZNullable)sortDescriptors;
+                                    sort:(RZGeneric(NSArray, NSSortDescriptor *) * RZNullable)sortDescriptors;
 
 /**
  *  Returns a configured fetched results controller based on the provided arguments.
@@ -63,7 +63,7 @@
 + (instancetype RZNullable)rzv_forEntity:(NSString* RZNonnull)entityName
                                inContext:(NSManagedObjectContext* RZNonnull)context
                                    where:(NSPredicate* RZNullable)predicate
-                                    sort:(NSArray<NSSortDescriptor *> * RZNullable)sortDescriptors
+                                    sort:(RZGeneric(NSArray, NSSortDescriptor *) * RZNullable)sortDescriptors
                       sectionNameKeyPath:(NSString* RZNullable)sectionNameKeyPath
                                cacheName:(NSString* RZNullable)cacheName;
 
