@@ -1,10 +1,10 @@
 //
-//  NSFetchRequest+RZVinylRecord.h
+//  RZCompatibility.h
 //  RZVinyl
 //
-//  Created by Nick Donaldson on 6/5/14.
+//  Created by John Watson on 8/20/15.
 //
-//  Copyright 2014 Raizlabs and other contributors
+//  Copyright 2015 Raizlabs and other contributors
 //  http://raizlabs.com/
 //
 //  Permission is hereby granted, free of charge, to any person obtaining
@@ -27,24 +27,14 @@
 //  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
-@import CoreData;
-#import "RZCompatibility.h"
+//
+// Nullability annotation compatibility.
+//
 
-@interface NSFetchRequest (RZVinylRecord)
-
-/**
- *  Returns a configured fetch request based on the provided arguments.
- *
- *  @param entityName      The name of the entity to fetch. Must not be nil.
- *  @param context         The context in which to fetch. Must not be nil.
- *  @param predicate       An optional predicate for the fetch.
- *  @param sortDescriptors An optional array of sort descriptors to sort the result.
- *
- *  @return A configured fetch request.
- */
-+ (instancetype RZNullable)rzv_forEntity:(NSString* RZNonnull)entityName
-                               inContext:(NSManagedObjectContext* RZNonnull)context
-                                   where:(NSPredicate* RZNullable)predicate
-                                    sort:(NSArray<NSSortDescriptor *> * RZNullable)sortDescriptors;
-
-@end
+#if __has_feature(nullability)
+#   define RZNullable __nullable
+#   define RZNonnull __nonnull
+#else
+#   define RZNullable
+#   define RZNonNull
+#endif

@@ -6,6 +6,7 @@
 //
 
 @import CoreData;
+#import "RZCompatibility.h"
 
 @interface NSManagedObject (RZVinylUtils)
 
@@ -19,13 +20,13 @@
  *
  *  @return The same object as the receiver from a different context, or nil if not found.
  */
-- (instancetype _Nullable)rzv_objectInContext:(NSManagedObjectContext* _Nonnull)context;
+- (instancetype RZNullable)rzv_objectInContext:(NSManagedObjectContext* RZNonnull)context;
 
 /**
  *  The entity name of the Core Data entity represented by this class.
  *
  *  @return The entity name.
  */
-+ (NSString* _Nonnull)rzv_entityName;
++ (NSString* RZNonnull)rzv_entityName;
 
 @end

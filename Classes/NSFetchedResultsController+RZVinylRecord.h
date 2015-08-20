@@ -28,6 +28,7 @@
 
 
 @import CoreData;
+#import "RZCompatibility.h"
 
 @interface NSFetchedResultsController (RZVinylRecord)
 
@@ -42,10 +43,10 @@
  *
  *  @return A configured fetched results controller.
  */
-+ (instancetype _Nullable)rzv_forEntity:(NSString* _Nonnull)entityName
-                              inContext:(NSManagedObjectContext* _Nonnull)context
-                                  where:(NSPredicate* _Nullable)predicate
-                                   sort:(NSArray<NSSortDescriptor *> * _Nullable)sortDescriptors;
++ (instancetype RZNullable)rzv_forEntity:(NSString* RZNonnull)entityName
+                               inContext:(NSManagedObjectContext* RZNonnull)context
+                                   where:(NSPredicate* RZNullable)predicate
+                                    sort:(NSArray<NSSortDescriptor *> * RZNullable)sortDescriptors;
 
 /**
  *  Returns a configured fetched results controller based on the provided arguments.
@@ -59,11 +60,11 @@
  *
  *  @return A configured fetched results controller.
  */
-+ (instancetype _Nullable)rzv_forEntity:(NSString* _Nonnull)entityName
-                              inContext:(NSManagedObjectContext* _Nonnull)context
-                                  where:(NSPredicate* _Nullable)predicate
-                                   sort:(NSArray<NSSortDescriptor *> * _Nullable)sortDescriptors
-                     sectionNameKeyPath:(NSString* _Nullable)sectionNameKeyPath
-                              cacheName:(NSString* _Nullable)cacheName;
++ (instancetype RZNullable)rzv_forEntity:(NSString* RZNonnull)entityName
+                               inContext:(NSManagedObjectContext* RZNonnull)context
+                                   where:(NSPredicate* RZNullable)predicate
+                                    sort:(NSArray<NSSortDescriptor *> * RZNullable)sortDescriptors
+                      sectionNameKeyPath:(NSString* RZNullable)sectionNameKeyPath
+                               cacheName:(NSString* RZNullable)cacheName;
 
 @end
