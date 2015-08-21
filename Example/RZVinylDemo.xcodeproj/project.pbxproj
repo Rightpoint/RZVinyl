@@ -474,7 +474,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = RZ;
-				LastUpgradeCheck = 0510;
+				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = Raizlabs;
 				TargetAttributes = {
 					9AB90807193FD7F70063445A = {
@@ -652,6 +652,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -714,6 +715,7 @@
 				GCC_PREFIX_HEADER = "RZVinylDemo/Supporting Files/RZVinylDemo-Prefix.pch";
 				INFOPLIST_FILE = "RZVinylDemo/Supporting Files/RZVinylDemo-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.raizlabs.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = RZVinylDemo;
 				WRAPPER_EXTENSION = app;
 			};
@@ -729,6 +731,7 @@
 				GCC_PREFIX_HEADER = "RZVinylDemo/Supporting Files/RZVinylDemo-Prefix.pch";
 				INFOPLIST_FILE = "RZVinylDemo/Supporting Files/RZVinylDemo-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.raizlabs.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = RZVinylDemo;
 				WRAPPER_EXTENSION = app;
 			};
@@ -743,6 +746,7 @@
 				GCC_PREFIX_HEADER = "RZVinylTests/Supporting Files/RZVinylTests-Prefix.pch";
 				INFOPLIST_FILE = "RZVinylTests/Supporting Files/RZVinylTests-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.raizlabs.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
@@ -758,6 +762,7 @@
 				GCC_PREFIX_HEADER = "RZVinylTests/Supporting Files/RZVinylTests-Prefix.pch";
 				INFOPLIST_FILE = "RZVinylTests/Supporting Files/RZVinylTests-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.raizlabs.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;

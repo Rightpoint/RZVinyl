@@ -20,13 +20,13 @@
  *
  *  @return The same object as the receiver from a different context, or nil if not found.
  */
-- (instancetype RZNullable)rzv_objectInContext:(NSManagedObjectContext* RZNonnull)context;
+- (RZNullable instancetype)rzv_objectInContext:(NSManagedObjectContext* _RZNonnull)context;
 
 /**
  *  The entity name of the Core Data entity represented by this class.
  *
  *  @return The entity name.
  */
-+ (NSString* RZNonnull)rzv_entityName;
++ (NSString* _RZNonnull)rzv_entityName;
 
 @end
