@@ -44,7 +44,7 @@
  */
 + (instancetype)rzv_forEntity:(NSString *)entityName
                     inContext:(NSManagedObjectContext *)context
-                        where:(NSPredicate *)predicate
+                        predicate:(NSPredicate *)predicate
                          sort:(NSArray *)sortDescriptors;
 
 /**
@@ -61,7 +61,7 @@
  */
 + (instancetype)rzv_forEntity:(NSString *)entityName
                     inContext:(NSManagedObjectContext *)context
-                        where:(NSPredicate *)predicate
+                        predicate:(NSPredicate *)predicate
                          sort:(NSArray *)sortDescriptors
            sectionNameKeyPath:(NSString *)sectionNameKeyPath
                     cacheName:(NSString *)cacheName;

@@ -34,7 +34,7 @@
 
 + (instancetype)rzv_forEntity:(NSString *)entityName
                     inContext:(NSManagedObjectContext *)context
-                        where:(NSPredicate *)predicate
+                        predicate:(NSPredicate *)predicate
                          sort:(NSArray *)sortDescriptors
 {
     if ( !RZVParameterAssert(entityName) || !RZVParameterAssert(context) ) {

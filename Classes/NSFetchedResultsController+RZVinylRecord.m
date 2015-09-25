@@ -35,12 +35,12 @@
 
 + (instancetype)rzv_forEntity:(NSString *)entityName
                     inContext:(NSManagedObjectContext *)context
-                        where:(NSPredicate *)predicate
+                        predicate:(NSPredicate *)predicate
                          sort:(NSArray *)sortDescriptors
 {
     return [self rzv_forEntity:entityName
                      inContext:context
-                         where:predicate
+                         predicate:predicate
                           sort:sortDescriptors
             sectionNameKeyPath:nil
                      cacheName:nil];
@@ -48,7 +48,7 @@
 
 + (instancetype)rzv_forEntity:(NSString *)entityName
                     inContext:(NSManagedObjectContext *)context
-                        where:(NSPredicate *)predicate
+                        predicate:(NSPredicate *)predicate
                          sort:(NSArray *)sortDescriptors
            sectionNameKeyPath:(NSString *)sectionNameKeyPath
                     cacheName:(NSString *)cacheName
@@ -59,7 +59,7 @@
     
     NSFetchRequest *fetch = [NSFetchRequest rzv_forEntity:entityName
                                                 inContext:context
-                                                    where:predicate
+                                                    predicate:predicate
                                                      sort:sortDescriptors];
     
     return [[NSFetchedResultsController alloc] initWithFetchRequest:fetch
