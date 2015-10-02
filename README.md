@@ -15,7 +15,7 @@ Add the following to your Podfile:
 pod RZVinyl, '~> 0.1'
 ```
 
-To exclude RZImport extensions, use the `Core` subspec: 
+To exclude RZImport extensions, use the `Core` subspec:
 
 ```
 pod RZVinyl/Core, '~> 0.1'
@@ -47,7 +47,7 @@ If all went well, your project should build cleanly and the methods from `NSMana
 
 # Demo Project
 
-A demo project is available in the `Example` directory. The demo project uses CocoaPods, and can be opened from a temporary directory by running 
+A demo project is available in the `Example` directory. The demo project uses CocoaPods, and can be opened from a temporary directory by running
 
 ```
 pod try RZVinyl
@@ -62,10 +62,13 @@ pod install
 
 Then, open `RZVinylDemo.xcworkspace` and check out the demo!
 
-
 **Note: The above steps assume that the CocoaPods gem is installed.**
 
 If you do not have CocoaPods installed, follow the instructions [here](http://cocoapods.org/).
+
+# Swift Support
+
+RZVinyl is fully compatible with Swift, and makes use of nullability annotations and lightweight generics where appropriate.
 
 # Overview
 
