@@ -173,17 +173,17 @@ typedef NS_OPTIONS(NSUInteger, RZCoreDataStackOptions)
  *  @warning Obviously, you must manipulate this context and its objects from the main thread,
  *           or by using one of the +p performBlock methods.
  */
-@property (strong, nonatomic, RZNonnull, readonly) NSManagedObjectContext *mainManagedObjectContext;
+@property (strong, nonatomic, readonly, RZNonnull) NSManagedObjectContext *mainManagedObjectContext;
 
 /**
  *  The managed object model used in this Core Data stack.
  */
-@property (strong, nonatomic, RZNonnull, readonly) NSManagedObjectModel *managedObjectModel;
+@property (strong, nonatomic, readonly, RZNonnull) NSManagedObjectModel *managedObjectModel;
 
 /**
  *  The persistent store coordinator used in this Core Data stack.
  */
-@property (strong, nonatomic, RZNonnull, readonly) NSPersistentStoreCoordinator *persistentStoreCoordinator;
+@property (strong, nonatomic, readonly, RZNonnull) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 
 /**
  *  Asynchronously perform a database operation on a temporary background managed object context.

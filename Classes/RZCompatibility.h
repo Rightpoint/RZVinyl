@@ -37,7 +37,7 @@
 #   define _RZNonnull   __nonnull
 #   define _RZNullable  __nullable
 #else
-#   define RZNonNull
+#   define RZNonnull
 #   define RZNullable
 #   define _RZNonnull
 #   define _RZNullable
