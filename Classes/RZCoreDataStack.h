@@ -30,7 +30,7 @@
 @import CoreData;
 #import "RZCompatibility.h"
 
-typedef void (^RZCoreDataStackTransactionBlock)(NSManagedObjectContext* _RZNonnull context);
+typedef void (^RZCoreDataStackTransactionBlock)(NSManagedObjectContext* RZCNonnull context);
 
 typedef NS_OPTIONS(NSUInteger, RZCoreDataStackOptions)
 {
@@ -93,7 +93,7 @@ typedef NS_OPTIONS(NSUInteger, RZCoreDataStackOptions)
  *
  *  @return The default @p RZCoreDataStack for this application.
  */
-+ (RZCoreDataStack* _RZNonnull)defaultStack;
++ (RZCoreDataStack* RZCNonnull)defaultStack;
 
 /**
  *  Set the default Core Data stack for this application.
@@ -104,7 +104,7 @@ typedef NS_OPTIONS(NSUInteger, RZCoreDataStackOptions)
  *
  *  @param stack The stack to use as the new default stack. Must not be nil.
  */
-+ (void)setDefaultStack:(RZCoreDataStack* _RZNonnull)stack;
++ (void)setDefaultStack:(RZCoreDataStack* RZCNonnull)stack;
 
 /**
  *  Return a new data stack initialized with the provided data model name
@@ -119,10 +119,10 @@ typedef NS_OPTIONS(NSUInteger, RZCoreDataStackOptions)
  *
  *  @return A new data stack instance.
  */
-- (RZNullable instancetype)initWithModelName:(NSString* _RZNullable)modelName
-                               configuration:(NSString* _RZNullable)modelConfiguration
-                                   storeType:(NSString* _RZNullable)storeType
-                                    storeURL:(NSURL* _RZNullable)storeURL
+- (RZNullable instancetype)initWithModelName:(NSString* RZCNullable)modelName
+                               configuration:(NSString* RZCNullable)modelConfiguration
+                                   storeType:(NSString* RZCNullable)storeType
+                                    storeURL:(NSURL* RZCNullable)storeURL
                                      options:(RZCoreDataStackOptions)options;
 
 /**
@@ -139,11 +139,11 @@ typedef NS_OPTIONS(NSUInteger, RZCoreDataStackOptions)
  *
  *  @return A new data stack instance.
  */
-- (RZNullable instancetype)initWithModelName:(NSString* _RZNullable)modelName
-                               configuration:(NSString* _RZNullable)modelConfiguration
-                                   storeType:(NSString* _RZNullable)storeType
-                                    storeURL:(NSURL* _RZNullable)storeURL
-                  persistentStoreCoordinator:(NSPersistentStoreCoordinator* _RZNullable)psc
+- (RZNullable instancetype)initWithModelName:(NSString* RZCNullable)modelName
+                               configuration:(NSString* RZCNullable)modelConfiguration
+                                   storeType:(NSString* RZCNullable)storeType
+                                    storeURL:(NSURL* RZCNullable)storeURL
+                  persistentStoreCoordinator:(NSPersistentStoreCoordinator* RZCNullable)psc
                                      options:(RZCoreDataStackOptions)options;
 
 /**
@@ -159,10 +159,10 @@ typedef NS_OPTIONS(NSUInteger, RZCoreDataStackOptions)
  *
  *  @return A new data stack instance.
  */
-- (RZNullable instancetype)initWithModel:(NSManagedObjectModel* _RZNonnull)model
-                               storeType:(NSString* _RZNullable)storeType
-                                storeURL:(NSURL* _RZNullable)storeURL
-              persistentStoreCoordinator:(NSPersistentStoreCoordinator* _RZNullable)psc
+- (RZNullable instancetype)initWithModel:(NSManagedObjectModel* RZCNonnull)model
+                               storeType:(NSString* RZCNullable)storeType
+                                storeURL:(NSURL* RZCNullable)storeURL
+              persistentStoreCoordinator:(NSPersistentStoreCoordinator* RZCNullable)psc
                                  options:(RZCoreDataStackOptions)options;
 
 
@@ -204,8 +204,8 @@ typedef NS_OPTIONS(NSUInteger, RZCoreDataStackOptions)
  *           @p NSManagedObject+VinylRecord.h. Failure to do so will cause all transactions to happen on the main context.
  *
  */
-- (void)performBlockUsingBackgroundContext:(RZCoreDataStackTransactionBlock _RZNonnull)block
-                                completion:(void(^ _RZNullable)(NSError* _RZNullable err))completion;
+- (void)performBlockUsingBackgroundContext:(RZCoreDataStackTransactionBlock RZCNonnull)block
+                                completion:(void(^ RZCNullable)(NSError* RZCNullable err))completion;
 
 /**
  *  Creates, initializes, and returns a new managed object context with private queue confinement,
@@ -219,7 +219,7 @@ typedef NS_OPTIONS(NSUInteger, RZCoreDataStackOptions)
  *
  *  @return A new background managed object context with private queue confinement.
  */
-- (NSManagedObjectContext* _RZNonnull)backgroundManagedObjectContext;
+- (NSManagedObjectContext* RZCNonnull)backgroundManagedObjectContext;
 
 /**
  *  Creates, initializes, and returns a new managed object context with main queue confinement,
@@ -230,7 +230,7 @@ typedef NS_OPTIONS(NSUInteger, RZCoreDataStackOptions)
  *
  *  @return A new temporary managed object context with private queue confinement.
  */
-- (NSManagedObjectContext* _RZNonnull)temporaryManagedObjectContext;
+- (NSManagedObjectContext* RZCNonnull)temporaryManagedObjectContext;
 
 /**
  *  Performs a serialzed background purge of all stale objects in the persistent store.
@@ -248,6 +248,6 @@ typedef NS_OPTIONS(NSUInteger, RZCoreDataStackOptions)
  *
  *  @see @p RZCoreDataStackOptionsEnableAutoStalePurge option.
  */
-- (void)purgeStaleObjectsWithCompletion:(void(^ _RZNullable)(NSError* _RZNullable err))completion;
+- (void)purgeStaleObjectsWithCompletion:(void(^ RZCNullable)(NSError* RZCNullable err))completion;
 
 @end

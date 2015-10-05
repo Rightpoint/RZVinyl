@@ -43,10 +43,10 @@
  *
  *  @return A configured fetched results controller.
  */
-+ (RZNullable instancetype)rzv_forEntity:(NSString* _RZNonnull)entityName
-                               inContext:(NSManagedObjectContext* _RZNonnull)context
-                                   where:(NSPredicate* _RZNullable)predicate
-                                    sort:(RZGeneric(NSArray, NSSortDescriptor *) * _RZNullable)sortDescriptors;
++ (RZNullable instancetype)rzv_forEntity:(NSString* RZCNonnull)entityName
+                               inContext:(NSManagedObjectContext* RZCNonnull)context
+                                   where:(NSPredicate* RZCNullable)predicate
+                                    sort:(RZGeneric(NSArray, NSSortDescriptor *) * RZCNullable)sortDescriptors;
 
 /**
  *  Returns a configured fetched results controller based on the provided arguments.
@@ -60,11 +60,11 @@
  *
  *  @return A configured fetched results controller.
  */
-+ (RZNullable instancetype)rzv_forEntity:(NSString* _RZNonnull)entityName
-                               inContext:(NSManagedObjectContext* _RZNonnull)context
-                                   where:(NSPredicate* _RZNullable)predicate
-                                    sort:(RZGeneric(NSArray, NSSortDescriptor *) * _RZNullable)sortDescriptors
-                      sectionNameKeyPath:(NSString* _RZNullable)sectionNameKeyPath
-                               cacheName:(NSString* _RZNullable)cacheName;
++ (RZNullable instancetype)rzv_forEntity:(NSString* RZCNonnull)entityName
+                               inContext:(NSManagedObjectContext* RZCNonnull)context
+                                   where:(NSPredicate* RZCNullable)predicate
+                                    sort:(RZGeneric(NSArray, NSSortDescriptor *) * RZCNullable)sortDescriptors
+                      sectionNameKeyPath:(NSString* RZCNullable)sectionNameKeyPath
+                               cacheName:(NSString* RZCNullable)cacheName;
 
 @end

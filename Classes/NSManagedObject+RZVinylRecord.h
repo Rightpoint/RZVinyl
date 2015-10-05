@@ -62,7 +62,7 @@
  *
  *  @return A new object instance.
  */
-+ (RZNullable instancetype)rzv_newObjectInContext:(NSManagedObjectContext* _RZNonnull)context;
++ (RZNullable instancetype)rzv_newObjectInContext:(NSManagedObjectContext* RZCNonnull)context;
 
 /**
  *  Return an instance of this managed object class from the main context with the provided value for its primary key.
@@ -75,7 +75,7 @@
  *  @return An existing or new instance of this managed object class with the provided primary key
  *          value, or nil if @p createNew is NO and an existing object was not found.
  */
-+ (RZNullable instancetype)rzv_objectWithPrimaryKeyValue:(id _RZNonnull)primaryValue createNew:(BOOL)createNew;
++ (RZNullable instancetype)rzv_objectWithPrimaryKeyValue:(id RZCNonnull)primaryValue createNew:(BOOL)createNew;
 
 /**
  *  Return an instance of this managed object class from the provided context with the provided value for its primary key.
@@ -90,9 +90,9 @@
  *  @return An existing or new instance of this managed object class with the provided primary key
  *          value, or nil if @p createNew is NO and an existing object was not found.
  */
-+ (RZNullable instancetype)rzv_objectWithPrimaryKeyValue:(id _RZNonnull)primaryValue
++ (RZNullable instancetype)rzv_objectWithPrimaryKeyValue:(id RZCNonnull)primaryValue
                                                createNew:(BOOL)createNew
-                                               inContext:(NSManagedObjectContext* _RZNonnull)context;
+                                               inContext:(NSManagedObjectContext* RZCNonnull)context;
 
 /**
  *  Find an object with the provided attribute/value pairs in the main context and optionally create a new one if no match is found.
@@ -102,7 +102,7 @@
  *
  *  @return A matching or new object with the provided attributes, or nil if @p createNew is NO and no match is found.
  */
-+ (RZNullable instancetype)rzv_objectWithAttributes:(NSDictionary* _RZNonnull)attributes createNew:(BOOL)createNew;
++ (RZNullable instancetype)rzv_objectWithAttributes:(NSDictionary* RZCNonnull)attributes createNew:(BOOL)createNew;
 
 /**
  *  Find an object with the provided attribute/value pairs in the provided context and optionally create a new one if no match is found.
@@ -113,9 +113,9 @@
  *
  *  @return A matching or new object with the provided attributes, or nil if @p createNew is NO and no match is found.
  */
-+ (RZNullable instancetype)rzv_objectWithAttributes:(NSDictionary* _RZNonnull)attributes
++ (RZNullable instancetype)rzv_objectWithAttributes:(NSDictionary* RZCNonnull)attributes
                                           createNew:(BOOL)createNew
-                                          inContext:(NSManagedObjectContext* _RZNonnull)context;
+                                          inContext:(NSManagedObjectContext* RZCNonnull)context;
 
 
 /** @name Querying/Fetching Objects */
@@ -126,7 +126,7 @@
  *
  *  @return All objects of this class's type.
  */
-+ (NSArray* _RZNullable)rzv_all;
++ (NSArray* RZCNullable)rzv_all;
 
 /**
  *  Return an array of all objects of the receiver's type in the provided context.
@@ -135,7 +135,7 @@
  *
  *  @return All objects of this class's type.
  */
-+ (NSArray* _RZNullable)rzv_allInContext:(NSManagedObjectContext* _RZNonnull)context;
++ (NSArray* RZCNullable)rzv_allInContext:(NSManagedObjectContext* RZCNonnull)context;
 
 /**
  *  Return an array of all objects of the receiver's type in the main context, optionally sorted.
@@ -144,7 +144,7 @@
  *
  *  @return All objects of this class's type.
  */
-+ (NSArray* _RZNullable)rzv_allSorted:(RZGeneric(NSArray, NSSortDescriptor *) * _RZNullable)sortDescriptors;
++ (NSArray* RZCNullable)rzv_allSorted:(RZGeneric(NSArray, NSSortDescriptor *) * RZCNullable)sortDescriptors;
 
 /**
  *  Return an array of all objects of the receiver's type in the provided context, optionally sorted.
@@ -154,8 +154,8 @@
  *
  *  @return All objects of this class's type.
  */
-+ (NSArray* _RZNullable)rzv_allSorted:(RZGeneric(NSArray, NSSortDescriptor *) * _RZNullable)sortDescriptors
-                            inContext:(NSManagedObjectContext* _RZNonnull)context;
++ (NSArray* RZCNullable)rzv_allSorted:(RZGeneric(NSArray, NSSortDescriptor *) * RZCNullable)sortDescriptors
+                            inContext:(NSManagedObjectContext* RZCNonnull)context;
 
 /**
  *  Return the results of a fetch on the main context using a predicate or format string.
@@ -164,7 +164,7 @@
  *
  *  @return The results of the fetch.
  */
-+ (NSArray* _RZNullable)rzv_where:(NSPredicate* _RZNullable)predicate;
++ (NSArray* RZCNullable)rzv_where:(NSPredicate* RZCNullable)predicate;
 
 /**
  *  Return the results of a fetch on the provided context using a predicate or format string.
@@ -174,8 +174,8 @@
  *
  *  @return The results of the fetch.
  */
-+ (NSArray* _RZNullable)rzv_where:(NSPredicate* _RZNullable)predicate
-                        inContext:(NSManagedObjectContext* _RZNonnull)context;
++ (NSArray* RZCNullable)rzv_where:(NSPredicate* RZCNullable)predicate
+                        inContext:(NSManagedObjectContext* RZCNonnull)context;
 
 /**
  *  Return the results of a fetch on the main context using a predicate or format string
@@ -186,8 +186,8 @@
  *
  *  @return The results of the fetch.
  */
-+ (NSArray* _RZNullable)rzv_where:(NSPredicate* _RZNullable)predicate
-                             sort:(RZGeneric(NSArray, NSSortDescriptor *) * _RZNullable)sortDescriptors;
++ (NSArray* RZCNullable)rzv_where:(NSPredicate* RZCNullable)predicate
+                             sort:(RZGeneric(NSArray, NSSortDescriptor *) * RZCNullable)sortDescriptors;
 
 /**
  *  Return the results of a fetch on the provided context using a predicate or format string
@@ -199,9 +199,9 @@
  *
  *  @return The results of the fetch.
  */
-+ (NSArray* _RZNullable)rzv_where:(NSPredicate* _RZNullable)predicate
-                             sort:(RZGeneric(NSArray, NSSortDescriptor *) * _RZNullable)sortDescriptors
-                        inContext:(NSManagedObjectContext* _RZNonnull)context;
++ (NSArray* RZCNullable)rzv_where:(NSPredicate* RZCNullable)predicate
+                             sort:(RZGeneric(NSArray, NSSortDescriptor *) * RZCNullable)sortDescriptors
+                        inContext:(NSManagedObjectContext* RZCNonnull)context;
 
 
 /** @name Counting Objects */
@@ -221,7 +221,7 @@
  *
  *  @return The number of objects of this class's type.
  */
-+ (NSUInteger)rzv_countInContext:(NSManagedObjectContext* _RZNonnull)context;
++ (NSUInteger)rzv_countInContext:(NSManagedObjectContext* RZCNonnull)context;
 
 /**
  *  Return the count of objects of the receiver's type matching the query in the main context.
@@ -230,7 +230,7 @@
  *
  *  @return The number of objects matching the query.
  */
-+ (NSUInteger)rzv_countWhere:(NSPredicate* _RZNullable)predicate;
++ (NSUInteger)rzv_countWhere:(NSPredicate* RZCNullable)predicate;
 
 /**
  *  Return the count of objects of the receiver's type matching the query in the provided context.
@@ -240,7 +240,7 @@
  *
  *  @return The number of objects matching the query.
  */
-+ (NSUInteger)rzv_countWhere:(NSPredicate* _RZNullable)predicate inContext:(NSManagedObjectContext* _RZNonnull)context;
++ (NSUInteger)rzv_countWhere:(NSPredicate* RZCNullable)predicate inContext:(NSManagedObjectContext* RZCNonnull)context;
 
 
 /**  @name Deleting Objects */
@@ -267,7 +267,7 @@
  *
  *  @note You must save the @p RZCoreDataStack to persist the deletion to the store.
  */
-+ (void)rzv_deleteAllInContext:(NSManagedObjectContext* _RZNonnull)context;
++ (void)rzv_deleteAllInContext:(NSManagedObjectContext* RZCNonnull)context;
 
 /**
  *  Delete all objects of the receiver's type matching the query from the main context.
@@ -276,7 +276,7 @@
  *
  *  @note You must save the @p RZCoreDataStack to persist the deletion to the store.
  */
-+ (void)rzv_deleteAllWhere:(NSPredicate* _RZNullable)predicate;
++ (void)rzv_deleteAllWhere:(NSPredicate* RZCNullable)predicate;
 
 /**
  *  Delete all objects of the receiver's type matching the query from the provided context.
@@ -286,6 +286,6 @@
  *
  *  @note You must save the @p RZCoreDataStack to persist the deletion to the store.
  */
-+ (void)rzv_deleteAllWhere:(NSPredicate* _RZNullable)predicate inContext:(NSManagedObjectContext* _RZNonnull)context;
++ (void)rzv_deleteAllWhere:(NSPredicate* RZCNullable)predicate inContext:(NSManagedObjectContext* RZCNonnull)context;
 
 @end

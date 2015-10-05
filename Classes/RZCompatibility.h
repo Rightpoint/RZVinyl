@@ -34,13 +34,13 @@
 #if __has_feature(nullability)
 #   define RZNonnull    nonnull
 #   define RZNullable   nullable
-#   define _RZNonnull   __nonnull
-#   define _RZNullable  __nullable
+#   define RZCNonnull   __nonnull
+#   define RZCNullable  __nullable
 #else
 #   define RZNonnull
 #   define RZNullable
-#   define _RZNonnull
-#   define _RZNullable
+#   define RZCNonnull
+#   define RZCNullable
 #endif
 
 //

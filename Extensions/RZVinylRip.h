@@ -28,7 +28,7 @@
  *
  *  @return The key in dictionary representations whose value uniquely identifies this object.
  */
-+ (NSString* _RZNonnull)rzv_externalPrimaryKey;
++ (NSString* RZCNonnull)rzv_externalPrimaryKey;
 
 /**
  *  Implement in @p NSManagedObject subclasses and return @c YES to always create new instances of this object's entity type upon import.
