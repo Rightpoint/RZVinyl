@@ -138,7 +138,7 @@
 + (NSArray *)rzv_all
 {
     if ( !RZVAssertMainThread() ) {
-        return nil;
+        return [NSArray array];
     }
     return [self rzv_where:nil];
 }
@@ -151,7 +151,7 @@
 + (NSArray *)rzv_allSorted:(NSArray *)sortDescriptors
 {
     if ( !RZVAssertMainThread() ) {
-        return nil;
+        return [NSArray array];
     }
     return [self rzv_where:nil sort:sortDescriptors];
 }
@@ -164,7 +164,7 @@
 + (NSArray *)rzv_where:(NSPredicate *)predicate
 {
     if ( !RZVAssertMainThread() ) {
-        return nil;
+        return [NSArray array];
     }
     return [self rzv_where:predicate sort:nil];
 }
@@ -177,11 +177,11 @@
 + (NSArray *)rzv_where:(NSPredicate *)predicate sort:(NSArray *)sortDescriptors
 {
     if ( !RZVAssertMainThread() ) {
-        return nil;
+        return [NSArray array];
     }
     RZCoreDataStack *stack = [self rzv_validCoreDataStack];
     if ( stack == nil ){
-        return nil;
+        return [NSArray array];
     }
     return [self rzv_where:predicate sort:sortDescriptors inContext:[stack mainManagedObjectContext]];
 }

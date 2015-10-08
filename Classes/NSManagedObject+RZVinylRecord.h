@@ -126,7 +126,7 @@
  *
  *  @return All objects of this class's type.
  */
-+ (NSArray* RZCNullable)rzv_all;
++ (NSArray* RZCNonnull)rzv_all;
 
 /**
  *  Return an array of all objects of the receiver's type in the provided context.
@@ -135,7 +135,7 @@
  *
  *  @return All objects of this class's type.
  */
-+ (NSArray* RZCNullable)rzv_allInContext:(NSManagedObjectContext* RZCNonnull)context;
++ (NSArray* RZCNonnull)rzv_allInContext:(NSManagedObjectContext* RZCNonnull)context;
 
 /**
  *  Return an array of all objects of the receiver's type in the main context, optionally sorted.
@@ -144,7 +144,7 @@
  *
  *  @return All objects of this class's type.
  */
-+ (NSArray* RZCNullable)rzv_allSorted:(RZGeneric(NSArray, NSSortDescriptor *) * RZCNullable)sortDescriptors;
++ (NSArray* RZCNonnull)rzv_allSorted:(RZGeneric(NSArray, NSSortDescriptor *) * RZCNullable)sortDescriptors;
 
 /**
  *  Return an array of all objects of the receiver's type in the provided context, optionally sorted.
@@ -154,8 +154,8 @@
  *
  *  @return All objects of this class's type.
  */
-+ (NSArray* RZCNullable)rzv_allSorted:(RZGeneric(NSArray, NSSortDescriptor *) * RZCNullable)sortDescriptors
-                            inContext:(NSManagedObjectContext* RZCNonnull)context;
++ (NSArray* RZCNonnull)rzv_allSorted:(RZGeneric(NSArray, NSSortDescriptor *) * RZCNullable)sortDescriptors
+                           inContext:(NSManagedObjectContext* RZCNonnull)context;
 
 /**
  *  Return the results of a fetch on the main context using a predicate or format string.
@@ -164,7 +164,7 @@
  *
  *  @return The results of the fetch.
  */
-+ (NSArray* RZCNullable)rzv_where:(NSPredicate* RZCNullable)predicate;
++ (NSArray* RZCNonnull)rzv_where:(NSPredicate* RZCNullable)predicate;
 
 /**
  *  Return the results of a fetch on the provided context using a predicate or format string.
@@ -174,8 +174,8 @@
  *
  *  @return The results of the fetch.
  */
-+ (NSArray* RZCNullable)rzv_where:(NSPredicate* RZCNullable)predicate
-                        inContext:(NSManagedObjectContext* RZCNonnull)context;
++ (NSArray* RZCNonnull)rzv_where:(NSPredicate* RZCNullable)predicate
+                       inContext:(NSManagedObjectContext* RZCNonnull)context;
 
 /**
  *  Return the results of a fetch on the main context using a predicate or format string
@@ -186,8 +186,8 @@
  *
  *  @return The results of the fetch.
  */
-+ (NSArray* RZCNullable)rzv_where:(NSPredicate* RZCNullable)predicate
-                             sort:(RZGeneric(NSArray, NSSortDescriptor *) * RZCNullable)sortDescriptors;
++ (NSArray* RZCNonnull)rzv_where:(NSPredicate* RZCNullable)predicate
+                            sort:(RZGeneric(NSArray, NSSortDescriptor *) * RZCNullable)sortDescriptors;
 
 /**
  *  Return the results of a fetch on the provided context using a predicate or format string
@@ -199,9 +199,9 @@
  *
  *  @return The results of the fetch.
  */
-+ (NSArray* RZCNullable)rzv_where:(NSPredicate* RZCNullable)predicate
-                             sort:(RZGeneric(NSArray, NSSortDescriptor *) * RZCNullable)sortDescriptors
-                        inContext:(NSManagedObjectContext* RZCNonnull)context;
++ (NSArray* RZCNonnull)rzv_where:(NSPredicate* RZCNullable)predicate
+                            sort:(RZGeneric(NSArray, NSSortDescriptor *) * RZCNullable)sortDescriptors
+                       inContext:(NSManagedObjectContext* RZCNonnull)context;
 
 
 /** @name Counting Objects */
