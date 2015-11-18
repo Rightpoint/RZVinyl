@@ -92,7 +92,7 @@ typedef NS_OPTIONS(NSUInteger, RZCoreDataStackOptions)
  *
  *  @return The default @p RZCoreDataStack for this application.
  */
-+ (RZCoreDataStack *)defaultStack;
++ (instancetype)defaultStack;
 
 /**
  *  Set the default Core Data stack for this application.
