@@ -119,7 +119,7 @@
     
     NSFetchRequest *fetch = [NSFetchRequest rzv_forEntity:[self rzv_entityName]
                                                 inContext:context
-                                                    where:[NSCompoundPredicate andPredicateWithSubpredicates:predicates]
+                                                    predicate:[NSCompoundPredicate andPredicateWithSubpredicates:predicates]
                                                      sort:nil];
     NSError *error = nil;
     id result = [[context executeFetchRequest:fetch error:&error] lastObject];
@@ -191,7 +191,7 @@
     NSError *error = nil;
     NSFetchRequest *fetch = [NSFetchRequest rzv_forEntity:[self rzv_entityName]
                                                 inContext:context
-                                                    where:predicate
+                                                    predicate:predicate
                                                      sort:sortDescriptors];
     
     NSArray *fetchedObjects = [context executeFetchRequest:fetch error:&error];
@@ -232,7 +232,7 @@
 {
     NSFetchRequest *fetch = [NSFetchRequest rzv_forEntity:[self rzv_entityName]
                                                 inContext:context
-                                                    where:predicate
+                                                    predicate:predicate
                                                      sort:nil];
     
     [fetch setResultType:NSCountResultType];
