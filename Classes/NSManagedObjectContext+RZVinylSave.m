@@ -29,6 +29,7 @@
 
 #import "NSManagedObjectContext+RZVinylSave.h"
 #import "RZVinylDefines.h"
+#import "RZVinylOptions.h"
 
 static void rzv_performSaveCompletionAsync(RZVinylSaveCompletion completion, NSError *error)
 {
@@ -48,7 +49,7 @@ static void rzv_performSaveCompletionAsync(RZVinylSaveCompletion completion, NSE
     }
     
     [self performBlock:^{
-        if ( ![self hasChanges] ) {
+        if ( ![self hasChanges] && [RZVinylOptions sharedOptions].logWhenSavedWithoutChanges) {
             RZVLogInfo(@"Managed object context %@ does not have changes, not saving", self);
             rzv_performSaveCompletionAsync(completion, nil);
             return;
@@ -82,7 +83,7 @@ static void rzv_performSaveCompletionAsync(RZVinylSaveCompletion completion, NSE
 
         [currentContext performBlockAndWait:^{
             hasChanges = [currentContext hasChanges];
-            if ( !hasChanges ) {
+            if ( !hasChanges && [RZVinylOptions sharedOptions].logWhenSavedWithoutChanges) {
                 RZVLogInfo(@"Managed object context %@ does not have changes, not saving", self);
             }
             else if ( ![currentContext save:&saveErr] ) {
