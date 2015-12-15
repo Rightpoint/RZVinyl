@@ -28,6 +28,7 @@
 
 
 @import CoreData;
+#import "RZCompatibility.h"
 
 @interface NSFetchRequest (RZVinylRecord)
 
@@ -41,9 +42,9 @@
  *
  *  @return A configured fetch request.
  */
-+ (instancetype)rzv_forEntity:(NSString *)entityName
-                    inContext:(NSManagedObjectContext *)context
-                        where:(NSPredicate *)predicate
-                         sort:(NSArray *)sortDescriptors;
++ (RZNullable instancetype)rzv_forEntity:(NSString* RZCNonnull)entityName
+                               inContext:(NSManagedObjectContext* RZCNonnull)context
+                                   where:(NSPredicate* RZCNullable)predicate
+                                    sort:(RZGeneric(NSArray, NSSortDescriptor *) * RZCNullable)sortDescriptors;
 
 @end
