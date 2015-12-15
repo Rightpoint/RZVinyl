@@ -66,11 +66,11 @@ static NSString* const kRZCoreDataStackParentStackKey = @"RZCoreDataStackParentS
 {
     if ( s_defaultStack == nil ) {
         RZVLogInfo(@"The default stack has been accessed without being configured. Creating a new default stack with the default options.");
-        s_defaultStack = [[RZCoreDataStack alloc] initWithModelName:nil
-                                                      configuration:nil
-                                                          storeType:nil
-                                                           storeURL:nil
-                                                            options:kNilOptions];
+        s_defaultStack = [[self alloc] initWithModelName:nil
+                                           configuration:nil
+                                               storeType:nil
+                                                storeURL:nil
+                                                 options:kNilOptions];
     }
     return s_defaultStack;
 }
