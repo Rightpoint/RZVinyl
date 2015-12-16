@@ -26,12 +26,15 @@
 //  OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 //  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+@import UIKit.UIApplication;
 
 #import "RZCoreDataStack.h"
 #import "NSManagedObject+RZVinylRecord.h"
+#import "NSManagedobject+RZvinylRecord_private.h"
 #import "NSManagedObjectContext+RZVinylSave.h"
 #import "RZVinylDefines.h"
 #import <libkern/OSAtomic.h>
+#import "RZVinylRecord.h"
 
 static RZCoreDataStack *s_defaultStack = nil;
 static NSString* const kRZCoreDataStackParentStackKey = @"RZCoreDataStackParentStack";
@@ -65,11 +68,11 @@ static NSString* const kRZCoreDataStackParentStackKey = @"RZCoreDataStackParentS
 {
     if ( s_defaultStack == nil ) {
         RZVLogInfo(@"The default stack has been accessed without being configured. Creating a new default stack with the default options.");
-        s_defaultStack = [[RZCoreDataStack alloc] initWithModelName:nil
-                                                      configuration:nil
-                                                          storeType:nil
-                                                           storeURL:nil
-                                                            options:kNilOptions];
+        s_defaultStack = [[self alloc] initWithModelName:nil
+                                           configuration:nil
+                                               storeType:nil
+                                                storeURL:nil
+                                                 options:kNilOptions];
     }
     return s_defaultStack;
 }
@@ -243,7 +246,8 @@ static NSString* const kRZCoreDataStackParentStackKey = @"RZCoreDataStackParentS
 - (NSString *)modelName
 {
     if ( _modelName == nil ) {
-        NSMutableString *productName = [[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"] mutableCopy];
+        // Fall back on CFBundleName if CFBundleDisplayName is not included in info.plist
+        NSMutableString *productName = [[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"] mutableCopy] ?: [[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleName"] mutableCopy];
         [productName replaceOccurrencesOfString:@" " withString:@"_" options:0 range:NSMakeRange(0, productName.length)];
         [productName replaceOccurrencesOfString:@"-" withString:@"_" options:0 range:NSMakeRange(0, productName.length)];
         _modelName = [NSString stringWithString:productName];
@@ -275,7 +279,7 @@ static NSString* const kRZCoreDataStackParentStackKey = @"RZCoreDataStackParentS
             [[self.managedObjectModel entities] enumerateObjectsUsingBlock:^(NSEntityDescription *entity, NSUInteger idx, BOOL *stop) {
                 Class moClass = NSClassFromString(entity.managedObjectClassName);
                 if ( moClass != Nil ) {
-                    NSPredicate *predicate = [moClass rzv_stalenessPredicate];
+                    NSPredicate *predicate = [moClass rzv_safe_stalenessPredicate];
                     if ( predicate != nil ) {
                         [classNamesToStalePredicates setObject:predicate forKey:entity.managedObjectClassName];
                     }
@@ -306,7 +310,17 @@ static NSString* const kRZCoreDataStackParentStackKey = @"RZCoreDataStackParentS
     // Create model
     //
     if ( self.managedObjectModel == nil ) {
-        self.managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:[[NSBundle mainBundle] URLForResource:self.modelName withExtension:@"momd"]];
+        // we look for both mom and momd versions, we could have used [NSManagedObjectModel mergedModelFromBundles:nil] but it does more than we want
+        NSURL* url = [[NSBundle mainBundle] URLForResource:self.modelName withExtension:@"momd"];
+        if ( url == nil ) {
+            url = [[NSBundle mainBundle] URLForResource:self.modelName withExtension:@"mom"];
+        }
+        if ( url == nil ) {
+            RZVLogError(@"Could find resource %@.momd OR %@.mom", self.modelName, self.modelName);
+            return NO;
+        }
+
+        self.managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:url];
         if ( self.managedObjectModel == nil ) {
             RZVLogError(@"Could not create managed object model for name %@", self.modelName);
             return NO;

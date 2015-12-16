@@ -197,21 +197,24 @@
 {
     const NSUInteger count = 1000;
     
-    NSDictionary *templateDict = @{
+    NSDictionary *artistTemplate = @{
        @"name" : @"Rick Astley",
        @"genre" : @"Pop",
-       @"songs" : @[
-          @{
-              @"id" : @1337,
-              @"title" : @"Never Gonna Give You Up"
-           }
-       ]
     };
+
+    NSDictionary *songTemplate = @{
+        @"title" : @"Never Gonna Give You Up"
+    };
+
     
     NSMutableArray *artistArray = [NSMutableArray array];
     for ( NSUInteger i = 0; i < count; i++ ) {
-        NSMutableDictionary *artistDict = [templateDict mutableCopy];
-        [artistDict setObject:@(i+1) forKey:@"id"];
+        NSMutableDictionary *songDict = [songTemplate mutableCopy];
+        [songDict   setObject:@(1000+i) forKey:@"id"];
+
+        NSMutableDictionary *artistDict = [artistTemplate mutableCopy];
+        [artistDict setObject:@(i+1)    forKey:@"id"];
+        [artistDict setObject:@[songDict] forKey:@"songs"];
         [artistArray addObject:artistDict];
     }
     

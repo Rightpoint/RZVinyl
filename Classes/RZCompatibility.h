@@ -1,15 +1,15 @@
 //
-//  NSManagedObject+RZImportableSubclass.m
+//  RZCompatibility.h
 //  RZVinyl
 //
-//  Created by Nick Donaldson on 6/6/14.
+//  Created by John Watson on 8/20/15.
 //
-//  Copyright 2014 Raizlabs and other contributors
+//  Copyright 2015 Raizlabs and other contributors
 //  http://raizlabs.com/
 //
 //  Permission is hereby granted, free of charge, to any person obtaining
 //  a copy of this software and associated documentation files (the
-//                                                                "Software"), to deal in the Software without restriction, including
+//  "Software"), to deal in the Software without restriction, including
 //  without limitation the rights to use, copy, modify, merge, publish,
 //  distribute, sublicense, and/or sell copies of the Software, and to
 //  permit persons to whom the Software is furnished to do so, subject to
@@ -26,19 +26,31 @@
 //  OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 //  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-#import "NSManagedObject+RZImportableSubclass.h"
-#import "RZVinylDefines.h"
 
-@implementation NSManagedObject (RZImportableSubclass)
+//
+// Nullability annotation compatibility.
+//
 
-+ (NSString *)rzv_externalPrimaryKey
-{
-    return nil;
-}
+#if __has_feature(nullability)
+#   define RZNonnull    nonnull
+#   define RZNullable   nullable
+#   define RZCNonnull   __nonnull
+#   define RZCNullable  __nullable
+#else
+#   define RZNonnull
+#   define RZNullable
+#   define RZCNonnull
+#   define RZCNullable
+#endif
 
-+ (BOOL)rzv_shouldAlwaysCreateNewObjectOnImport
-{
-    return NO;
-}
+//
+// Lightweight generics compatibility.
+//
 
-@end
+#if __has_feature(objc_generics)
+#   define RZGeneric(class, ...) class<__VA_ARGS__>
+#   define RZGenericType(type) type
+#else
+#   define RZGeneric(class, ...) class
+#   define RZGenericType(type) id
+#endif

@@ -15,7 +15,7 @@ Add the following to your Podfile:
 pod RZVinyl, '~> 0.1'
 ```
 
-To exclude RZImport extensions, use the `Core` subspec: 
+To exclude RZImport extensions, use the `Core` subspec:
 
 ```
 pod RZVinyl/Core, '~> 0.1'
@@ -47,7 +47,7 @@ If all went well, your project should build cleanly and the methods from `NSMana
 
 # Demo Project
 
-A demo project is available in the `Example` directory. The demo project uses CocoaPods, and can be opened from a temporary directory by running 
+A demo project is available in the `Example` directory. The demo project uses CocoaPods, and can be opened from a temporary directory by running
 
 ```
 pod try RZVinyl
@@ -62,10 +62,13 @@ pod install
 
 Then, open `RZVinylDemo.xcworkspace` and check out the demo!
 
-
 **Note: The above steps assume that the CocoaPods gem is installed.**
 
 If you do not have CocoaPods installed, follow the instructions [here](http://cocoapods.org/).
+
+# Swift Support
+
+RZVinyl is fully compatible with Swift, and makes use of nullability annotations and lightweight generics where appropriate.
 
 # Overview
 
@@ -156,7 +159,7 @@ MyManagedObject *newObject = [MyManagedObject rzv_newObjectInContext:context];
 
 ##### Retrieve or create an instance for a primary key value
 
-These methods use the attribute provided by overriding `+ (NSString *)rzv_primaryKey;` in the managed object subclass to search for an existing object with the provided value for that attribute, optionally creating a new object and initializing it with the primary key value if one was not found.
+These methods use the attribute provided by implementing `+ (NSString *)rzv_primaryKey;` in the managed object subclass to search for an existing object with the provided value for that attribute, optionally creating a new object and initializing it with the primary key value if one was not found.
 
 ```objective-c
 // In the default main context
@@ -270,15 +273,15 @@ if ( ![context rzv_saveToStoreAndWait:&saveError] ) {
 
 ### Usage
 
-To enable RZImport for your managed object subclasses, create a category and override the following methods from `NSManagedObject+RZVinyl` and `NSManagedObject+RZImportableSubclass`:
+To enable RZImport for your managed object subclasses, create a category and implement the following methods from `RZVinylRecord` and `RZVinylRip` informal protocols:
 
 ##### `+ (NSString *)rzv_primaryKey;`
 
-Override to return the name of the property attributes representing the "unique ID" of this object type
+Implement to return the name of the property attributes representing the "unique ID" of this object type
 
 ##### `+ (NSString *)rzv_externalPrimaryKey;`
 
-If the key in the dictionary representations of this object is different from the primary key property name, override this method to return that key here. If not overridden, the same value returned by `rzv_primaryKey` will be used to find unique instances of the object.
+If the key in the dictionary representations of this object is different from the primary key property name, implement this method to return that key here. If not implemented, the same value returned by `rzv_primaryKey` will be used to find unique instances of the object.
 
 You can also implement the methods of `RZImportable` in your managed object classes to handle validation, provide further custom key/property mappings, etc, with two important caveats:
 
@@ -415,6 +418,24 @@ NSDictionary *artistDict = @{
 
 For more comprehensive documentation, see the [CococaDocs](http://cocoadocs.org/docsets/RZVinyl) page.
 
-# License
+## Maintainers
 
-RZVinyl is licensed under the MIT license. See LICENSE for details.
+[KingOfBrian](https://github.com/KingOfBrian) ([@KingOfBrian](http://twitter.com/KingOfBrian))
+
+[mgorbach](https://github.com/mgorbach) ([@mgorbach](http://twitter.com/mgorbach))
+
+[nbonatsakis](https://github.com/nbonatsakis) ([@nickbona](http://twitter.com/nickbona))
+
+[jatraiz](https://github.com/jatraiz) ([@jAtSway](http://twitter.com/jAtSway))
+
+[SpencerP](https://github.com/SpencerP)
+
+[jwatson](https://github.com/jwatson) ([@johnnystyle](http://twitter.com/johnnystyle))
+
+## Contributors
+
+[ndonald2](https://github.com/ndonald2) ([@infrasonick](http://twitter.com/infrasonick)) 
+
+## License
+
+RZVinyl is licensed under the MIT license. See the `LICENSE` file for details.

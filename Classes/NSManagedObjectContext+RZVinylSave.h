@@ -27,8 +27,9 @@
 //  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 @import CoreData;
+#import "RZCompatibility.h"
 
-typedef void (^RZVinylSaveCompletion)(NSError *error);
+typedef void (^RZVinylSaveCompletion)(NSError* RZCNullable error);
 
 /**
  *  Extensions to NSManagedObjectContext to support full-stack saving.
@@ -47,7 +48,7 @@ typedef void (^RZVinylSaveCompletion)(NSError *error);
  *  @warning None of the contexts in the parent context hierarchy can have confinement concurrency type.
  *           If you try to call this method with a confined context in the hierarchy, an exception will be thrown.
  */
-- (void)rzv_saveToStoreWithCompletion:(RZVinylSaveCompletion)completion;
+- (void)rzv_saveToStoreWithCompletion:(RZVinylSaveCompletion RZCNullable)completion;
 
 /**
  *  Synchronously save this context and all parent contexts all the way up to the persistent store.
@@ -61,6 +62,6 @@ typedef void (^RZVinylSaveCompletion)(NSError *error);
  *
  *  @return YES if the save succeeded, NO otherwise.
  */
-- (BOOL)rzv_saveToStoreAndWait:(NSError *__autoreleasing *)error;
+- (BOOL)rzv_saveToStoreAndWait:(NSError* __autoreleasing RZCNonnull * RZCNullable)error;
 
 @end
