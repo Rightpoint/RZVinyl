@@ -246,7 +246,7 @@ typedef NS_OPTIONS(NSUInteger, RZCoreDataStackOptions)
  *       main context, since the fix occurs on the merge into the main context.
  *       This will assert if another context is encountered.
  */
-- (void)ensureContextNotificationsForFetchedResultsController:(NSFetchedResultsController *)frc;
+- (void)ensureContextNotificationsForFetchedResultsController:(NSFetchedResultsController* RZCNonnull)frc;
 
 /**
  *  Performs a serialzed background purge of all stale objects in the persistent store.
