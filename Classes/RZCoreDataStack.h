@@ -233,6 +233,22 @@ typedef NS_OPTIONS(NSUInteger, RZCoreDataStackOptions)
 - (NSManagedObjectContext* RZCNonnull)temporaryManagedObjectContext;
 
 /**
+ * Work around a Core Data issue with background contexts and NSFetchedResultsController.
+ * Objects that are updated in a background context that are not registered in the
+ * main context do not generate insert events if the object is updated to match
+ * the NSFetchedResultsController's predicate.
+ *
+ * This will check all updated objects before merging into the main context and
+ * fault the objects into the main context if the object matches the predicate.
+ * This will ensure that the merge generates the insert event.
+ *
+ * @note This only works for NSFetchedResultsController's that are attached to the
+ *       main context, since the fix occurs on the merge into the main context.
+ *       This will assert if another context is encountered.
+ */
+- (void)ensureContextNotificationsForFetchedResultsController:(NSFetchedResultsController* RZCNonnull)frc;
+
+/**
  *  Performs a serialzed background purge of all stale objects in the persistent store.
  *  Staleness for each entity type is determined by the predicate returned by 
  *  @p rzv_stalenessPredicate in an @p NSManagedObject subclass.

@@ -22,33 +22,6 @@
 
 #pragma mark - Utils
 
-- (void)seedDatabase
-{
-    // Manual import for this test
-    NSURL *testJSONURL = [[NSBundle bundleForClass:[self class]] URLForResource:@"record_tests" withExtension:@"json"];
-    NSArray *testArtists = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfURL:testJSONURL] options:kNilOptions error:NULL];
-    [testArtists enumerateObjectsUsingBlock:^(NSDictionary *artistDict, NSUInteger idx, BOOL *stop) {
-        Artist *artist = [NSEntityDescription insertNewObjectForEntityForName:@"Artist" inManagedObjectContext:self.stack.mainManagedObjectContext];
-        artist.remoteID = artistDict[@"id"];
-        artist.name = artistDict[@"name"];
-        artist.genre = artistDict[@"genre"];
-        
-        NSMutableSet *songs = [NSMutableSet set];
-        NSArray *songArray = artistDict[@"songs"];
-        [songArray enumerateObjectsUsingBlock:^(NSDictionary *songDict, NSUInteger songIdx, BOOL *stop) {
-            Song *song = [NSEntityDescription insertNewObjectForEntityForName:@"Song" inManagedObjectContext:self.stack.mainManagedObjectContext];
-            song.remoteID = songDict[@"id"];
-            song.title = songDict[@"title"];
-            song.length = songDict[@"length"];
-            [songs addObject:song];
-        }];
-        
-        artist.songs = songs;
-    }];
-    
-    [self.stack.mainManagedObjectContext rzv_saveToStoreAndWait:NULL];
-}
-
 #pragma mark - Tests
 
 - (void)test_SimpleCreation

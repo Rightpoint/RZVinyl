@@ -54,6 +54,7 @@
 		9AD76DBA195886B8003B62D2 /* RZPersonFiltersDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AD76DB9195886B8003B62D2 /* RZPersonFiltersDataSource.m */; };
 		9AD8B1CE1944BBD8009C7823 /* RZVinylImportTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AD8B1CD1944BBD8009C7823 /* RZVinylImportTests.m */; };
 		9AD8B1D01944BCE8009C7823 /* RZVinylBaseTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AD8B1CF1944BCE8009C7823 /* RZVinylBaseTestCase.m */; };
+		AB2E95911A3695D2009DD607 /* RZVinylFRCTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AB2E95901A3695D2009DD607 /* RZVinylFRCTests.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -144,6 +145,7 @@
 		9AD8B1CD1944BBD8009C7823 /* RZVinylImportTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RZVinylImportTests.m; sourceTree = "<group>"; };
 		9AD8B1CF1944BCE8009C7823 /* RZVinylBaseTestCase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RZVinylBaseTestCase.m; sourceTree = "<group>"; };
 		9AD8B1D11944BD0C009C7823 /* RZVinylBaseTestCase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RZVinylBaseTestCase.h; sourceTree = "<group>"; };
+		AB2E95901A3695D2009DD607 /* RZVinylFRCTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RZVinylFRCTests.m; sourceTree = "<group>"; };
 		BF9D39F06DB534652E101AEE /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		BFA85CBDC67442B2A5052135 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -358,6 +360,7 @@
 				9AB90875194104860063445A /* RZVinylRecordTests.m */,
 				9AB3ABF2195BAFD40014D5FF /* RZVinylSaveTests.m */,
 				9AD8B1CD1944BBD8009C7823 /* RZVinylImportTests.m */,
+				AB2E95901A3695D2009DD607 /* RZVinylFRCTests.m */,
 				9AB9080D193FD7F70063445A /* Supporting Files */,
 			);
 			path = RZVinylTests;
@@ -594,6 +597,7 @@
 				9A3DB1221986F01700E973F0 /* BaseObject.m in Sources */,
 				9AB9081B193FD8330063445A /* RZCoreDataStackConfigTests.m in Sources */,
 				9AB908261940D7BC0063445A /* TestModel.xcdatamodeld in Sources */,
+				AB2E95911A3695D2009DD607 /* RZVinylFRCTests.m in Sources */,
 				9AB9088619410A2D0063445A /* RZWaiter.m in Sources */,
 				9AB3ABF3195BAFD40014D5FF /* RZVinylSaveTests.m in Sources */,
 				9A95F0F51948DC8B00139457 /* RZCoreDataStack+TestUtils.m in Sources */,

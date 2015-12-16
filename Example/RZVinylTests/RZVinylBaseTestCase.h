@@ -18,4 +18,8 @@ extern uint64_t dispatch_benchmark(size_t count, void (^block)(void));
 
 @property (nonatomic, readonly, strong) RZCoreDataStack *stack;
 
+- (void)seedDatabase;
+
+- (void)seedDatabaseInContext:(NSManagedObjectContext *)context;
+
 @end

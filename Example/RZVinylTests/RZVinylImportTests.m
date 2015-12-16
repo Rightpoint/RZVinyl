@@ -236,5 +236,44 @@
     XCTAssertEqual(aRick.songs.count, 1, @"Failed to import song");
 }
 
+- (void)test_BackgroundBigImport_1000
+{
+    const NSUInteger count = 1000;
+    
+    NSDictionary *templateDict = @{
+                                   @"name" : @"Rick Astley",
+                                   @"genre" : @"Pop",
+                                   @"songs" : @[
+                                           @{
+                                               @"id" : @1337,
+                                               @"title" : @"Never Gonna Give You Up"
+                                               }
+                                           ]
+                                   };
+    NSMutableArray *artistArray = [NSMutableArray array];
+    for ( NSUInteger i = 0; i < count; i++ ) {
+        NSMutableDictionary *artistDict = [templateDict mutableCopy];
+        [artistDict setObject:@(i+1) forKey:@"id"];
+        [artistArray addObject:artistDict];
+    }
+    XCTestExpectation *saveExpectation = [self expectationWithDescription:@"Save Expectation"];
+    NSTimeInterval start = [NSDate timeIntervalSinceReferenceDate];
+    __block NSTimeInterval finish = 0;
+    [[RZCoreDataStack defaultStack] performBlockUsingBackgroundContext:^(NSManagedObjectContext *context) {
+        [Artist rzi_objectsFromArray:artistArray inContext:context];
+    } completion:^(NSError *err) {
+        finish = [NSDate timeIntervalSinceReferenceDate];
+        [saveExpectation fulfill];
+        XCTAssertNil(err);
+    }];
+    [self waitForExpectationsWithTimeout:1 handler:^(NSError *error) {
+        XCTAssertNil(error);
+    }];
+    
+    NSLog(@"Import of %lu artists took %f s", (unsigned long)count, finish - start);
+    
+    XCTAssertEqual([[Artist rzv_all] count], count, @"Failed to import artists");
+}
+
 
 @end
