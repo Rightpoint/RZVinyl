@@ -29,7 +29,7 @@
 
 @import CoreData;
 #import "RZCompatibility.h"
-#import "NSObject+RZImport.h"
+#import <RZImport/NSObject+RZImport.h>
 
 /**
  *  Automatic importing of dictionary representations (e.g. deserialized JSON response) 
