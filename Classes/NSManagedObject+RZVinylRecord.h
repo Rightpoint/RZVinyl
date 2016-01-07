@@ -308,7 +308,7 @@
  *
  *  @return The key name of the property uniquely identifying this object.
  */
-+ (NSString* RZCNonnull)rzv_primaryKey;
++ (NSString* RZCNullable)rzv_primaryKey;
 
 /**
  *  Override in subclasses to return a predicate to be used when purging stale objects from the persistent store.
@@ -316,7 +316,7 @@
  *
  *  @return A predicate to use with @p RZCoreDataStack's @p -purgeStaleObjects
  */
-+ (NSPredicate* RZCNonnull)rzv_stalenessPredicate;
++ (NSPredicate* RZCNullable)rzv_stalenessPredicate;
 
 
 @end
