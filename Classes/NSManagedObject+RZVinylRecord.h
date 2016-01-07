@@ -94,7 +94,7 @@
 /**
  *  Find an object with the provided attribute/value pairs in the main context and optionally create a new one if no match is found.
  *
- *  @param values    Dictionary of key/value pairs for which to find a matching object. Must not be nil.
+ *  @param attributes    Dictionary of key/value pairs for which to find a matching object. Must not be nil.
  *  @param createNew If YES and no match is found, a new object is created and initialized with the provided dictionary.
  *
  *  @return A matching or new object with the provided attributes, or nil if @p createNew is NO and no match is found.
@@ -104,7 +104,7 @@
 /**
  *  Find an object with the provided attribute/value pairs in the provided context and optionally create a new one if no match is found.
  *
- *  @param values    Dictionary of key/value pairs for which to find a matching object. Must not be nil.
+ *  @param attributes    Dictionary of key/value pairs for which to find a matching object. Must not be nil.
  *  @param createNew If YES and no match is found, a new object is created and initialized with the provided dictionary.
  *  @param context   The context in which to find/create the object. Must not be nil.
  *

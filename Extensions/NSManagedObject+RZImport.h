@@ -28,12 +28,18 @@
 
 
 @import CoreData;
-#import "NSObject+RZImport.h"
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wauto-import"
+
+#import <RZImport/NSObject+RZImport.h>
+
+#pragma clang diagnostic pop
+
 
 /**
  *  Automatic importing of dictionary representations (e.g. deserialized JSON response) 
  *  of an object to CoreData, using RZVinyl and RZImport. Provides a partial implementation
- *  of @RZImportable.
+ *  of @c RZImportable.
  *
  *  @warning Do not override the extended methods or their equivalents from @p RZImportable without reading 
  *           the method documentation. This category provides a crucial implementation of these methods that enables 
