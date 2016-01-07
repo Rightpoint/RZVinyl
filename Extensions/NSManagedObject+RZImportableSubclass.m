@@ -1,8 +1,8 @@
 //
-//  RZVinyl.h
+//  NSManagedObject+RZImportableSubclass.m
 //  RZVinyl
 //
-//  Created by Nick Donaldson on 6/4/14.
+//  Created by Nick Donaldson on 6/6/14.
 //
 //  Copyright 2014 Raizlabs and other contributors
 //  http://raizlabs.com/
@@ -26,31 +26,19 @@
 //  OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 //  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-#import "RZCoreDataStack.h"
-#import "NSManagedObject+RZVinylRecord.h"
-#import "NSManagedObject+RZVinylUtils.h"
-#import "NSFetchRequest+RZVinylRecord.h"
-#import "NSFetchedResultsController+RZVinylRecord.h"
-#import "NSManagedObjectContext+RZVinylSave.h"
+#import "NSManagedObject+RZImportableSubclass.h"
+#import "RZVinylDefines.h"
 
-#if (RZV_IMPORT_AVAILABLE)
-    #import "NSManagedObject+RZImport.h"
-    #import "NSManagedObject+RZImportableSubclass.h"
-#endif
+@implementation NSManagedObject (RZImportableSubclass)
 
++ (NSString *)rzv_externalPrimaryKey
+{
+    return nil;
+}
 
-//
-// Public Macros
-//
++ (BOOL)rzv_shouldAlwaysCreateNewObjectOnImport
+{
+    return NO;
+}
 
-/**
- *  Shorthand for creating an NSPredicate
- */
-#define RZVPred(format, ...) \
-    [NSPredicate predicateWithFormat:format, ##__VA_ARGS__]
-
-/**
- *  Shorthand for creating an NSSortDescriptor
- */
-#define RZVKeySort(keyPath, isAscending) \
-    [NSSortDescriptor sortDescriptorWithKey:keyPath ascending:isAscending]
+@end
