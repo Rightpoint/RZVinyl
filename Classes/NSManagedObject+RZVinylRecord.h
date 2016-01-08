@@ -53,7 +53,7 @@
  *
  *  @return A new object instance.
  */
-+ (RZNullable instancetype)rzv_newObject;
++ (RZCNonnull instancetype)rzv_newObject;
 
 /**
  *  Create and return a new instance in the provided context.
@@ -62,7 +62,7 @@
  *
  *  @return A new object instance.
  */
-+ (RZNullable instancetype)rzv_newObjectInContext:(NSManagedObjectContext* RZCNonnull)context;
++ (RZCNonnull instancetype)rzv_newObjectInContext:(NSManagedObjectContext* RZCNonnull)context;
 
 /**
  *  Return an instance of this managed object class from the main context with the provided value for its primary key.
