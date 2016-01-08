@@ -79,19 +79,38 @@ static NSString* const kRZCoreDataStackCustomFilePath = @"test_tmp/RZCoreDataSta
 - (void)test_CustomModel
 {
     XCTAssertFalse([[NSFileManager defaultManager] fileExistsAtPath:[self.customFileURL path]], @"sqlite file should not exist yet");
-    
+
     RZCoreDataStack *stack = nil;
     XCTAssertNoThrow(stack = [[RZCoreDataStack alloc] initWithModelName:@"RZVinylDemo"
                                                           configuration:nil
                                                               storeType:NSSQLiteStoreType
                                                                storeURL:self.customFileURL
                                                                 options:kNilOptions], @"Init threw an exception");
-    
+
     XCTAssertNotNil(stack, @"Stack should not be nil");
     XCTAssertNotNil(stack.managedObjectModel, @"Model should not be nil");
     XCTAssertNotNil(stack.mainManagedObjectContext, @"MOC should not be nil");
     XCTAssertNotNil(stack.persistentStoreCoordinator, @"PSC should not be nil");
-    
+
+    XCTAssertTrue([[NSFileManager defaultManager] fileExistsAtPath:[self.customFileURL path]], @"sqlite file not created");
+}
+
+- (void)test_DisabledTopLevelContext
+{
+    XCTAssertFalse([[NSFileManager defaultManager] fileExistsAtPath:[self.customFileURL path]], @"sqlite file should not exist yet");
+
+    RZCoreDataStack *stack = nil;
+    XCTAssertNoThrow(stack = [[RZCoreDataStack alloc] initWithModelName:@"RZVinylDemo"
+                                                          configuration:nil
+                                                              storeType:NSSQLiteStoreType
+                                                               storeURL:self.customFileURL
+                                                                options:RZCoreDataStackOptionsDisableTopLevelContext], @"Init threw an exception");
+
+    XCTAssertNotNil(stack, @"Stack should not be nil");
+    XCTAssertNotNil(stack.managedObjectModel, @"Model should not be nil");
+    XCTAssertNotNil(stack.mainManagedObjectContext, @"MOC should not be nil");
+    XCTAssertNotNil(stack.persistentStoreCoordinator, @"PSC should not be nil");
+
     XCTAssertTrue([[NSFileManager defaultManager] fileExistsAtPath:[self.customFileURL path]], @"sqlite file not created");
 }
 

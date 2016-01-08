@@ -58,7 +58,13 @@ typedef NS_OPTIONS(NSUInteger, RZCoreDataStackOptions)
      *  Pass this option to automatically purge stale objects from the main MOC when backgrounding the app.
      *  @see @p purgeStaleObjectsWithCompletion
      */
-    RZCoreDataStackOptionsEnableAutoStalePurge = (1 << 3)
+    RZCoreDataStackOptionsEnableAutoStalePurge = (1 << 3),
+
+    /**
+     *  Pass this option to have the main context save directly to the persistentStoreCoordinator instead of saving through the topLevelBackgroundContext.
+     */
+    RZCoreDataStackOptionsDisableTopLevelContext = (1 << 4)
+
 };
 
 /**

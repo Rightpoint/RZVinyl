@@ -383,12 +383,17 @@ static NSString* const kRZCoreDataStackParentStackKey = @"RZCoreDataStackParentS
     //
     // Create Contexts
     //
-    self.topLevelBackgroundContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
-    self.topLevelBackgroundContext.persistentStoreCoordinator = self.persistentStoreCoordinator;
-    
-    self.mainManagedObjectContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
-    self.mainManagedObjectContext.parentContext = self.topLevelBackgroundContext;
-    
+    if ( [self hasOptionsSet:RZCoreDataStackOptionsDisableTopLevelContext] ) {
+        self.mainManagedObjectContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
+        self.mainManagedObjectContext.persistentStoreCoordinator = self.persistentStoreCoordinator;
+    }
+    else {
+        self.topLevelBackgroundContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
+        self.topLevelBackgroundContext.persistentStoreCoordinator = self.persistentStoreCoordinator;
+
+        self.mainManagedObjectContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
+        self.mainManagedObjectContext.parentContext = self.topLevelBackgroundContext;
+    }
     return YES;
 }
 
