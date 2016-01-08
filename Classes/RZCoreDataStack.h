@@ -63,7 +63,12 @@ typedef NS_OPTIONS(NSUInteger, RZCoreDataStackOptions)
     /**
      *  Pass this option to have the main context save directly to the persistentStoreCoordinator instead of saving through the topLevelBackgroundContext.
      */
-    RZCoreDataStackOptionsDisableTopLevelContext = (1 << 4)
+    RZCoreDataStackOptionsDisableTopLevelContext = (1 << 4),
+
+    /**
+     *  Pass this option to log when the API attempts to save an un-changed context.
+     */
+    RZCoreDataStackOptionsLogOnUnchangedSave = (1 << 5)
 
 };
 

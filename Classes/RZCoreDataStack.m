@@ -37,7 +37,6 @@
 #import "RZVinylRecord.h"
 
 static RZCoreDataStack *s_defaultStack = nil;
-static NSString* const kRZCoreDataStackParentStackKey = @"RZCoreDataStackParentStack";
 
 @interface RZCoreDataStack ()
 

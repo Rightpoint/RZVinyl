@@ -28,6 +28,8 @@
 
 #import "RZVinylDefines.h"
 
+NSString* const kRZCoreDataStackParentStackKey = @"RZCoreDataStackParentStack";
+
 NSString* const kRZVinylRecordMainContextErrorFormat = @"%@ uses the main managed object context by default and must be called on the main thread. \
                                                         To use another managed object context, use the version which takes a context argument.";
 
