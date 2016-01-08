@@ -300,6 +300,15 @@ static NSString* const kRZCoreDataStackParentStackKey = @"RZCoreDataStackParentS
     return ( ( self.options & options ) == options );
 }
 
+- (BOOL)hasSamePersistentStoreCoordinator:(NSManagedObjectContext *)context
+{
+    NSManagedObjectContext *topContext = context;
+    while (topContext.parentContext != nil) {
+        topContext = topContext.parentContext;
+    }
+    return topContext.persistentStoreCoordinator == self.persistentStoreCoordinator;
+}
+
 - (BOOL)buildStack
 {
     if ( !RZVAssert(self.modelName != nil, @"Must have a model name") ) {
@@ -439,6 +448,10 @@ static NSString* const kRZCoreDataStackParentStackKey = @"RZCoreDataStackParentS
 - (void)handleContextWillSave:(NSNotification *)notification
 {
     NSManagedObjectContext *context = [notification object];
+    if (![self hasSamePersistentStoreCoordinator:context]) {
+        return;
+    }
+
     NSArray *insertedObjects = [[context insertedObjects] allObjects];
     if ( insertedObjects.count > 0 ) {
         NSError *err = nil;
@@ -450,8 +463,12 @@ static NSString* const kRZCoreDataStackParentStackKey = @"RZCoreDataStackParentS
 
 - (void)handleContextDidSave:(NSNotification *)notification
 {
-    NSArray *objectsToFault = nil;
+    NSManagedObjectContext *context = [notification object];
+    if (![self hasSamePersistentStoreCoordinator:context]) {
+        return;
+    }
 
+    NSArray *objectsToFault = nil;
     if ( self.registeredFetchedResultsControllers.count > 0 ) {
         // If we registered a FRC to fault, build the predicate on the main object context thread to
         // ensure thread safety.
