@@ -288,4 +288,35 @@
  */
 + (void)rzv_deleteAllWhere:(NSPredicate* RZCNullable)predicate inContext:(NSManagedObjectContext* RZCNonnull)context;
 
+
+/** @name Subclassing */
+
+/**
+ *  Override in subclasses to provide a different data stack for use with this
+ *  model object class. Defaults to @p +[RZDataStack defaultStack]
+ *
+ *  @return The data stack to use for this model object class.
+ */
++ (RZCoreDataStack* RZCNonnull)rzv_coreDataStack;
+
+/**
+ *  Override in subclasses to provide the key name of the property uniquely
+ *  identifying this object
+ *
+ *  @warning If you do not override this method to return a valid key, attempting to use @c +rzv_objectWithPrimaryKeyValue:
+ *           will throw a runtime exception.
+ *
+ *  @return The key name of the property uniquely identifying this object.
+ */
++ (NSString* RZCNullable)rzv_primaryKey;
+
+/**
+ *  Override in subclasses to return a predicate to be used when purging stale objects from the persistent store.
+ *  Returns nil (no objects considered stale) by default.
+ *
+ *  @return A predicate to use with @p RZCoreDataStack's @p -purgeStaleObjects
+ */
++ (NSPredicate* RZCNullable)rzv_stalenessPredicate;
+
+
 @end
