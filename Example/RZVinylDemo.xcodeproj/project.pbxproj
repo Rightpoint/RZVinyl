@@ -736,7 +736,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "RZVinylDemo/Supporting Files/RZVinylDemo-Prefix.pch";
 				INFOPLIST_FILE = "RZVinylDemo/Supporting Files/RZVinylDemo-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.raizlabs.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = RZVinylDemo;
 				WRAPPER_EXTENSION = app;
@@ -752,7 +752,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "RZVinylDemo/Supporting Files/RZVinylDemo-Prefix.pch";
 				INFOPLIST_FILE = "RZVinylDemo/Supporting Files/RZVinylDemo-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.raizlabs.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = RZVinylDemo;
 				WRAPPER_EXTENSION = app;
