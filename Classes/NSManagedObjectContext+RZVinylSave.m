@@ -29,6 +29,9 @@
 
 #import "NSManagedObjectContext+RZVinylSave.h"
 #import "RZVinylDefines.h"
+#import "RZCoreDataStack_private.h"
+#import "RZVinylDefines.h"
+
 
 static void rzv_performSaveCompletionAsync(RZVinylSaveCompletion completion, NSError *error)
 {
@@ -41,6 +44,12 @@ static void rzv_performSaveCompletionAsync(RZVinylSaveCompletion completion, NSE
 
 @implementation NSManagedObjectContext (RZVinylSave)
 
+- (BOOL)rzv_shouldLogUnchangedSave
+{
+    RZCoreDataStack *stack = self.userInfo[kRZCoreDataStackParentStackKey];
+    return [stack hasOptionsSet:RZCoreDataStackOptionsLogOnUnchangedSave];
+}
+
 - (void)rzv_saveToStoreWithCompletion:(void (^)(NSError *))completion
 {
     if ( !RZVAssert(self.concurrencyType != NSConfinementConcurrencyType, @"RZVinylSave methods cannot be used on contexts with thread confinement.") ) {
@@ -49,7 +58,9 @@ static void rzv_performSaveCompletionAsync(RZVinylSaveCompletion completion, NSE
     
     [self performBlock:^{
         if ( ![self hasChanges] ) {
-            RZVLogInfo(@"Managed object context %@ does not have changes, not saving", self);
+            if ( [self rzv_shouldLogUnchangedSave] ) {
+                RZVLogInfo(@"Managed object context %@ does not have changes, not saving", self);
+            }
             rzv_performSaveCompletionAsync(completion, nil);
             return;
         }
@@ -83,7 +94,9 @@ static void rzv_performSaveCompletionAsync(RZVinylSaveCompletion completion, NSE
         [currentContext performBlockAndWait:^{
             hasChanges = [currentContext hasChanges];
             if ( !hasChanges ) {
-                RZVLogInfo(@"Managed object context %@ does not have changes, not saving", self);
+                if ( [self rzv_shouldLogUnchangedSave] ) {
+                    RZVLogInfo(@"Managed object context %@ does not have changes, not saving", self);
+                }
             }
             else if ( ![currentContext save:&saveErr] ) {
                 RZVLogError(@"Error saving managed object context context %@: %@", self, saveErr);
