@@ -38,7 +38,7 @@
 //
 
 OBJC_EXTERN NSString* const kRZVinylRecordMainContextErrorFormat;
-
+OBJC_EXTERN NSString* const kRZCoreDataStackParentStackKey;
 
 //
 //  Assertion
