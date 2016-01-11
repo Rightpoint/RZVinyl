@@ -21,7 +21,7 @@ Pod::Spec.new do |s|
   s.author              = { "Nick Donaldson" => "nick.donaldson@raizlabs.com" }
   s.social_media_url    = "http://twitter.com/raizlabs"
 
-  s.platform            = :ios, "7.0"
+  s.platform            = :ios, "8.0"
   s.source              = { :git => "https://github.com/Raizlabs/RZVinyl.git", :tag => s.version.to_s }
 
   s.frameworks          = "Foundation", "CoreData", "UIKit"
