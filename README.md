@@ -12,13 +12,13 @@ Stack management, ActiveRecord utilities, and seamless importing for Core Data.
 Add the following to your Podfile:
 
 ```
-pod RZVinyl, '~> 0.1'
+pod RZVinyl
 ```
 
 To exclude RZImport extensions, use the `Core` subspec:
 
 ```
-pod RZVinyl/Core, '~> 0.1'
+pod RZVinyl/Core
 ```
 
 RZVinyl follows semantic versioning conventions. As newer versions are released, you will need to update the version spec in your Podfile as necessary. See the [release history](https://github.com/Raizlabs/RZVinyl/releases) for version information and release notes.
