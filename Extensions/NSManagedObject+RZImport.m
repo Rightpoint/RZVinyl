@@ -144,7 +144,7 @@
             if ( primaryValue != nil ) {
                 importedObject = [existingObjectsByID objectForKey:primaryValue];
 
-                 if (importedObject==nil) {
+                 if (importedObject == nil) {
                      importedObject = [updatedObjects objectForKey:primaryValue];
                  }
             }
