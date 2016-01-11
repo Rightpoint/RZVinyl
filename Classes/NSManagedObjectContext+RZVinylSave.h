@@ -27,7 +27,7 @@
 //  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 @import CoreData;
-#import "RZCompatibility.h"
+#import "RZVCompatibility.h"
 
 typedef void (^RZVinylSaveCompletion)(NSError* RZCNullable error);
 

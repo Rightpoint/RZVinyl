@@ -6,7 +6,7 @@
 //
 
 @import CoreData;
-#import "RZCompatibility.h"
+#import "RZVCompatibility.h"
 
 @interface NSManagedObject (RZVinylUtils)
 

@@ -28,7 +28,7 @@
 
 
 @import CoreData;
-#import "RZCompatibility.h"
+#import "RZVCompatibility.h"
 #import <RZImport/NSObject+RZImport.h>
 
 /**

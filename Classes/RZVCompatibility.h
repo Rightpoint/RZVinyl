@@ -1,5 +1,5 @@
 //
-//  RZCompatibility.h
+//  RZVCompatibility.h
 //  RZVinyl
 //
 //  Created by John Watson on 8/20/15.
