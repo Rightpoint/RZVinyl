@@ -210,7 +210,7 @@
 
 + (id)rzi_existingObjectForDict:(NSDictionary *)dict inContext:(NSManagedObjectContext *)context
 {
-    if ( !RZVParameterAssert(context) ){
+    if ( !RZVParameterAssert(context) ) {
         RZVLogError(@"This thread does not have an associated managed object context at the moment, and that's a problem.");
         return nil;
     }

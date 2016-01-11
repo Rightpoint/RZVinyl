@@ -44,7 +44,7 @@ OBJC_EXTERN NSString* const kRZVinylRecordMainContextErrorFormat;
 //  Assertion
 //
 /**
- * Assertion macros that return whether condiition is satisfied.
+ * Assertion macros that return whether condition is satisfied.
  * Allows graceful handling of exceptions when assertions disabled.
  */
 #define RZVParameterAssert(param) \
