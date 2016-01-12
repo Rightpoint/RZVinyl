@@ -54,3 +54,5 @@
 #   define RZGeneric(class, ...) class
 #   define RZGenericType(type) id
 #endif
+
+#define RZVKeyMap RZGeneric(NSDictionary, NSString *, NSString *)
