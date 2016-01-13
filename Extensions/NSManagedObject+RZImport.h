@@ -29,7 +29,12 @@
 
 @import CoreData;
 #import "RZVCompatibility.h"
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wauto-import"
 #import <RZImport/NSObject+RZImport.h>
+#pragma clang diagnostic pop
+
 
 /**
  *  Automatic importing of dictionary representations (e.g. deserialized JSON response) 
