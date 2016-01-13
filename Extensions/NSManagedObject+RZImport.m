@@ -422,7 +422,7 @@ static NSString * const kRZVinylImportThreadContextKey = @"RZVinylImportThreadCo
 
 - (BOOL)rzi_shouldImportValue:(id)value forKey:(NSString *)key inContext:(NSManagedObjectContext *)context
 {
-    return YES;
+    return [self rzi_shouldImportValue:value forKey:key];
 }
 
 - (void)rzi_importValuesFromDict:(NSDictionary *)dict inContext:(NSManagedObjectContext* RZCNonnull)context
