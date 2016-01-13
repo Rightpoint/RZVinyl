@@ -58,7 +58,7 @@
  *
  *  @return A matching or newly created object updated from the key/value pairs in the dictionary.
  */
-+ (RZNonnull instancetype)rzi_objectFromDictionary:(NSDictionary* RZCNonnull)dict inContext:(NSManagedObjectContext* RZCNonnull)context;
++ (RZNonnull instancetype)rzi_objectFromDictionary:(RZVStringDictionary* RZCNonnull)dict inContext:(NSManagedObjectContext* RZCNonnull)context;
 
 /**
  *  Creates or updates an object in the provided managed object context using the key/value pairs in the provided dictionary.
@@ -79,7 +79,7 @@
  *
  *  @return A matching or newly created object updated from the key/value pairs in the dictionary.
  */
-+ (RZNonnull instancetype)rzi_objectFromDictionary:(NSDictionary* RZCNonnull)dict
++ (RZNonnull instancetype)rzi_objectFromDictionary:(RZVStringDictionary* RZCNonnull)dict
                                          inContext:(NSManagedObjectContext* RZCNonnull)context
                                       withMappings:(RZVKeyMap* RZCNullable)mappings;
 
@@ -99,7 +99,7 @@
  *
  *  @return An array matching or newly created objects updated from the key/value pairs in the dictionaries in the array.
  */
-+ (RZNonnull NSArray *)rzi_objectsFromArray:(RZGeneric(NSArray, NSDictionary *) * RZCNonnull)array
++ (RZNonnull NSArray *)rzi_objectsFromArray:(RZVArrayOfStringDict* RZCNonnull)array
                                    inContext:(NSManagedObjectContext* RZCNonnull)context;
 
 /**
@@ -121,7 +121,7 @@
  *
  *  @return An array matching or newly created objects updated from the key/value pairs in the dictionaries in the array.
  */
-+ (NSArray* RZCNonnull)rzi_objectsFromArray:(RZGeneric(NSArray, NSDictionary *) * RZCNonnull)array
++ (NSArray* RZCNonnull)rzi_objectsFromArray:(RZVArrayOfStringDict * RZCNonnull)array
                                    inContext:(NSManagedObjectContext* RZCNonnull)context
                                 withMappings:(RZVKeyMap* RZCNullable)mappings;
 
@@ -137,7 +137,7 @@
  *  @warning This method does not manage object uniqueness as it is an instance method and will act on whatever instance it is called on.
  *
  */
-- (void)rzi_importValuesFromDict:(NSDictionary* RZCNonnull)dict inContext:(NSManagedObjectContext* RZCNonnull)context;
+- (void)rzi_importValuesFromDict:(RZVStringDictionary* RZCNonnull)dict inContext:(NSManagedObjectContext* RZCNonnull)context;
 
 /**
  *  Import the values from the provided dictionary into the receiver using the provided context to manage relationships, with optional extra property mappings.
@@ -153,7 +153,7 @@
  *
  *  @warning This method does not manage object uniqueness as it is an instance method and will act on whatever instance it is called on.
  */
-- (void)rzi_importValuesFromDict:(NSDictionary* RZCNonnull)dict
+- (void)rzi_importValuesFromDict:(RZVStringDictionary* RZCNonnull)dict
                        inContext:(NSManagedObjectContext* RZCNonnull)context
                     withMappings:(RZVKeyMap* RZCNullable)mappings;
 
@@ -178,7 +178,7 @@
  *  @return A valid NSManagedObject initialized with the provided dictionary, or nil
  *          if an object could not be created.
  */
-+ (RZNullable id)rzi_existingObjectForDict:(NSDictionary* RZCNonnull)dict inContext:(NSManagedObjectContext* RZCNonnull)context;
++ (RZNullable id)rzi_existingObjectForDict:(RZVStringDictionary* RZCNonnull)dict inContext:(NSManagedObjectContext* RZCNonnull)context;
 
 /**
  *  Extended implementation of the method from @p RZImportable.
