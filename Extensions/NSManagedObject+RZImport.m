@@ -173,7 +173,11 @@
 - (void)rzi_importValuesFromDict:(NSDictionary *)dict withMappings:(NSDictionary *)mappings
 {
     mappings = [[self class] rzi_primaryKeyMappingsDictWithMappings:mappings];
+
+    NSManagedObjectContext *importContext = [self.class rzv_currentThreadImportContext];
+    [self.class rzi_setCurrentThreadImportContext:self.managedObjectContext];
     [super rzi_importValuesFromDict:dict withMappings:mappings];
+    [self.class rzi_setCurrentThreadImportContext:importContext];
 }
 
 #pragma mark - RZImportable
