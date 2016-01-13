@@ -170,7 +170,7 @@
         
         Artist *huxley = [Artist rzv_newObjectInContext:context];
         XCTAssertEqualObjects(huxley.managedObjectContext, context, @"Wrong context");
-        XCTAssertNoThrow([huxley rzi_importValuesFromDict:artistDict inContext:context], @"Direct import should not throw exception");
+        XCTAssertNoThrow([huxley rzi_importValuesFromDict:artistDict], @"Direct import should not throw exception");
         XCTAssertEqualObjects(huxley.name, @"Huxley", @"Name import failed");
 
         XCTAssertTrue(huxley.songs.count == 2, @"Song import failed");
