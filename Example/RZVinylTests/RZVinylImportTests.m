@@ -66,8 +66,11 @@
     
     __block BOOL finished = NO;
     [self.stack performBlockUsingBackgroundContext:^(NSManagedObjectContext *context) {
-        
-        Artist *dusky = [Artist rzi_objectFromDictionary:duskyRaw inContext:context];
+
+        __block Artist *dusky = nil;
+        [context rzi_performImport:^{
+            dusky = [Artist rzi_objectFromDictionary:duskyRaw];
+        }];
         XCTAssertNotNil(dusky, @"Failed to import from dict");
         XCTAssertEqualObjects(dusky.managedObjectContext, context, @"Wrong context");
         XCTAssertEqualObjects(dusky.name, duskyRaw[@"name"], @"Name import failed");
@@ -119,7 +122,10 @@
     __block BOOL finished = NO;
     [self.stack performBlockUsingBackgroundContext:^(NSManagedObjectContext *context) {
         
-        NSArray *artists = [Artist rzi_objectsFromArray:self.rawArtists inContext:context];
+        __block NSArray *artists = nil;
+        [context rzi_performImport:^{
+            artists = [Artist rzi_objectsFromArray:self.rawArtists];
+        }];
         XCTAssertNotNil(artists, @"Failed to import array");
         XCTAssertEqual(artists.count, 3, @"Wrong number of artists");
         XCTAssertEqualObjects(context, [artists[0] managedObjectContext], @"Wrong context");
@@ -260,7 +266,9 @@
     NSTimeInterval start = [NSDate timeIntervalSinceReferenceDate];
     __block NSTimeInterval finish = 0;
     [[RZCoreDataStack defaultStack] performBlockUsingBackgroundContext:^(NSManagedObjectContext *context) {
-        [Artist rzi_objectsFromArray:artistArray inContext:context];
+        [context rzi_performImport:^{
+            [Artist rzi_objectsFromArray:artistArray];
+        }];
     } completion:^(NSError *err) {
         finish = [NSDate timeIntervalSinceReferenceDate];
         [saveExpectation fulfill];

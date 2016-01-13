@@ -34,17 +34,19 @@ static NSString* kRZPersonDataFileName = @"person_data.json";
        
         NSRange importRange = NSMakeRange(self.offset, MIN(batchSize, self.rawPeople.count - self.offset) );
         NSArray *peopleInRange = [self.rawPeople subarrayWithRange:importRange];
-        
-        // Create an array of RZPerson objects imported from the deserialized JSON
-        NSArray *importedPeople = [RZPerson rzi_objectsFromArray:peopleInRange inContext:context];
-        
-        // Set a sort index for each person that is imported
-        [importedPeople enumerateObjectsUsingBlock:^(RZPerson *person, NSUInteger idx, BOOL *stop) {
-            person.sortIndex = @(importRange.location + idx);
+
+        [context rzi_performImport:^{
+            // Create an array of RZPerson objects imported from the deserialized JSON
+            NSArray *importedPeople = [RZPerson rzi_objectsFromArray:peopleInRange];
+
+            // Set a sort index for each person that is imported
+            [importedPeople enumerateObjectsUsingBlock:^(RZPerson *person, NSUInteger idx, BOOL *stop) {
+                person.sortIndex = @(importRange.location + idx);
+            }];
+
+            self.offset += batchSize;
         }];
-        
-        self.offset += batchSize;
-        
+
     } completion:completion];
 }
 

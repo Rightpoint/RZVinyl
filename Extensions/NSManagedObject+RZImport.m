@@ -33,20 +33,10 @@
 #import "NSManagedObject+RZVinylUtils.h"
 #import "NSManagedObject+RZImportableSubclass.h"
 #import "NSManagedObject+RZVinylRecord_private.h"
+#import "NSManagedObjectContext+RZImport.h"
 #import "NSFetchRequest+RZVinylRecord.h"
 #import "RZVinylRelationshipInfo.h"
 #import "RZVinylDefines.h"
-
-#define RZVBeginThreadContext() \
-    BOOL nestedCall = ([[self class] rzv_currentThreadImportContext] != nil); \
-    if ( !nestedCall ) { \
-        [[self class] rzi_setCurrentThreadImportContext:context]; \
-    }
-
-#define RZVEndThreadContext() \
-    if ( !nestedCall ) { \
-        [[self class] rzi_setCurrentThreadImportContext:nil]; \
-    }
 
 //
 // Implementation
@@ -55,70 +45,22 @@
 @implementation NSManagedObject (RZImport)
 
 //!!!: Overridden to support default context
-+ (instancetype)rzi_objectFromDictionary:(NSDictionary *)dict withMappings:(NSDictionary *)mappings
-{
-    // !!!: This is also called internally by the original RZImport methods Need to check if this is part of an ongoing import.
-    //      Otherwise, assert that this is called on the main thread and use the default context.
-    NSManagedObjectContext *context = [self rzv_currentThreadImportContext];
-    if ( context == nil ) {
-        if ( !RZVAssertMainThread() ) {
-            return nil;
-        }
-        context = [[self rzv_validCoreDataStack] mainManagedObjectContext];
-    }
-    return [self rzi_objectFromDictionary:dict inContext:context];
-}
-
-//!!!: Overridden to support default context
 + (NSArray *)rzi_objectsFromArray:(NSArray *)array withMappings:(NSDictionary *)mappings
 {
-    // !!!: This is also called internally by the original RZImport methods Need to check if this is part of an ongoing import.
-    //      Otherwise, assert that this is called on the main thread and use the default context.
-    NSManagedObjectContext *context = [self rzv_currentThreadImportContext];
-    if ( context == nil ) {
-        if ( !RZVAssertMainThread() ) {
-            return nil;
-        }
-        context = [[self rzv_validCoreDataStack] mainManagedObjectContext];
-    }
-    return [self rzi_objectsFromArray:array inContext:context];
+    return [self rzi_optimizedObjectsFromArray:array withMappings:mappings];
 }
 
-+ (instancetype)rzi_objectFromDictionary:(NSDictionary *)dict inContext:(NSManagedObjectContext *)context
++ (instancetype)rzi_objectFromDictionary:(NSDictionary *)dict withMappings:(NSDictionary *)mappings
 {
-    return [self rzi_objectFromDictionary:dict inContext:context withMappings:nil];
+    NSArray *results = [self rzi_optimizedObjectsFromArray:@[dict] withMappings:mappings];
+    return results.lastObject;
 }
 
-+ (instancetype)rzi_objectFromDictionary:(NSDictionary *)dict inContext:(NSManagedObjectContext *)context withMappings:(NSDictionary *)mappings
-{
-    if ( !RZVParameterAssert(context) ) {
-        return nil;
-    }
 
++ (NSArray *)rzi_optimizedObjectsFromArray:(NSArray *)array withMappings:(NSDictionary *)mappings
+{
+    NSManagedObjectContext *context = [NSManagedObjectContext rzi_currentThreadImportContext];
     mappings = [self rzi_primaryKeyMappingsDictWithMappings:mappings];
-    
-    RZVBeginThreadContext();
-    id object = [super rzi_objectFromDictionary:dict withMappings:mappings];
-    RZVEndThreadContext();
-    
-    return object;
-}
-
-+ (NSArray *)rzi_objectsFromArray:(NSArray *)array inContext:(NSManagedObjectContext *)context
-{
-    return [self rzi_objectsFromArray:array inContext:context withMappings:nil];
-}
-
-+ (NSArray *)rzi_objectsFromArray:(NSArray *)array inContext:(NSManagedObjectContext *)context withMappings:(NSDictionary *)mappings
-{
-    if ( !RZVParameterAssert(context) ) {
-        return nil;
-    }
-    
-    mappings = [self rzi_primaryKeyMappingsDictWithMappings:mappings];
-
-    RZVBeginThreadContext();
-
     NSArray *objects = nil;
 
     if ( array.count == 1 ) {
@@ -162,11 +104,9 @@
     }
     else {
         // Default to creating new object instances.
-        objects = [super rzi_objectsFromArray:array withMappings:nil];
+        objects = [super rzi_objectsFromArray:array withMappings:mappings];
     }
-    
-    RZVEndThreadContext();
-    
+
     return objects;
 }
 
@@ -174,27 +114,17 @@
 {
     mappings = [[self class] rzi_primaryKeyMappingsDictWithMappings:mappings];
 
-    NSManagedObjectContext *importContext = [self.class rzv_currentThreadImportContext];
-    [self.class rzi_setCurrentThreadImportContext:self.managedObjectContext];
-    [super rzi_importValuesFromDict:dict withMappings:mappings];
-    [self.class rzi_setCurrentThreadImportContext:importContext];
+    [self.managedObjectContext rzi_performImport:^{
+        [super rzi_importValuesFromDict:dict withMappings:mappings];
+    }];
 }
 
 #pragma mark - RZImportable
 
-+ (id)rzi_existingObjectForDict:(NSDictionary *)dict
++ (instancetype)rzi_existingObjectForDict:(NSDictionary *)dict
 {
-    NSManagedObjectContext *context = [self rzv_currentThreadImportContext];
-    return [self rzi_existingObjectForDict:dict inContext:context];
-}
+    NSManagedObjectContext *context = [NSManagedObjectContext rzi_currentThreadImportContext];
 
-+ (id)rzi_existingObjectForDict:(NSDictionary *)dict inContext:(NSManagedObjectContext *)context
-{
-    if ( !RZVParameterAssert(context) ){
-        RZVLogError(@"This thread does not have an associated managed object context at the moment, and that's a problem.");
-        return nil;
-    }
-    
     if ( [self rzv_shouldAlwaysCreateNewObjectOnImport] ) {
         return [self rzv_newObjectInContext:context];
     }
@@ -238,23 +168,6 @@
 
 #pragma mark - Private
 
-static NSString * const kRZVinylImportThreadContextKey = @"RZVinylImportThreadContext";
-
-+ (NSManagedObjectContext *)rzv_currentThreadImportContext
-{
-    return [[[NSThread currentThread] threadDictionary] objectForKey:kRZVinylImportThreadContextKey];
-}
-
-+ (void)rzi_setCurrentThreadImportContext:(NSManagedObjectContext *)context
-{
-    if ( context ) {
-        [[[NSThread currentThread] threadDictionary] setObject:context forKey:kRZVinylImportThreadContextKey];
-    }
-    else {
-        [[[NSThread currentThread] threadDictionary] removeObjectForKey:kRZVinylImportThreadContextKey];
-    }
-}
-
 + (NSDictionary *)rzi_primaryKeyMappingsDictWithMappings:(NSDictionary *)mappings
 {
     NSMutableDictionary *extraMappings = (mappings != nil) ? [mappings mutableCopy] : [NSMutableDictionary dictionary];
@@ -296,8 +209,8 @@ static NSString * const kRZVinylImportThreadContextKey = @"RZVinylImportThreadCo
     
     __block id relationshipInfo = [classRelationshipMappings objectForKey:key];
     if ( relationshipInfo == nil && propInfo.propertyName != nil ) {
-        
-        NSManagedObjectModel *model = [[[self rzv_currentThreadImportContext] persistentStoreCoordinator] managedObjectModel];
+        NSManagedObjectContext *context = [NSManagedObjectContext rzi_currentThreadImportContext];
+        NSManagedObjectModel *model = [[context persistentStoreCoordinator] managedObjectModel];
         NSEntityDescription *entity = [[model entitiesByName] objectForKey:[self rzv_entityName]];
         NSRelationshipDescription *relationshipDesc = [[entity relationshipsByName] objectForKey:propInfo.propertyName];
         
@@ -344,7 +257,7 @@ static NSString * const kRZVinylImportThreadContextKey = @"RZVinylImportThreadCo
         return;
     }
     
-    NSManagedObjectContext *context = [[self class] rzv_currentThreadImportContext];
+    NSManagedObjectContext *context = [NSManagedObjectContext rzi_currentThreadImportContext];
     if ( !RZVAssert(context != nil, @"There should be a current thread import context.") ) {
         return;
     }
@@ -363,7 +276,7 @@ static NSString * const kRZVinylImportThreadContextKey = @"RZVinylImportThreadCo
         }
         
         NSArray *rawObjects = value;
-        NSArray *importedObjects = [relationshipInfo.destinationClass rzi_objectsFromArray:rawObjects inContext:context];
+        NSArray *importedObjects = [relationshipInfo.destinationClass rzi_objectsFromArray:rawObjects];
         if ( importedObjects != nil ) {
             if ( relationshipInfo.isOrdered ) {
                 [self setValue:[[NSOrderedSet alloc] initWithArray:importedObjects] forKey:relationshipInfo.sourcePropertyName];
@@ -390,7 +303,7 @@ static NSString * const kRZVinylImportThreadContextKey = @"RZVinylImportThreadCo
             return;
         }
         
-        id importedObject = [relationshipInfo.destinationClass rzi_objectFromDictionary:value inContext:context];
+        id importedObject = [relationshipInfo.destinationClass rzi_objectFromDictionary:value];
         if ( importedObject != nil ) {
             [self setValue:importedObject forKey:relationshipInfo.sourcePropertyName];
         }
@@ -420,6 +333,10 @@ static NSString * const kRZVinylImportThreadContextKey = @"RZVinylImportThreadCo
     });
 }
 
+@end
+
+@implementation NSManagedObject (RZImportDeprecated)
+
 - (BOOL)rzi_shouldImportValue:(id)value forKey:(NSString *)key inContext:(NSManagedObjectContext *)context
 {
     return [self rzi_shouldImportValue:value forKey:key];
@@ -437,5 +354,56 @@ static NSString * const kRZVinylImportThreadContextKey = @"RZVinylImportThreadCo
     [self rzi_importValuesFromDict:dict withMappings:mappings];
 }
 
++ (instancetype)rzi_objectFromDictionary:(NSDictionary *)dict
+                               inContext:(NSManagedObjectContext*)context
+{
+    __block id object = nil;
+    [context rzi_performImport:^{
+        object = [self rzi_objectFromDictionary:dict];
+    }];
+    return object;
+}
+
++ (instancetype)rzi_objectFromDictionary:(NSDictionary *)dict
+                               inContext:(NSManagedObjectContext *)context
+                            withMappings:(NSDictionary *)mappings
+{
+    __block id object = nil;
+    [context rzi_performImport:^{
+        object = [self rzi_objectFromDictionary:dict withMappings:mappings];
+    }];
+    return object;
+}
+
++ (NSArray *)rzi_objectsFromArray:(NSArray *)array
+                        inContext:(NSManagedObjectContext *)context
+{
+    __block NSArray *results = nil;
+    [context rzi_performImport:^{
+        results = [self rzi_objectsFromArray:array];
+    }];
+    return results;
+}
+
++ (NSArray*)rzi_objectsFromArray:(NSArray *)array
+                       inContext:(NSManagedObjectContext *)context
+                    withMappings:(NSDictionary *)mappings
+{
+    __block NSArray *results = nil;
+    [context rzi_performImport:^{
+        results = [self rzi_objectsFromArray:array withMappings:mappings];
+    }];
+    return results;
+}
+
++ (id)rzi_existingObjectForDict:(NSDictionary *)dict
+                      inContext:(NSManagedObjectContext *)context
+{
+    __block id object = nil;
+    [context rzi_performImport:^{
+        object = [self rzi_existingObjectForDict:dict];
+    }];
+    return object;
+}
 
 @end
