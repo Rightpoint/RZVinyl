@@ -30,8 +30,17 @@
 
 @interface NSManagedObjectContext (RZImport)
 
+/**
+ *  Specify that this managed object context should be used for all subsequent
+ *  RZImport operations. This enables RZImport to work with NSObjects containing
+ *  NSManagedObjects.
+ */
 - (void)rzi_performImport:(void(^)(void))importBlock;
 
+/**
+ *  The managed object context that is being imported to. This is set internally
+ *  and by the `rzi_performImport:` method.
+ */
 + (NSManagedObjectContext *)rzi_currentThreadImportContext;
 
 @end

@@ -33,9 +33,12 @@
 
 /**
  *  Automatic importing of dictionary representations (e.g. deserialized JSON response) 
- *  of an object to CoreData, using RZVinyl and RZImport.
+ *  of an object to CoreData, using RZVinyl and RZImport. Provides a partial implementation
+ *  of @c RZImportable.
  *
- *  RZImport will only work on the main thread, or inside a @p NSManagedObjectContext rzi_performImport: block.
+ *  @warning Do not override the extended methods or their equivalents from @p RZImportable without reading
+ *           the method documentation. This category provides a crucial implementation of these methods that enables
+ *           automatic Core Data importing.
  */
 @interface NSManagedObject (RZImport) <RZImportable>
 
