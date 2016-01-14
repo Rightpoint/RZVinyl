@@ -56,7 +56,6 @@
     return results.lastObject;
 }
 
-
 + (NSArray *)rzi_optimizedObjectsFromArray:(NSArray *)array withMappings:(NSDictionary *)mappings
 {
     NSManagedObjectContext *context = [NSManagedObjectContext rzi_currentThreadImportContext];
@@ -124,11 +123,17 @@
 + (instancetype)rzi_existingObjectForDict:(NSDictionary *)dict
 {
     NSManagedObjectContext *context = [NSManagedObjectContext rzi_currentThreadImportContext];
+    id object = [self rzi_existingObjectForDict:dict inContext:context];
+    return object;
+}
 
++ (id)rzi_existingObjectForDict:(NSDictionary *)dict
+                      inContext:(NSManagedObjectContext *)context
+{
     if ( [self rzv_shouldAlwaysCreateNewObjectOnImport] ) {
         return [self rzv_newObjectInContext:context];
     }
-    
+
     id object = nil;
     NSString *externalPrimaryKey = [self rzv_externalPrimaryKey] ?: [self rzv_primaryKey];
     id primaryValue = externalPrimaryKey ? [dict objectForKey:externalPrimaryKey] : nil;
@@ -139,7 +144,7 @@
         [self rzv_logUniqueObjectsWarning];
         object = [self rzv_newObjectInContext:context];
     }
-    
+
     return object;
 }
 
@@ -166,6 +171,50 @@
     return shouldImport;
 }
 
+#pragma mark - inContext Helpers
+
++ (instancetype)rzi_objectFromDictionary:(NSDictionary *)dict
+                               inContext:(NSManagedObjectContext*)context
+{
+    __block id object = nil;
+    [context rzi_performImport:^{
+        object = [self rzi_objectFromDictionary:dict];
+    }];
+    return object;
+}
+
++ (instancetype)rzi_objectFromDictionary:(NSDictionary *)dict
+                               inContext:(NSManagedObjectContext *)context
+                            withMappings:(NSDictionary *)mappings
+{
+    __block id object = nil;
+    [context rzi_performImport:^{
+        object = [self rzi_objectFromDictionary:dict withMappings:mappings];
+    }];
+    return object;
+}
+
++ (NSArray *)rzi_objectsFromArray:(NSArray *)array
+                        inContext:(NSManagedObjectContext *)context
+{
+    __block NSArray *results = nil;
+    [context rzi_performImport:^{
+        results = [self rzi_objectsFromArray:array];
+    }];
+    return results;
+}
+
++ (NSArray*)rzi_objectsFromArray:(NSArray *)array
+                       inContext:(NSManagedObjectContext *)context
+                    withMappings:(NSDictionary *)mappings
+{
+    __block NSArray *results = nil;
+    [context rzi_performImport:^{
+        results = [self rzi_objectsFromArray:array withMappings:mappings];
+    }];
+    return results;
+}
+
 #pragma mark - Private
 
 + (NSDictionary *)rzi_primaryKeyMappingsDictWithMappings:(NSDictionary *)mappings
@@ -187,7 +236,6 @@
     
     // If no external primary key, then the external key is assumed to match
     return nil;
-
 }
 
 + (RZVinylRelationshipInfo *)rzi_relationshipInfoForKey:(NSString *)key
@@ -352,58 +400,6 @@
                     withMappings:(NSDictionary *)mappings
 {
     [self rzi_importValuesFromDict:dict withMappings:mappings];
-}
-
-+ (instancetype)rzi_objectFromDictionary:(NSDictionary *)dict
-                               inContext:(NSManagedObjectContext*)context
-{
-    __block id object = nil;
-    [context rzi_performImport:^{
-        object = [self rzi_objectFromDictionary:dict];
-    }];
-    return object;
-}
-
-+ (instancetype)rzi_objectFromDictionary:(NSDictionary *)dict
-                               inContext:(NSManagedObjectContext *)context
-                            withMappings:(NSDictionary *)mappings
-{
-    __block id object = nil;
-    [context rzi_performImport:^{
-        object = [self rzi_objectFromDictionary:dict withMappings:mappings];
-    }];
-    return object;
-}
-
-+ (NSArray *)rzi_objectsFromArray:(NSArray *)array
-                        inContext:(NSManagedObjectContext *)context
-{
-    __block NSArray *results = nil;
-    [context rzi_performImport:^{
-        results = [self rzi_objectsFromArray:array];
-    }];
-    return results;
-}
-
-+ (NSArray*)rzi_objectsFromArray:(NSArray *)array
-                       inContext:(NSManagedObjectContext *)context
-                    withMappings:(NSDictionary *)mappings
-{
-    __block NSArray *results = nil;
-    [context rzi_performImport:^{
-        results = [self rzi_objectsFromArray:array withMappings:mappings];
-    }];
-    return results;
-}
-
-+ (id)rzi_existingObjectForDict:(NSDictionary *)dict
-                      inContext:(NSManagedObjectContext *)context
-{
-    __block id object = nil;
-    [context rzi_performImport:^{
-        object = [self rzi_existingObjectForDict:dict];
-    }];
-    return object;
 }
 
 @end
