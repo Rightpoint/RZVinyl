@@ -390,7 +390,7 @@
     return [self rzi_shouldImportValue:value forKey:key];
 }
 
-- (void)rzi_importValuesFromDict:(NSDictionary *)dict inContext:(NSManagedObjectContext* RZCNonnull)context
+- (void)rzi_importValuesFromDict:(NSDictionary *)dict inContext:(NSManagedObjectContext *)context
 {
     [self rzi_importValuesFromDict:dict];
 }
