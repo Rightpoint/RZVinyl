@@ -133,7 +133,7 @@
     if ( [self rzv_shouldAlwaysCreateNewObjectOnImport] ) {
         return [self rzv_newObjectInContext:context];
     }
-    
+
     id object = nil;
     NSString *externalPrimaryKey = [self rzv_externalPrimaryKey] ?: [self rzv_primaryKey];
     id primaryValue = externalPrimaryKey ? [dict objectForKey:externalPrimaryKey] : nil;
@@ -144,7 +144,7 @@
         [self rzv_logUniqueObjectsWarning];
         object = [self rzv_newObjectInContext:context];
     }
-    
+
     return object;
 }
 
