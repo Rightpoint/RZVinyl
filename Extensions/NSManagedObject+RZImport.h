@@ -33,12 +33,9 @@
 
 /**
  *  Automatic importing of dictionary representations (e.g. deserialized JSON response) 
- *  of an object to CoreData, using RZVinyl and RZImport. Provides a partial implementation
- *  of @c RZImportable.
+ *  of an object to CoreData, using RZVinyl and RZImport.
  *
- *  @warning Do not override the extended methods or their equivalents from @p RZImportable without reading 
- *           the method documentation. This category provides a crucial implementation of these methods that enables 
- *           automatic Core Data importing.
+ *  RZImport will only work on the main thread, or inside a @p NSManagedObjectContext rzi_performImport: block.
  */
 @interface NSManagedObject (RZImport) <RZImportable>
 
@@ -84,8 +81,8 @@
                                       withMappings:(RZVKeyMap* RZCNullable)mappings;
 
 /**
- *  Creates or updates multiple objects in the provided managed object context using the key/value pairs in the dictionaries 
- *  in the provided array. If an an object with a matching primary key value for a dictionary exists in the context, this method will 
+ *  Creates or updates multiple objects in the provided managed object context using the key/value pairs in the dictionaries
+ *  in the provided array. If an an object with a matching primary key value for a dictionary exists in the context, this method will
  *  update it with the values in the dictionary. If no existing object is found, this method will create/insert a new one and initialize
  *  it with the values in the dictionary. The corresponding imported/updated objects are returned in a new array.
  *
@@ -100,7 +97,7 @@
  *  @return An array matching or newly created objects updated from the key/value pairs in the dictionaries in the array.
  */
 + (RZNonnull NSArray *)rzi_objectsFromArray:(RZVArrayOfStringDict* RZCNonnull)array
-                                   inContext:(NSManagedObjectContext* RZCNonnull)context;
+                                  inContext:(NSManagedObjectContext* RZCNonnull)context;
 
 /**
  *  Creates or updates multiple objects in the provided managed object context using the key/value pairs in the dictionaries
@@ -122,8 +119,8 @@
  *  @return An array matching or newly created objects updated from the key/value pairs in the dictionaries in the array.
  */
 + (NSArray* RZCNonnull)rzi_objectsFromArray:(RZVArrayOfStringDict * RZCNonnull)array
-                                   inContext:(NSManagedObjectContext* RZCNonnull)context
-                                withMappings:(RZVKeyMap* RZCNullable)mappings;
+                                  inContext:(NSManagedObjectContext* RZCNonnull)context
+                               withMappings:(RZVKeyMap* RZCNullable)mappings;
 
 
 /** @name RZImportable Protocol */
@@ -147,6 +144,13 @@
  *          if an object could not be created.
  */
 + (RZNullable id)rzi_existingObjectForDict:(RZVStringDictionary* RZCNonnull)dict inContext:(NSManagedObjectContext* RZCNonnull)context;
+
+@end
+
+/**
+ * The original implementation had versions of the RZImportable methods that provided a context. These implementations are maintained to generate warnings, and then should still function for now.
+ */
+@interface NSManagedObject (RZImportDeprecated)
 
 /**
  * Old Implementations of RZImport methods that passed along the managed object context. The context is not needed for instances of NSManagedObjectContext, since self.managedObjectContext is available.

@@ -260,7 +260,9 @@
     NSTimeInterval start = [NSDate timeIntervalSinceReferenceDate];
     __block NSTimeInterval finish = 0;
     [[RZCoreDataStack defaultStack] performBlockUsingBackgroundContext:^(NSManagedObjectContext *context) {
-        [Artist rzi_objectsFromArray:artistArray inContext:context];
+        [context rzi_performImport:^{
+            [Artist rzi_objectsFromArray:artistArray];
+        }];
     } completion:^(NSError *err) {
         finish = [NSDate timeIntervalSinceReferenceDate];
         [saveExpectation fulfill];
