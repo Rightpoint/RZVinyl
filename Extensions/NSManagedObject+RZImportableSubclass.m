@@ -41,4 +41,10 @@
     return NO;
 }
 
+- (void)rzi_setNilForPropertyNamed:(NSString *)propName;
+{
+    // NSManagedObject's handle setNilValueForKey: so this is safe, and faster.
+    [self setValue:nil forKey:propName];
+}
+
 @end
