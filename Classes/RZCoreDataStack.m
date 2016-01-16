@@ -195,7 +195,12 @@ static RZCoreDataStack *s_defaultStack = nil;
 {
     NSManagedObjectContext *bgContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
     [[bgContext userInfo] setObject:self forKey:kRZCoreDataStackParentStackKey];
-    bgContext.parentContext = self.topLevelBackgroundContext;
+    if (self.topLevelBackgroundContext) {
+        bgContext.parentContext = self.topLevelBackgroundContext;
+    }
+    else {
+        bgContext.persistentStoreCoordinator = self.persistentStoreCoordinator;
+    }
     [self registerSaveNotificationsForContext:bgContext];
     return bgContext;
 }
