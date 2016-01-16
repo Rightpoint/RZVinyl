@@ -146,7 +146,23 @@
  *  @return A valid NSManagedObject initialized with the provided dictionary, or nil
  *          if an object could not be created.
  */
-+ (RZNullable id)rzi_existingObjectForDict:(RZVStringDictionary* RZCNonnull)dict inContext:(NSManagedObjectContext* RZCNonnull)context;
++ (RZNullable instancetype)rzi_existingObjectForDict:(RZVStringDictionary* RZCNonnull)dict inContext:(NSManagedObjectContext* RZCNonnull)context;
+
+/**
+ *  Access to objects cached by RZImport with an option to create a new object if the cache is empty. This method
+ *  will create a new object if @p createNew is true and the object is not in the cache. Make sure the cache is warmed
+ *  up before using this method.
+ *
+ *  @param primaryKeyValue The primary key to lookup with. If the value is NSNull, this method will return nil.
+ *  @param createNew If the object is not found and this flag is set to YES, create a new object.
+ *  @param context The managed object context in which to find/insert the object.
+ *
+ *
+ *  @return A valid NSManagedObject initialized with the provided primaryKeyValue, or nil
+ *          if an object could not be created.
+ */
+
++ (RZNullable instancetype)rzi_cachedObjectForPrimaryKey:(id RZCNonnull)primaryKeyValue createNew:(BOOL)createNew inContext:(NSManagedObjectContext * RZCNonnull)context;
 
 @end
 

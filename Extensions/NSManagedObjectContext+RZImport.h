@@ -43,4 +43,26 @@
  */
 + (NSManagedObjectContext *)rzi_currentThreadImportContext;
 
+/**
+ *  Cache all objects that are in the context.
+ */
+- (void)rzi_cacheAllObjectsForEntityName:(Class)entityClass;
+
+/**
+ *  Cache a specific set of objects for the given entity
+ */
+- (void)rzi_cacheObjects:(NSArray *)objects forEntity:(Class)entityClass;
+
+/**
+ *  Load cache from the import data. Ensure that an object exists for
+ *  every primary key value in the importData, looking up, or creating objects 
+ *  as needed. All of the cached objects are returned.
+ */
+- (void)rzi_loadCacheWithImportData:(NSArray *)importData forEntity:(Class)entityClass;
+
+/**
+ *  Lookup an object in the cache with the specified primary key value.
+ */
+- (NSManagedObject *)rzi_cachedObjectForEntity:(Class)entityClass forPrimaryKeyValue:(id)key;
+
 @end
