@@ -41,8 +41,7 @@
  *  but your managed object subclass might store this value as an attribute named "remoteID", hence it is 
  *  necessary to provide both keys separately to enforce unique instances in the database.
  *
- *  @note Failure to override (or returning nil, the default) will cause the value of @p +rzv_primaryKey
- *  to be used for the external key as well.
+ *  @note This will return the value of @p +rzv_primaryKey if it is this method is not over-ridden.
  *
  *  @return The key in dictionary representations whose value uniquely identifies this object.
  */
@@ -57,5 +56,8 @@
  *  @return @c YES to always create new instances on import. Default is @c NO.
  */
 + (BOOL)rzv_shouldAlwaysCreateNewObjectOnImport;
+
+
++ (NSArray *)rzv_externalCacheKeys;
 
 @end

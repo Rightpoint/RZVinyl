@@ -32,6 +32,7 @@
 #import "NSManagedObject+RZImportableSubclass.h"
 
 #import "NSManagedObjectContext+RZImport.h"
+#import "NSObject+RZImport_private.h"
 #import "RZCoreDataStack.h"
 #import "RZVinylDefines.h"
 
@@ -102,32 +103,61 @@ static NSString * const kRZVinylImportCacheContextKey = @"RZVinylImportCacheCont
     return dictionary;
 }
 
-- (NSMutableDictionary *)rzi_cacheForEntity:(Class)entityClass
+- (NSMutableDictionary *)rzi_cacheForEntity:(Class)entityClass externalKey:(NSString *)key
 {
     if (!RZVAssertOffMainContext()) {
         return nil;
     }
-    NSMutableDictionary *cachedObjects = self.rzi_cacheByEntityName[[entityClass rzv_entityName]];
-    if (cachedObjects == nil) {
-        cachedObjects = [NSMutableDictionary dictionary];
-        self.rzi_cacheByEntityName[[entityClass rzv_entityName]] = cachedObjects;
+    NSMutableDictionary *entityCache = self.rzi_cacheByEntityName[[entityClass rzv_entityName]];
+    if (entityCache == nil) {
+        entityCache = [NSMutableDictionary dictionary];
+        self.rzi_cacheByEntityName[[entityClass rzv_entityName]] = entityCache;
     }
-    return cachedObjects;
+    NSMutableDictionary *entityKeyCache = entityCache[key];
+    if (entityKeyCache == nil) {
+        entityKeyCache = [NSMutableDictionary dictionary];
+        entityCache[key] = entityKeyCache;
+    }
+
+    return entityKeyCache;
 }
 
 - (void)rzi_cacheObjects:(NSArray *)objects forEntity:(Class)entityClass
 {
-    NSArray *keys = [objects valueForKey:[entityClass rzv_primaryKey]];
-    NSDictionary *values = [NSDictionary dictionaryWithObjects:objects
-                                                       forKeys:keys];
-    NSMutableDictionary *cachedObjects = [self rzi_cacheForEntity:entityClass];
-    [cachedObjects setValuesForKeysWithDictionary:values];
+    for ( NSString *externalKey in [entityClass rzv_externalCacheKeys] ) {
+        RZIPropertyInfo *info = [entityClass rzi_propertyInfoForExternalKey:externalKey withMappings:nil];
+        NSAssert(info != nil, @"Unable to find property for external key %@", externalKey);
+        NSArray *keys = [objects valueForKey:info.propertyName];
+        NSDictionary *values = [NSDictionary dictionaryWithObjects:objects
+                                                           forKeys:keys];
+        NSMutableDictionary *cachedObjects = [self rzi_cacheForEntity:entityClass externalKey:externalKey];
+        [cachedObjects setValuesForKeysWithDictionary:values];
+    }
 }
 
 - (void)rzi_cacheAllObjectsForEntityName:(Class)entityClass
 {
     NSArray *objects = [entityClass rzv_allInContext:self];
     [self rzi_cacheObjects:objects forEntity:entityClass];
+}
+
+@end
+
+@implementation NSManagedObjectContext (RZImport_private)
+
+- (NSManagedObject *)rzi_objectForEntity:(Class)entityClass fromDictionary:(NSDictionary *)dictionary;
+{
+    for ( NSString *key in [entityClass rzv_externalCacheKeys] ) {
+        id value = [dictionary objectForKey:key];
+        if ( value == nil ) {
+            continue;
+        }
+        id result = [self rzi_cacheForEntity:entityClass externalKey:key][value];
+        if ( result ) {
+            return result;
+        }
+    }
+    return nil;
 }
 
 - (BOOL)rzi_isCacheEnabledForEntity:(Class)entityClass;

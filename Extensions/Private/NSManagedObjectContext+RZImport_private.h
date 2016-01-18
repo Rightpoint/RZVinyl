@@ -29,11 +29,7 @@
 
 @interface NSManagedObjectContext (RZImport_private)
 
-/**
- *  Dictionary holding the cache for the entity. This will enable if it
- *  was not enabled.
- */
-- (NSMutableDictionary *)rzi_cacheForEntity:(Class)entityClass;
+- (NSManagedObject *)rzi_objectForEntity:(Class)entityClass fromDictionary:(NSDictionary *)dictionary;
 
 /**
  *  Check to see if the cache is enabled for the specified entity.
