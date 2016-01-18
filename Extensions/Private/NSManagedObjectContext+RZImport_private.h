@@ -1,8 +1,9 @@
 //
-//  NSManagedObjectContext+RZImport.h
-//  RZVinyl
+//  NSManagedObjectContext+RZImport_private.h
+//  Pods
 //
-//  Created by Brian King on 1/12/16.
+//  Created by Brian King on 1/18/16.
+//
 //
 //  Copyright 2014 Raizlabs and other contributors
 //  http://raizlabs.com/
@@ -26,38 +27,22 @@
 //  OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 //  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-@import CoreData;
-
-@interface NSManagedObjectContext (RZImport)
+@interface NSManagedObjectContext (RZImport_private)
 
 /**
- *  Specify that this managed object context should be used for all subsequent
- *  RZImport operations. This enables RZImport to work with NSObjects containing
- *  NSManagedObjects.
+ *  Dictionary holding the cache for the entity. This will enable if it
+ *  was not enabled.
  */
-- (void)rzi_performImport:(void(^)(void))importBlock;
+- (NSMutableDictionary *)rzi_cacheForEntity:(Class)entityClass;
 
 /**
- *  The managed object context that is being imported to. This is set internally
- *  and by the `rzi_performImport:` method.
+ *  Check to see if the cache is enabled for the specified entity.
  */
-+ (NSManagedObjectContext *)rzi_currentThreadImportContext;
+- (BOOL)rzi_isCacheEnabledForEntity:(Class)entityClass;
 
 /**
- *  Cache all objects that are in the context.
- *
- *  NOTE: If this is called on the main context of the core data stack, this method will assert.
+ *  Disable the cache for the entity.
  */
-- (void)rzi_cacheAllObjectsForEntityName:(Class)entityClass;
-
-/**
- *  Cache a specific set of objects for the given entity.
- *
- *  WARNING: Make sure that the objects cached contain all possibilities for the import
- *  associations, otherwise duplicate objects may be created.
- *
- *  NOTE: If this is called on the main context of the core data stack, this method will assert.
- */
-- (void)rzi_cacheObjects:(NSArray *)objects forEntity:(Class)entityClass;
+- (void)rzi_disableCacheForEntity:(Class)entityClass;
 
 @end

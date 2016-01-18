@@ -33,6 +33,19 @@
 
 #import "NSManagedObjectContext+RZImport.h"
 #import "RZCoreDataStack.h"
+#import "RZVinylDefines.h"
+
+/**
+ *  Managing the cache on the main context is complicated, since the user would have to manage
+ *  when to clear the cache. Disable the cache on the main thread, since moving imports on to a
+ *  background context is the first optimization to use.
+ */
+#define RZVAssertOffMainContext() \
+({\
+RZCoreDataStack *stack = self.userInfo[kRZCoreDataStackParentStackKey];\
+NSAssert(stack.mainManagedObjectContext != self, @"Can not enable cache on the main context.");\
+stack.mainManagedObjectContext != self;\
+})
 
 @implementation NSThread (RZImport)
 
@@ -75,7 +88,7 @@ static NSString * const kRZVinylImportCacheContextKey = @"RZVinylImportCacheCont
     if ( context == nil && [NSThread currentThread] == [NSThread mainThread] ) {
         context = [[RZCoreDataStack defaultStack] mainManagedObjectContext];
     }
-    NSAssert(context != nil, @"RZImport is attempting to perform an import with out an import context. Make sure that you use RZImport from inside -[NSManagedObjectContext rzi_performImport].");
+    NSAssert(context != nil, @"RZImport is attempting to perform an import with out an import context. Make sure that you use RZImport from inside -[NSManagedObjectContext rzi_performImport] or with one of the `inContext:` methods.");
     return context;
 }
 
@@ -91,6 +104,9 @@ static NSString * const kRZVinylImportCacheContextKey = @"RZVinylImportCacheCont
 
 - (NSMutableDictionary *)rzi_cacheForEntity:(Class)entityClass
 {
+    if (!RZVAssertOffMainContext()) {
+        return nil;
+    }
     NSMutableDictionary *cachedObjects = self.rzi_cacheByEntityName[[entityClass rzv_entityName]];
     if (cachedObjects == nil) {
         cachedObjects = [NSMutableDictionary dictionary];
@@ -108,48 +124,23 @@ static NSString * const kRZVinylImportCacheContextKey = @"RZVinylImportCacheCont
     [cachedObjects setValuesForKeysWithDictionary:values];
 }
 
-- (void)rzi_loadCacheWithImportData:(NSArray *)importData forEntity:(Class)entityClass
-{
-    NSMutableDictionary *cachedObjects = [self rzi_cacheForEntity:entityClass];
-
-    NSString *primaryKey = [entityClass rzv_primaryKey];
-    NSString *externalPrimaryKey = [entityClass rzv_externalPrimaryKey] ?: primaryKey;
-
-    // Determine the primary keys by the external key, and remove duplicates in importData
-    NSArray *keyValues = [importData valueForKey:externalPrimaryKey];
-    NSMutableSet *neededKeyValues = [NSMutableSet setWithArray:keyValues];
-
-    // Look up the objects in the cache.
-    for (id keyValue in [neededKeyValues copy]) {
-        id cache = cachedObjects[keyValue];
-        if (cache) {
-            [neededKeyValues removeObject:keyValue];
-        }
-    }
-
-    // If keys do not have objects, look them up
-    if (neededKeyValues.count > 0) {
-        NSPredicate *existingObjPred = [NSPredicate predicateWithFormat:@"%K in %@", [entityClass rzv_primaryKey], neededKeyValues];
-        NSArray     *existingObjects = [entityClass rzv_where:existingObjPred inContext:self];
-
-        for (id object in existingObjects) {
-            id keyValue = [object valueForKey:primaryKey];
-            [neededKeyValues removeObject:keyValue];
-            [cachedObjects setObject:object forKey:keyValue];
-        }
-    }
-}
-
 - (void)rzi_cacheAllObjectsForEntityName:(Class)entityClass
 {
     NSArray *objects = [entityClass rzv_allInContext:self];
     [self rzi_cacheObjects:objects forEntity:entityClass];
 }
 
-- (NSManagedObject *)rzi_cachedObjectForEntity:(Class)entityClass forPrimaryKeyValue:(id)keyValue;
+- (BOOL)rzi_isCacheEnabledForEntity:(Class)entityClass;
 {
-    NSMutableDictionary *cachedObjects = [self rzi_cacheForEntity:entityClass];
-    return cachedObjects[keyValue];
+    return [self.rzi_cacheByEntityName objectForKey:[entityClass rzv_entityName]] != nil;
+}
+
+- (void)rzi_disableCacheForEntity:(Class)entityClass
+{
+    if (!RZVAssertOffMainContext()) {
+        return;
+    }
+    [self.rzi_cacheByEntityName removeObjectForKey:[entityClass rzv_entityName]];
 }
 
 @end
