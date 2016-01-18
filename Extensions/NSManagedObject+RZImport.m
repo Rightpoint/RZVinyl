@@ -61,7 +61,7 @@
         BOOL cacheEnabled = [context rzi_isCacheEnabledForEntity:self];
         NSMutableDictionary *lookup = nil;
 
-        if (cacheEnabled == NO) {
+        if ( cacheEnabled == NO ) {
             lookup = [NSMutableDictionary dictionary];
             // Load the cache with the import data.
             NSString *primaryKey = [self rzv_primaryKey];
@@ -72,12 +72,12 @@
             NSSet *missingKeyValues = [NSSet setWithArray:keyValues];
 
             // If keys do not have objects and cache is not enabled for this entity, look them up
-            if (missingKeyValues.count > 0) {
+            if ( missingKeyValues.count > 0 ) {
                 NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K in %@",
                                           [self rzv_primaryKey],
                                           missingKeyValues];
 
-                for (id object in [self rzv_where:predicate inContext:context]) {
+                for ( id object in [self rzv_where:predicate inContext:context] ) {
                     id keyValue = [object valueForKey:primaryKey];
                     [lookup setObject:object forKey:keyValue];
                 }
@@ -90,15 +90,15 @@
         NSMutableArray *results = [NSMutableArray array];
         [array enumerateObjectsUsingBlock:^(NSDictionary *dictionary, NSUInteger idx, BOOL *stop) {
             id primaryKeyValue = [dictionary objectForKey:externalPrimaryKey];
-            if (primaryKeyValue == nil || [primaryKeyValue isEqual:[NSNull null]]) {
-                NSLog(@"Warning importing %@ without a primary key", dictionary);
-                // Use NSNull as the key, this will ensure only 1 orphaned object is created.
-                primaryKeyValue = [NSNull null];
+            primaryKeyValue = primaryKeyValue ?: [NSNull null];
+
+            if ( [primaryKeyValue isEqual:[NSNull null]] ) {
+                [self rzv_logMissingPrimaryKey];
             }
             id importedObject  = lookup[primaryKeyValue];
-            if (importedObject == nil) {
+            if ( importedObject == nil ) {
                 importedObject = [self rzv_newObjectInContext:context];
-                if (![primaryKeyValue isEqual:[NSNull null]]) {
+                if ( ![primaryKeyValue isEqual:[NSNull null]] ) {
                     [importedObject setValue:primaryKeyValue forKey:[self rzv_primaryKey]];
                 }
                 [lookup setObject:importedObject forKey:primaryKeyValue];
@@ -140,33 +140,44 @@
         return [self rzv_newObjectInContext:context];
     }
     
-    id object = nil;
+    id existingObject = nil;
     NSString *externalPrimaryKey = [self rzv_externalPrimaryKey] ?: [self rzv_primaryKey];
-    id primaryValue = externalPrimaryKey ? [dict objectForKey:externalPrimaryKey] : nil;
-    if ( primaryValue != nil ) {
-        if ([context rzi_isCacheEnabledForEntity:self]) {
-            NSMutableDictionary *cache = [context rzi_cacheForEntity:self];
-            object = cache[primaryValue];
-            if (object == nil) {
-                object = [self rzv_newObjectInContext:context];
-                [object setValue:primaryValue forKey:[self rzv_primaryKey]];
-                [cache setObject:object forKey:primaryValue];
+    if ( externalPrimaryKey == nil ) {
+        [self rzv_logUniqueObjectsWarning];
+    }
+
+    id primaryKeyValue = externalPrimaryKey ? [dict objectForKey:externalPrimaryKey] : nil;
+    primaryKeyValue = primaryKeyValue ?: [NSNull null];
+    
+    if ( [context rzi_isCacheEnabledForEntity:self] ) {
+        NSMutableDictionary *cache = [context rzi_cacheForEntity:self];
+        existingObject = cache[primaryKeyValue];
+        if ( existingObject == nil ) {
+            existingObject = [self rzv_newObjectInContext:context];
+            if ( [primaryKeyValue isEqual:[NSNull null]] ) {
+                [self rzv_logMissingPrimaryKey];
             }
-        }
-        else {
-            object = [self rzv_objectWithPrimaryKeyValue:primaryValue createNew:YES inContext:context];
+            else {
+                [existingObject setValue:primaryKeyValue forKey:[self rzv_primaryKey]];
+            }
+            [cache setObject:existingObject forKey:primaryKeyValue];
         }
     }
     else {
-        [self rzv_logUniqueObjectsWarning];
-        object = [self rzv_newObjectInContext:context];
+        if ( ![primaryKeyValue isEqual:[NSNull null]] ) {
+            existingObject = [self rzv_objectWithPrimaryKeyValue:primaryKeyValue createNew:YES inContext:context];
+        }
+        else {
+            existingObject = [self rzv_newObjectInContext:context];
+            [self rzv_logMissingPrimaryKey];
+        }
     }
-    
-    return object;
+
+    return existingObject;
 }
 
-- (BOOL)rzi_shouldImportValue:(id)value forKey:(NSString *)key {
-
+- (BOOL)rzi_shouldImportValue:(id)value forKey:(NSString *)key
+{
     __block BOOL shouldImport = YES;
     RZIPropertyInfo *propInfo = [[self class] rzi_propertyInfoForExternalKey:key withMappings:nil];
     if ( propInfo != nil && (propInfo.dataType == RZImportDataTypeOtherObject || propInfo.dataType == RZImportDataTypeNSSet) ) {
@@ -374,6 +385,23 @@
         if ( ![s_cachedNonUniqueableClasses containsObject:NSStringFromClass(self)] ) {
             [s_cachedNonUniqueableClasses addObject:NSStringFromClass(self)];
             RZVLogInfo(@"Class %@ for entity %@ does not provide a primary key, so it is not possible to find an existing instance to update. A new instance is being created in the database. If new instances of this entity should be created for every import, override +rzv_shouldAlwaysCreateNewObjectOnImport to return YES in order to suppress this message.", NSStringFromClass(self), [self rzv_entityName] );
+        }
+    });
+}
+
++ (void)rzv_logMissingPrimaryKey
+{
+    rzv_performBlockAtomically(NO, ^{
+
+        static NSMutableSet *s_cachedMissingKeyClasses = nil;
+        static dispatch_once_t onceToken;
+        dispatch_once(&onceToken, ^{
+            s_cachedMissingKeyClasses = [NSMutableSet set];
+        });
+
+        if ( ![s_cachedMissingKeyClasses containsObject:NSStringFromClass(self)] ) {
+            [s_cachedMissingKeyClasses addObject:NSStringFromClass(self)];
+            RZVLogInfo(@"Class %@ for entity %@ provides a primary key, but the imported primary key value is nil. This will create a new object every time.", NSStringFromClass(self), [self rzv_entityName] );
         }
     });
 }
