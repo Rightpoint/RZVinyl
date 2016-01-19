@@ -29,6 +29,12 @@
 
 @interface NSManagedObjectContext (RZImport_private)
 
+/**
+ *  Look for a cached instance of entityClass that has matching keys in the dictionary.
+ *
+ *  @param entityClass A subclass of NSManagedObject to lookup.
+ *  @param dictionary A dictionary containing values about to be imported.
+ */
 - (NSManagedObject *)rzi_objectForEntity:(Class)entityClass fromDictionary:(NSDictionary *)dictionary;
 
 /**

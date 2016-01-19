@@ -93,7 +93,7 @@ static NSString * const kRZVinylImportCacheContextKey = @"RZVinylImportCacheCont
     return context;
 }
 
-- (NSMutableDictionary *)rzi_cacheByEntityName
+- (NSMutableDictionary *)rzi_cacheByEntity
 {
     NSMutableDictionary *dictionary = self.userInfo[kRZVinylImportCacheContextKey];
     if (dictionary == nil) {
@@ -108,10 +108,10 @@ static NSString * const kRZVinylImportCacheContextKey = @"RZVinylImportCacheCont
     if (!RZVAssertOffMainContext()) {
         return nil;
     }
-    NSMutableDictionary *entityCache = self.rzi_cacheByEntityName[NSStringFromClass(entityClass)];
+    NSMutableDictionary *entityCache = self.rzi_cacheByEntity[NSStringFromClass(entityClass)];
     if (entityCache == nil) {
         entityCache = [NSMutableDictionary dictionary];
-        self.rzi_cacheByEntityName[NSStringFromClass(entityClass)] = entityCache;
+        self.rzi_cacheByEntity[NSStringFromClass(entityClass)] = entityCache;
     }
     NSMutableDictionary *entityKeyCache = entityCache[key];
     if (entityKeyCache == nil) {
@@ -135,7 +135,7 @@ static NSString * const kRZVinylImportCacheContextKey = @"RZVinylImportCacheCont
     }
 }
 
-- (void)rzi_cacheAllObjectsForEntityName:(Class)entityClass
+- (void)rzi_cacheAllObjectsForEntity:(Class)entityClass
 {
     NSArray *objects = [entityClass rzv_allInContext:self];
     [self rzi_cacheObjects:objects forEntity:entityClass];
@@ -162,7 +162,7 @@ static NSString * const kRZVinylImportCacheContextKey = @"RZVinylImportCacheCont
 
 - (BOOL)rzi_isCacheEnabledForEntity:(Class)entityClass;
 {
-    return [self.rzi_cacheByEntityName objectForKey:NSStringFromClass(entityClass)] != nil;
+    return [self.rzi_cacheByEntity objectForKey:NSStringFromClass(entityClass)] != nil;
 }
 
 - (void)rzi_disableCacheForEntity:(Class)entityClass
@@ -170,7 +170,7 @@ static NSString * const kRZVinylImportCacheContextKey = @"RZVinylImportCacheCont
     if (!RZVAssertOffMainContext()) {
         return;
     }
-    [self.rzi_cacheByEntityName removeObjectForKey:NSStringFromClass(entityClass)];
+    [self.rzi_cacheByEntity removeObjectForKey:NSStringFromClass(entityClass)];
 }
 
 @end
