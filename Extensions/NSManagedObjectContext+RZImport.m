@@ -108,10 +108,10 @@ static NSString * const kRZVinylImportCacheContextKey = @"RZVinylImportCacheCont
     if (!RZVAssertOffMainContext()) {
         return nil;
     }
-    NSMutableDictionary *entityCache = self.rzi_cacheByEntityName[[entityClass rzv_entityName]];
+    NSMutableDictionary *entityCache = self.rzi_cacheByEntityName[NSStringFromClass(entityClass)];
     if (entityCache == nil) {
         entityCache = [NSMutableDictionary dictionary];
-        self.rzi_cacheByEntityName[[entityClass rzv_entityName]] = entityCache;
+        self.rzi_cacheByEntityName[NSStringFromClass(entityClass)] = entityCache;
     }
     NSMutableDictionary *entityKeyCache = entityCache[key];
     if (entityKeyCache == nil) {
@@ -162,7 +162,7 @@ static NSString * const kRZVinylImportCacheContextKey = @"RZVinylImportCacheCont
 
 - (BOOL)rzi_isCacheEnabledForEntity:(Class)entityClass;
 {
-    return [self.rzi_cacheByEntityName objectForKey:[entityClass rzv_entityName]] != nil;
+    return [self.rzi_cacheByEntityName objectForKey:NSStringFromClass(entityClass)] != nil;
 }
 
 - (void)rzi_disableCacheForEntity:(Class)entityClass
@@ -170,7 +170,7 @@ static NSString * const kRZVinylImportCacheContextKey = @"RZVinylImportCacheCont
     if (!RZVAssertOffMainContext()) {
         return;
     }
-    [self.rzi_cacheByEntityName removeObjectForKey:[entityClass rzv_entityName]];
+    [self.rzi_cacheByEntityName removeObjectForKey:NSStringFromClass(entityClass)];
 }
 
 @end
