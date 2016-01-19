@@ -170,7 +170,7 @@
         
         Artist *huxley = [Artist rzv_newObjectInContext:context];
         XCTAssertEqualObjects(huxley.managedObjectContext, context, @"Wrong context");
-        XCTAssertNoThrow([huxley rzi_importValuesFromDict:artistDict inContext:context], @"Direct import should not throw exception");
+        XCTAssertNoThrow([huxley rzi_importValuesFromDict:artistDict], @"Direct import should not throw exception");
         XCTAssertEqualObjects(huxley.name, @"Huxley", @"Name import failed");
 
         XCTAssertTrue(huxley.songs.count == 2, @"Song import failed");
@@ -260,7 +260,9 @@
     NSTimeInterval start = [NSDate timeIntervalSinceReferenceDate];
     __block NSTimeInterval finish = 0;
     [[RZCoreDataStack defaultStack] performBlockUsingBackgroundContext:^(NSManagedObjectContext *context) {
-        [Artist rzi_objectsFromArray:artistArray inContext:context];
+        [context rzi_performImport:^{
+            [Artist rzi_objectsFromArray:artistArray];
+        }];
     } completion:^(NSError *err) {
         finish = [NSDate timeIntervalSinceReferenceDate];
         [saveExpectation fulfill];
