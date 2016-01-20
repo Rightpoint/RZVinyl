@@ -1,2 +1,5 @@
 platform :ios, '7.0'
-pod 'RZVinyl', :path => '../'
+
+target 'RZVinylDemo' do
+  pod 'RZVinyl', :path => '../'
+end
