@@ -295,21 +295,17 @@ This is implemented by the `NSManagedObject+RZImport` category to handle Core Da
 
 The implementation provided by the category automatically manages unique objects during an import by finding an existing object matching the dictionary being imported. This default implementation is safe to override as long as you always return the value provided by `super` in the cases that your override does not handle.
 
-##### Do not override `- (BOOL)rzi_shouldImportValue:(id)value forKey:(NSString *)key`
+##### Must call super for `- (BOOL)rzi_shouldImportValue:(id)value forKey:(NSString *)key`
 
-This is for similar reasons as above - the category implements the protocol method and internally calls the extended version with a context parameter:
+The category implementation handles recursive imports for keys representing relationships. You can override the method in a subclass, as long as you return the result of invoking the `super` implementation for keys that your override does not handle. See below for an example.
 
-```objective-c
-- (BOOL)rzi_shouldImportValue:(id)value forKey:(NSString *)key inContext:(NSManagedObjectContext *)context;
-```
-
-The category implementation handles recursive imports for keys representing relationships. You can override the extended method in a subclass as well, as long as you return the result of invoking the `super` implementation for keys that your override does not handle. See below for an example.
 
 ### Example
 
 Here is an example of a managed object subclass that is configured for usage with `RZImport`.
 
 **RZArtist.h**
+
 ```objective-c
 @interface RZArtist : NSManagedObject
 
@@ -325,6 +321,7 @@ Here is an example of a managed object subclass that is configured for usage wit
 ```
 
 **RZArtist+RZImport.h**
+
 ```objective-c
 @interface RZArtist (RZImport) <RZImportable>
 
@@ -332,6 +329,7 @@ Here is an example of a managed object subclass that is configured for usage wit
 ```
 
 **RZArtist+RZImport.m**
+
 ```objective-c
 @implementation RZArtist (RZImport)
 
@@ -358,7 +356,7 @@ Here is an example of a managed object subclass that is configured for usage wit
 	return nil;
 }
 
-- (BOOL)rzi_shouldImportValue:(id)value forKey:(NSString *)key inContext:(NSManagedObjectContext *)context
+- (BOOL)rzi_shouldImportValue:(id)value forKey:(NSString *)key
 {
 	// Genre string will be imported as a managed object (RZGenre)
 	if ( [key isEqualToString:@"genre"] ) {
@@ -366,11 +364,11 @@ Here is an example of a managed object subclass that is configured for usage wit
 		if ( [value isKindOfClass:[NSString class]] ) {
 			self.genre = [RZGenre rzv_objectWithAttributes:@{ @"name" : value }
 							                     createNew:YES
-							                     inContext:context];
+							                     inContext:self.managedObjectContext];
 		}
 		return NO;
 	}
-	return [super rzi_shouldImportValue:value forKey:key inContext:context];
+	return [super rzi_shouldImportValue:value forKey:key];
 }
 
 @end
