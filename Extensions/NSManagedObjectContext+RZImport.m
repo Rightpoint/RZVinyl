@@ -125,7 +125,8 @@ static NSString * const kRZVinylImportCacheContextKey = @"RZVinylImportCacheCont
 - (void)rzi_cacheObjects:(NSArray *)objects forEntity:(Class)entityClass
 {
     for ( NSString *externalKey in [entityClass rzv_externalCacheKeys] ) {
-        RZIPropertyInfo *info = [entityClass rzi_propertyInfoForExternalKey:externalKey withMappings:nil];
+        NSDictionary *pkMapping = @{[entityClass rzv_externalPrimaryKey]: [entityClass rzv_primaryKey]};
+        RZIPropertyInfo *info = [entityClass rzi_propertyInfoForExternalKey:externalKey withMappings:pkMapping];
         NSAssert(info != nil, @"Unable to find property for external key %@", externalKey);
         NSArray *keys = [objects valueForKey:info.propertyName];
         NSDictionary *values = [NSDictionary dictionaryWithObjects:objects
