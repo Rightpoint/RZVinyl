@@ -42,6 +42,8 @@
 /**
  *  The managed object context that is being imported to. This is set internally
  *  and by the `rzi_performImport:` method.
+ *
+ *  @return the thread-local managed object context
  */
 + (NSManagedObjectContext *)rzi_currentThreadImportContext;
 
