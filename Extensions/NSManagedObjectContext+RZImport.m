@@ -58,9 +58,14 @@ static NSString * const kRZVinylImportThreadContextKey = @"RZVinylImportThreadCo
     NSParameterAssert(importBlock);
     NSThread *thread = [NSThread currentThread];
     NSManagedObjectContext *initialImportContext = [thread rzi_currentImportContext];
-    [thread rzi_setCurrentImportContext:self];
-    [self performBlockAndWait:importBlock];
-    [thread rzi_setCurrentImportContext:initialImportContext];
+    if (initialImportContext != self) {
+        [thread rzi_setCurrentImportContext:self];
+        [self performBlockAndWait:importBlock];
+        [thread rzi_setCurrentImportContext:initialImportContext];
+    }
+    else {
+        importBlock();
+    }
 }
 
 + (NSManagedObjectContext *)rzi_currentThreadImportContext
