@@ -356,7 +356,7 @@ static RZCoreDataStack *s_defaultStack = nil;
         options[NSSQLitePragmasOption] = @{@"journal_mode" : journalMode};
     }
     
-    if ( ![self hasOptionsSet:RZCoreDataStackOptionDisableAutoLightweightMigration] && self.storeURL ){
+    if ( ![self hasOptionsSet:RZCoreDataStackOptionsDisableAutoLightweightMigration] && self.storeURL ){
         options[NSMigratePersistentStoresAutomaticallyOption] = @(YES);
         options[NSInferMappingModelAutomaticallyOption] = @(YES);
     }
@@ -368,7 +368,7 @@ static RZCoreDataStack *s_defaultStack = nil;
         
         RZVLogError(@"Error creating/reading persistent store: %@", error);
         
-        if ( [self hasOptionsSet:RZCoreDataStackOptionDeleteDatabaseIfUnreadable] && self.storeURL ) {
+        if ( [self hasOptionsSet:RZCoreDataStackOptionsDeleteDatabaseIfUnreadable] && self.storeURL ) {
             
             // Reset the error before we reuse it
             error = nil;
