@@ -41,12 +41,14 @@ typedef NS_OPTIONS(NSUInteger, RZCoreDataStackOptions)
      *  also passed to init.
      */
     RZCoreDataStackOptionsDisableAutoLightweightMigration = (1 << 0),
+    RZCoreDataStackOptionDisableAutoLightweightMigration __attribute__((deprecated)) = RZCoreDataStackOptionsDisableAutoLightweightMigration,
     
     /**
      *  Pass this option to delete the database file if it is not readable using the provided model.
      *  If this option is not set and the file is unreadable, the initialization will fail and an exception will be thrown.
      */
     RZCoreDataStackOptionsDeleteDatabaseIfUnreadable = (1 << 1),
+    RZCoreDataStackOptionDeleteDatabaseIfUnreadable __attribute((deprecated)) = RZCoreDataStackOptionsDeleteDatabaseIfUnreadable,
     
     /**
      *  Pass this option to disable the write-ahead log for sqlite databases.
