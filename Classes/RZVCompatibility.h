@@ -56,5 +56,5 @@
 #endif
 
 #define RZVKeyMap RZGeneric(NSDictionary, NSString *, NSString *)
-#define RZVStringDictionary RZGeneric(NSDictionary, NSString *, NSObject *)
+#define RZVStringDictionary RZGeneric(NSDictionary, NSString *, id)
 #define RZVArrayOfStringDict RZGeneric(NSArray, RZVStringDictionary *)
