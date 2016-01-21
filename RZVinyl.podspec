@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name                = "RZVinyl"
-  s.version             = "3.0.0"
+  s.version             = "3.0.1"
   s.summary             = "Stack management, ActiveRecord utilities, and seamless importing for Core Data."
 
   s.description         = <<-DESC
@@ -41,7 +41,7 @@ Pod::Spec.new do |s|
     sp.public_header_files = "Extensions/*.h"
     sp.private_header_files = "Extensions/Private/*.h"
     sp.xcconfig = {'GCC_PREPROCESSOR_DEFINITIONS' => 'RZV_IMPORT_AVAILABLE=1'}
-    sp.dependency 'RZImport', '~> 2.0'
+    sp.dependency 'RZImport', '~> 3.0'
   end
     
 end
