@@ -21,7 +21,7 @@
     return @"id";
 }
 
-- (BOOL)rzi_shouldImportValue:(id)value forKey:(NSString *)key inContext:(NSManagedObjectContext *)context
+- (BOOL)rzi_shouldImportValue:(id)value forKey:(NSString *)key
 {
     if ( [key isEqualToString:@"interests"] ) {
         if ( [value isKindOfClass:[NSArray class]] ) {
@@ -29,7 +29,7 @@
             NSMutableSet *interests = [NSMutableSet set];
             [(NSArray *)value enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
                 if ( [obj isKindOfClass:[NSString class]] ) {
-                    RZInterest *interest = [RZInterest rzv_objectWithAttributes:@{ @"name" : obj } createNew:YES inContext:context];
+                    RZInterest *interest = [RZInterest rzv_objectWithAttributes:@{ @"name" : obj } createNew:YES inContext:self.managedObjectContext];
                     if ( interest ) {
                         [interests addObject:interest];
                     }
@@ -39,7 +39,7 @@
         }
         return NO;
     }
-    return [super rzi_shouldImportValue:value forKey:key inContext:context];
+    return [super rzi_shouldImportValue:value forKey:key];
 }
 
 @end

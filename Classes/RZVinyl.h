@@ -35,6 +35,7 @@
 
 #if (RZV_IMPORT_AVAILABLE)
     #import "NSManagedObject+RZImport.h"
+    #import "NSManagedObjectContext+RZImport.h"
     #import "NSManagedObject+RZImportableSubclass.h"
 #endif
 

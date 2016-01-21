@@ -1,6 +1,6 @@
 //
 //  RZWaiter.h
-//  Costco
+//  RZVinylDemo
 //
 //  Created by Nick Bonatsakis on 06/19/2013.
 //  Copyright (c) 2014 RaizLabs. All rights reserved.

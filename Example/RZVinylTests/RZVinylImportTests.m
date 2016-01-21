@@ -170,7 +170,7 @@
         
         Artist *huxley = [Artist rzv_newObjectInContext:context];
         XCTAssertEqualObjects(huxley.managedObjectContext, context, @"Wrong context");
-        XCTAssertNoThrow([huxley rzi_importValuesFromDict:artistDict inContext:context], @"Direct import should not throw exception");
+        XCTAssertNoThrow([huxley rzi_importValuesFromDict:artistDict], @"Direct import should not throw exception");
         XCTAssertEqualObjects(huxley.name, @"Huxley", @"Name import failed");
 
         XCTAssertTrue(huxley.songs.count == 2, @"Song import failed");
@@ -197,21 +197,24 @@
 {
     const NSUInteger count = 1000;
     
-    NSDictionary *templateDict = @{
+    NSDictionary *artistTemplate = @{
        @"name" : @"Rick Astley",
        @"genre" : @"Pop",
-       @"songs" : @[
-          @{
-              @"id" : @1337,
-              @"title" : @"Never Gonna Give You Up"
-           }
-       ]
     };
+
+    NSDictionary *songTemplate = @{
+        @"title" : @"Never Gonna Give You Up"
+    };
+
     
     NSMutableArray *artistArray = [NSMutableArray array];
     for ( NSUInteger i = 0; i < count; i++ ) {
-        NSMutableDictionary *artistDict = [templateDict mutableCopy];
-        [artistDict setObject:@(i+1) forKey:@"id"];
+        NSMutableDictionary *songDict = [songTemplate mutableCopy];
+        [songDict   setObject:@(1000+i) forKey:@"id"];
+
+        NSMutableDictionary *artistDict = [artistTemplate mutableCopy];
+        [artistDict setObject:@(i+1)    forKey:@"id"];
+        [artistDict setObject:@[songDict] forKey:@"songs"];
         [artistArray addObject:artistDict];
     }
     
@@ -231,6 +234,47 @@
     
     Artist *aRick = [artists lastObject];
     XCTAssertEqual(aRick.songs.count, 1, @"Failed to import song");
+}
+
+- (void)test_BackgroundBigImport_1000
+{
+    const NSUInteger count = 1000;
+    
+    NSDictionary *templateDict = @{
+                                   @"name" : @"Rick Astley",
+                                   @"genre" : @"Pop",
+                                   @"songs" : @[
+                                           @{
+                                               @"id" : @1337,
+                                               @"title" : @"Never Gonna Give You Up"
+                                               }
+                                           ]
+                                   };
+    NSMutableArray *artistArray = [NSMutableArray array];
+    for ( NSUInteger i = 0; i < count; i++ ) {
+        NSMutableDictionary *artistDict = [templateDict mutableCopy];
+        [artistDict setObject:@(i+1) forKey:@"id"];
+        [artistArray addObject:artistDict];
+    }
+    XCTestExpectation *saveExpectation = [self expectationWithDescription:@"Save Expectation"];
+    NSTimeInterval start = [NSDate timeIntervalSinceReferenceDate];
+    __block NSTimeInterval finish = 0;
+    [[RZCoreDataStack defaultStack] performBlockUsingBackgroundContext:^(NSManagedObjectContext *context) {
+        [context rzi_performImport:^{
+            [Artist rzi_objectsFromArray:artistArray];
+        }];
+    } completion:^(NSError *err) {
+        finish = [NSDate timeIntervalSinceReferenceDate];
+        [saveExpectation fulfill];
+        XCTAssertNil(err);
+    }];
+    [self waitForExpectationsWithTimeout:1 handler:^(NSError *error) {
+        XCTAssertNil(error);
+    }];
+    
+    NSLog(@"Import of %lu artists took %f s", (unsigned long)count, finish - start);
+    
+    XCTAssertEqual([[Artist rzv_all] count], count, @"Failed to import artists");
 }
 
 

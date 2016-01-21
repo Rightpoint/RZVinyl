@@ -12,13 +12,13 @@ Stack management, ActiveRecord utilities, and seamless importing for Core Data.
 Add the following to your Podfile:
 
 ```
-pod RZVinyl, '~> 0.1'
+pod RZVinyl
 ```
 
-To exclude RZImport extensions, use the `Core` subspec: 
+To exclude RZImport extensions, use the `Core` subspec:
 
 ```
-pod RZVinyl/Core, '~> 0.1'
+pod RZVinyl/Core
 ```
 
 RZVinyl follows semantic versioning conventions. As newer versions are released, you will need to update the version spec in your Podfile as necessary. See the [release history](https://github.com/Raizlabs/RZVinyl/releases) for version information and release notes.
@@ -47,7 +47,7 @@ If all went well, your project should build cleanly and the methods from `NSMana
 
 # Demo Project
 
-A demo project is available in the `Example` directory. The demo project uses CocoaPods, and can be opened from a temporary directory by running 
+A demo project is available in the `Example` directory. The demo project uses CocoaPods, and can be opened from a temporary directory by running
 
 ```
 pod try RZVinyl
@@ -62,10 +62,13 @@ pod install
 
 Then, open `RZVinylDemo.xcworkspace` and check out the demo!
 
-
 **Note: The above steps assume that the CocoaPods gem is installed.**
 
 If you do not have CocoaPods installed, follow the instructions [here](http://cocoapods.org/).
+
+# Swift Support
+
+RZVinyl is fully compatible with Swift, and makes use of nullability annotations and lightweight generics where appropriate.
 
 # Overview
 
@@ -156,7 +159,7 @@ MyManagedObject *newObject = [MyManagedObject rzv_newObjectInContext:context];
 
 ##### Retrieve or create an instance for a primary key value
 
-These methods use the attribute provided by overriding `+ (NSString *)rzv_primaryKey;` in the managed object subclass to search for an existing object with the provided value for that attribute, optionally creating a new object and initializing it with the primary key value if one was not found.
+These methods use the attribute provided by implementing `+ (NSString *)rzv_primaryKey;` in the managed object subclass to search for an existing object with the provided value for that attribute, optionally creating a new object and initializing it with the primary key value if one was not found.
 
 ```objective-c
 // In the default main context
@@ -270,15 +273,15 @@ if ( ![context rzv_saveToStoreAndWait:&saveError] ) {
 
 ### Usage
 
-To enable RZImport for your managed object subclasses, create a category and override the following methods from `NSManagedObject+RZVinyl` and `NSManagedObject+RZImportableSubclass`:
+To enable RZImport for your managed object subclasses, create a category and implement the following methods from `RZVinylRecord` and `RZVinylRip` informal protocols:
 
 ##### `+ (NSString *)rzv_primaryKey;`
 
-Override to return the name of the property attributes representing the "unique ID" of this object type
+Implement to return the name of the property attributes representing the "unique ID" of this object type
 
 ##### `+ (NSString *)rzv_externalPrimaryKey;`
 
-If the key in the dictionary representations of this object is different from the primary key property name, override this method to return that key here. If not overridden, the same value returned by `rzv_primaryKey` will be used to find unique instances of the object.
+If the key in the dictionary representations of this object is different from the primary key property name, implement this method to return that key here. If not implemented, the same value returned by `rzv_primaryKey` will be used to find unique instances of the object.
 
 You can also implement the methods of `RZImportable` in your managed object classes to handle validation, provide further custom key/property mappings, etc, with two important caveats:
 
@@ -292,21 +295,17 @@ This is implemented by the `NSManagedObject+RZImport` category to handle Core Da
 
 The implementation provided by the category automatically manages unique objects during an import by finding an existing object matching the dictionary being imported. This default implementation is safe to override as long as you always return the value provided by `super` in the cases that your override does not handle.
 
-##### Do not override `- (BOOL)rzi_shouldImportValue:(id)value forKey:(NSString *)key`
+##### Must call super for `- (BOOL)rzi_shouldImportValue:(id)value forKey:(NSString *)key`
 
-This is for similar reasons as above - the category implements the protocol method and internally calls the extended version with a context parameter:
+The category implementation handles recursive imports for keys representing relationships. You can override the method in a subclass, as long as you return the result of invoking the `super` implementation for keys that your override does not handle. See below for an example.
 
-```objective-c
-- (BOOL)rzi_shouldImportValue:(id)value forKey:(NSString *)key inContext:(NSManagedObjectContext *)context;
-```
-
-The category implementation handles recursive imports for keys representing relationships. You can override the extended method in a subclass as well, as long as you return the result of invoking the `super` implementation for keys that your override does not handle. See below for an example.
 
 ### Example
 
 Here is an example of a managed object subclass that is configured for usage with `RZImport`.
 
 **RZArtist.h**
+
 ```objective-c
 @interface RZArtist : NSManagedObject
 
@@ -322,6 +321,7 @@ Here is an example of a managed object subclass that is configured for usage wit
 ```
 
 **RZArtist+RZImport.h**
+
 ```objective-c
 @interface RZArtist (RZImport) <RZImportable>
 
@@ -329,6 +329,7 @@ Here is an example of a managed object subclass that is configured for usage wit
 ```
 
 **RZArtist+RZImport.m**
+
 ```objective-c
 @implementation RZArtist (RZImport)
 
@@ -355,7 +356,7 @@ Here is an example of a managed object subclass that is configured for usage wit
 	return nil;
 }
 
-- (BOOL)rzi_shouldImportValue:(id)value forKey:(NSString *)key inContext:(NSManagedObjectContext *)context
+- (BOOL)rzi_shouldImportValue:(id)value forKey:(NSString *)key
 {
 	// Genre string will be imported as a managed object (RZGenre)
 	if ( [key isEqualToString:@"genre"] ) {
@@ -363,11 +364,11 @@ Here is an example of a managed object subclass that is configured for usage wit
 		if ( [value isKindOfClass:[NSString class]] ) {
 			self.genre = [RZGenre rzv_objectWithAttributes:@{ @"name" : value }
 							                     createNew:YES
-							                     inContext:context];
+							                     inContext:self.managedObjectContext];
 		}
 		return NO;
 	}
-	return [super rzi_shouldImportValue:value forKey:key inContext:context];
+	return [super rzi_shouldImportValue:value forKey:key];
 }
 
 @end
@@ -415,6 +416,24 @@ NSDictionary *artistDict = @{
 
 For more comprehensive documentation, see the [CococaDocs](http://cocoadocs.org/docsets/RZVinyl) page.
 
-# License
+## Maintainers
 
-RZVinyl is licensed under the MIT license. See LICENSE for details.
+[KingOfBrian](https://github.com/KingOfBrian) ([@KingOfBrian](http://twitter.com/KingOfBrian))
+
+[mgorbach](https://github.com/mgorbach) ([@mgorbach](http://twitter.com/mgorbach))
+
+[nbonatsakis](https://github.com/nbonatsakis) ([@nickbona](http://twitter.com/nickbona))
+
+[jatraiz](https://github.com/jatraiz) ([@jAtSway](http://twitter.com/jAtSway))
+
+[SpencerP](https://github.com/SpencerP)
+
+[jwatson](https://github.com/jwatson) ([@johnnystyle](http://twitter.com/johnnystyle))
+
+## Contributors
+
+[ndonald2](https://github.com/ndonald2) ([@infrasonick](http://twitter.com/infrasonick)) 
+
+## License
+
+RZVinyl is licensed under the MIT license. See the `LICENSE` file for details.

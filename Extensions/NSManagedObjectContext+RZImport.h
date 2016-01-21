@@ -1,15 +1,15 @@
 //
-//  NSManagedObject+RZImportableSubclass.m
+//  NSManagedObjectContext+RZImport.h
 //  RZVinyl
 //
-//  Created by Nick Donaldson on 6/6/14.
+//  Created by Brian King on 1/12/16.
 //
 //  Copyright 2014 Raizlabs and other contributors
 //  http://raizlabs.com/
 //
 //  Permission is hereby granted, free of charge, to any person obtaining
 //  a copy of this software and associated documentation files (the
-//  "Software"), to deal in the Software without restriction, including
+//  Software"), to deal in the Software without restriction, including
 //  without limitation the rights to use, copy, modify, merge, publish,
 //  distribute, sublicense, and/or sell copies of the Software, and to
 //  permit persons to whom the Software is furnished to do so, subject to
@@ -26,25 +26,21 @@
 //  OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 //  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-#import "NSManagedObject+RZImportableSubclass.h"
-#import "RZVinylDefines.h"
+@import CoreData;
 
-@implementation NSManagedObject (RZImportableSubclass)
+@interface NSManagedObjectContext (RZImport)
 
-+ (NSString *)rzv_externalPrimaryKey
-{
-    return nil;
-}
+/**
+ *  Specify that this managed object context should be used for all subsequent
+ *  RZImport operations. This enables RZImport to work with NSObjects containing
+ *  NSManagedObjects.
+ */
+- (void)rzi_performImport:(void(^)(void))importBlock;
 
-+ (BOOL)rzv_shouldAlwaysCreateNewObjectOnImport
-{
-    return NO;
-}
-
-- (void)rzi_setNilForPropertyNamed:(NSString *)propName;
-{
-    // NSManagedObjects handle setNilValueForKey: so this is safe, and faster.
-    [self setValue:nil forKey:propName];
-}
+/**
+ *  The managed object context that is being imported to. This is set internally
+ *  and by the `rzi_performImport:` method.
+ */
++ (NSManagedObjectContext *)rzi_currentThreadImportContext;
 
 @end

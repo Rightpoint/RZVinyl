@@ -1,10 +1,10 @@
 //
-//  NSManagedObject+RZImportableSubclass.m
+//  RZVCompatibility.h
 //  RZVinyl
 //
-//  Created by Nick Donaldson on 6/6/14.
+//  Created by John Watson on 8/20/15.
 //
-//  Copyright 2014 Raizlabs and other contributors
+//  Copyright 2015 Raizlabs and other contributors
 //  http://raizlabs.com/
 //
 //  Permission is hereby granted, free of charge, to any person obtaining
@@ -26,25 +26,35 @@
 //  OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 //  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-#import "NSManagedObject+RZImportableSubclass.h"
-#import "RZVinylDefines.h"
 
-@implementation NSManagedObject (RZImportableSubclass)
+//
+// Nullability annotation compatibility.
+//
 
-+ (NSString *)rzv_externalPrimaryKey
-{
-    return nil;
-}
+#if __has_feature(nullability)
+#   define RZNonnull    nonnull
+#   define RZNullable   nullable
+#   define RZCNonnull   __nonnull
+#   define RZCNullable  __nullable
+#else
+#   define RZNonnull
+#   define RZNullable
+#   define RZCNonnull
+#   define RZCNullable
+#endif
 
-+ (BOOL)rzv_shouldAlwaysCreateNewObjectOnImport
-{
-    return NO;
-}
+//
+// Lightweight generics compatibility.
+//
 
-- (void)rzi_setNilForPropertyNamed:(NSString *)propName;
-{
-    // NSManagedObjects handle setNilValueForKey: so this is safe, and faster.
-    [self setValue:nil forKey:propName];
-}
+#if __has_feature(objc_generics)
+#   define RZGeneric(class, ...) class<__VA_ARGS__>
+#   define RZGenericType(type) type
+#else
+#   define RZGeneric(class, ...) class
+#   define RZGenericType(type) id
+#endif
 
-@end
+#define RZVKeyMap RZGeneric(NSDictionary, NSString *, NSString *)
+#define RZVStringDictionary RZGeneric(NSDictionary, NSString *, id)
+#define RZVArrayOfStringDict RZGeneric(NSArray, RZVStringDictionary *)
