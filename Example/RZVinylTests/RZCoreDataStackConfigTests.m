@@ -178,7 +178,7 @@ static NSString* const kRZCoreDataStackCustomFilePath = @"test_tmp/RZCoreDataSta
                                                            storeType:NSSQLiteStoreType
                                                             storeURL:self.customFileURL
                                           persistentStoreCoordinator:nil
-                                                             options:RZCoreDataStackOptionDisableAutoLightweightMigration], @"Init with unreadable model should throw an exception");
+                                                             options:RZCoreDataStackOptionsDisableAutoLightweightMigration], @"Init with unreadable model should throw an exception");
     
     XCTAssertNil(stack2, @"Database should be unreadable with this model");
     
@@ -186,7 +186,7 @@ static NSString* const kRZCoreDataStackCustomFilePath = @"test_tmp/RZCoreDataSta
                                                            storeType:NSSQLiteStoreType
                                                             storeURL:self.customFileURL
                                           persistentStoreCoordinator:nil
-                                                             options:RZCoreDataStackOptionDeleteDatabaseIfUnreadable], @"Init threw an exception");
+                                                             options:RZCoreDataStackOptionsDeleteDatabaseIfUnreadable], @"Init threw an exception");
     
     XCTAssertNotNil(stack2, @"Stack should have been deleted and rebuilt");
     XCTAssertNotNil(stack2.managedObjectModel, @"Model should not be nil");

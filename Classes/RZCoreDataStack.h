@@ -9,7 +9,7 @@
 //
 //  Permission is hereby granted, free of charge, to any person obtaining
 //  a copy of this software and associated documentation files (the
-//                                                                "Software"), to deal in the Software without restriction, including
+//  "Software"), to deal in the Software without restriction, including
 //  without limitation the rights to use, copy, modify, merge, publish,
 //  distribute, sublicense, and/or sell copies of the Software, and to
 //  permit persons to whom the Software is furnished to do so, subject to
@@ -40,13 +40,15 @@ typedef NS_OPTIONS(NSUInteger, RZCoreDataStackOptions)
      *  or the file will be deleted, depending on whether @p RZCoreDataStackOptionDeleteDatabaseIfUnreadable is
      *  also passed to init.
      */
-    RZCoreDataStackOptionDisableAutoLightweightMigration = (1 << 0),
+    RZCoreDataStackOptionsDisableAutoLightweightMigration = (1 << 0),
+    RZCoreDataStackOptionDisableAutoLightweightMigration __attribute__((deprecated)) = RZCoreDataStackOptionsDisableAutoLightweightMigration,
     
     /**
      *  Pass this option to delete the database file if it is not readable using the provided model.
      *  If this option is not set and the file is unreadable, the initialization will fail and an exception will be thrown.
      */
-    RZCoreDataStackOptionDeleteDatabaseIfUnreadable = (1 << 1),
+    RZCoreDataStackOptionsDeleteDatabaseIfUnreadable = (1 << 1),
+    RZCoreDataStackOptionDeleteDatabaseIfUnreadable __attribute((deprecated)) = RZCoreDataStackOptionsDeleteDatabaseIfUnreadable,
     
     /**
      *  Pass this option to disable the write-ahead log for sqlite databases.

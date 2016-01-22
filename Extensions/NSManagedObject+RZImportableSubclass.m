@@ -27,18 +27,30 @@
 //  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #import "NSManagedObject+RZImportableSubclass.h"
+#import "NSManagedObject+RZVinylRecord.h"
 #import "RZVinylDefines.h"
 
 @implementation NSManagedObject (RZImportableSubclass)
 
 + (NSString *)rzv_externalPrimaryKey
 {
-    return nil;
+    return [self rzv_primaryKey];
 }
 
 + (BOOL)rzv_shouldAlwaysCreateNewObjectOnImport
 {
     return NO;
+}
+
++ (NSArray *)rzv_externalCacheKeys
+{
+    return @[[self rzv_externalPrimaryKey]];
+}
+
+- (void)rzi_setNilForPropertyNamed:(NSString *)propName;
+{
+    // NSManagedObjects handle setNilValueForKey: so this is safe, and faster.
+    [self setValue:nil forKey:propName];
 }
 
 @end

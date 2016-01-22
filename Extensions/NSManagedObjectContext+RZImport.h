@@ -34,13 +34,37 @@
  *  Specify that this managed object context should be used for all subsequent
  *  RZImport operations. This enables RZImport to work with NSObjects containing
  *  NSManagedObjects.
+ *
+ *  @param importBlock A block to execute where the import context will be set to this managed object context.
  */
 - (void)rzi_performImport:(void(^)(void))importBlock;
 
 /**
  *  The managed object context that is being imported to. This is set internally
  *  and by the `rzi_performImport:` method.
+ *
+ *  @return the thread-local managed object context
  */
 + (NSManagedObjectContext *)rzi_currentThreadImportContext;
+
+/**
+ *  Lookup all objects that belong to the entity and cache them.
+ *
+ *  @note If this is called on the main context of the core data stack, this method will assert.
+ *
+ *  @param entityClass A subclass of NSManagedObject to cache.
+ */
+- (void)rzi_cacheAllObjectsForEntity:(Class)entityClass;
+
+/**
+ *  Cache a specific set of objects for the given entity.
+ *
+ *  @warning Make sure that the objects cached contain all possibilities for the import
+ *           associations, otherwise duplicate objects may be created.
+ *
+ *  @param objects An array of objects to cache. All of these objects are of class entityClass.
+ *  @param entityClass A subclass of NSManagedObject to cache.
+ */
+- (void)rzi_cacheObjects:(NSArray *)objects forEntity:(Class)entityClass;
 
 @end

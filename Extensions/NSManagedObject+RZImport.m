@@ -34,6 +34,7 @@
 #import "NSManagedObject+RZImportableSubclass.h"
 #import "NSManagedObject+RZVinylRecord_private.h"
 #import "NSManagedObjectContext+RZImport.h"
+#import "NSManagedObjectContext+RZImport_private.h"
 #import "NSFetchRequest+RZVinylRecord.h"
 #import "RZVinylRelationshipInfo.h"
 #import "RZVinylDefines.h"
@@ -44,69 +45,81 @@
 
 @implementation NSManagedObject (RZImport)
 
-//!!!: Overridden to support default context
-+ (NSArray *)rzi_objectsFromArray:(NSArray *)array withMappings:(NSDictionary *)mappings
-{
-    return [self rzi_optimizedObjectsFromArray:array withMappings:mappings];
-}
-
 + (instancetype)rzi_objectFromDictionary:(NSDictionary *)dict withMappings:(NSDictionary *)mappings
 {
-    NSArray *results = [self rzi_optimizedObjectsFromArray:@[dict] withMappings:mappings];
-    return results.lastObject;
+    return [super rzi_objectFromDictionary:dict withMappings:mappings];
 }
 
-+ (NSArray *)rzi_optimizedObjectsFromArray:(NSArray *)array withMappings:(NSDictionary *)mappings
++ (NSArray *)rzi_objectsFromArray:(NSArray *)array withMappings:(NSDictionary *)mappings
 {
-    NSManagedObjectContext *context = [NSManagedObjectContext rzi_currentThreadImportContext];
+    NSString *externalPrimaryKey = [self rzv_externalPrimaryKey];
     mappings = [self rzi_primaryKeyMappingsDictWithMappings:mappings];
-    NSArray *objects = nil;
 
-    if ( array.count == 1 ) {
-        id importedObject = [super rzi_objectFromDictionary:array[0] withMappings:mappings];
-        if ( importedObject ) {
-            objects = @[importedObject];
-        }
-    }
-    else if ( [self rzv_primaryKey] != nil ) {
-    
-        NSMutableDictionary *updatedObjects = [NSMutableDictionary dictionary];
-        
-        NSString *externalPrimaryKey = [self rzv_externalPrimaryKey] ?: [self rzv_primaryKey];
-        
-        // Pre-fetch all objects that have a primary key in the set of objects being imported
-        NSDictionary *existingObjectsByID = [self rzi_existingObjectsByIDForArray:array inContext:context];
-        [array enumerateObjectsUsingBlock:^(NSDictionary *rawDict, NSUInteger idx, BOOL *stop) {
-            id importedObject = nil;
-            id primaryValue = [rawDict objectForKey:externalPrimaryKey];
-            
-            if ( primaryValue != nil ) {
-                importedObject = [existingObjectsByID objectForKey:primaryValue];
+    if ( externalPrimaryKey != nil ) {
+        NSManagedObjectContext *context = [NSManagedObjectContext rzi_currentThreadImportContext];
+        // Check to see if the cache is enabled prior to lookup.
+        BOOL cacheEnabled = [context rzi_isCacheEnabledForEntity:self];
+        NSMutableDictionary *lookup = nil;
 
-                 if (importedObject == nil) {
-                     importedObject = [updatedObjects objectForKey:primaryValue];
-                 }
+        if ( cacheEnabled == NO ) {
+            lookup = [NSMutableDictionary dictionary];
+            // Load the cache with the import data.
+            NSString *primaryKey = [self rzv_primaryKey];
+
+            // Determine the primary keys by the external key, and remove duplicates
+            NSArray *keyValues = [array valueForKey:externalPrimaryKey];
+            NSSet *missingKeyValues = [NSSet setWithArray:keyValues];
+
+            // If keys do not have objects and cache is not enabled for this entity, look them up
+            if ( missingKeyValues.count > 0 ) {
+                NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K in %@",
+                                          [self rzv_primaryKey],
+                                          missingKeyValues];
+
+                for ( id object in [self rzv_where:predicate inContext:context] ) {
+                    id keyValue = [object valueForKey:primaryKey];
+                    [lookup setObject:object forKey:keyValue];
+                }
             }
+        }
 
+        NSMutableArray *results = [NSMutableArray array];
+        [array enumerateObjectsUsingBlock:^(NSDictionary *dictionary, NSUInteger idx, BOOL *stop) {
+            id primaryKeyValue = [dictionary objectForKey:externalPrimaryKey];
+            primaryKeyValue = primaryKeyValue ?: [NSNull null];
+
+            if ( [primaryKeyValue isEqual:[NSNull null]] ) {
+                [self rzv_logMissingPrimaryKey];
+            }
+            id importedObject = nil;
+            if ( cacheEnabled ) {
+                importedObject = [context rzi_objectForEntity:self fromDictionary:dictionary];
+            }
+            else {
+                importedObject = lookup[primaryKeyValue];
+            }
             if ( importedObject == nil ) {
                 importedObject = [self rzv_newObjectInContext:context];
+                if ( ![primaryKeyValue isEqual:[NSNull null]] ) {
+                    [importedObject setValue:primaryKeyValue forKey:[self rzv_primaryKey]];
+                }
+                if ( cacheEnabled ) {
+                    [context rzi_cacheObjects:@[importedObject] forEntity:self];
+                }
+                else {
+                    [lookup setObject:importedObject forKey:primaryKeyValue];
+                }
             }
-            
-            [importedObject rzi_importValuesFromDict:rawDict withMappings:mappings];
-            
-            if ( importedObject != nil ) {
-                [updatedObjects setObject:importedObject forKey:primaryValue];
-            }
+
+            [importedObject rzi_importValuesFromDict:dictionary withMappings:mappings];
+            [results addObject:importedObject];
         }];
-        
-        objects = [updatedObjects allValues];
+        return results;
     }
     else {
         // Default to creating new object instances.
-        objects = [super rzi_objectsFromArray:array withMappings:mappings];
+        return [super rzi_objectsFromArray:array withMappings:mappings];
     }
-
-    return objects;
 }
 
 - (void)rzi_importValuesFromDict:(NSDictionary *)dict withMappings:(NSDictionary *)mappings
@@ -134,22 +147,43 @@
         return [self rzv_newObjectInContext:context];
     }
     
-    id object = nil;
-    NSString *externalPrimaryKey = [self rzv_externalPrimaryKey] ?: [self rzv_primaryKey];
-    id primaryValue = externalPrimaryKey ? [dict objectForKey:externalPrimaryKey] : nil;
-    if ( primaryValue != nil ) {
-        object = [self rzv_objectWithPrimaryKeyValue:primaryValue createNew:YES inContext:context];
+    id existingObject = nil;
+    NSString *externalPrimaryKey = [self rzv_externalPrimaryKey];
+    if ( externalPrimaryKey == nil ) {
+        [self rzv_logUniqueObjectsWarning];
+    }
+
+    id primaryKeyValue = externalPrimaryKey ? [dict objectForKey:externalPrimaryKey] : nil;
+    primaryKeyValue = primaryKeyValue ?: [NSNull null];
+    
+    if ( [context rzi_isCacheEnabledForEntity:self] ) {
+        existingObject = [context rzi_objectForEntity:self fromDictionary:dict];
+        if ( existingObject == nil ) {
+            existingObject = [self rzv_newObjectInContext:context];
+            if ( [primaryKeyValue isEqual:[NSNull null]] ) {
+                [self rzv_logMissingPrimaryKey];
+            }
+            else {
+                [existingObject setValue:primaryKeyValue forKey:[self rzv_primaryKey]];
+            }
+            [context rzi_cacheObjects:@[existingObject] forEntity:self];
+        }
     }
     else {
-        [self rzv_logUniqueObjectsWarning];
-        object = [self rzv_newObjectInContext:context];
+        if ( ![primaryKeyValue isEqual:[NSNull null]] ) {
+            existingObject = [self rzv_objectWithPrimaryKeyValue:primaryKeyValue createNew:YES inContext:context];
+        }
+        else {
+            existingObject = [self rzv_newObjectInContext:context];
+            [self rzv_logMissingPrimaryKey];
+        }
     }
-    
-    return object;
+
+    return existingObject;
 }
 
-- (BOOL)rzi_shouldImportValue:(id)value forKey:(NSString *)key {
-
+- (BOOL)rzi_shouldImportValue:(id)value forKey:(NSString *)key
+{
     __block BOOL shouldImport = YES;
     RZIPropertyInfo *propInfo = [[self class] rzi_propertyInfoForExternalKey:key withMappings:nil];
     if ( propInfo != nil && (propInfo.dataType == RZImportDataTypeOtherObject || propInfo.dataType == RZImportDataTypeNSSet) ) {
@@ -230,7 +264,7 @@
 {
     NSString *primaryKey = [self rzv_primaryKey];
     NSString *externalPrimaryKey = [self rzv_externalPrimaryKey];
-    if ( primaryKey != nil && externalPrimaryKey != nil ) {
+    if ( primaryKey != nil && externalPrimaryKey != nil && ![primaryKey isEqual:externalPrimaryKey] ) {
         return @{ externalPrimaryKey : primaryKey };
     }
     
@@ -277,26 +311,6 @@
     // !!!: To prevent further checking of non-relationship keys, we cache NSNull
     //      so this ensures that a valid relationshipInfo object is returned
     return [relationshipInfo isEqual:[NSNull null]] ? nil : relationshipInfo;
-}
-
-+ (NSDictionary *)rzi_existingObjectsByIDForArray:(NSArray *)array inContext:(NSManagedObjectContext *)context
-{
-    NSString *primaryKey = [self rzv_primaryKey];
-    NSString *externalPrimaryKey = [self rzv_externalPrimaryKey] ?: primaryKey;
-    
-    NSSet       *primaryKeySet   = [NSSet setWithArray:[array valueForKey:externalPrimaryKey]];
-    NSPredicate *existingObjPred = [NSPredicate predicateWithFormat:@"%K in %@", primaryKey, primaryKeySet];
-    NSArray     *existingObjects = [self rzv_where:existingObjPred inContext:context];
-    
-    NSMutableDictionary *existingObjsByID = [NSMutableDictionary dictionary];
-    [existingObjects enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        id primaryValue = [obj valueForKey:primaryKey];
-        if ( primaryValue ) {
-            [existingObjsByID setObject:obj forKey:primaryValue];
-        }
-    }];
-    
-    return [NSDictionary dictionaryWithDictionary:existingObjsByID];
 }
 
 - (void)rzi_performRelationshipImportWithValue:(id)value forRelationship:(RZVinylRelationshipInfo *)relationshipInfo
@@ -377,6 +391,23 @@
         if ( ![s_cachedNonUniqueableClasses containsObject:NSStringFromClass(self)] ) {
             [s_cachedNonUniqueableClasses addObject:NSStringFromClass(self)];
             RZVLogInfo(@"Class %@ for entity %@ does not provide a primary key, so it is not possible to find an existing instance to update. A new instance is being created in the database. If new instances of this entity should be created for every import, override +rzv_shouldAlwaysCreateNewObjectOnImport to return YES in order to suppress this message.", NSStringFromClass(self), [self rzv_entityName] );
+        }
+    });
+}
+
++ (void)rzv_logMissingPrimaryKey
+{
+    rzv_performBlockAtomically(NO, ^{
+
+        static NSMutableSet *s_cachedMissingKeyClasses = nil;
+        static dispatch_once_t onceToken;
+        dispatch_once(&onceToken, ^{
+            s_cachedMissingKeyClasses = [NSMutableSet set];
+        });
+
+        if ( ![s_cachedMissingKeyClasses containsObject:NSStringFromClass(self)] ) {
+            [s_cachedMissingKeyClasses addObject:NSStringFromClass(self)];
+            RZVLogInfo(@"Class %@ for entity %@ provides a primary key, but the imported primary key value is nil. This will create a new object every time.", NSStringFromClass(self), [self rzv_entityName] );
         }
     });
 }

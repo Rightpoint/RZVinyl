@@ -219,12 +219,10 @@
     }
     
     __block NSArray *artists = nil;
-    uint64_t time = dispatch_benchmark(1, ^{
+    [self measureBlock:^{
         artists = [Artist rzi_objectsFromArray:artistArray];
-    });
-    
-    NSLog(@"Import of %lu artists took %f s", (unsigned long)count, (double)time/NSEC_PER_SEC);
-    
+    }];
+
     XCTAssertNotNil(artists, @"Failed to import artists");
     XCTAssertEqual(artists.count, count, @"Incorrect number of artists imported");
     
@@ -238,8 +236,22 @@
 
 - (void)test_BackgroundBigImport_1000
 {
-    const NSUInteger count = 1000;
-    
+    NSArray *artistArray = [self generateRickRollOfSize:1000];
+    [self measureBlock:^{
+        [self performArtistImport:artistArray cachingEntities:@[]];
+    }];
+}
+
+- (void)test_CachedLeafEntitiesBackgroundBigImport_1000
+{
+    NSArray *artistArray = [self generateRickRollOfSize:1000];
+    [self measureBlock:^{
+        [self performArtistImport:artistArray cachingEntities:@[[Song class]]];
+    }];
+}
+
+- (NSArray *)generateRickRollOfSize:(NSUInteger)count
+{
     NSDictionary *templateDict = @{
                                    @"name" : @"Rick Astley",
                                    @"genre" : @"Pop",
@@ -256,25 +268,36 @@
         [artistDict setObject:@(i+1) forKey:@"id"];
         [artistArray addObject:artistDict];
     }
+    return [artistArray copy];
+}
+
+- (void)performArtistImport:(NSArray *)artistArray cachingEntities:(NSArray *)entities
+{
     XCTestExpectation *saveExpectation = [self expectationWithDescription:@"Save Expectation"];
-    NSTimeInterval start = [NSDate timeIntervalSinceReferenceDate];
-    __block NSTimeInterval finish = 0;
     [[RZCoreDataStack defaultStack] performBlockUsingBackgroundContext:^(NSManagedObjectContext *context) {
+        for (Class entity in entities) {
+            [context rzi_cacheAllObjectsForEntity:entity];
+        }
         [context rzi_performImport:^{
             [Artist rzi_objectsFromArray:artistArray];
         }];
     } completion:^(NSError *err) {
-        finish = [NSDate timeIntervalSinceReferenceDate];
         [saveExpectation fulfill];
         XCTAssertNil(err);
     }];
-    [self waitForExpectationsWithTimeout:1 handler:^(NSError *error) {
+    [self waitForExpectationsWithTimeout:5 handler:^(NSError *error) {
         XCTAssertNil(error);
     }];
-    
-    NSLog(@"Import of %lu artists took %f s", (unsigned long)count, finish - start);
-    
-    XCTAssertEqual([[Artist rzv_all] count], count, @"Failed to import artists");
+
+    NSArray *artists = [Artist rzv_all];
+    XCTAssertEqual([artists count], artistArray.count, @"Failed to import artists");
+    BOOL rollFound = NO;
+    for (Artist *a in artists) {
+        if (a.songs.count > 0) {
+            rollFound = YES;
+        }
+    }
+    XCTAssert(rollFound, @"Failed to import song");
 }
 
 

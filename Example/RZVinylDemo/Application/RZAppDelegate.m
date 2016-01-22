@@ -15,7 +15,7 @@ static NSString* const kRZManagedObjectModelName = @"RZVinylDemo";
 
 - (BOOL)application:(UIApplication *)application willFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    RZCoreDataStackOptions options = RZCoreDataStackOptionDeleteDatabaseIfUnreadable | RZCoreDataStackOptionsEnableAutoStalePurge;
+    RZCoreDataStackOptions options = RZCoreDataStackOptionsDeleteDatabaseIfUnreadable | RZCoreDataStackOptionsEnableAutoStalePurge;
     [RZCoreDataStack setDefaultStack:[[RZCoreDataStack alloc] initWithModelName:kRZManagedObjectModelName
                                                                   configuration:nil
                                                                       storeType:NSInMemoryStoreType
