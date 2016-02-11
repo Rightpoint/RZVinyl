@@ -147,11 +147,7 @@ static NSString * const kRZVinylImportCacheContextKey = @"RZVinylImportCacheCont
     [self rzi_cacheObjects:objects forEntity:entityClass];
 }
 
-@end
-
-@implementation NSManagedObjectContext (RZImport_private)
-
-- (NSManagedObject *)rzi_objectForEntity:(Class)entityClass fromDictionary:(NSDictionary *)dictionary;
+- (NSManagedObject *)rzi_cachedObjectForKeysInDictionary:(NSDictionary *)dictionary entity:(Class)entityClass;
 {
     for ( NSString *key in [entityClass rzv_externalCacheKeys] ) {
         id value = [dictionary objectForKey:key];
@@ -169,14 +165,6 @@ static NSString * const kRZVinylImportCacheContextKey = @"RZVinylImportCacheCont
 - (BOOL)rzi_isCacheEnabledForEntity:(Class)entityClass;
 {
     return [self.rzi_cacheByEntity objectForKey:NSStringFromClass(entityClass)] != nil;
-}
-
-- (void)rzi_disableCacheForEntity:(Class)entityClass
-{
-    if (!RZVAssertOffMainContext()) {
-        return;
-    }
-    [self.rzi_cacheByEntity removeObjectForKey:NSStringFromClass(entityClass)];
 }
 
 @end

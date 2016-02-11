@@ -93,7 +93,7 @@
             }
             id importedObject = nil;
             if ( cacheEnabled ) {
-                importedObject = [context rzi_objectForEntity:self fromDictionary:dictionary];
+                importedObject = [context rzi_cachedObjectForKeysInDictionary:dictionary entity:self];
             }
             else {
                 importedObject = lookup[primaryKeyValue];
@@ -157,7 +157,7 @@
     primaryKeyValue = primaryKeyValue ?: [NSNull null];
     
     if ( [context rzi_isCacheEnabledForEntity:self] ) {
-        existingObject = [context rzi_objectForEntity:self fromDictionary:dict];
+        existingObject = [context rzi_cachedObjectForKeysInDictionary:dict entity:self];
         if ( existingObject == nil ) {
             existingObject = [self rzv_newObjectInContext:context];
             if ( [primaryKeyValue isEqual:[NSNull null]] ) {

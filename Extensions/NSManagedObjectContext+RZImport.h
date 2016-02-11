@@ -67,4 +67,17 @@
  */
 - (void)rzi_cacheObjects:(NSArray *)objects forEntity:(Class)entityClass;
 
+/**
+ *  Look for a cached instance of entityClass that has matching keys in the dictionary.
+ *
+ *  @param entityClass A subclass of NSManagedObject to lookup.
+ *  @param dictionary A dictionary containing the keys and values to lookup in the cache.
+ */
+- (NSManagedObject *)rzi_cachedObjectForKeysInDictionary:(NSDictionary *)dictionary entity:(Class)entityClass;
+
+/**
+ *  Check to see if the cache is enabled for the specified entity.
+ */
+- (BOOL)rzi_isCacheEnabledForEntity:(Class)entityClass;
+
 @end
