@@ -34,7 +34,6 @@
 #import "NSManagedObject+RZImportableSubclass.h"
 #import "NSManagedObject+RZVinylRecord_private.h"
 #import "NSManagedObjectContext+RZImport.h"
-#import "NSManagedObjectContext+RZImport_private.h"
 #import "NSFetchRequest+RZVinylRecord.h"
 #import "RZVinylRelationshipInfo.h"
 #import "RZVinylDefines.h"
