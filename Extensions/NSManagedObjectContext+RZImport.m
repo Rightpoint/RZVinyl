@@ -101,26 +101,26 @@ static NSString * const kRZVinylImportCacheContextKey = @"RZVinylImportCacheCont
 - (NSMutableDictionary *)rzi_cacheByEntity
 {
     NSMutableDictionary *dictionary = self.userInfo[kRZVinylImportCacheContextKey];
-    if (dictionary == nil) {
+    if ( dictionary == nil ) {
         dictionary = [NSMutableDictionary dictionary];
         self.userInfo[kRZVinylImportCacheContextKey] = dictionary;
     }
     return dictionary;
 }
 
-- (NSMutableDictionary *)rzi_cacheForEntity:(Class)entityClass externalKey:(NSString *)key
+- (NSMapTable *)rzi_cacheForEntity:(Class)entityClass externalKey:(NSString *)key
 {
-    if (!RZVAssertOffMainContext()) {
+    if ( !RZVAssertOffMainContext() ) {
         return nil;
     }
     NSMutableDictionary *entityCache = self.rzi_cacheByEntity[NSStringFromClass(entityClass)];
-    if (entityCache == nil) {
+    if ( entityCache == nil ) {
         entityCache = [NSMutableDictionary dictionary];
         self.rzi_cacheByEntity[NSStringFromClass(entityClass)] = entityCache;
     }
-    NSMutableDictionary *entityKeyCache = entityCache[key];
-    if (entityKeyCache == nil) {
-        entityKeyCache = [NSMutableDictionary dictionary];
+    NSMapTable *entityKeyCache = entityCache[key];
+    if ( entityKeyCache == nil ) {
+        entityKeyCache = [NSMapTable strongToStrongObjectsMapTable];
         entityCache[key] = entityKeyCache;
     }
 
@@ -133,11 +133,13 @@ static NSString * const kRZVinylImportCacheContextKey = @"RZVinylImportCacheCont
         NSDictionary *pkMapping = @{[entityClass rzv_externalPrimaryKey]: [entityClass rzv_primaryKey]};
         RZIPropertyInfo *info = [entityClass rzi_propertyInfoForExternalKey:externalKey withMappings:pkMapping];
         NSAssert(info != nil, @"Unable to find property for external key %@", externalKey);
-        NSArray *keys = [objects valueForKey:info.propertyName];
-        NSDictionary *values = [NSDictionary dictionaryWithObjects:objects
-                                                           forKeys:keys];
-        NSMutableDictionary *cachedObjects = [self rzi_cacheForEntity:entityClass externalKey:externalKey];
-        [cachedObjects setValuesForKeysWithDictionary:values];
+        NSMapTable *cachedObjects = [self rzi_cacheForEntity:entityClass externalKey:externalKey];
+        for (NSManagedObject *mo in objects) {
+            id keyValue = [mo valueForKey:info.propertyName];
+            if ( keyValue ) {
+                [cachedObjects setObject:mo forKey:keyValue];
+            }
+        }
     }
 }
 
@@ -150,11 +152,12 @@ static NSString * const kRZVinylImportCacheContextKey = @"RZVinylImportCacheCont
 - (NSManagedObject *)rzi_cachedObjectForKeysInDictionary:(NSDictionary *)dictionary entity:(Class)entityClass;
 {
     for ( NSString *key in [entityClass rzv_externalCacheKeys] ) {
-        id value = [dictionary objectForKey:key];
-        if ( value == nil ) {
+        id keyValue = [dictionary objectForKey:key];
+        if ( keyValue == nil ) {
             continue;
         }
-        id result = [self rzi_cacheForEntity:entityClass externalKey:key][value];
+        NSMapTable *cache = [self rzi_cacheForEntity:entityClass externalKey:key];
+        id result = [cache objectForKey:keyValue];
         if ( result ) {
             return result;
         }
