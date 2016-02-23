@@ -151,7 +151,7 @@
  *  @return A valid NSManagedObject initialized with the provided dictionary, or nil
  *          if an object could not be created.
  */
-+ (RZNullable id)rzi_existingObjectForDict:(RZVStringDictionary* RZCNonnull)dict inContext:(NSManagedObjectContext* RZCNonnull)context;
++ (RZNullable instancetype)rzi_existingObjectForDict:(RZVStringDictionary* RZCNonnull)dict inContext:(NSManagedObjectContext* RZCNonnull)context;
 
 @end
 

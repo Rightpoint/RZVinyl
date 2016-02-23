@@ -41,8 +41,7 @@
  *  but your managed object subclass might store this value as an attribute named "remoteID", hence it is 
  *  necessary to provide both keys separately to enforce unique instances in the database.
  *
- *  @note Failure to override (or returning nil, the default) will cause the value of @p +rzv_primaryKey
- *  to be used for the external key as well.
+ *  @note This will return the value of @c +rzv_primaryKey if it is this method is not overridden.
  *
  *  @return The key in dictionary representations whose value uniquely identifies this object.
  */
@@ -57,5 +56,14 @@
  *  @return @c YES to always create new instances on import. Default is @c NO.
  */
 + (BOOL)rzv_shouldAlwaysCreateNewObjectOnImport;
+
+/** 
+ *  When caching managed objects, the cache will be built for the keys specified. By default `rzv_externalPrimaryKey`
+ *  is returned. Subclasses can add cache lookups for other keys by overriding this method and returning the keys.
+ *  This is useful when a different key is used elsewhere in your object graph for associations.
+ *
+ *  @return An array of external keys to build the cache with.
+ */
++ (NSArray *)rzv_externalCacheKeys;
 
 @end

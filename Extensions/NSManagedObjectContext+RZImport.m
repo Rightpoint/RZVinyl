@@ -26,12 +26,32 @@
 //  OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 //  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+#import "NSManagedObject+RZVinylUtils.h"
+#import "NSManagedObject+RZVinylRecord.h"
+#import "NSManagedObject+RZImport.h"
+#import "NSManagedObject+RZImportableSubclass.h"
+
 #import "NSManagedObjectContext+RZImport.h"
+#import "NSObject+RZImport_private.h"
 #import "RZCoreDataStack.h"
+#import "RZVinylDefines.h"
+
+/**
+ *  Managing the cache on the main context is complicated, since the user would have to manage
+ *  when to clear the cache. Disable the cache on the main thread, since moving imports on to a
+ *  background context is the first optimization to use.
+ */
+#define RZVAssertOffMainContext() \
+({\
+RZCoreDataStack *stack = self.userInfo[kRZCoreDataStackParentStackKey];\
+NSAssert(stack.mainManagedObjectContext != self, @"Can not enable cache on the main context.");\
+stack.mainManagedObjectContext != self;\
+})
 
 @implementation NSThread (RZImport)
 
 static NSString * const kRZVinylImportThreadContextKey = @"RZVinylImportThreadContext";
+static NSString * const kRZVinylImportCacheContextKey = @"RZVinylImportCacheContextKey";
 
 - (NSManagedObjectContext *)rzi_currentImportContext
 {
@@ -74,8 +94,80 @@ static NSString * const kRZVinylImportThreadContextKey = @"RZVinylImportThreadCo
     if ( context == nil && [NSThread currentThread] == [NSThread mainThread] ) {
         context = [[RZCoreDataStack defaultStack] mainManagedObjectContext];
     }
-    NSAssert(context != nil, @"RZImport is attempting to perform an import with out an import context. Make sure that you use RZImport from inside -[NSManagedObjectContext rzi_performImport].");
+    NSAssert(context != nil, @"RZImport is attempting to perform an import with out an import context. Make sure that you use RZImport from inside -[NSManagedObjectContext rzi_performImport] or with one of the `inContext:` methods.");
     return context;
+}
+
+- (NSMutableDictionary *)rzi_cacheByEntity
+{
+    NSMutableDictionary *dictionary = self.userInfo[kRZVinylImportCacheContextKey];
+    if ( dictionary == nil ) {
+        dictionary = [NSMutableDictionary dictionary];
+        self.userInfo[kRZVinylImportCacheContextKey] = dictionary;
+    }
+    return dictionary;
+}
+
+- (NSMapTable *)rzi_cacheForEntity:(Class)entityClass externalKey:(NSString *)key
+{
+    if ( !RZVAssertOffMainContext() ) {
+        return nil;
+    }
+    NSMutableDictionary *entityCache = self.rzi_cacheByEntity[NSStringFromClass(entityClass)];
+    if ( entityCache == nil ) {
+        entityCache = [NSMutableDictionary dictionary];
+        self.rzi_cacheByEntity[NSStringFromClass(entityClass)] = entityCache;
+    }
+    NSMapTable *entityKeyCache = entityCache[key];
+    if ( entityKeyCache == nil ) {
+        entityKeyCache = [NSMapTable strongToStrongObjectsMapTable];
+        entityCache[key] = entityKeyCache;
+    }
+
+    return entityKeyCache;
+}
+
+- (void)rzi_cacheObjects:(NSArray *)objects forEntity:(Class)entityClass
+{
+    for ( NSString *externalKey in [entityClass rzv_externalCacheKeys] ) {
+        NSDictionary *pkMapping = @{[entityClass rzv_externalPrimaryKey]: [entityClass rzv_primaryKey]};
+        RZIPropertyInfo *info = [entityClass rzi_propertyInfoForExternalKey:externalKey withMappings:pkMapping];
+        NSAssert(info != nil, @"Unable to find property for external key %@", externalKey);
+        NSMapTable *cachedObjects = [self rzi_cacheForEntity:entityClass externalKey:externalKey];
+        for (NSManagedObject *mo in objects) {
+            id keyValue = [mo valueForKey:info.propertyName];
+            if ( keyValue ) {
+                [cachedObjects setObject:mo forKey:keyValue];
+            }
+        }
+    }
+}
+
+- (void)rzi_cacheAllObjectsForEntity:(Class)entityClass
+{
+    NSArray *objects = [entityClass rzv_allInContext:self];
+    [self rzi_cacheObjects:objects forEntity:entityClass];
+}
+
+- (NSManagedObject *)rzi_cachedObjectForKeysInDictionary:(NSDictionary *)dictionary entity:(Class)entityClass;
+{
+    for ( NSString *key in [entityClass rzv_externalCacheKeys] ) {
+        id keyValue = [dictionary objectForKey:key];
+        if ( keyValue == nil ) {
+            continue;
+        }
+        NSMapTable *cache = [self rzi_cacheForEntity:entityClass externalKey:key];
+        id result = [cache objectForKey:keyValue];
+        if ( result ) {
+            return result;
+        }
+    }
+    return nil;
+}
+
+- (BOOL)rzi_isCacheEnabledForEntity:(Class)entityClass;
+{
+    return [self.rzi_cacheByEntity objectForKey:NSStringFromClass(entityClass)] != nil;
 }
 
 @end
