@@ -182,8 +182,8 @@ static RZCoreDataStack *s_defaultStack = nil;
                 NSError *err = nil;
                 @autoreleasepool {
                     block(context);
+                    [context rzv_saveToStoreAndWait:&err];
                 }
-                [context rzv_saveToStoreAndWait:&err];
                 if ( completion ) {
                     dispatch_async(dispatch_get_main_queue(), ^{
                         completion(err);
