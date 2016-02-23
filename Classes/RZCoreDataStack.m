@@ -176,18 +176,22 @@ static RZCoreDataStack *s_defaultStack = nil;
     }
     
     dispatch_async(self.backgroundContextQueue, ^{
-        NSManagedObjectContext *context = [self backgroundManagedObjectContext];
-        [context performBlockAndWait:^{
-            block(context);
-            NSError *err = nil;
-            [context rzv_saveToStoreAndWait:&err];
-            if ( completion ) {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    completion(err);
-                });
-            }
-        }];
-        [self unregisterSaveNotificationsForContext:context];
+        @autoreleasepool {
+            NSManagedObjectContext *context = [self backgroundManagedObjectContext];
+            [context performBlockAndWait:^{
+                NSError *err = nil;
+                @autoreleasepool {
+                    block(context);
+                }
+                [context rzv_saveToStoreAndWait:&err];
+                if ( completion ) {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        completion(err);
+                    });
+                }
+            }];
+            [self unregisterSaveNotificationsForContext:context];
+        }
     });
 }
 
