@@ -20,7 +20,7 @@ DerivedData
 .idea/
 
 # Carthage 
-RZVinyl/Carthage
+Carthage
 
 # Pods
 Example/Pods
