@@ -19,6 +19,9 @@ DerivedData
 .DS_Store
 .idea/
 
+# Carthage 
+RZVinyl/Carthage
+
 # Pods
 Example/Pods
 Example/Podfile.lock
