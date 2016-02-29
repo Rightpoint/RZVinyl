@@ -54,8 +54,8 @@
 		C241BC3D1C81297E00F59833 /* NSManagedObjectContext+RZImport.m in Sources */ = {isa = PBXBuildFile; fileRef = C241BC341C81297E00F59833 /* NSManagedObjectContext+RZImport.m */; };
 		C241BC3E1C81297E00F59833 /* RZVinylRelationshipInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = C241BC361C81297E00F59833 /* RZVinylRelationshipInfo.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		C241BC3F1C81297E00F59833 /* RZVinylRelationshipInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = C241BC371C81297E00F59833 /* RZVinylRelationshipInfo.m */; };
-		C241BC721C84BE8100F59833 /* RZImport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C241BC711C84BE8100F59833 /* RZImport.framework */; };
-		C241BC741C84C02B00F59833 /* NSObject+RZImport_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = C241BC731C84C02B00F59833 /* NSObject+RZImport_Private.h */; };
+		C241BC761C84C3E500F59833 /* RZImport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C241BC751C84C3E500F59833 /* RZImport.framework */; };
+		C241BC781C84C3EB00F59833 /* NSObject+RZImport_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = C241BC771C84C3EB00F59833 /* NSObject+RZImport_Private.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -90,8 +90,8 @@
 		C241BC341C81297E00F59833 /* NSManagedObjectContext+RZImport.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSManagedObjectContext+RZImport.m"; sourceTree = "<group>"; };
 		C241BC361C81297E00F59833 /* RZVinylRelationshipInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RZVinylRelationshipInfo.h; sourceTree = "<group>"; };
 		C241BC371C81297E00F59833 /* RZVinylRelationshipInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RZVinylRelationshipInfo.m; sourceTree = "<group>"; };
-		C241BC711C84BE8100F59833 /* RZImport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RZImport.framework; path = Carthage/Build/iOS/RZImport.framework; sourceTree = "<group>"; };
-		C241BC731C84C02B00F59833 /* NSObject+RZImport_Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSObject+RZImport_Private.h"; path = "Carthage/Checkouts/RZImport/Classes/Private/NSObject+RZImport_Private.h"; sourceTree = "<group>"; };
+		C241BC751C84C3E500F59833 /* RZImport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RZImport.framework; path = ../Carthage/Build/iOS/RZImport.framework; sourceTree = "<group>"; };
+		C241BC771C84C3EB00F59833 /* NSObject+RZImport_Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSObject+RZImport_Private.h"; path = "../Carthage/Build/iOS/RZImport.framework/PrivateHeaders/NSObject+RZImport_Private.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,7 +106,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C241BC721C84BE8100F59833 /* RZImport.framework in Frameworks */,
+				C241BC761C84C3E500F59833 /* RZImport.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -212,8 +212,8 @@
 		C241BC701C84BE4B00F59833 /* Framework Dependencies */ = {
 			isa = PBXGroup;
 			children = (
-				C241BC731C84C02B00F59833 /* NSObject+RZImport_Private.h */,
-				C241BC711C84BE8100F59833 /* RZImport.framework */,
+				C241BC771C84C3EB00F59833 /* NSObject+RZImport_Private.h */,
+				C241BC751C84C3E500F59833 /* RZImport.framework */,
 			);
 			name = "Framework Dependencies";
 			sourceTree = "<group>";
@@ -259,7 +259,7 @@
 				C241BC1B1C81296800F59833 /* NSManagedObjectContext+RZVinylSave.h in Headers */,
 				C241BC211C81296800F59833 /* RZCoreDataStack_private.h in Headers */,
 				C241BC231C81296800F59833 /* RZVinylDefines.h in Headers */,
-				C241BC741C84C02B00F59833 /* NSObject+RZImport_Private.h in Headers */,
+				C241BC781C84C3EB00F59833 /* NSObject+RZImport_Private.h in Headers */,
 				C241BC171C81296800F59833 /* NSManagedObject+RZVinylUtils.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
