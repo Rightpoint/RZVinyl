@@ -28,6 +28,7 @@
 {
     NSURL *storeURL = [[[[self.coreDataStack persistentStoreCoordinator] persistentStores] objectAtIndex:0] URL];
     [[NSFileManager defaultManager] removeItemAtURL:storeURL error:NULL];
+    self.coreDataStack = nil;
     [super tearDown];
 }
 

@@ -94,7 +94,7 @@
             
             [importedObject rzi_importValuesFromDict:rawDict withMappings:mappings];
             
-            if ( importedObject != nil ) {
+            if ( importedObject != nil && primaryValue != nil ) {
                 [updatedObjects setObject:importedObject forKey:primaryValue];
             }
         }];
