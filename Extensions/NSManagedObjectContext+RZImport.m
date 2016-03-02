@@ -151,18 +151,21 @@ static NSString * const kRZVinylImportCacheContextKey = @"RZVinylImportCacheCont
 
 - (NSManagedObject *)rzi_cachedObjectForKeysInDictionary:(NSDictionary *)dictionary entity:(Class)entityClass;
 {
-    for ( NSString *key in [entityClass rzv_externalCacheKeys] ) {
-        id keyValue = [dictionary objectForKey:key];
-        if ( keyValue == nil ) {
-            continue;
-        }
-        NSMapTable *cache = [self rzi_cacheForEntity:entityClass externalKey:key];
-        id result = [cache objectForKey:keyValue];
-        if ( result ) {
-            return result;
+    NSManagedObject *cachedObject = nil;
+    if ( [self rzi_isCacheEnabledForEntity:entityClass] ) {
+        for ( NSString *key in [entityClass rzv_externalCacheKeys] ) {
+            id keyValue = [dictionary objectForKey:key];
+            if ( keyValue == nil ) {
+                continue;
+            }
+            NSMapTable *cache = [self rzi_cacheForEntity:entityClass externalKey:key];
+            cachedObject = [cache objectForKey:keyValue];
+            if ( cachedObject ) {
+                break;
+            }
         }
     }
-    return nil;
+    return cachedObject;
 }
 
 - (BOOL)rzi_isCacheEnabledForEntity:(Class)entityClass;
