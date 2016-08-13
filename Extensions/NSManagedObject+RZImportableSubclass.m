@@ -26,7 +26,8 @@
 //  OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 //  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-#import "NSManagedObject+RZImportableSubclass.h"
+#import "NSManagedObject+RZVinylUtils.h"
+#import "NSManagedObjectContext+RZImport.h"
 #import "RZVinylDefines.h"
 
 @implementation NSManagedObject (RZImportableSubclass)
@@ -43,8 +44,10 @@
 
 - (void)rzi_setNilForPropertyNamed:(NSString *)propName;
 {
-    // NSManagedObjects handle setNilValueForKey: so this is safe, and faster.
-    [self setValue:nil forKey:propName];
-}
+    NSManagedObjectContext *context = [NSManagedObjectContext rzi_currentThreadImportContext];
+    NSManagedObjectModel *model = [[context persistentStoreCoordinator] managedObjectModel];
+    NSEntityDescription *entity = [[model entitiesByName] objectForKey:[self.class rzv_entityName]];
+    NSAttributeDescription *property = entity.propertiesByName[propName];
+    [self setValue:property.defaultValue forKey:propName];}
 
 @end
