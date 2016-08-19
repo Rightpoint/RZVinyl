@@ -323,7 +323,7 @@
         return;
     }
     
-    if ( value == nil ) {
+    if ( value == nil || value == [NSNull null] ) {
         [self rzi_setNilForPropertyNamed:relationshipInfo.sourcePropertyName];
     }
     else if ( relationshipInfo.isToMany ) {
