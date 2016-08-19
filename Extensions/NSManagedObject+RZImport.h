@@ -28,15 +28,20 @@
 
 
 @import CoreData;
+#import "RZVCompatibility.h"
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wauto-import"
 #import <RZImport/NSObject+RZImport.h>
+#pragma clang diagnostic pop
 
 /**
  *  Automatic importing of dictionary representations (e.g. deserialized JSON response) 
  *  of an object to CoreData, using RZVinyl and RZImport. Provides a partial implementation
- *  of @RZImportable.
+ *  of @c RZImportable.
  *
- *  @warning Do not override the extended methods or their equivalents from @p RZImportable without reading 
- *           the method documentation. This category provides a crucial implementation of these methods that enables 
+ *  @warning Do not override the extended methods or their equivalents from @p RZImportable without reading
+ *           the method documentation. This category provides a crucial implementation of these methods that enables
  *           automatic Core Data importing.
  */
 @interface NSManagedObject (RZImport) <RZImportable>
@@ -57,7 +62,7 @@
  *
  *  @return A matching or newly created object updated from the key/value pairs in the dictionary.
  */
-+ (instancetype)rzi_objectFromDictionary:(NSDictionary *)dict inContext:(NSManagedObjectContext *)context;
++ (RZNonnull instancetype)rzi_objectFromDictionary:(RZVStringDictionary* RZCNonnull)dict inContext:(NSManagedObjectContext* RZCNonnull)context;
 
 /**
  *  Creates or updates an object in the provided managed object context using the key/value pairs in the provided dictionary.
@@ -78,11 +83,13 @@
  *
  *  @return A matching or newly created object updated from the key/value pairs in the dictionary.
  */
-+ (instancetype)rzi_objectFromDictionary:(NSDictionary *)dict inContext:(NSManagedObjectContext *)context withMappings:(NSDictionary *)mappings;
++ (RZNonnull instancetype)rzi_objectFromDictionary:(RZVStringDictionary* RZCNonnull)dict
+                                         inContext:(NSManagedObjectContext* RZCNonnull)context
+                                      withMappings:(RZVKeyMap* RZCNullable)mappings;
 
 /**
- *  Creates or updates multiple objects in the provided managed object context using the key/value pairs in the dictionaries 
- *  in the provided array. If an an object with a matching primary key value for a dictionary exists in the context, this method will 
+ *  Creates or updates multiple objects in the provided managed object context using the key/value pairs in the dictionaries
+ *  in the provided array. If an an object with a matching primary key value for a dictionary exists in the context, this method will
  *  update it with the values in the dictionary. If no existing object is found, this method will create/insert a new one and initialize
  *  it with the values in the dictionary. The corresponding imported/updated objects are returned in a new array.
  *
@@ -96,7 +103,8 @@
  *
  *  @return An array matching or newly created objects updated from the key/value pairs in the dictionaries in the array.
  */
-+ (NSArray *)rzi_objectsFromArray:(NSArray *)array inContext:(NSManagedObjectContext *)context;
++ (RZNonnull NSArray *)rzi_objectsFromArray:(RZVArrayOfStringDict* RZCNonnull)array
+                                  inContext:(NSManagedObjectContext* RZCNonnull)context;
 
 /**
  *  Creates or updates multiple objects in the provided managed object context using the key/value pairs in the dictionaries
@@ -117,37 +125,9 @@
  *
  *  @return An array matching or newly created objects updated from the key/value pairs in the dictionaries in the array.
  */
-+ (NSArray *)rzi_objectsFromArray:(NSArray *)array inContext:(NSManagedObjectContext *)context withMappings:(NSDictionary *)mappings;
-
-/**
- *  Import the values from the provided dictionary into the receiver using the provided context to manage relationships.
- * 
- *  @param dict    The dictionary representing the object to be inserted/updated.
- *  @param context The context in which to find/insert the object. Must not be nil.
- *
- *  @note Calling @p rzi_importValuesFromDict: without the context parameter will use the default context provided by
- *        calling @p +rzv_coreDataStack on the managed object subclass.
- *
- *  @warning This method does not manage object uniqueness as it is an instance method and will act on whatever instance it is called on.
- *
- */
-- (void)rzi_importValuesFromDict:(NSDictionary *)dict inContext:(NSManagedObjectContext *)context;
-
-/**
- *  Import the values from the provided dictionary into the receiver using the provided context to manage relationships, with optional extra property mappings.
- *
- *  @param dict    The dictionary representing the object to be inserted/updated.
- *  @param context The context in which to find/insert the object. Must not be nil.
- *  @param mappings An optional dictionary of extra mappings from keys to property names to
- *                  use in the import. These will override/supplement implicit mappings and mappings
- *                  provided by @p RZImportable.
- *
- *  @note Calling @p rzi_importValuesFromDict: without the context parameter will use the default context provided by
- *        calling @p +rzv_coreDataStack on the managed object subclass.
- *
- *  @warning This method does not manage object uniqueness as it is an instance method and will act on whatever instance it is called on.
- */
-- (void)rzi_importValuesFromDict:(NSDictionary *)dict inContext:(NSManagedObjectContext *)context withMappings:(NSDictionary *)mappings;
++ (NSArray* RZCNonnull)rzi_objectsFromArray:(RZVArrayOfStringDict * RZCNonnull)array
+                                  inContext:(NSManagedObjectContext* RZCNonnull)context
+                               withMappings:(RZVKeyMap* RZCNullable)mappings;
 
 
 /** @name RZImportable Protocol */
@@ -170,26 +150,27 @@
  *  @return A valid NSManagedObject initialized with the provided dictionary, or nil
  *          if an object could not be created.
  */
-+ (id)rzi_existingObjectForDict:(NSDictionary *)dict inContext:(NSManagedObjectContext *)context;
++ (RZNullable id)rzi_existingObjectForDict:(RZVStringDictionary* RZCNonnull)dict inContext:(NSManagedObjectContext* RZCNonnull)context;
+
+@end
 
 /**
- *  Extended implementation of the method from @p RZImportable.
- *  Do not call directly; this is exposed for reasons of documentation only.
- *
- *  If you override this method in an @p NSManagedObject subclass for purposes of validation, you must only prevent 
- *  invalid values from being imported by returning @p NO. For valid import values, you should return the value returned
- *  by this (@p super's) implementation.
- *
- *  @param value   The value being imported for @p key
- *  @param key     The key being imported.
- *  @param context The context in which the import is taking place.
- *
- *  @warning Do not implement the @p RZImportable protocol method @p +rzi_shouldImportValue:forKey: in subclasses.
- *           This method is called by an internal implementation of @p +rzi_shouldImportValue:forKey: which will pass along the correct
- *           context based on a bit of internal state.
- *
- *  @return YES if @p RZImport should perform automatic value import, NO to prevent it from doing so.
+ * The original implementation had versions of the RZImportable methods that provided a context. These implementations are maintained to generate warnings, and then should still function for now.
  */
-- (BOOL)rzi_shouldImportValue:(id)value forKey:(NSString *)key inContext:(NSManagedObjectContext *)context NS_REQUIRES_SUPER;
+@interface NSManagedObject (RZImportDeprecated)
+
+/**
+ * Old Implementations of RZImport methods that passed along the managed object context. The context is not needed for instances of NSManagedObjectContext, since self.managedObjectContext is available.
+ */
+- (BOOL)rzi_shouldImportValue:(id RZCNonnull)value
+                       forKey:(NSString* RZCNonnull)key
+                    inContext:(NSManagedObjectContext* RZCNonnull)context NS_REQUIRES_SUPER __attribute__((deprecated("Use -rzi_shouldImportValue:forKey: and self.managedObjectContext")));
+
+- (void)rzi_importValuesFromDict:(RZVStringDictionary* RZCNonnull)dict inContext:(NSManagedObjectContext* RZCNonnull)context __attribute__((deprecated("Use -rzi_importValuesFromDict: and self.managedObjectContext")));
+
+- (void)rzi_importValuesFromDict:(RZVStringDictionary* RZCNonnull)dict
+                       inContext:(NSManagedObjectContext* RZCNonnull)context
+                    withMappings:(RZVKeyMap* RZCNullable)mappings __attribute__((deprecated("Use -rzi_importValuesFromDict:withMappings: and self.managedObjectContext")));
+
 
 @end

@@ -12,13 +12,13 @@ Stack management, ActiveRecord utilities, and seamless importing for Core Data.
 Add the following to your Podfile:
 
 ```
-pod RZVinyl, '~> 0.1'
+pod RZVinyl
 ```
 
-To exclude RZImport extensions, use the `Core` subspec: 
+To exclude RZImport extensions, use the `Core` subspec:
 
 ```
-pod RZVinyl/Core, '~> 0.1'
+pod RZVinyl/Core
 ```
 
 RZVinyl follows semantic versioning conventions. As newer versions are released, you will need to update the version spec in your Podfile as necessary. See the [release history](https://github.com/Raizlabs/RZVinyl/releases) for version information and release notes.
@@ -47,7 +47,7 @@ If all went well, your project should build cleanly and the methods from `NSMana
 
 # Demo Project
 
-A demo project is available in the `Example` directory. The demo project uses CocoaPods, and can be opened from a temporary directory by running 
+A demo project is available in the `Example` directory. The demo project uses CocoaPods, and can be opened from a temporary directory by running
 
 ```
 pod try RZVinyl
@@ -62,10 +62,13 @@ pod install
 
 Then, open `RZVinylDemo.xcworkspace` and check out the demo!
 
-
 **Note: The above steps assume that the CocoaPods gem is installed.**
 
 If you do not have CocoaPods installed, follow the instructions [here](http://cocoapods.org/).
+
+# Swift Support
+
+RZVinyl is fully compatible with Swift, and makes use of nullability annotations and lightweight generics where appropriate.
 
 # Overview
 
@@ -292,21 +295,17 @@ This is implemented by the `NSManagedObject+RZImport` category to handle Core Da
 
 The implementation provided by the category automatically manages unique objects during an import by finding an existing object matching the dictionary being imported. This default implementation is safe to override as long as you always return the value provided by `super` in the cases that your override does not handle.
 
-##### Do not override `- (BOOL)rzi_shouldImportValue:(id)value forKey:(NSString *)key`
+##### Must call super for `- (BOOL)rzi_shouldImportValue:(id)value forKey:(NSString *)key`
 
-This is for similar reasons as above - the category implements the protocol method and internally calls the extended version with a context parameter:
+The category implementation handles recursive imports for keys representing relationships. You can override the method in a subclass, as long as you return the result of invoking the `super` implementation for keys that your override does not handle. See below for an example.
 
-```objective-c
-- (BOOL)rzi_shouldImportValue:(id)value forKey:(NSString *)key inContext:(NSManagedObjectContext *)context;
-```
-
-The category implementation handles recursive imports for keys representing relationships. You can override the extended method in a subclass as well, as long as you return the result of invoking the `super` implementation for keys that your override does not handle. See below for an example.
 
 ### Example
 
 Here is an example of a managed object subclass that is configured for usage with `RZImport`.
 
 **RZArtist.h**
+
 ```objective-c
 @interface RZArtist : NSManagedObject
 
@@ -322,6 +321,7 @@ Here is an example of a managed object subclass that is configured for usage wit
 ```
 
 **RZArtist+RZImport.h**
+
 ```objective-c
 @interface RZArtist (RZImport) <RZImportable>
 
@@ -329,6 +329,7 @@ Here is an example of a managed object subclass that is configured for usage wit
 ```
 
 **RZArtist+RZImport.m**
+
 ```objective-c
 @implementation RZArtist (RZImport)
 
@@ -355,7 +356,7 @@ Here is an example of a managed object subclass that is configured for usage wit
 	return nil;
 }
 
-- (BOOL)rzi_shouldImportValue:(id)value forKey:(NSString *)key inContext:(NSManagedObjectContext *)context
+- (BOOL)rzi_shouldImportValue:(id)value forKey:(NSString *)key
 {
 	// Genre string will be imported as a managed object (RZGenre)
 	if ( [key isEqualToString:@"genre"] ) {
@@ -363,11 +364,11 @@ Here is an example of a managed object subclass that is configured for usage wit
 		if ( [value isKindOfClass:[NSString class]] ) {
 			self.genre = [RZGenre rzv_objectWithAttributes:@{ @"name" : value }
 							                     createNew:YES
-							                     inContext:context];
+							                     inContext:self.managedObjectContext];
 		}
 		return NO;
 	}
-	return [super rzi_shouldImportValue:value forKey:key inContext:context];
+	return [super rzi_shouldImportValue:value forKey:key];
 }
 
 @end

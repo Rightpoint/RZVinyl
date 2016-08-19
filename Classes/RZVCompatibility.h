@@ -1,15 +1,15 @@
 //
-//  RZVinyl.h
+//  RZVCompatibility.h
 //  RZVinyl
 //
-//  Created by Nick Donaldson on 6/4/14.
+//  Created by John Watson on 8/20/15.
 //
-//  Copyright 2014 Raizlabs and other contributors
+//  Copyright 2015 Raizlabs and other contributors
 //  http://raizlabs.com/
 //
 //  Permission is hereby granted, free of charge, to any person obtaining
 //  a copy of this software and associated documentation files (the
-//                                                                "Software"), to deal in the Software without restriction, including
+//  "Software"), to deal in the Software without restriction, including
 //  without limitation the rights to use, copy, modify, merge, publish,
 //  distribute, sublicense, and/or sell copies of the Software, and to
 //  permit persons to whom the Software is furnished to do so, subject to
@@ -26,32 +26,35 @@
 //  OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 //  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-#import "RZCoreDataStack.h"
-#import "NSManagedObject+RZVinylRecord.h"
-#import "NSManagedObject+RZVinylUtils.h"
-#import "NSFetchRequest+RZVinylRecord.h"
-#import "NSFetchedResultsController+RZVinylRecord.h"
-#import "NSManagedObjectContext+RZVinylSave.h"
 
-#if (RZV_IMPORT_AVAILABLE)
-    #import "NSManagedObject+RZImport.h"
-    #import "NSManagedObjectContext+RZImport.h"
-    #import "NSManagedObject+RZImportableSubclass.h"
+//
+// Nullability annotation compatibility.
+//
+
+#if __has_feature(nullability)
+#   define RZNonnull    nonnull
+#   define RZNullable   nullable
+#   define RZCNonnull   __nonnull
+#   define RZCNullable  __nullable
+#else
+#   define RZNonnull
+#   define RZNullable
+#   define RZCNonnull
+#   define RZCNullable
 #endif
 
-
 //
-// Public Macros
+// Lightweight generics compatibility.
 //
 
-/**
- *  Shorthand for creating an NSPredicate
- */
-#define RZVPred(format, ...) \
-    [NSPredicate predicateWithFormat:format, ##__VA_ARGS__]
+#if __has_feature(objc_generics)
+#   define RZGeneric(class, ...) class<__VA_ARGS__>
+#   define RZGenericType(type) type
+#else
+#   define RZGeneric(class, ...) class
+#   define RZGenericType(type) id
+#endif
 
-/**
- *  Shorthand for creating an NSSortDescriptor
- */
-#define RZVKeySort(keyPath, isAscending) \
-    [NSSortDescriptor sortDescriptorWithKey:keyPath ascending:isAscending]
+#define RZVKeyMap RZGeneric(NSDictionary, NSString *, NSString *)
+#define RZVStringDictionary RZGeneric(NSDictionary, NSString *, id)
+#define RZVArrayOfStringDict RZGeneric(NSArray, RZVStringDictionary *)

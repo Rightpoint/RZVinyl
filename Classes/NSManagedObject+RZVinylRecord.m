@@ -32,11 +32,6 @@
 #import "NSFetchRequest+RZVinylRecord.h"
 #import "RZCoreDataStack.h"
 #import "RZVinylDefines.h"
-#import "RZVinylRecord.h"
-
-@interface NSManagedObject () <RZVinylRecord>
-
-@end
 
 @implementation NSManagedObject (RZVinylRecord)
 
@@ -80,7 +75,7 @@
         return nil;
     }
 
-    NSString *primaryKey = [self rzv_safe_primaryKey];
+    NSString *primaryKey = [self rzv_primaryKey];
     if ( !RZVAssert(primaryKey != nil, @"No primary key provided for class %@. Ensure that +rzv_primaryKey is overridden and returning a valid key.", NSStringFromClass(self)) ) {
         return nil;
     }
@@ -138,7 +133,7 @@
 + (NSArray *)rzv_all
 {
     if ( !RZVAssertMainThread() ) {
-        return nil;
+        return [NSArray array];
     }
     return [self rzv_where:nil];
 }
@@ -151,7 +146,7 @@
 + (NSArray *)rzv_allSorted:(NSArray *)sortDescriptors
 {
     if ( !RZVAssertMainThread() ) {
-        return nil;
+        return [NSArray array];
     }
     return [self rzv_where:nil sort:sortDescriptors];
 }
@@ -164,7 +159,7 @@
 + (NSArray *)rzv_where:(NSPredicate *)predicate
 {
     if ( !RZVAssertMainThread() ) {
-        return nil;
+        return [NSArray array];
     }
     return [self rzv_where:predicate sort:nil];
 }
@@ -177,11 +172,11 @@
 + (NSArray *)rzv_where:(NSPredicate *)predicate sort:(NSArray *)sortDescriptors
 {
     if ( !RZVAssertMainThread() ) {
-        return nil;
+        return [NSArray array];
     }
     RZCoreDataStack *stack = [self rzv_validCoreDataStack];
     if ( stack == nil ){
-        return nil;
+        return [NSArray array];
     }
     return [self rzv_where:predicate sort:sortDescriptors inContext:[stack mainManagedObjectContext]];
 }
@@ -295,36 +290,24 @@
 
 #pragma mark - Subclassable
 
-+ (NSPredicate *)rzv_safe_stalenessPredicate
++ (NSPredicate *)rzv_stalenessPredicate
 {
-    NSPredicate *stalenessPredicate = nil;
-    if ( [self respondsToSelector:@selector(rzv_stalenessPredicate)] ) {
-        stalenessPredicate = [self rzv_stalenessPredicate];
-    }
-    return stalenessPredicate;
+    return nil;
 }
 
-+ (NSString *)rzv_safe_primaryKey
++ (NSString *)rzv_primaryKey
 {
-    NSString *primaryKey = nil;
-    if ( [self respondsToSelector:@selector(rzv_primaryKey)] ) {
-        primaryKey = [self rzv_primaryKey];
-    }
-    return primaryKey;
+    return nil;
 }
 
-+ (RZCoreDataStack *)rzv_safe_coreDataStack
++ (RZCoreDataStack *)rzv_coreDataStack
 {
-    RZCoreDataStack *stack = [RZCoreDataStack defaultStack];
-    if ( [self respondsToSelector:@selector(rzv_coreDataStack)] ) {
-        stack = [self rzv_coreDataStack];
-    }
-    return stack;
+    return [RZCoreDataStack defaultStack];
 }
 
 + (RZCoreDataStack *)rzv_validCoreDataStack
 {
-    RZCoreDataStack *stack = [self rzv_safe_coreDataStack];
+    RZCoreDataStack *stack = [self rzv_coreDataStack];
     if ( !RZVAssert(stack != nil, @"No core data stack provided for class %@. Ensure that +rzv_coreDataStack is returning a valid instance.", NSStringFromClass(self)) ) {
         return nil;
     }

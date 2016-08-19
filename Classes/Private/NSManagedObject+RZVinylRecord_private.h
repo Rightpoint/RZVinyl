@@ -41,28 +41,4 @@
  */
 + (RZCoreDataStack *)rzv_validCoreDataStack;
 
-/**
- *  Always call this instead of @p rzv_coreDataStack.
- *  Checks whether the subclass responds to @p rzv_coreDataStack before calling it.
- *
- *  @return The staleness predicate provided by the subclass implementing @p rzv_coreDataStack else @p [RZCoreDataStack defaultStack]
- */
-+ (RZCoreDataStack *)rzv_safe_coreDataStack;
-
-/**
- *  Always call this instead of @p rzv_primaryKey.
- *  Checks whether the subclass responds to @p rzv_primaryKey before calling it.
- *
- *  @return The staleness predicate provided by the subclass implementing @p rzv_primaryKey else @p nil
- */
-+ (NSString *)rzv_safe_primaryKey;
-
-/**
- *  Always call this instead of @p rzv_stalenessPredicate.
- *  Checks whether the subclass responds to @p rzv_stalenessPredicate before calling it.
- *
- *  @return The staleness predicate provided by the subclass implementing @p rzv_stalenessPredicate else @p nil
- */
-+ (NSPredicate *)rzv_safe_stalenessPredicate;
-
 @end

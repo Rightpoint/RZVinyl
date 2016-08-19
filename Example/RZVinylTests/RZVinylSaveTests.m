@@ -39,7 +39,7 @@
                                                       storeType:NSSQLiteStoreType
                                                        storeURL:nil
                                      persistentStoreCoordinator:nil
-                                                        options:RZCoreDataStackOptionDeleteDatabaseIfUnreadable];
+                                                        options:RZCoreDataStackOptionsDeleteDatabaseIfUnreadable];
 }
 
 #pragma mark - Tests

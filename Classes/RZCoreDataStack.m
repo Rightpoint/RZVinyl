@@ -26,17 +26,15 @@
 //  OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 //  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+@import UIKit.UIApplication;
 
 #import "RZCoreDataStack.h"
 #import "NSManagedObject+RZVinylRecord.h"
-#import "NSManagedobject+RZvinylRecord_private.h"
 #import "NSManagedObjectContext+RZVinylSave.h"
 #import "RZVinylDefines.h"
 #import <libkern/OSAtomic.h>
-#import "RZVinylRecord.h"
 
 static RZCoreDataStack *s_defaultStack = nil;
-static NSString* const kRZCoreDataStackParentStackKey = @"RZCoreDataStackParentStack";
 
 @interface RZCoreDataStack ()
 
@@ -55,6 +53,8 @@ static NSString* const kRZCoreDataStackParentStackKey = @"RZCoreDataStackParentS
 
 @property (nonatomic, readonly, strong) NSDictionary *entityClassNamesToStalenessPredicates;
 
+@property (nonatomic, strong) NSHashTable *registeredFetchedResultsControllers;
+
 @end
 
 @implementation RZCoreDataStack
@@ -65,11 +65,11 @@ static NSString* const kRZCoreDataStackParentStackKey = @"RZCoreDataStackParentS
 {
     if ( s_defaultStack == nil ) {
         RZVLogInfo(@"The default stack has been accessed without being configured. Creating a new default stack with the default options.");
-        s_defaultStack = [[RZCoreDataStack alloc] initWithModelName:nil
-                                                      configuration:nil
-                                                          storeType:nil
-                                                           storeURL:nil
-                                                            options:kNilOptions];
+        s_defaultStack = [[self alloc] initWithModelName:nil
+                                           configuration:nil
+                                               storeType:nil
+                                                storeURL:nil
+                                                 options:kNilOptions];
     }
     return s_defaultStack;
 }
@@ -117,9 +117,11 @@ static NSString* const kRZCoreDataStackParentStackKey = @"RZCoreDataStackParentS
         _storeURL                   = storeURL;
         _persistentStoreCoordinator = psc;
         _options                    = options;
-        
+
         _backgroundContextQueue     = dispatch_queue_create("com.rzvinyl.backgroundContextQueue", DISPATCH_QUEUE_SERIAL);
-        
+
+        _registeredFetchedResultsControllers = [NSHashTable weakObjectsHashTable];
+
         if ( ![self buildStack] ) {
             return nil;
         }
@@ -148,7 +150,8 @@ static NSString* const kRZCoreDataStackParentStackKey = @"RZCoreDataStackParentS
         _options                    = options;
         
         _backgroundContextQueue     = dispatch_queue_create("com.rzvinyl.backgroundContextQueue", DISPATCH_QUEUE_SERIAL);
-        
+        _registeredFetchedResultsControllers = [NSHashTable weakObjectsHashTable];
+
         if ( ![self buildStack] ) {
             return nil;
         }
@@ -192,7 +195,12 @@ static NSString* const kRZCoreDataStackParentStackKey = @"RZCoreDataStackParentS
 {
     NSManagedObjectContext *bgContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
     [[bgContext userInfo] setObject:self forKey:kRZCoreDataStackParentStackKey];
-    bgContext.parentContext = self.topLevelBackgroundContext;
+    if (self.topLevelBackgroundContext) {
+        bgContext.parentContext = self.topLevelBackgroundContext;
+    }
+    else {
+        bgContext.persistentStoreCoordinator = self.persistentStoreCoordinator;
+    }
     [self registerSaveNotificationsForContext:bgContext];
     return bgContext;
 }
@@ -203,6 +211,14 @@ static NSString* const kRZCoreDataStackParentStackKey = @"RZCoreDataStackParentS
     [[tempContext userInfo] setObject:self forKey:kRZCoreDataStackParentStackKey];
     tempContext.parentContext = self.mainManagedObjectContext;
     return tempContext;
+}
+
+- (void)ensureContextNotificationsForFetchedResultsController:(NSFetchedResultsController *)frc
+{
+    if ( RZVAssert(frc.managedObjectContext == self.mainManagedObjectContext,
+                   @"Can only monitor FRC that attach to the main context") ) {
+        [self.registeredFetchedResultsControllers addObject:frc];
+    }
 }
 
 - (void)purgeStaleObjectsWithCompletion:(void (^)(NSError *))completion
@@ -265,7 +281,7 @@ static NSString* const kRZCoreDataStackParentStackKey = @"RZCoreDataStackParentS
             [[self.managedObjectModel entities] enumerateObjectsUsingBlock:^(NSEntityDescription *entity, NSUInteger idx, BOOL *stop) {
                 Class moClass = NSClassFromString(entity.managedObjectClassName);
                 if ( moClass != Nil ) {
-                    NSPredicate *predicate = [moClass rzv_safe_stalenessPredicate];
+                    NSPredicate *predicate = [moClass rzv_stalenessPredicate];
                     if ( predicate != nil ) {
                         [classNamesToStalePredicates setObject:predicate forKey:entity.managedObjectClassName];
                     }
@@ -286,16 +302,25 @@ static NSString* const kRZCoreDataStackParentStackKey = @"RZCoreDataStackParentS
     return ( ( self.options & options ) == options );
 }
 
+- (BOOL)hasSamePersistentStoreCoordinator:(NSManagedObjectContext *)context
+{
+    NSManagedObjectContext *topContext = context;
+    while (topContext.parentContext != nil) {
+        topContext = topContext.parentContext;
+    }
+    return topContext.persistentStoreCoordinator == self.persistentStoreCoordinator;
+}
+
 - (BOOL)buildStack
 {
-    if ( !RZVAssert(self.modelName != nil, @"Must have a model name") ) {
-        return NO;
-    }
-    
     //
     // Create model
     //
     if ( self.managedObjectModel == nil ) {
+        if ( !RZVAssert(self.modelName != nil, @"Must have a model name") ) {
+            return NO;
+        }
+        
         // we look for both mom and momd versions, we could have used [NSManagedObjectModel mergedModelFromBundles:nil] but it does more than we want
         NSURL* url = [[NSBundle mainBundle] URLForResource:self.modelName withExtension:@"momd"];
         if ( url == nil ) {
@@ -331,7 +356,7 @@ static NSString* const kRZCoreDataStackParentStackKey = @"RZCoreDataStackParentS
         options[NSSQLitePragmasOption] = @{@"journal_mode" : journalMode};
     }
     
-    if ( ![self hasOptionsSet:RZCoreDataStackOptionDisableAutoLightweightMigration] && self.storeURL ){
+    if ( ![self hasOptionsSet:RZCoreDataStackOptionsDisableAutoLightweightMigration] && self.storeURL ){
         options[NSMigratePersistentStoresAutomaticallyOption] = @(YES);
         options[NSInferMappingModelAutomaticallyOption] = @(YES);
     }
@@ -343,7 +368,7 @@ static NSString* const kRZCoreDataStackParentStackKey = @"RZCoreDataStackParentS
         
         RZVLogError(@"Error creating/reading persistent store: %@", error);
         
-        if ( [self hasOptionsSet:RZCoreDataStackOptionDeleteDatabaseIfUnreadable] && self.storeURL ) {
+        if ( [self hasOptionsSet:RZCoreDataStackOptionsDeleteDatabaseIfUnreadable] && self.storeURL ) {
             
             // Reset the error before we reuse it
             error = nil;
@@ -369,12 +394,17 @@ static NSString* const kRZCoreDataStackParentStackKey = @"RZCoreDataStackParentS
     //
     // Create Contexts
     //
-    self.topLevelBackgroundContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
-    self.topLevelBackgroundContext.persistentStoreCoordinator = self.persistentStoreCoordinator;
-    
-    self.mainManagedObjectContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
-    self.mainManagedObjectContext.parentContext = self.topLevelBackgroundContext;
-    
+    if ( [self hasOptionsSet:RZCoreDataStackOptionsDisableTopLevelContext] ) {
+        self.mainManagedObjectContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
+        self.mainManagedObjectContext.persistentStoreCoordinator = self.persistentStoreCoordinator;
+    }
+    else {
+        self.topLevelBackgroundContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
+        self.topLevelBackgroundContext.persistentStoreCoordinator = self.persistentStoreCoordinator;
+
+        self.mainManagedObjectContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
+        self.mainManagedObjectContext.parentContext = self.topLevelBackgroundContext;
+    }
     return YES;
 }
 
@@ -425,6 +455,10 @@ static NSString* const kRZCoreDataStackParentStackKey = @"RZCoreDataStackParentS
 - (void)handleContextWillSave:(NSNotification *)notification
 {
     NSManagedObjectContext *context = [notification object];
+    if (![self hasSamePersistentStoreCoordinator:context]) {
+        return;
+    }
+
     NSArray *insertedObjects = [[context insertedObjects] allObjects];
     if ( insertedObjects.count > 0 ) {
         NSError *err = nil;
@@ -436,7 +470,42 @@ static NSString* const kRZCoreDataStackParentStackKey = @"RZCoreDataStackParentS
 
 - (void)handleContextDidSave:(NSNotification *)notification
 {
+    NSManagedObjectContext *context = [notification object];
+    if (![self hasSamePersistentStoreCoordinator:context]) {
+        return;
+    }
+
+    NSArray *objectsToFault = nil;
+    if ( self.registeredFetchedResultsControllers.count > 0 ) {
+        // If we registered a FRC to fault, build the predicate on the main object context thread to
+        // ensure thread safety.
+        NSMutableArray *predicates = [NSMutableArray array];
+        [self.mainManagedObjectContext performBlockAndWait:^{
+            for ( NSFetchedResultsController *frc in [self.registeredFetchedResultsControllers allObjects] ) {
+                NSEntityDescription *entityDescription = frc.fetchRequest.entity;
+                NSPredicate *predicate = frc.fetchRequest.predicate;
+                if ( predicate ) {
+                    [predicates addObject:[NSPredicate predicateWithBlock:^BOOL(NSManagedObject *mo, NSDictionary *bindings) {
+                        return ([[mo entity] isEqual:entityDescription] && [predicate evaluateWithObject:mo]);
+                    }]];
+                }
+            }
+        }];
+        // If there are any predicates, build a list of objects to fault into the main context
+        // prior to the merge.
+        if ( [predicates count] > 0 ) {
+            NSPredicate *anyMatch = [NSCompoundPredicate orPredicateWithSubpredicates:predicates];
+            NSSet *updatedObjects = [[notification userInfo] objectForKey:NSUpdatedObjectsKey];
+            objectsToFault = [[updatedObjects allObjects] filteredArrayUsingPredicate:anyMatch];
+        }
+    }
+
     [self.mainManagedObjectContext performBlockAndWait:^{
+        for ( NSManagedObject *mo in objectsToFault ) {
+            NSManagedObject *mainMo = [self.mainManagedObjectContext objectWithID:[mo objectID]];
+            [mainMo willAccessValueForKey:nil];
+        }
+
         [self.mainManagedObjectContext mergeChangesFromContextDidSaveNotification:notification];
     }];
 }

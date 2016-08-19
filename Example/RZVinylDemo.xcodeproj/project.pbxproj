@@ -7,7 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		267E92CF2352486981965091 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BFA85CBDC67442B2A5052135 /* libPods.a */; };
+		33F22A3C3FFBFF8E3C67E1E2 /* libPods-RZVinylDemo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FEF423746B822254A305499 /* libPods-RZVinylDemo.a */; };
+		980CD112B8135D23E7C64BC5 /* libPods-RZVinylTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 18D50CA2333A914AFC99319E /* libPods-RZVinylTests.a */; };
 		9A0133F419586E2B00FED6DC /* RZPersonFiltersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A0133F319586E2B00FED6DC /* RZPersonFiltersViewController.m */; };
 		9A3DB11C1986F01600E973F0 /* Artist.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A3DB11B1986F01600E973F0 /* Artist.m */; };
 		9A3DB11F1986F01700E973F0 /* Song.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A3DB11E1986F01700E973F0 /* Song.m */; };
@@ -54,6 +55,7 @@
 		9AD76DBA195886B8003B62D2 /* RZPersonFiltersDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AD76DB9195886B8003B62D2 /* RZPersonFiltersDataSource.m */; };
 		9AD8B1CE1944BBD8009C7823 /* RZVinylImportTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AD8B1CD1944BBD8009C7823 /* RZVinylImportTests.m */; };
 		9AD8B1D01944BCE8009C7823 /* RZVinylBaseTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AD8B1CF1944BCE8009C7823 /* RZVinylBaseTestCase.m */; };
+		AB2E95911A3695D2009DD607 /* RZVinylFRCTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AB2E95901A3695D2009DD607 /* RZVinylFRCTests.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,7 +69,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		321C2A0D52411C920F1C0329 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		18D50CA2333A914AFC99319E /* libPods-RZVinylTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-RZVinylTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		3D95AAC8D0F565E4E9AA514E /* Pods-RZVinylTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RZVinylTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-RZVinylTests/Pods-RZVinylTests.debug.xcconfig"; sourceTree = "<group>"; };
+		5264147DBE4A5E96EA5D6366 /* Pods-RZVinylDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RZVinylDemo.release.xcconfig"; path = "Pods/Target Support Files/Pods-RZVinylDemo/Pods-RZVinylDemo.release.xcconfig"; sourceTree = "<group>"; };
+		6FEF423746B822254A305499 /* libPods-RZVinylDemo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-RZVinylDemo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		8D52ED5913F75EA4109405E7 /* Pods-RZVinylDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RZVinylDemo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-RZVinylDemo/Pods-RZVinylDemo.debug.xcconfig"; sourceTree = "<group>"; };
 		9A0133F219586E2B00FED6DC /* RZPersonFiltersViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RZPersonFiltersViewController.h; sourceTree = "<group>"; };
 		9A0133F319586E2B00FED6DC /* RZPersonFiltersViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RZPersonFiltersViewController.m; sourceTree = "<group>"; };
 		9A0133F51958768000FED6DC /* RZTableViewDataSourceBlocks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RZTableViewDataSourceBlocks.h; sourceTree = "<group>"; };
@@ -144,8 +150,8 @@
 		9AD8B1CD1944BBD8009C7823 /* RZVinylImportTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RZVinylImportTests.m; sourceTree = "<group>"; };
 		9AD8B1CF1944BCE8009C7823 /* RZVinylBaseTestCase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RZVinylBaseTestCase.m; sourceTree = "<group>"; };
 		9AD8B1D11944BD0C009C7823 /* RZVinylBaseTestCase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RZVinylBaseTestCase.h; sourceTree = "<group>"; };
-		BF9D39F06DB534652E101AEE /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
-		BFA85CBDC67442B2A5052135 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		AB2E95901A3695D2009DD607 /* RZVinylFRCTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RZVinylFRCTests.m; sourceTree = "<group>"; };
+		CC8B3F3A34C61AEC6421BB29 /* Pods-RZVinylTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RZVinylTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-RZVinylTests/Pods-RZVinylTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -157,7 +163,7 @@
 				9A53612F193F90E000E87F4F /* CoreData.framework in Frameworks */,
 				9A53612D193F90E000E87F4F /* UIKit.framework in Frameworks */,
 				9A536129193F90E000E87F4F /* Foundation.framework in Frameworks */,
-				267E92CF2352486981965091 /* libPods.a in Frameworks */,
+				33F22A3C3FFBFF8E3C67E1E2 /* libPods-RZVinylDemo.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -168,20 +174,32 @@
 				9AB90809193FD7F70063445A /* XCTest.framework in Frameworks */,
 				9AB9080B193FD7F70063445A /* UIKit.framework in Frameworks */,
 				9AB9080A193FD7F70063445A /* Foundation.framework in Frameworks */,
+				980CD112B8135D23E7C64BC5 /* libPods-RZVinylTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5F477376E0B15C00FDCE97D4 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				8D52ED5913F75EA4109405E7 /* Pods-RZVinylDemo.debug.xcconfig */,
+				5264147DBE4A5E96EA5D6366 /* Pods-RZVinylDemo.release.xcconfig */,
+				3D95AAC8D0F565E4E9AA514E /* Pods-RZVinylTests.debug.xcconfig */,
+				CC8B3F3A34C61AEC6421BB29 /* Pods-RZVinylTests.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		9A53611C193F90E000E87F4F = {
 			isa = PBXGroup;
 			children = (
-				9A536130193F90E000E87F4F /* RZVinylDemo */,
-				9AB9080C193FD7F70063445A /* RZVinylTests */,
 				9A536127193F90E000E87F4F /* Frameworks */,
 				9A536126193F90E000E87F4F /* Products */,
-				E27915038CB108E7F2C093D4 /* Pods */,
+				9A536130193F90E000E87F4F /* RZVinylDemo */,
+				9AB9080C193FD7F70063445A /* RZVinylTests */,
+				5F477376E0B15C00FDCE97D4 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -202,7 +220,8 @@
 				9A53612C193F90E000E87F4F /* UIKit.framework */,
 				9A53612E193F90E000E87F4F /* CoreData.framework */,
 				9A536146193F90E000E87F4F /* XCTest.framework */,
-				BFA85CBDC67442B2A5052135 /* libPods.a */,
+				6FEF423746B822254A305499 /* libPods-RZVinylDemo.a */,
+				18D50CA2333A914AFC99319E /* libPods-RZVinylTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -224,10 +243,10 @@
 		9A536131193F90E000E87F4F /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				9A536132193F90E000E87F4F /* RZVinylDemo-Info.plist */,
 				9A536133193F90E000E87F4F /* InfoPlist.strings */,
-				9A536136193F90E000E87F4F /* main.m */,
+				9A536132193F90E000E87F4F /* RZVinylDemo-Info.plist */,
 				9A536138193F90E000E87F4F /* RZVinylDemo-Prefix.pch */,
+				9A536136193F90E000E87F4F /* main.m */,
 			);
 			path = "Supporting Files";
 			sourceTree = "<group>";
@@ -246,8 +265,8 @@
 		9A53615E193F91DF00E87F4F /* Data */ = {
 			isa = PBXGroup;
 			children = (
-				9A75DB9119538E0C00173911 /* Sources */,
 				9A75DB9019538E0000173911 /* Model */,
+				9A75DB9119538E0C00173911 /* Sources */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -255,8 +274,8 @@
 		9A53615F193F91E700E87F4F /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				9A75DB8B195388D700173911 /* person_data.json */,
 				9A53613F193F90E000E87F4F /* Images.xcassets */,
+				9A75DB8B195388D700173911 /* person_data.json */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -264,12 +283,12 @@
 		9A536160193F91ED00E87F4F /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				9A75DB8D19538D3200173911 /* RZPersonListViewController.h */,
-				9A75DB8E19538D3200173911 /* RZPersonListViewController.m */,
-				9A0133F219586E2B00FED6DC /* RZPersonFiltersViewController.h */,
-				9A0133F319586E2B00FED6DC /* RZPersonFiltersViewController.m */,
 				9A839F9E1958B0FE00450792 /* RZPersonDetailViewController.h */,
 				9A839F9F1958B0FE00450792 /* RZPersonDetailViewController.m */,
+				9A0133F219586E2B00FED6DC /* RZPersonFiltersViewController.h */,
+				9A0133F319586E2B00FED6DC /* RZPersonFiltersViewController.m */,
+				9A75DB8D19538D3200173911 /* RZPersonListViewController.h */,
+				9A75DB8E19538D3200173911 /* RZPersonListViewController.m */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -278,13 +297,13 @@
 			isa = PBXGroup;
 			children = (
 				9A75DB95195392A500173911 /* Extensions */,
-				9A53613C193F90E000E87F4F /* RZVinylDemo.xcdatamodeld */,
-				9A75DBBC1954AD7900173911 /* RZInterest.h */,
-				9A75DBBD1954AD7900173911 /* RZInterest.m */,
 				9A75DBB91954AD7900173911 /* RZAddress.h */,
 				9A75DBBA1954AD7900173911 /* RZAddress.m */,
+				9A75DBBC1954AD7900173911 /* RZInterest.h */,
+				9A75DBBD1954AD7900173911 /* RZInterest.m */,
 				9A75DBB61954AD7800173911 /* RZPerson.h */,
 				9A75DBB71954AD7800173911 /* RZPerson.m */,
+				9A53613C193F90E000E87F4F /* RZVinylDemo.xcdatamodeld */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -292,11 +311,11 @@
 		9A75DB9119538E0C00173911 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				9A0133F51958768000FED6DC /* RZTableViewDataSourceBlocks.h */,
 				9A75DB9219538E1E00173911 /* RZFetchedPersonDataSource.h */,
 				9A75DB9319538E1E00173911 /* RZFetchedPersonDataSource.m */,
 				9AD76DB8195886B8003B62D2 /* RZPersonFiltersDataSource.h */,
 				9AD76DB9195886B8003B62D2 /* RZPersonFiltersDataSource.m */,
+				9A0133F51958768000FED6DC /* RZTableViewDataSourceBlocks.h */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -304,12 +323,12 @@
 		9A75DB95195392A500173911 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				9A75DBBF1954ADA200173911 /* RZPerson+RZVinyl.h */,
-				9A75DBC01954ADA200173911 /* RZPerson+RZVinyl.m */,
-				9A75DBC51954E02B00173911 /* RZInterest+RZVinyl.h */,
-				9A75DBC61954E02B00173911 /* RZInterest+RZVinyl.m */,
 				9A75DBC81954E0C600173911 /* RZAddress+RZVinyl.h */,
 				9A75DBC91954E0C600173911 /* RZAddress+RZVinyl.m */,
+				9A75DBC51954E02B00173911 /* RZInterest+RZVinyl.h */,
+				9A75DBC61954E02B00173911 /* RZInterest+RZVinyl.m */,
+				9A75DBBF1954ADA200173911 /* RZPerson+RZVinyl.h */,
+				9A75DBC01954ADA200173911 /* RZPerson+RZVinyl.m */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -328,11 +347,11 @@
 		9A75DBA31954A7EE00173911 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
+				9A60C6A619588C27006E976A /* RZFilterTableViewCell.h */,
+				9A60C6A719588C27006E976A /* RZFilterTableViewCell.m */,
 				9A75DBA41954A7EE00173911 /* RZPersonTableViewCell.h */,
 				9A75DBA51954A7EE00173911 /* RZPersonTableViewCell.m */,
 				9A75DBA61954A7EE00173911 /* RZPersonTableViewCell.xib */,
-				9A60C6A619588C27006E976A /* RZFilterTableViewCell.h */,
-				9A60C6A719588C27006E976A /* RZFilterTableViewCell.m */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -351,14 +370,15 @@
 			children = (
 				9AB908231940D7AC0063445A /* Model */,
 				9AB90888194113B50063445A /* Resources */,
+				9AB9080D193FD7F70063445A /* Supporting Files */,
 				9AB9088719410A320063445A /* Utils */,
 				9AB9081A193FD8330063445A /* RZCoreDataStackConfigTests.m */,
 				9AD8B1D11944BD0C009C7823 /* RZVinylBaseTestCase.h */,
 				9AD8B1CF1944BCE8009C7823 /* RZVinylBaseTestCase.m */,
+				AB2E95901A3695D2009DD607 /* RZVinylFRCTests.m */,
+				9AD8B1CD1944BBD8009C7823 /* RZVinylImportTests.m */,
 				9AB90875194104860063445A /* RZVinylRecordTests.m */,
 				9AB3ABF2195BAFD40014D5FF /* RZVinylSaveTests.m */,
-				9AD8B1CD1944BBD8009C7823 /* RZVinylImportTests.m */,
-				9AB9080D193FD7F70063445A /* Supporting Files */,
 			);
 			path = RZVinylTests;
 			sourceTree = "<group>";
@@ -366,8 +386,8 @@
 		9AB9080D193FD7F70063445A /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				9AB9080E193FD7F70063445A /* RZVinylTests-Info.plist */,
 				9AB9080F193FD7F70063445A /* InfoPlist.strings */,
+				9AB9080E193FD7F70063445A /* RZVinylTests-Info.plist */,
 				9AB90814193FD7F70063445A /* RZVinylTests-Prefix.pch */,
 			);
 			path = "Supporting Files";
@@ -377,13 +397,13 @@
 			isa = PBXGroup;
 			children = (
 				9AB90880194107AA0063445A /* RZVinylExtensions */,
-				9AB908241940D7BC0063445A /* TestModel.xcdatamodeld */,
+				9A3DB11A1986F01600E973F0 /* Artist.h */,
+				9A3DB11B1986F01600E973F0 /* Artist.m */,
 				9A3DB1201986F01700E973F0 /* BaseObject.h */,
 				9A3DB1211986F01700E973F0 /* BaseObject.m */,
 				9A3DB11D1986F01700E973F0 /* Song.h */,
 				9A3DB11E1986F01700E973F0 /* Song.m */,
-				9A3DB11A1986F01600E973F0 /* Artist.h */,
-				9A3DB11B1986F01600E973F0 /* Artist.m */,
+				9AB908241940D7BC0063445A /* TestModel.xcdatamodeld */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -391,10 +411,10 @@
 		9AB90880194107AA0063445A /* RZVinylExtensions */ = {
 			isa = PBXGroup;
 			children = (
-				9AB90881194107C30063445A /* BaseObject+RZVinyl.h */,
-				9AB90882194107C30063445A /* BaseObject+RZVinyl.m */,
 				9A74A5C61946488100A06937 /* Artist+RZVinyl.h */,
 				9A74A5C71946488100A06937 /* Artist+RZVinyl.m */,
+				9AB90881194107C30063445A /* BaseObject+RZVinyl.h */,
+				9AB90882194107C30063445A /* BaseObject+RZVinyl.m */,
 			);
 			path = RZVinylExtensions;
 			sourceTree = "<group>";
@@ -402,10 +422,10 @@
 		9AB9088719410A320063445A /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				9AB9088419410A2D0063445A /* RZWaiter.h */,
-				9AB9088519410A2D0063445A /* RZWaiter.m */,
 				9A95F0F31948DC8B00139457 /* RZCoreDataStack+TestUtils.h */,
 				9A95F0F41948DC8B00139457 /* RZCoreDataStack+TestUtils.m */,
+				9AB9088419410A2D0063445A /* RZWaiter.h */,
+				9AB9088519410A2D0063445A /* RZWaiter.m */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -418,15 +438,6 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
-		E27915038CB108E7F2C093D4 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				BF9D39F06DB534652E101AEE /* Pods.debug.xcconfig */,
-				321C2A0D52411C920F1C0329 /* Pods.release.xcconfig */,
-			);
-			name = Pods;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -434,11 +445,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 9A536157193F90E000E87F4F /* Build configuration list for PBXNativeTarget "RZVinylDemo" */;
 			buildPhases = (
-				3D176FFBC4A447639F30E5EC /* Check Pods Manifest.lock */,
+				7BD806C32276F9CCCEEA4908 /* Check Pods Manifest.lock */,
 				9A536121193F90E000E87F4F /* Sources */,
 				9A536122193F90E000E87F4F /* Frameworks */,
 				9A536123193F90E000E87F4F /* Resources */,
-				9B01E010DBBE44C59D6011E5 /* Copy Pods Resources */,
+				463615659FC54C9C2C2B97B1 /* Embed Pods Frameworks */,
+				C8EA63AADA7257ED79981760 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -453,9 +465,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 9AB90819193FD7F70063445A /* Build configuration list for PBXNativeTarget "RZVinylTests" */;
 			buildPhases = (
+				E6A76384BB6A0550B7B5531A /* Check Pods Manifest.lock */,
 				9AB90804193FD7F70063445A /* Sources */,
 				9AB90805193FD7F70063445A /* Frameworks */,
 				9AB90806193FD7F70063445A /* Resources */,
+				6C2841B180CBC379E66AFA65 /* Embed Pods Frameworks */,
+				0028DF38FF8156BE3686A48D /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -474,7 +489,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = RZ;
-				LastUpgradeCheck = 0510;
+				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = Raizlabs;
 				TargetAttributes = {
 					9AB90807193FD7F70063445A = {
@@ -525,7 +540,52 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		3D176FFBC4A447639F30E5EC /* Check Pods Manifest.lock */ = {
+		0028DF38FF8156BE3686A48D /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-RZVinylTests/Pods-RZVinylTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		463615659FC54C9C2C2B97B1 /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-RZVinylDemo/Pods-RZVinylDemo-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		6C2841B180CBC379E66AFA65 /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-RZVinylTests/Pods-RZVinylTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		7BD806C32276F9CCCEEA4908 /* Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -540,7 +600,7 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		9B01E010DBBE44C59D6011E5 /* Copy Pods Resources */ = {
+		C8EA63AADA7257ED79981760 /* Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -552,7 +612,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-RZVinylDemo/Pods-RZVinylDemo-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E6A76384BB6A0550B7B5531A /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -594,6 +669,7 @@
 				9A3DB1221986F01700E973F0 /* BaseObject.m in Sources */,
 				9AB9081B193FD8330063445A /* RZCoreDataStackConfigTests.m in Sources */,
 				9AB908261940D7BC0063445A /* TestModel.xcdatamodeld in Sources */,
+				AB2E95911A3695D2009DD607 /* RZVinylFRCTests.m in Sources */,
 				9AB9088619410A2D0063445A /* RZWaiter.m in Sources */,
 				9AB3ABF3195BAFD40014D5FF /* RZVinylSaveTests.m in Sources */,
 				9A95F0F51948DC8B00139457 /* RZCoreDataStack+TestUtils.m in Sources */,
@@ -621,6 +697,7 @@
 				9A536134193F90E000E87F4F /* en */,
 			);
 			name = InfoPlist.strings;
+			path = .;
 			sourceTree = "<group>";
 		};
 		9AB9080F193FD7F70063445A /* InfoPlist.strings */ = {
@@ -629,6 +706,7 @@
 				9AB90810193FD7F70063445A /* en */,
 			);
 			name = InfoPlist.strings;
+			path = .;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -645,6 +723,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
@@ -652,6 +731,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -683,6 +763,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
@@ -706,7 +787,7 @@
 		};
 		9A536158193F90E000E87F4F /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BF9D39F06DB534652E101AEE /* Pods.debug.xcconfig */;
+			baseConfigurationReference = 8D52ED5913F75EA4109405E7 /* Pods-RZVinylDemo.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -714,6 +795,7 @@
 				GCC_PREFIX_HEADER = "RZVinylDemo/Supporting Files/RZVinylDemo-Prefix.pch";
 				INFOPLIST_FILE = "RZVinylDemo/Supporting Files/RZVinylDemo-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.raizlabs.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = RZVinylDemo;
 				WRAPPER_EXTENSION = app;
 			};
@@ -721,7 +803,7 @@
 		};
 		9A536159193F90E000E87F4F /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 321C2A0D52411C920F1C0329 /* Pods.release.xcconfig */;
+			baseConfigurationReference = 5264147DBE4A5E96EA5D6366 /* Pods-RZVinylDemo.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -729,6 +811,7 @@
 				GCC_PREFIX_HEADER = "RZVinylDemo/Supporting Files/RZVinylDemo-Prefix.pch";
 				INFOPLIST_FILE = "RZVinylDemo/Supporting Files/RZVinylDemo-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.raizlabs.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = RZVinylDemo;
 				WRAPPER_EXTENSION = app;
 			};
@@ -736,13 +819,14 @@
 		};
 		9AB90817193FD7F70063445A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BF9D39F06DB534652E101AEE /* Pods.debug.xcconfig */;
+			baseConfigurationReference = 3D95AAC8D0F565E4E9AA514E /* Pods-RZVinylTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/RZVinylDemo.app/RZVinylDemo";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "RZVinylTests/Supporting Files/RZVinylTests-Prefix.pch";
 				INFOPLIST_FILE = "RZVinylTests/Supporting Files/RZVinylTests-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.raizlabs.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
@@ -751,13 +835,14 @@
 		};
 		9AB90818193FD7F70063445A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 321C2A0D52411C920F1C0329 /* Pods.release.xcconfig */;
+			baseConfigurationReference = CC8B3F3A34C61AEC6421BB29 /* Pods-RZVinylTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/RZVinylDemo.app/RZVinylDemo";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "RZVinylTests/Supporting Files/RZVinylTests-Prefix.pch";
 				INFOPLIST_FILE = "RZVinylTests/Supporting Files/RZVinylTests-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.raizlabs.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
