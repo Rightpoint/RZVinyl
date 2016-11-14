@@ -80,7 +80,7 @@ static void rzv_performSaveCompletionAsync(RZVinylSaveCompletion completion, NSE
     }];
 }
 
-- (BOOL)rzv_saveToStoreAndWait:(NSError *__autoreleasing *)error
+- (BOOL)rzv_saveToStoreAndWait:(NSError **)error
 {
     __block NSError *saveErr = nil;
     __block BOOL hasChanges = NO;
