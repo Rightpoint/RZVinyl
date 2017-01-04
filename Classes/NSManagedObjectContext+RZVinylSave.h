@@ -62,6 +62,6 @@ typedef void (^RZVinylSaveCompletion)(NSError* RZCNullable error);
  *
  *  @return YES if the save succeeded, NO otherwise.
  */
-- (BOOL)rzv_saveToStoreAndWait:(NSError* __autoreleasing RZCNonnull * RZCNullable)error;
+- (BOOL)rzv_saveToStoreAndWait:(NSError *RZCNullable *RZCNullable)error;
 
 @end
