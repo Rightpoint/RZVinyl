@@ -1,0 +1,1 @@
+../../../../../Classes/NSFetchedResultsController+RZVinylRecord.h

@@ -1,0 +1,1 @@
+../../../../../Classes/Private/NSManagedObject+RZVinylRecord_private.h
