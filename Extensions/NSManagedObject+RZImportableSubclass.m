@@ -47,7 +47,11 @@
     NSManagedObjectContext *context = [NSManagedObjectContext rzi_currentThreadImportContext];
     NSManagedObjectModel *model = [[context persistentStoreCoordinator] managedObjectModel];
     NSEntityDescription *entity = [[model entitiesByName] objectForKey:[self.class rzv_entityName]];
-    NSAttributeDescription *property = entity.propertiesByName[propName];
-    [self setValue:property.defaultValue forKey:propName];}
+    NSPropertyDescription *property = entity.propertiesByName[propName];
+    if ([property isKindOfClass:[NSAttributeDescription class]]) {
+        NSAttributeDescription *attributedProperty = (NSAttributeDescription *)property;
+        [self setValue:attributedProperty.defaultValue forKey:propName];
+    }
+}
 
 @end
