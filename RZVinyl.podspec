@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name                = "RZVinyl"
-  s.version             = "3.0.1"
+  s.version             = "3.0.2"
   s.summary             = "Stack management, ActiveRecord utilities, and seamless importing for Core Data."
 
   s.description         = <<-DESC
